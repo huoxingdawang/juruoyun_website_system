@@ -1,6 +1,5 @@
 *.sql
-config_sqlpas.php
-introduction.php
-config_message.php
+push_dev/jry_wb/jry_wb_configs/jry_wb_config_short_message_aly.php
+push_dev/jry_wb/jry_wb_configs/jry_wb_config_database_user.php
 */_notes/
 *.mp4

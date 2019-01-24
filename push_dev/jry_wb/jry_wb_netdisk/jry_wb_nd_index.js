@@ -185,9 +185,11 @@ jry_wb_add_load(function()
 			Confirm.style='float:right;margin-right:20px;';
 			Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 			Confirm.onclick=function()
-			{
-				
-				
+			{				
+				for(var i=0,n=input.files.length;i<n;i++)
+				{
+					
+				}
 				
 				upload_check.close();
 				input.value='';
