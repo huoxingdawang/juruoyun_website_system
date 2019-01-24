@@ -187,10 +187,7 @@ jry_wb_add_load(function()
 			Confirm.onclick=function()
 			{				
 				for(var i=0,n=input.files.length;i<n;i++)
-				{
-					
-				}
-				
+					new jry_wb_netdisk_upload_file(input.files[i],input.value);
 				upload_check.close();
 				input.value='';
 			};
