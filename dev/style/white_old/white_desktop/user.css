@@ -1,0 +1,22 @@
+.user
+{
+	border-radius: 10px; 
+	padding: 5px; 
+	min-width: 200px; 
+	margin-top: 5px; 
+	color:#33F;
+	font-size:30px;
+}
+.user_inline
+{
+	border-radius: 5px; 
+	padding:0px 5px 0px 5px;
+	min-width: 200px;
+	margin-top: 5px; 
+	color:#33F;
+	font-size:30px;
+}
+.user_inline img,.user img
+{
+	width:22px;height:22px;
+}

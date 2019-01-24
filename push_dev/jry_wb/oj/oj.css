@@ -1,0 +1,23 @@
+.oj_all{border-spacing: 0px;overflow:hidden;}
+.oj_all .oj_all_left_div
+{
+	width:61%;overflow-y:hidden;overflow-x:hidden;
+	float:left;
+}
+.oj_all .oj_all_right_div
+{
+	width:39%;overflow-y:hidden;overflow-x:hidden;
+	float:left;
+}
+.oj_all .oj_all_left_div .oj_one_body		{margin:5px 0px 30px 0px;background-color:#CCCCCC;overflow:hidden;}
+.oj_all .oj_all_left_div .oj_one_id			{width:200px; border-radius:10px; padding:5px 5px 5px 5px;float:left;margin-top:5px;}
+.oj_all .oj_all_left_div .oj_one_question	{padding:5px 5px 5px 5px;width:300px;float:left;margin-top:5px;} 
+.oj_all .oj_all_left_div .oj_one_ans		{float:left;width:200px;margin-top: 5px;}
+.oj_all .oj_all_left_div .oj_one_class		{color:#ff0000;background:#ffff00;padding:5px 5px 5px 5px;width:100px;float:left;margin-top:5px;}
+.oj_all .oj_all_left_div .oj_one_type		{color:#ff0000;background:#ffff00;float:left;margin-top: 20px; width:60px; text-align:center;}
+.oj_all .oj_all_left_div .oj_one_time		{padding:5px 5px 5px 5px; min-width:300px;float:right;}
+.oj_all .oj_all_left_div .oj_right_calendar	{color:#23dd07;}
+.oj_all .oj_all_left_div .oj_normal			{color:#33F;}
+.oj_all .oj_all_left_div .oj_right			,.oj_all .oj_all_right_div .oj_right	{color:#23dd07;}
+.oj_all .oj_all_left_div .oj_error			,.oj_all .oj_all_right_div .oj_error	{color:#ff0000;}
+.oj_all .oj_all_left_div .oj_nottry			,.oj_all .oj_all_right_div .oj_nottry	{color:#ddcc00;}

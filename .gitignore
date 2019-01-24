@@ -1,0 +1,6 @@
+*.sql
+config_sqlpas.php
+introduction.php
+config_message.php
+*/_notes/
+*.mp4

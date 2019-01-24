@@ -1,0 +1,17 @@
+.oj_showquestion{border-spacing: 0px;overflow:hidden;}
+.oj_showquestion .oj_showquestion_left_div
+{
+	width:61%;overflow-y:scroll;overflow-x:hidden;
+	float:left;
+}
+.oj_showquestion .oj_showquestion_right_div
+{
+	width:39%;overflow-y:scroll;overflow-x:hidden;
+	float:left;
+}
+.oj_showquestion .oj_showquestion_right_div .oj_showquestion_submit{}
+.oj_showquestion .oj_showquestion_right_div .oj_showquestion_reast{color:#ff0000;}
+.oj_showquestion .oj_showquestion_right_div .oj_showquestion_source{color:#ff0000;}
+.oj_showquestion .oj_showquestion_right_div .oj_showquestion_reason{}
+.oj_showquestion .oj_showquestion_right_div .oj_showquestion_maxtimes{color:#ff0000;}
+.oj_showquestion .oj_showquestion_right_div .oj_showquestion_times{}

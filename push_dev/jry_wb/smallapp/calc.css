@@ -1,0 +1,63 @@
+.jry_wb_calc 
+{
+	position:relative;
+	overflow:hidden;
+}
+.jry_wb_calc .jry_wb_calc_screen
+{
+	font-size:60px;
+	text-align:right;
+	line-height:60px;
+	height:80px;
+	overflow-y:hidden;
+	overflow-x:scroll;
+	display:block;
+	word-break:keep-all;
+	white-space:nowrap;	
+}
+.jry_wb_calc .jry_wb_calc_keyboard
+{
+	position:absolute;
+	top:80px;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button
+{
+	width: 100px;
+    height: 50px;
+    line-height: 50px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    user-select: none;
+    position: absolute;	
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_num
+{
+	background:orange;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_num:hover
+{
+	background:#70df9e;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_pro
+{
+	background:#090909;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_pro:hover
+{
+	background:#222222;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_simple
+{
+	background:#333;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_simple:hover
+{
+	background:#80c5c7;
+}
+.jry_wb_calc .jry_wb_calc_keyboard .jry_wb_calc_button_get
+{
+	background:#c03718;
+}

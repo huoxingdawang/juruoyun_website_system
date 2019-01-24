@@ -1,0 +1,17 @@
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+/*边角*/
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+/*滑块*/
+::-webkit-scrollbar-thumb {
+  height: 6px;
+  border-radius: 7px;
+  border: 4px solid transparent;
+  background-color:#6F6;
+  background-clip: padding-box;
+}
+

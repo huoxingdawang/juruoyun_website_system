@@ -1,0 +1,48 @@
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<link rel='stylesheet' type='text/css' href='../blog/default_markdown.css'>	 
+<link rel='stylesheet' type='text/css' href='../css/default_general.css'>
+<link rel='stylesheet' type='text/css' href="../font-awesome/css/font-awesome.min.css">
+<link rel='stylesheet' type='text/css' href='../css/default_desktop.css'>
+<script src="https://y.gtimg.cn/music/h5/player/player.js?max_age=2592000"></script>
+<script language="javascript" src="../js/all_js.js"></script>
+<script language="javascript" src="../js/md5.js"></script>
+<script language="javascript" src="../js/colorpicker.js"></script>
+<script language="javascript" src="../blog/markdown.js"></script>
+<style>
+.jry_beautiful_music_body
+{
+	left: 100px;
+    top: 100px;
+	background:#999999;
+	position:relative;
+	width:300px;
+	height:400px;
+}
+.jry_beautiful_music_body .jry_beautiful_music_picture
+{
+	width:100px;
+	height:100px;
+	top:-25px;
+	left:-25px;
+	position:absolute;
+}
+</style>
+<audio src="http://juruoyun.top/data/bgmusic/introductionmusic.mp3" id="audio" controls></audio>
+<div id="area"></div>
+<script language="javascript">
+jry_beautiful_music_default_picture_src="http://juruoyun.top/data/bg_pic/default_music.png";
+function beautiful_music(audio,area,data)
+{
+	audio.removeAttribute("controls");
+	var body=document.createElement("div");area.appendChild(body);
+	body.className="jry_beautiful_music_body";
+	var bg_pic=document.createElement("div");body.appendChild(bg_pic);
+	bg_pic.style.background='url("'+jry_beautiful_music_default_picture_src+'")';
+	bg_pic.style.backgroundSize='cover';
+	bg_pic.className="jry_beautiful_music_picture jry_wb_rotate";
+	
+	
+	return body;
+} 
+var music=beautiful_music(document.getElementById("audio"),document.getElementById("area"))
+</script>

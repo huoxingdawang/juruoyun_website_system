@@ -1,0 +1,1 @@
+copy *.css white_general.css

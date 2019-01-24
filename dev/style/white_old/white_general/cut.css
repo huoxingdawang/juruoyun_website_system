@@ -1,0 +1,17 @@
+.cut
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	overflow: hidden;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.cut:hover
+{
+	height: auto; 
+	word-break:break-all; 
+	white-space: pre-wrap;  
+	text-decoration: none;
+}

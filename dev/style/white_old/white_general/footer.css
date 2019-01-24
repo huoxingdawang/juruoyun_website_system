@@ -1,0 +1,29 @@
+.footer
+{
+	padding-top:10px;
+	padding-bottom:20px;
+	padding-right:100px;
+	padding-left:100px;
+	background-color:#999;
+	width:100%;
+}
+.footer .left
+{
+	display:inline;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-right:100px;
+	padding-left:100px;
+	width:60%;
+	text-align:right;
+}
+.footer .right
+{
+	display:inline;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-right:100px;
+	padding-left:100px;
+	width:40%;
+	text-align:right;
+}

@@ -1,0 +1,52 @@
+.topnav {
+  overflow: hidden;
+  background-color: #4f4f4f;
+}
+
+.topnav a {
+	float: left;
+	display: block;
+	color: #fff;
+	text-align: center;
+	padding: 14px 50px;
+	text-decoration: none;
+	font-size: 35px;
+	border-radius: 25px;
+}
+.topnav .right {
+	right:9px;
+	float: right;
+	padding: 0px 0px;
+	text-align:right;
+	display: block;
+	text-decoration: none;
+	background-color:#827717;
+    border-radius: 25px;
+}
+.topnav a:hover {
+  background-color: #333;
+  color: black;
+}
+
+.topnav a.active {
+    background-color: #00A2E9;
+    color: white;
+}
+.topnav div {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 50px;
+  text-decoration: none;
+  font-size: 35px;
+background-color: #0066FF;
+}
+
+.topnav div h55 {
+  	text-decoration: none;
+	font-size: 35px;
+	color:white;
+	float:left;
+	display: block;
+}

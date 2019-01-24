@@ -1,0 +1,1 @@
+copy *.css white_desktop.css

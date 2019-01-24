@@ -1,0 +1,1 @@
+copy general_js\*.js ..\..\push_dev\mywork\js\all_js.js

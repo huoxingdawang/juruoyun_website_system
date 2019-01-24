@@ -1,0 +1,9 @@
+questiontype
+	1:单选
+	2:单词
+	3:填空
+	4:C++JUDGER
+testmode
+	1:compare word
+	2:compare option
+	3:compling judge

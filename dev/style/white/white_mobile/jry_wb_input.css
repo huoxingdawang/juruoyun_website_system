@@ -1,0 +1,6 @@
+input[type="radio"],input[type="checkbox"]{-moz-appearance: none;-webkit-appearance:none;width:30px;height:30px;border-radius:4px;background-color:#FFF;}
+input[type="radio"]:checked,input[type="checkbox"]:checked{background-color:#4CAF50;}
+input[type=""],input[type="submit"],input[type="reset"]{-moz-appearance: none;-webkit-appearance:none;}
+textarea{-moz-appearance: none;-webkit-appearance:none;}
+input,textarea{margin:3px 3px;}
+input:focus,textarea:focus{outline: none;padding:0px 0px;border: 3px solid #118ed7;}
