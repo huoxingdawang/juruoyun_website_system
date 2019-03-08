@@ -26,7 +26,7 @@ function jry_wb_tree(area,text,check)
 			var one = document.createElement('ul');father.children[1].appendChild(one);
 			one.style='padding-left:25px;';
 			father.style='';
-			father.children[0].children[0].classList.add('jry_wb_tree_one_open','iconfont','icon-xuanzeqizhankai');
+			father.children[0].children[0].classList.add('jry_wb_tree_one_open','jry_wb_icon','jry_wb_icon_xuanzeqizhankai');
 		}
 		one.classList.add('jry_wb_tree_one_body');
 		var self = document.createElement('li');one.appendChild(self);
@@ -84,9 +84,9 @@ function jry_wb_tree(area,text,check)
 				e = window.event;
 			child.style.display = child.style.display=='none'?'':'none';
 			if(child.style.display=='none')
-				e.target.classList.remove('icon-xuanzeqishouqi'),e.target.classList.add('icon-xuanzeqizhankai');
+				e.target.classList.remove('jry_wb_icon_xuanzeqishouqi'),e.target.classList.add('jry_wb_icon_xuanzeqizhankai');
 			else
-				e.target.classList.remove('icon-xuanzeqizhankai'),e.target.classList.add('icon-xuanzeqishouqi');
+				e.target.classList.remove('jry_wb_icon_xuanzeqizhankai'),e.target.classList.add('jry_wb_icon_xuanzeqishouqi');
 			this.openedall=false;
 			window.onresize();
 		};	
@@ -130,7 +130,7 @@ function jry_wb_tree(area,text,check)
 			if(all[i].innerHTML!='')
 			{	
 				all[i].style.display='';
-				all[i].parentNode.children[0].children[0].classList.remove('icon-xuanzeqizhankai'),all[i].parentNode.children[0].children[0].classList.add('icon-xuanzeqishouqi');
+				all[i].parentNode.children[0].children[0].classList.remove('jry_wb_icon_xuanzeqizhankai'),all[i].parentNode.children[0].children[0].classList.add('jry_wb_icon_xuanzeqishouqi');
 			}
 		}
 		window.onresize();
@@ -143,7 +143,7 @@ function jry_wb_tree(area,text,check)
 			if(all[i].innerHTML!='')
 			{
 				all[i].style.display='none';
-				all[i].parentNode.children[0].children[0].classList.remove('icon-xuanzeqishouqi'),all[i].parentNode.children[0].children[0].classList.add('icon-xuanzeqizhankai');
+				all[i].parentNode.children[0].children[0].classList.remove('jry_wb_icon_xuanzeqishouqi'),all[i].parentNode.children[0].children[0].classList.add('jry_wb_icon_xuanzeqizhankai');
 			}
 		}		
 		window.onresize();

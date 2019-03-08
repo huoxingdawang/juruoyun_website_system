@@ -12,7 +12,7 @@
 		{
 			if($checklogin)
 			{
-				if(((isset($_COOKIE['password']) ? $_COOKIE['password'] : '')!=$jry_wb_login_user[password]||$jry_wb_login_user[password]==''))
+				if(((isset($_COOKIE['code']) ? $_COOKIE['code'] : '')!=$jry_wb_login_user['code']||$jry_wb_login_user['code']==''))
 					return 'notlogin';			
 				foreach($compentence as $compentence_)
 					if($jry_wb_login_user[$compentence_]==0)
@@ -64,7 +64,7 @@
 	<?php ob_flush();
 		if($checklogin)
 		{
-			if(((isset($_COOKIE['password']) ? $_COOKIE['password'] : '')!=$jry_wb_login_user[password]||$jry_wb_login_user[password]==''))
+			if(((isset($_COOKIE['code']) ? $_COOKIE['code'] : '')!=$jry_wb_login_user['code']||$jry_wb_login_user['code']==''))
 			{
 	?><script language=javascript>jry_wb_beautiful_alert.alert("没有登录","","window.location.href='<?php echo jry_wb_print_href("login",0,"",1)?>'");</script> <?php			
 				exit();
@@ -89,9 +89,9 @@
 		}
 		if($addtool)
 		{?>
-	<p id="jry_wb_left_button_up" class="iconfont icon-jiantou_yemian_xiangshang" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
-	<p id="jry_wb_left_button_bug" class="iconfont icon-chongzi" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
-	<p id="jry_wb_left_button_down" class="iconfont icon-jiantou_yemian_xiangxia" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
+	<p id="jry_wb_left_button_up" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangshang" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
+	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_chongzi" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
+	<p id="jry_wb_left_button_down" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangxia" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
 	<script language="javascript">
 	<?php if(constant('jry_wb_background_music_switch')){?>jry_wb_background_music.init();<?php } ?>	
 		jry_wb_add_onresize(function(){

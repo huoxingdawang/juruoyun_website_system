@@ -10,12 +10,12 @@
 	if($action=='list')
 	{
 		$conn2=jry_wb_connect_database();
-		$st = $conn2->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'hengfu ORDER BY id');
+		$st = $conn2->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'hengfu ORDER BY hengfu_id');
 		$st->execute();
 		$i=0;
 		$json=array();
 		foreach($st->fetchAll()as $hengfu)
-				array_push($json,array('id'=>(int)$hengfu['id'],'words'=>$hengfu['words']));
+				array_push($json,array('hengfu_id'=>(int)$hengfu['hengfu_id'],'words'=>$hengfu['words'],'enable'=>$hengfu['enable']));
 		echo json_encode($json);
 	}
 ?>

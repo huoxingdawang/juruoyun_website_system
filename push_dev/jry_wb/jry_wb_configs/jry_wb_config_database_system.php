@@ -15,8 +15,8 @@
 	define('ojdb',constant('jry_wb_database_name').'.'.constant('ojpro'));
 	define('blogpro',constant('jry_wb_database_all_prefix').'blog_');
 	define('blogdb',constant('jry_wb_database_name').'.'.constant('blogpro'));	
-	define('schoolpro',constant('jry_wb_database_all_prefix').'school_');
-	define('schooldb',constant('jry_wb_database_name').'.'.constant('schoolpro'));
+	define('jry_wb_school_prefix',constant('jry_wb_database_all_prefix').'school_');
+	define('jry_wb_school',constant('jry_wb_database_name').'.'.constant('jry_wb_school_prefix'));
 	define('picturebedpro',constant('jry_wb_database_all_prefix').'picturebed_');
 	define('picturebeddb',constant('jry_wb_database_name').'.'.constant('picturebedpro'));	
 	define('spiderpro',constant('jry_wb_database_all_prefix').'spider_');

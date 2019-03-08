@@ -27,7 +27,7 @@
 		<th class="table_left" id="table_left">
 			<div id="date">
 				<?php 
-					$st=jry_wb_connect_database()->prepare('select * from '.constant('jry_wb_database_mainpage').'big_deal order by rand() limit 1');
+					$st=jry_wb_connect_database()->prepare('select * from '.constant('jry_wb_database_mainpage').'bigdeal WHERE `enable`=1 order by rand() limit 1');
 					$st->execute();
 					foreach($st->fetchAll()as $big_deal);
 				?>
@@ -44,7 +44,7 @@
 		<th width="*" class="table_mid">
 			<marquee scrollAmount=20 >
 				<?php
-					$st=jry_wb_connect_database()->prepare('select * from  '.constant('jry_wb_database_mainpage').'hengfu order by rand() limit 1');
+					$st=jry_wb_connect_database()->prepare('select * from  '.constant('jry_wb_database_mainpage').'hengfu  WHERE `enable`=1 order by rand() limit 1');
 					$st->execute();
 					echo $st->fetchAll()[0]['words'];
 				?>

@@ -52,7 +52,7 @@ function jry_wb_get_user(id,reload,callback,tong,admin_mode)
 		var user = data.find(function (a){ return a.id==id});
 	else
 		var user = null;
-	if(user!=null&&(!reload))
+	if(user!=null&&(!reload)&&user.lasttime_sync!=''&&jry_wb_compare_time(new Date(),user.lasttime_sync)<1000*60*60*2)
 	{
 		if( typeof callback=='function')
 			callback();		
@@ -192,8 +192,11 @@ function jry_wb_show_user_full(user,width,height)
 			var h55 = document.createElement("h56");td.appendChild(h55); 
 			for( var i = 0,n = user.login_addr.length;i<n;i++)
 			{
-				var li = document.createElement("li");h55.appendChild(li);	
-				li.innerHTML = user.login_addr[i];
+				var li = document.createElement("li");h55.appendChild(li);
+				if(typeof user.login_addr[i]=='object')
+					li.innerHTML = user.login_addr[i].data;
+				else
+					li.innerHTML = user.login_addr[i];
 			}
 		}
 	}

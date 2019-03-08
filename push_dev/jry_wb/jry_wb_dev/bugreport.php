@@ -12,21 +12,53 @@
 		<table>
 			<tr><td><h55>出现BUG的位置</h55></td><td><input name="url" id="url" value="" class="h56" style="width:1000px;"></td></tr>
 			<tr><td valign="top"><h55>出现BUG的现象</h55></td><td><textarea id="bugmeaasge" name="bugmeaasge" class="h56" rows="20"></textarea></td></tr>
-			<tr><td colspan="2" align="center"><input id="submit" name="submit" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok" type="submit" value="提交"></td></tr>
+			<tr><td colspan="2" align="center"><input onclick="return check();" id="submit" name="submit" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok" type="submit" value="提交"></td></tr>
 		</table>
 		</form>
 		<script language="javascript">
+			function check()
+			{
+				if(document.getElementById('url').value=='')
+				{
+					jry_wb_beautiful_alert.alert("请填写出现BUG的位置","",function(){document.getElementById('url').focus()});
+					return false;
+				}
+				if(document.getElementById('bugmeaasge').value=='')
+				{
+					jry_wb_beautiful_alert.alert("请填写出现BUG的现象","",function(){document.getElementById('bugmeaasge').focus()});
+					return false;
+				}
+				return true;
+			}
 			jry_wb_add_load(function(){document.getElementById('url').value=document.referrer});
 		</script>
 <?php }
 	else
 	{
 		jry_wb_print_head('',false,false,false);
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."bug (id,url,bug,device) VALUES(?,?,?,?)");
+		if($_POST['url']=='')
+		{
+			?><script language="javascript">jry_wb_beautiful_alert.alert("请填写出现BUG的位置","",function(){history.go(-1);});</script><?php
+			exit();
+		}
+		if($_POST['bugmeaasge']=='')
+		{
+			?><script language="javascript">jry_wb_beautiful_alert.alert("请填写出现BUG的现象","",function(){history.go(-1);});</script><?php
+			exit();
+		}
+		if(	(strpos($_POST['url'],'buspar')!==false)	||(strpos($_POST['bugmeaasge'],'buspar')!==false)		||
+			(strpos($_POST['url'],'buspirone')!==false)	||(strpos($_POST['bugmeaasge'],'buspirone')!== false)	||
+			(strpos($_POST['url'],'丑')!==false)		||(strpos($_POST['bugmeaasge'],'丑')!== false))
+		{
+			?><script language="javascript">jry_wb_beautiful_alert.alert("出现不能包含的关键词","",function(){history.go(-1);});</script><?php
+			exit();			
+		}
+		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."bug (id,url,bug,device,time) VALUES(?,?,?,?,?)");
 		$st->bindParam(1,$jry_wb_login_user['id']); 
 		$st->bindParam(2,$_POST['url']);
 		$st->bindParam(3,$_POST['bugmeaasge']);	
 		$st->bindParam(4,jry_wb_get_device(true));				
+		$st->bindParam(5,jry_wb_get_time());				
 		$st->execute();
 		jry_wb_send_mail("lijunyandeyouxiang@163.com",
 		"BUGreport",

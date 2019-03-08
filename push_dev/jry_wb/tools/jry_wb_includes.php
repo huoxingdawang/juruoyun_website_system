@@ -1,7 +1,6 @@
 <?php
 	//文件包含
-	include_once('../jry_wb_configs/jry_wb_config_includes.php');
-	
+	include_once(dirname(dirname(__FILE__)).'/jry_wb_configs/jry_wb_config_includes.php');
 	include_once('jry_wb_database.php');
 	include_once('jry_wb_user.php');
 	
@@ -32,4 +31,6 @@
 	include_once('jry_wb_pretreatment.php');
 	
 	include_once('jry_wb_log.php');
+	
+	include_once('jry_wb_autoload.php');
 ?>

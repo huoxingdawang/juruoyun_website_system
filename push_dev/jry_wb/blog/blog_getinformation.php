@@ -61,6 +61,10 @@
 			$st->bindValue(5,jry_wb_get_device(true));
 			$st->bindValue(6,jry_wb_get_browser(true));
 			$st->execute();
+			$st = $conn->prepare("UPDATE ".constant('blogdb')."text SET readingcount = readingcount+1 ,lasttime=? where blog_id = ?");
+			$st->bindParam(1,jry_wb_get_time());
+			$st->bindParam(2,intval($_GET['blog_id']));
+			$st->execute();			
 		}
 		else
 			echo json_encode(array('blog_id'=>$data['blog_id'],'ifshow'=>$data['ifshow']));

@@ -28,7 +28,7 @@
 		var color_picker_close=document.createElement('div');color_picker_area.appendChild(color_picker_close);
 		color_picker_close.style.position="fixed";color_picker_close.style.top="100px";color_picker_close.style.right="50px";
 		color_picker_close.style.fontSize="20px";color_picker_close.style.color="#ff0000";
-		color_picker_close.classList.add("iconfont","icon-guanbi");
+		color_picker_close.classList.add("jry_wb_icon","jry_wb_icon_guanbi");
 		color_picker_close.onclick=function()
 		{
 			color_picker_area.style.display='none';			
@@ -37,8 +37,6 @@
 			color_picker_main,
 			function(hex, hsv, rgb) 
 			{
-				/*console.log(hsv.h, hsv.s, hsv.v);
-				console.log(rgb.r, rgb.g, rgb.b);*/
 				color_picker_area.style.backgroundColor = hex;
 				color_picker_value.value = hex;
 			}
@@ -46,12 +44,13 @@
 		var area=document.getElementById('body');
 		var left_body=document.createElement('div');area.appendChild(left_body);
 		left_body.classList.add('jry_wb_left_toolbar_left');
+		left_body.style.overflow='hidden';
 		left_body.style.float='left';
 		var right_body=document.createElement('div');area.appendChild(right_body);
 		right_body.style.float='left';
 		jry_wb_add_onresize(function()
 		{
-			right_body.style.width=document.body.clientWidth-left_body.clientWidth;
+			right_body.style.width=document.body.clientWidth-left_body.clientWidth-3;
 			area.style.height=Math.max(left_body.clientHeight,right_body.clientHeight)
 		});
 		var one_function=document.createElement('div');right_body.appendChild(one_function);
@@ -95,6 +94,8 @@
 			}
 			for(var i=0,n=data.length;i<n;i++)
 			{
+				if((data[i].children==null||data[i].children.length==0)&&data[i].url=='')
+					continue;
 				var one=document.createElement('div');left_body.appendChild(one);
 				one.classList.add("jry_wb_left_toolbar_left_list_"+((i%2)+1));
 				one.innerHTML=data[i].name;

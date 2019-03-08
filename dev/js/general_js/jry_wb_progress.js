@@ -2,7 +2,9 @@ function jry_wb_progress_bar(area,width,progress,word,mouthclick,mouthmove,addcl
 {
 	this.shuzhi=shuzhi==null?false:shuzhi;
 	this.progress_body=document.createElement("div");area.appendChild(this.progress_body);
-	this.progress_body.classList.add('jry_wb_progress','tooltip',addclass);
+	this.progress_body.classList.add('jry_wb_progress','tooltip');
+	if(addclass!='')
+		this.progress_body.classList.add(addclass);
 	this.progress_body.onmouseover=function()
 	{
 		buff=window.onmousewheel;

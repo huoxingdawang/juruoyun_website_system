@@ -1,14 +1,19 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");	
-	$id=$_POST['id'];
-	$psw=md5($_POST['password']);
-	$vcode=$_POST['vcode'];
-	$type=$_POST['type'];
-	$show='';
-	if($vcode!= $_SESSION['vcode']||$vcode=='')
+	include_once("../tools/jry_wb_includes.php");
+	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 	{
-		echo json_encode(array('state'=>-1));
-		return ;
+		$id=$_POST['id'];
+		$psw=md5($_POST['password']);
+		$vcode=$_POST['vcode'];
+		$type=$_POST['type'];
+		if($type=='')
+			$type=$_GET['type'];
+		$show='';
+		if($vcode!= $_SESSION['vcode']||$vcode=='')
+		{
+			echo json_encode(array('state'=>-1));
+			return ;
+		}
 	}
 	if($type=="1")
 	{
@@ -17,7 +22,8 @@
 		$st->bindParam(1,$id);
 		$st->execute();
 		foreach($st->fetchAll()as $users);				
-	}else if($type=="2")
+	}
+	else if($type=="2")
 	{
 		@$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=? LIMIT 1');
@@ -25,6 +31,31 @@
 		$st->execute();
 		foreach($st->fetchAll()as $users);			
 	}
+	else if($type=='4')
+	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
+		$st->bindParam(1,$open_id);
+		$st->bindParam(2,$access_token);
+		$st->execute();
+		foreach($st->fetchAll()as $users);			
+	}
+	else if($type=='5')
+	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.id'=? LIMIT 1");
+		$st->bindParam(1,$github_id);
+		$st->execute();
+		foreach($st->fetchAll()as $users);
+	}	
+	else if($type=='6')
+	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.unionId'=? LIMIT 1");
+		$st->bindParam(1,$unionId);
+		$st->execute();
+		foreach($st->fetchAll()as $users);
+	}			
 	else
 	{
 		@$conn=jry_wb_connect_database();
@@ -38,7 +69,7 @@
 		echo json_encode(array('state'=>-2));
 		return ;
 	}
-	else if($psw!=$users['password'])
+	else if($psw!=$users['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 	{
 		echo json_encode(array('state'=>-3));
 		return ;
@@ -60,8 +91,7 @@
 	$st->bindParam(5,jry_wb_get_browser(true));	
 	$st->execute();
 	$all=$st->fetchAll();
-	setcookie('id',$users['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
-	setcookie('password',$users['password'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
+	setcookie('id',$users['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL);
 	if(count($all)!=0)
 	{
 		setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
@@ -100,5 +130,18 @@
 	$minute=floor((strtotime(jry_wb_get_time())-strtotime($users[logdate]))/60)-$hour*60;
 	$jry_wb_login_user['id']=$users['id'];
 	jry_wb_echo_log(constant('jry_wb_log_type_login'),'by password by '.$type);	
-	echo json_encode(array('state'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
+	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
+		echo json_encode(array('state'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
+	else
+	{	
+		jry_wb_print_head("登录",false,false,true,array('use'),true,false);
+?>
+<script>
+	jry_wb_beautiful_alert.alert("登录成功",'距上次登录<?php  echo $hour;?>小时<?php  echo $minute;?>分钟<?php if($green_money!=null)echo '<br>随机奖励绿币'.$green_money;?>',function()
+	{
+		window.close();
+	});
+</script>
+<?php
+	}
 ?>

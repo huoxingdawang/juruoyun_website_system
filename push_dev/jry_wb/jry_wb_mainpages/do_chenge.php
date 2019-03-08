@@ -23,8 +23,12 @@
 	}
 	else if($_GET['action']=='send_tel')
 	{
-		jry_wb_print_head("",true,false,false,array(),false,false);
-		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+		$login=jry_wb_print_head("",true,false,false,array(),false,false);
+		if($login!='ok')
+		{
+			echo json_encode(array('login'=>false,'reasion'=>$login,'statue'=>false));
+			exit();			
+		}		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 		{
 			echo "验证码错误";
 			exit();
@@ -56,6 +60,155 @@
 		echo json_encode(array('statue'=>true,'data'=>$_POST['data']));
 		exit();			
 	}
+	else if($_GET['action']=='trust')
+	{
+		$login=jry_wb_print_head("",true,false,false,array(),false,false);
+		if($login!='ok')
+		{
+			echo json_encode(array('login'=>false,'reasion'=>$login,'statue'=>false));
+			exit();			
+		}		
+		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=1 where id=? AND code=?");
+		$st->bindParam(1,$jry_wb_login_user['id']);
+		$st->bindParam(2,$_COOKIE['code']);
+		$st->execute();			
+		echo json_encode(array('statue'=>true));
+		exit();		
+	}
+	else if($_GET['action']=='untrust')
+	{
+		$login=jry_wb_print_head("",true,false,false,array(),false,false);
+		if($login!='ok')
+		{
+			echo json_encode(array('login'=>false,'reasion'=>$login,'statue'=>false));
+			exit();			
+		}	
+		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=0 where id=? AND code=?");
+		$st->bindParam(1,$jry_wb_login_user['id']);
+		$st->bindParam(2,$_POST['code']);
+		$st->execute();			
+		echo json_encode(array('statue'=>true));
+		exit();		
+	}
+	else if($_GET['action']=='logout')
+	{
+		$login=jry_wb_print_head("",true,false,false,array(),false,false);
+		if($login!='ok')
+		{
+			echo json_encode(array('login'=>false,'reasion'=>$login,'statue'=>false));
+			exit();			
+		}		
+		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=? AND code=?");
+		$st->bindParam(1,$jry_wb_login_user['id']);
+		$st->bindParam(2,$_POST['code']);
+		$st->execute();			
+		echo json_encode(array('statue'=>true));
+		exit();		
+	}	
+	else if($_GET['action']=='chengehead')
+	{
+		$login=jry_wb_print_head("",true,false,false,array(),false,false);
+		if($login!='ok')
+		{
+			echo json_encode(array('login'=>false,'reasion'=>$login,'statue'=>false));
+			exit();			
+		}		
+		if($_GET['type']=='default')
+		{
+			if($jry_wb_login_user['sex']==0&&$jry_wb_login_user['head']!='default_head_woman')
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='default_head_woman',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();
+			}
+			else if(($jry_wb_login_user['sex']==1||$jry_wb_login_user['sex']==2)&&$jry_wb_login_user['head']!='default_head_man')
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='default_head_man',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();
+			}			
+		}
+		if($_GET['type']=='gravatar')
+		{
+			$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404');
+			if (preg_match("|200|", $headers[0])) 
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='gravatar',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();	
+			}
+			else
+			{
+				echo json_encode(array('statue'=>false));
+				exit();
+			}		
+		}
+		if($_GET['type']=='qq')
+		{
+			if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth_qq']!='')
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='qq',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();
+				return;
+			}			
+		}
+		if($_GET['type']=='github')
+		{
+			if($jry_wb_login_user['oauth_github']!='')
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='github',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();
+				return;
+			}			
+		}
+		if($_GET['type']=='mi')
+		{
+			if($jry_wb_login_user['oauth_mi']!='')
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='mi',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();
+				return;
+			}			
+		}			
+		echo json_encode(array('statue'=>true));
+		exit();		
+	}	
+	else if($_GET['action']=='untpin')
+	{
+		$login=jry_wb_print_head("",true,false,false,array(),false,false);
+		if($login!='ok')
+		{
+			echo json_encode(array('login'=>false,'reasion'=>$login,'statue'=>false));
+			exit();			
+		}	
+		if($_GET['type']=='qq')
+			$q ="update ".constant('jry_wb_database_general')."users set oauth_qq=NULL,lasttime=? where id=?";
+		else if($_GET['type']=='github')
+			$q ="update ".constant('jry_wb_database_general')."users set oauth_github=NULL,lasttime=? where id=?";		
+		else if($_GET['type']=='mi')
+			$q ="update ".constant('jry_wb_database_general')."users set oauth_mi=NULL,lasttime=? where id=?";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,jry_wb_get_time());
+		$st->bindParam(2,$jry_wb_login_user['id']);
+		$st->execute();		
+		echo json_encode(array('statue'=>true));
+		exit();
+	}
 	if($_GET['action']=='mail')
 		$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
 	jry_wb_print_head("用户管理",true,false,false,array(),true,false);	
@@ -82,14 +235,18 @@
 		$q ="update ".constant('jry_wb_database_general')."users set name=? , sex=?,zhushi=?,language=?,style_id=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$name);
-		$st->bindParam(2,($jry_wb_login_user['sex']=$sex));
+		$st->bindParam(2,($sex));
 		$st->bindParam(3,$zhushi);
 		$st->bindParam(4,$language);
 		$st->bindParam(5,$style_id);
 		$st->bindParam(6,jry_wb_get_time());
 		$st->bindParam(7,$jry_wb_login_user[id]);
 		$st->execute();
-		jry_wb_update_user_head($jry_wb_login_user);
+		if($jry_wb_login_user['sex']!=$sex)
+		{
+			$jry_wb_login_user['sex']=$sex;
+			jry_wb_update_user_head($jry_wb_login_user);
+		}
 	}
 	else if($_GET['action']=='tel')
 	{
@@ -148,8 +305,10 @@
 		if($psw1!=$psw2)							{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写完整信息','试图修改密码但两次密码不同'	,'self.location=document.referrer;');</script>		<?php	exit();}
 		if((strlen($psw1)<8)&&($psw1!=''))							{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','密码太短'					,'self.location=document.referrer;');</script>		<?php 	exit();}
 		if($jry_wb_login_user[password]!=$psw_yuan)	{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','密码错误'					,'self.location=document.referrer;');</script>		<?php	exit();}
-		$q ="update ".constant('jry_wb_database_general')."users set password=?,lasttime=? where id=? ";
-		$st = $conn->prepare($q);
+		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=?");
+		$st->bindParam(1,$jry_wb_login_user['id']);
+		$st->execute();	
+		$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set password=?,lasttime=? where id=? ");
 		$st->bindParam(1,md5($psw1));	
 		$st->bindParam(2,jry_wb_get_time());
 		$st->bindParam(3,$jry_wb_login_user[id]);

@@ -1,6 +1,6 @@
 <?php
 	include_once("jry_wb_includes.php");
-	require '../tools/phpemailer/PHPMailerAutoload.php';
+	require_once( dirname(__FILE__).'/phpemailer/PHPMailerAutoload.php');
 	function jry_wb_send_mail($to,$subject,$text)
 	{
 		if($to==''||$subject==''||$text=='')
@@ -21,7 +21,7 @@
 			'allow_self_signed' => true
 			)
 		);		
-		$mailer->setFrom(constant('jry_wb_mail_user'),constant('jry_wb_mail_from'));
+		$mailer->setFrom(constant('jry_wb_mail_user'),constant('jry_wb_name'));
 		$mailer->addAddress($to,constant('jry_wb_mail_to'));
 		$mailer->addReplyTo(constant('jry_wb_mail_replay'),constant('jry_wb_mail_replay_name'));
 
@@ -48,6 +48,6 @@
 		$st->bindParam(2,$code);
 		$st->bindParam(3,jry_wb_get_time());
 		$st->execute();	
-		return jry_wb_send_mail($mail,'蒟蒻云邮箱验证','点击以下链接完成邮箱验证<a href="'.constant('jry_wb_host').$url.'code='.$code.'">'.constant('jry_wb_host').$url.'code='.$code.'</a>');
+		return jry_wb_send_mail($mail,constant('jry_wb_name').'邮箱验证','点击以下链接完成邮箱验证<a href="'.constant('jry_wb_host').$url.'code='.$code.'">'.constant('jry_wb_host').$url.'code='.$code.'</a>');
 	}
 ?>

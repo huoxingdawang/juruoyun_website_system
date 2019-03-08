@@ -65,6 +65,10 @@
 			return constant('jry_wb_defult_woman_picture');
 		else if($user['head']=='gravatar')
 			return "http://www.gravatar.com/avatar/".md5($user['mail'])."?size=80&d=404&r=g";
+		else if($user['head']=='qq'&&$user['oauth_qq']!='')
+			return $user['oauth_qq']->message->figureurl_qq_2;
+		else if($user['head']=='github'&&$user['oauth_github']!=null)
+			return $user['oauth_github']->avatar_url;
 		else if($user['head']=='qq')
 			return "https://q2.qlogo.cn/headimg_dl?dst_uin=".(explode("@",$user['mail'])[0])."&spec=100";
 		else if($user['head']!='')
@@ -81,8 +85,7 @@
 			$st->execute();
 			return;
 		}
-		$uri = 'http://www.gravatar.com/avatar/' .md5($user['mail']). '?d=404';
-		$headers = @get_headers($uri);
+		$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($user['mail']). '?d=404');
 		if (preg_match("|200|", $headers[0])) 
 		{
 			$q ="update ".constant('jry_wb_database_general')."users set head='gravatar' where id=?";

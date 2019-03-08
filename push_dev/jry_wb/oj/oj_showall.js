@@ -81,19 +81,19 @@ oj_function.prototype.showall=function(onepage,page)
 		if(data.times==null)
 		{
 			var icon2=document.createElement("b");ans.appendChild(icon2);
-			icon2.className="iconfont icon-hr oj_nottry";
+			icon2.className="jry_wb_icon jry_wb_icon_hr oj_nottry";
 			ans.innerHTML+='您尚未尝试此题';
 		}else if(data.times<0)
 		{
 			var icon2=document.createElement("b");ans.appendChild(icon2);
-			icon2.className="iconfont icon-cuowu oj_error";
+			icon2.className="jry_wb_icon jry_wb_icon_cuowu oj_error";
 			ans.innerHTML+='错过'+(-data.times)+'遍了';
 		}else if(data.times>=0)
 		{
 			var icon1=document.createElement("b");ans.appendChild(icon1);
-			icon1.className="iconfont icon-duigoux oj_right";
+			icon1.className="jry_wb_icon jry_wb_icon_duigoux oj_right";
 			var icon2=document.createElement("b");ans.appendChild(icon2);
-			icon2.className="iconfont icon-rili oj_right_calendar";
+			icon2.className="jry_wb_icon jry_wb_icon_rili oj_right_calendar";
 			ans.innerHTML+=data.lasttime;
 		}ans=null;				
 		var ojclass=document.createElement("div");
@@ -120,7 +120,7 @@ oj_function.prototype.showall=function(onepage,page)
 		var li=document.createElement("li");ul.appendChild(li);
 		var a=document.createElement("a");li.appendChild(a);
 		window.scrollTo(0,0) 
-		a.className="iconfont icon-jiantou_xiangzuoliangci h11";
+		a.className="jry_wb_icon jry_wb_icon_jiantou_xiangzuoliangci h11";
 		a.setAttribute("onclick","jry_wb_beautiful_right_alert.alert('第"+(page-1)+"/"+pages+"页',3000,'auto','ok');"+this.name+".showall("+onepage+","+(page-1)+");");
 	}
 	for(var i=Math.max(1,page-5);i<=Math.min(pages,page+5);i++)
@@ -139,7 +139,7 @@ oj_function.prototype.showall=function(onepage,page)
 		var li=document.createElement("li");ul.appendChild(li);
 		var a=document.createElement("a");li.appendChild(a);
 		window.scrollTo(0,0)
-		a.className="iconfont icon-jiantou_xiangyouliangci h11";	
+		a.className="jry_wb_icon jry_wb_icon_jiantou_xiangyouliangci h11";	
 		a.setAttribute("onclick","jry_wb_beautiful_right_alert.alert('第"+(page+1)+"/"+pages+"页',3000,'auto','ok');"+this.name+".showall("+onepage+","+(page+1)+");");
 	}	
 }

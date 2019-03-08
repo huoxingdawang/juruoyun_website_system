@@ -125,6 +125,8 @@ function jry_wb_get_songs_by_mid (list)
 		else if(list[i].type=='songlist')
 			for(var j=0,buf=this.get_list(list[i].slid),nn=buf.data.length;j<nn;j++)
 				ans.push(buf.data[j]);
+		else if(list[i].type=='test')
+			ans.push(list[i]);
 	var flags={'qq':{},'163':{}};
 	for(var i=0;i<ans.length;i++)
 		if(ans[i].type=='qq')

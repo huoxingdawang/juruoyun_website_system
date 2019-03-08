@@ -30,16 +30,9 @@
 		fclose($file);
 	}
 ?>
-<div class='jry_wb_top_toolbar'>
-	<?php jry_wb_show_user($jry_wb_login_user);?>
-	<?php jry_wb_print_logo(false);?>
-	<?php jry_wb_print_href('jry_wb_netdisk',"active");?>
-</div>
-<link rel='stylesheet' type='text/css' href='jry_wb_nd.css'>
-<link rel='stylesheet' type='text/css' href='jry_wb_nd_file.css'>
+<div class='jry_wb_top_toolbar'></div>
 <script language="javascript" src="jry_wb_nd_index.js"></script>
-<script language="javascript" src="jry_wb_nd_file.js"></script>
-<script>var jry_nd_fast_save_message=JSON.parse('<?php  echo json_encode($data);?>');</script>
+<script>var jry_nd_share_mode_flag=false,jry_nd_fast_save_message=JSON.parse('<?php  echo json_encode($data);?>');</script>
 <div class="jry_wb_netdisk_body" id="body">
 
 </div>

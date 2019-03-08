@@ -2,12 +2,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");
 	include_once("jry_wb_nd_tools.php");
-	if(jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok')
-	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
-		exit();			
-	}
-	$action=$_GET['action'];	
+	$action=$_GET['action'];
 	jry_wb_get_netdisk_information();
 	$conn=jry_wb_connect_database();
 	if(($file=fopen('jry_nd.fast_save_message','r'))==false)
@@ -68,6 +63,11 @@
 		}
 		exit();
 	}
+	if(jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok')
+	{
+		echo json_encode(array('login'=>false,'reasion'=>$login));
+		exit();			
+	}
 	if($action=='file_list')
 	{
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE lasttime>? AND id=?;');
@@ -85,16 +85,43 @@
 		for($i=0;$i<$n;$i++)
 			$ans[$i]=array(	'file_id'=>$data[$i]['file_id'],
 							'id'=>$data[$i]['id'],
-							'dir'=>$data[$i]['dir'],
+							'father'=>$data[$i]['father'],
 							'name'=>$data[$i]['name'],
 							'type'=>$data[$i]['type'],
 							'area'=>$data[$i]['area'],
 							'size'=>$data[$i]['size'],
 							'download_times'=>$data[$i]['download_times'],
+							'uploading'=>$data[$i]['uploading'],
 							'toll_flow'=>$data[$i]['toll_flow'],
+							'delete'=>$data[$i]['delete'],
+							'isdir'=>$data[$i]['isdir'],
+							'share'=>$data[$i]['share'],
 							'lasttime'=>$data[$i]['lasttime']);
 		echo json_encode($ans);		
 		exit();
 	}
-	
+	if($action=='share')
+	{
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'share WHERE id=? AND file_id=?;');
+		$st->bindValue(1,$jry_wb_login_user['id']);
+		$st->bindValue(2,$_POST['file_id']);
+		$st->execute();
+		$ans=[];
+		$data=$st->fetchAll();
+		$n=count($data);
+		if($n==0)
+		{
+			echo json_encode(null);		
+			exit();
+		}
+		for($i=0;$i<$n;$i++)
+			$ans[$i]=array(	'file_id'=>$data[$i]['file_id'],
+							'share_id'=>$data[$i]['share_id'],
+							'key'=>$data[$i]['key'],
+							'fastdownload'=>$data[$i]['fastdownload'],
+							'requesturl'=>$data[$i]['requesturl'],
+							'lasttime'=>$data[$i]['lasttime']);
+		echo json_encode($ans);		
+		exit();
+	}	
 ?>

@@ -6,36 +6,47 @@
 	$jry_wb_keywords='';
 	$jry_wb_description='';
 	$conn=jry_wb_connect_database();
-	$q ="DELETE FROM ".constant('jry_wb_database_general')."login where time<?";
+	$q ="DELETE FROM ".constant('jry_wb_database_general')."login where time<? AND trust=0";
 	$st = $conn->prepare($q);
 	$st->bindParam(1,date("Y-m-d H;i:s",time()-constant('logintime')));
 	$st->execute();	
-	if($_COOKIE['password']!=NULL&&$_COOKIE['id']!=NULL)
+	if($_COOKIE['code']!=NULL&&$_COOKIE['id']!=NULL)
 	{
 		$q='SELECT * FROM '.constant('jry_wb_database_manage_system').'competence 
 			INNER JOIN '.constant('jry_wb_database_general').'users  ON ('.constant('jry_wb_database_general_prefix').'users.type = '.constant('jry_wb_database_manage_system_prefix').'competence.type) 
 			LEFT JOIN '.constant('jry_wb_database_general').'login  ON ('.constant('jry_wb_database_general_prefix').'users.id = '.constant('jry_wb_database_general_prefix')."login.id)
-			where ".constant('jry_wb_database_general_prefix')."users.id =? AND ip=? AND device=? AND code=? LIMIT 1";
+			where ".constant('jry_wb_database_general_prefix')."users.id =? AND device=? AND code=? LIMIT 1";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,intval((isset($_COOKIE['id']) ? $_COOKIE['id'] : -1)));
-		$st->bindParam(2,$_SERVER['REMOTE_ADDR']);
-		$st->bindParam(3,jry_wb_get_device(true));
-		$st->bindParam(4,$_COOKIE['code']);
+		$st->bindParam(2,jry_wb_get_device(true));
+		$st->bindParam(3,$_COOKIE['code']);
 		$st->execute();
-		foreach($st->fetchAll()as $jry_wb_login_user);
-		if($jry_wb_login_user['password']==$_COOKIE['password'])
+		foreach($st->fetchAll()as $one)
+		{
+			if($one['trust']||$_SERVER['REMOTE_ADDR']==$one['ip'])
+				$jry_wb_login_user=$one;
+			if($one['trust']&&$_SERVER['REMOTE_ADDR']!=$one['ip'])
+			{
+				$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'login SET ip=? WHERE id=? AND device=? AND code=?');
+				$st->bindParam(1,$_SERVER['REMOTE_ADDR']);
+				$st->bindParam(2,intval((isset($_COOKIE['id']) ? $_COOKIE['id'] : -1)));
+				$st->bindParam(3,jry_wb_get_device(true));
+				$st->bindParam(4,$_COOKIE['code']);				
+				$st->execute();				
+			}
+		}
+		if($jry_wb_login_user==NULL)
+		{
+			$jry_wb_login_user['id']=-1;
+			$_SESSION['language']=$jry_wb_login_user['language']=constant('jry_wb_default_language');	
+		}
+		else
 		{
 			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
 			$st->bindParam(1,$jry_wb_login_user['id']);
 			$st->execute();
 			$jry_wb_login_user['ips']=$st->fetchAll();	
 			$_SESSION['language']=$jry_wb_login_user['language'];
-		}
-		else
-		{
-			$jry_wb_login_user=NULL;
-			$jry_wb_login_user['id']=-1;
-			$_SESSION['language']=$jry_wb_login_user['language']=constant('jry_wb_default_language');	
 		}
 	}
 	else
@@ -58,13 +69,18 @@
 	{
 		$arr=jry_wb_get_ip_address($ips['ip']);
 		if($arr->data->isp=='unknow')
-			$jry_wb_login_user['login_addr'][$i]='未知地区|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
+			$data='未知地区|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
 		else if($arr->data->isp=='内网IP')
-			$jry_wb_login_user['login_addr'][$i]='内网IP|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
+			$data='内网IP|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
 		else
-			$jry_wb_login_user['login_addr'][$i]=$arr->data->country.$arr->data->region.$arr->data->city.$arr->data->isp.'|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
-		if($_SERVER['REMOTE_ADDR']==$ips['ip'])
+			$data=$arr->data->country.$arr->data->region.$arr->data->city.$arr->data->isp.'|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
+		if($isthis=($_COOKIE['code']==$ips['code']))
+		{
 			$jry_wb_login_user['logdate']=$ips['time'];
+			setcookie('id',$jry_wb_login_user['id'],time()+60*60*24*100,'/',jry_wb_get_domain(),NULL,true);
+			setcookie('code',$ips['code'],time()+60*60*24*100,'/',$_SERVER['HTTP_HOST'],NULL,true);			
+		}
+		$jry_wb_login_user['login_addr'][$i]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'code'=>$ips['code']);
 		$i++;
 	}
 	if($jry_wb_login_user['id']==-1)
@@ -83,4 +99,10 @@
 	$jry_wb_login_user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($jry_wb_login_user);
 	$jry_wb_login_user['style']=jry_wb_load_style($jry_wb_login_user['style_id']);
 	$jry_wb_login_user['background_music_list']=json_decode($jry_wb_login_user['background_music_list']==''||$jry_wb_login_user['id']==-1?'[{"slid": "0", "type": "songlist"}]':$jry_wb_login_user['background_music_list']);
+	if($jry_wb_login_user['oauth_qq']!='')
+		$jry_wb_login_user['oauth_qq']=json_decode($jry_wb_login_user['oauth_qq']);
+	if($jry_wb_login_user['oauth_github']!='')
+		$jry_wb_login_user['oauth_github']=json_decode($jry_wb_login_user['oauth_github']);	
+	if($jry_wb_login_user['oauth_mi']!='')
+		$jry_wb_login_user['oauth_mi']=json_decode($jry_wb_login_user['oauth_mi']);		
 ?>

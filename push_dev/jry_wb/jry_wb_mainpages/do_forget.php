@@ -31,7 +31,7 @@
 		$user=$st->fetchAll()[0];
 		if($user==null)
 			exit();
-		jry_wb_send_mail_code($user['mail'],"mainpages/do_forget.php?action=checkmail&");
+		jry_wb_send_mail_code($user['mail'],"jry_wb_mainpages/do_forget.php?action=checkmail&");
 		jry_wb_echo_log(constant('jry_wb_log_type_forget'),'sendemail',$id);
 	}
 	else if($action=='checkmail')
@@ -45,7 +45,7 @@
 		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'mail_code where code=?');
 		$st->bindParam(1,$_GET['code']);
 		$st->execute();	
-		$srcstr = "1234567890-=!@()_+qwertyuiopasdfghjkl:zxcvbnm,./QWERTYUIOPASDFGHJKLZXCVBNM";
+		$srcstr = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 		mt_srand();
 		$password='';
 		$n=strlen($srcstr);
@@ -98,7 +98,7 @@
 			echo -1;
 		else
 		{
-			$srcstr = "1234567890-=!@()_+qwertyuiopasdfghjkl:zxcvbnm,./QWERTYUIOPASDFGHJKLZXCVBNM";
+			$srcstr = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 			mt_srand();
 			$password='';
 			$n=strlen($srcstr);

@@ -10,12 +10,12 @@
 	if($action=='list')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'big_deal ORDER BY time');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'bigdeal ORDER BY time');
 		$st->execute();
 		$i=0;
 		$json=array();
 		foreach($st->fetchAll()as $bigdeal)
-				array_push($json,array('id'=>(int)$bigdeal['id'],'name'=>$bigdeal['name'],'time'=>$bigdeal['time']));
+				array_push($json,array('bigdeal_id'=>(int)$bigdeal['bigdeal_id'],'name'=>$bigdeal['name'],'time'=>$bigdeal['time'],'enable'=>$bigdeal['enable']));
 		echo json_encode($json);
 	}
 ?>

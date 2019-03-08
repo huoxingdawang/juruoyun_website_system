@@ -1,7 +1,0 @@
-.picturebed_all{border-spacing: 0px;overflow:hidden;}
-.picturebed_all .picturebed_one {float:left;height:350px;}
-.picturebed_all .picturebed_one .picturebed_font{font-size:30px;color:red;}
-.picturebed_all .picturebed_one .picturebed_img_div{height:300px;overflow: hidden;}
-.picturebed_all .picturebed_one .picturebed_img_div .picturebed_img{width:400px;}
-.picturebed_right {width:200px; background:#666;position:fixed;overflow:hidden;}
-.picturebed_right .picturebed_right_font{color:black;font-size:30px;} 

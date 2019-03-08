@@ -1,0 +1,2 @@
+<?php die('forbidden'); ?>
+{"appid":"101552186","appkey":"0bbd81394462bf818c355d5212ee0fc1","callback":"http://dev.juruoyun.top/jry_wb/test/Connect2.1/example/oauth/callback.php","scope":"get_user_info","errorReport":true,"storageType":"file","host":"localhost","user":"root","password":"root","database":"test"}

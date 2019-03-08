@@ -2,7 +2,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	$login=jry_wb_print_head("",true,true,false,array('use','manage','managehengfu'),false);	
 	$action=$_GET['action'];
-	$id=$_POST['id'];
+	$hengfu_id=$_POST['hengfu_id'];
 	if($login!='ok')
 	{
 		echo json_encode(array('login'=>false,'reasion'=>$login,'code'=>0));
@@ -11,25 +11,35 @@
 	if($action=='chenge'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_mainpage')."hengfu SET words=? WHERE id=? LIMIT 1;");
+		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_mainpage')."hengfu SET words=? WHERE hengfu_id=? LIMIT 1;");
 		$st->bindParam(1,$_POST['words']);
-		$st->bindParam(2,$id);			
+		$st->bindParam(2,$hengfu_id);			
 		$st->execute();
-		echo json_encode(array('code'=>1,'id'=>$id));
+		echo json_encode(array('code'=>1,'hengfu_id'=>$hengfu_id));
 	}
 	else if($action=='delete')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_mainpage')."hengfu WHERE id=? LIMIT 1;");
-		$st->bindParam(1,$id);
+		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_mainpage')."hengfu WHERE hengfu_id=? LIMIT 1;");
+		$st->bindParam(1,$hengfu_id);
 		$st->execute();	
-		echo json_encode(array('code'=>1,'id'=>$id));		
+		echo json_encode(array('code'=>1,'hengfu_id'=>$hengfu_id));		
 	}
+	else if($action=='enable'||$action=='disable')
+	{
+		@$conn=jry_wb_connect_database();
+		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_mainpage')."hengfu SET enable=? WHERE hengfu_id=? LIMIT 1;");
+		$st->bindValue(1,($action=='enable'?1:0));		
+		$st->bindParam(2,$hengfu_id);
+		$st->execute();	
+		echo json_encode(array('code'=>1,'hengfu_id'=>$hengfu_id));		
+	}	
 	else if($action=='add'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("INSERT INTO ".constant('jry_wb_database_mainpage')."hengfu (`words`) VALUES (?);");
+		$st = $conn->prepare("INSERT INTO ".constant('jry_wb_database_mainpage')."hengfu (`words`,`id`) VALUES (?,?);");
 		$st->bindParam(1,$_POST['words']);
+		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->execute();
 		echo json_encode(array('code'=>1));
 	}

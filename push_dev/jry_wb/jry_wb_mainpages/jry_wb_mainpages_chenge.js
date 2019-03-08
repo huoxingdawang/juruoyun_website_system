@@ -69,15 +69,189 @@ function show()
 	h55.innerHTML='头像';
 	tr.appendChild(td);	
 	td=null;
-	var td=document.createElement("td");
+	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="250";td.style="overflow: hidden;";
 	var img=document.createElement("img");td.appendChild(img);
 	jry_wb_set_user_head_special(jry_wb_login_user,img);
 	img.height=80;
 	img.width=80;
-	tr.appendChild(td);	
-	td=null;
-	tr=null;	
+	img.onclick=function()
+	{
+		var head_alert=new jry_wb_beautiful_alert_function;
+		var title=head_alert.frame("换头",document.body.clientWidth*0.50,document.body.clientHeight*0.75,document.body.clientWidth*1/4,document.body.clientHeight*3/32);
+		var Confirm = document.createElement("button"); title.appendChild(Confirm);
+		Confirm.type="button"; 
+		Confirm.innerHTML="关闭"; 
+		Confirm.style='float:right;margin-right:20px;';
+		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");
+		Confirm.onclick=function()
+		{
+			head_alert.close();
+		};
+		jry_wb_beautiful_scroll(head_alert.msgObj);
+		var table=document.createElement("table");head_alert.msgObj.appendChild(table);
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='类别';
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='效果';
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='操作';
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='默认头像';
+		var td=document.createElement("td"); tr.appendChild(td);
+		var img2=document.createElement("img");td.appendChild(img2);
+		jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+		img2.src=jry_wb_default_user_head;
+		var td=document.createElement("td"); tr.appendChild(td);
+		if(jry_wb_default_user_head==jry_wb_login_user.head)
+			td.innerHTML='正在使用';
+		else
+		{
+			var button=document.createElement("button");td.appendChild(button);
+			button.innerHTML="使用"; 
+			button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+			button.onclick=function()
+			{
+				for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_default_user_head;jry_wb_login_user.head=jry_wb_default_user_head;
+				jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=default',function(data)
+				{
+					jry_wb_loading_off();
+					head_alert.close();
+					var data=JSON.parse(data);
+					if(data.statue)
+						jry_wb_beautiful_alert.alert("操作成功","");
+					else
+						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+				});
+			};
+		}
+		if(jry_wb_gravatar_user_head!='')
+		{
+			var tr=document.createElement("tr"); table.appendChild(tr);
+			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gravatar';
+			var td=document.createElement("td"); tr.appendChild(td);
+			var img2=document.createElement("img");td.appendChild(img2);
+			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+			img2.src=jry_wb_gravatar_user_head;
+			var td=document.createElement("td"); tr.appendChild(td);
+			if(jry_wb_gravatar_user_head.split('?')[0]==jry_wb_login_user.head.split('?')[0])
+				td.innerHTML='正在使用';
+			else
+			{
+				var button=document.createElement("button");td.appendChild(button);
+				button.innerHTML="使用"; 
+				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+				button.onclick=function()
+				{
+					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_gravatar_user_head;jry_wb_login_user.head=jry_wb_gravatar_user_head;
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gravatar',function(data)
+					{
+						jry_wb_loading_off();
+						head_alert.close();
+						var data=JSON.parse(data);
+						if(data.statue)
+							jry_wb_beautiful_alert.alert("操作成功","");
+						else
+							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					});
+				};
+			}
+		}
+		if(jry_wb_qq_user_head!='')
+		{
+			var tr=document.createElement("tr"); table.appendChild(tr);
+			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
+			var td=document.createElement("td"); tr.appendChild(td);
+			var img2=document.createElement("img");td.appendChild(img2);
+			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+			img2.src=jry_wb_qq_user_head;
+			var td=document.createElement("td"); tr.appendChild(td);
+			if(jry_wb_qq_user_head==jry_wb_login_user.head)
+				td.innerHTML='正在使用';
+			else
+			{
+				var button=document.createElement("button");td.appendChild(button);
+				button.innerHTML="使用"; 
+				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+				button.onclick=function()
+				{
+					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_qq_user_head;jry_wb_login_user.head=jry_wb_qq_user_head;
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=qq',function(data)
+					{
+						jry_wb_loading_off();
+						head_alert.close();
+						var data=JSON.parse(data);
+						if(data.statue)
+							jry_wb_beautiful_alert.alert("操作成功","");
+						else
+							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					});
+				};
+			}
+		}
+		if(jry_wb_github_user_head!='')
+		{
+			var tr=document.createElement("tr"); table.appendChild(tr);
+			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
+			var td=document.createElement("td"); tr.appendChild(td);
+			var img2=document.createElement("img");td.appendChild(img2);
+			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+			img2.src=jry_wb_github_user_head;
+			var td=document.createElement("td"); tr.appendChild(td);
+			if(jry_wb_github_user_head==jry_wb_login_user.head)
+				td.innerHTML='正在使用';
+			else
+			{
+				var button=document.createElement("button");td.appendChild(button);
+				button.innerHTML="使用"; 
+				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+				button.onclick=function()
+				{
+					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_github_user_head;jry_wb_login_user.head=jry_wb_github_user_head;
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=github',function(data)
+					{
+						jry_wb_loading_off();
+						head_alert.close();
+						var data=JSON.parse(data);
+						if(data.statue)
+							jry_wb_beautiful_alert.alert("操作成功","");
+						else
+							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					});
+				};
+			}
+		}
+		if(jry_wb_mi_user_head!='')
+		{
+			var tr=document.createElement("tr"); table.appendChild(tr);
+			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
+			var td=document.createElement("td"); tr.appendChild(td);
+			var img2=document.createElement("img");td.appendChild(img2);
+			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+			img2.src=jry_wb_mi_user_head;
+			var td=document.createElement("td"); tr.appendChild(td);
+			if(jry_wb_mi_user_head==jry_wb_login_user.head)
+				td.innerHTML='正在使用';
+			else
+			{
+				var button=document.createElement("button");td.appendChild(button);
+				button.innerHTML="使用"; 
+				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+				button.onclick=function()
+				{
+					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_mi_user_head;jry_wb_login_user.head=jry_wb_mi_user_head;
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=mi',function(data)
+					{
+						jry_wb_loading_off();
+						head_alert.close();
+						var data=JSON.parse(data);
+						if(data.statue)
+							jry_wb_beautiful_alert.alert("操作成功","");
+						else
+							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					});
+				};
+			}
+		}		
+	};
 	jry_wb_show_tr_no_input(table,'绿币',jry_wb_login_user.green_money,'',250);	
 	jry_wb_show_tr_no_input(table,'注册日期',jry_wb_login_user.enroldate,'',250);		
 	jry_wb_show_tr_no_input(table,'登录日期',jry_wb_login_user.logdate,'',250);		
@@ -120,11 +294,47 @@ function show_ip()
 	td=null;
 	tr=null;	
 	
-	for(var i=0;i<jry_wb_login_user.login_addr.length;i++)
+	for(let i=0;i<jry_wb_login_user.login_addr.length;i++)
 	{
-		var li=document.createElement("li");
-		h55.appendChild(li);	
-		li.innerHTML=jry_wb_login_user.login_addr[i];	
+		let div=document.createElement("div");h55.appendChild(div);
+		div.innerHTML=jry_wb_login_user.login_addr[i].data;
+		let logout=document.createElement("span");div.appendChild(logout);
+		logout.classList.add('jry_wb_icon','h55','jry_wb_icon_logout');
+		logout.onclick=function()
+		{
+			jry_wb_beautiful_alert.check("确定登出?",function()
+			{
+				jry_wb_ajax_load_data('do_chenge.php?action=logout',function(){jry_wb_loading_off();h55.removeChild(div);if(jry_wb_login_user.login_addr[i].isthis)document.location.href=jry_wb_message.jry_wb_index_page;},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
+			},function(){});
+		};
+		let trust=document.createElement("span");div.appendChild(trust);
+		trust.classList.add('jry_wb_icon','h55');
+		if(jry_wb_login_user.login_addr[i].trust||jry_wb_login_user.login_addr[i].isthis)
+			trust.classList.add('jry_wb_icon_xinrenshebei');
+		if(jry_wb_login_user.login_addr[i].trust)
+			trust.classList.add('jry_wb_color_ok');
+		trust.onclick=function()
+		{
+			if(jry_wb_login_user.login_addr[i].trust)
+			{
+				jry_wb_beautiful_alert.check("确定解除信任?",function()
+				{
+					jry_wb_ajax_load_data('do_chenge.php?action=untrust',function(){jry_wb_login_user.login_addr[i].trust=0;jry_wb_loading_off();trust.classList.remove('jry_wb_color_ok');},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
+				},function(){});
+			}
+			else
+			{
+				jry_wb_beautiful_alert.check("确定信任?",function()
+				{
+					jry_wb_ajax_load_data('do_chenge.php?action=trust',function(){jry_wb_login_user.login_addr[i].trust=0;jry_wb_loading_off();trust.classList.add('jry_wb_color_ok');});
+				},function(){});				
+			}
+		};
+		var span=document.createElement("span");div.appendChild(span);
+		span.classList.add('jry_wb_icon','h55');		
+		if(jry_wb_login_user.login_addr[i].isthis)
+			span.classList.add('jry_wb_icon_dangqian');
+			
 		li=null;		
 	}
 	var button=document.createElement('button');showdiv.appendChild(button);	
@@ -803,6 +1013,180 @@ function showmusiclist()
 		},[{'name':'data','value':JSON.stringify(ans)}]);
 	};	
 }
+function tp_in()
+{
+	window.location.hash='tpin';	
+	showdiv.innerHTML='';
+	stoplogin=true;
+	stopnext=true;
+	var table=document.createElement("table");showdiv.appendChild(table);
+	table.border=1;table.width='100%';
+	if(jry_wb_tp_qq_oauth_config_enable)
+	{
+		var tr=document.createElement("tr");table.appendChild(tr);
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');
+		td.innerHTML='QQ(oauth2.0)';
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');
+		if(jry_wb_login_user.oauth_qq==null||jry_wb_login_user.oauth_qq=='')
+		{
+			td.innerHTML='没有绑定,点击绑定，powered by Tencent';
+			td.onclick=function()
+			{
+				newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=320,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+				var timer=setInterval(function(){
+					if(newwindow.closed)
+					{
+						clearInterval(timer);
+						jry_wb_login_user.oauth_qq=JSON.parse(jry_wb_cache.get('oauth_qq'));
+						jry_wb_cache.delete('oauth_qq');
+						jry_wb_qq_user_head=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+						tp_in();
+					}
+				},500);
+			};
+		}
+		else
+		{
+			var div=document.createElement("div");td.appendChild(div);
+			div.innerHTML=jry_wb_login_user.oauth_qq.nickname;
+			var img=document.createElement("img");div.appendChild(img);
+			img.src=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+			img.height=30;
+			img.width=30;
+			var span=document.createElement("span");td.appendChild(span);
+			span.innerHTML='点击解绑，powered by Tencent';
+			span.classList.add('h55');
+			span.onclick=function()
+			{
+				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=qq',function(data)
+				{
+					jry_wb_loading_off();
+					var data=JSON.parse(data);
+					if(data.statue)
+					{
+						jry_wb_login_user.oauth_qq=null;
+						tp_in();
+						jry_wb_beautiful_alert.alert("操作成功","");
+					}
+					else
+						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+				});			
+			};
+		}
+	}
+	if(jry_wb_tp_github_oauth_config_enable)
+	{
+		var tr=document.createElement("tr");table.appendChild(tr);
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');
+		td.innerHTML='gayhub(oauth2.0)';
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');	
+		if(jry_wb_login_user.oauth_github==null||jry_wb_login_user.oauth_github=='')
+		{
+			td.innerHTML='没有绑定,点击绑定，powered by github';
+			td.onclick=function()
+			{
+				newwindow=window.open("https://github.com/login/oauth/authorize?client_id="+jry_wb_tp_github_oauth_config_client_id,"GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+				var timer=setInterval(function(){
+					if(newwindow.closed)
+					{
+						clearInterval(timer);
+						jry_wb_login_user.oauth_github=JSON.parse(jry_wb_cache.get('oauth_github'));
+						jry_wb_cache.delete('oauth_github');
+						jry_wb_github_user_head=jry_wb_login_user.oauth_github.avatar_url;
+						tp_in();
+					}
+				},1000);
+			};
+		}
+		else
+		{
+			var div=document.createElement("div");td.appendChild(div);
+			div.innerHTML=jry_wb_login_user.oauth_github.name+jry_wb_login_user.oauth_github.login;
+			var img=document.createElement("img");div.appendChild(img);
+			img.src=jry_wb_login_user.oauth_github.avatar_url;
+			img.height=30;
+			img.width=30;
+			var span=document.createElement("span");td.appendChild(span);
+			span.innerHTML='点击解绑，powered by github';
+			span.classList.add('h55');
+			span.onclick=function()
+			{
+				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=github',function(data)
+				{
+					jry_wb_loading_off();
+					var data=JSON.parse(data);
+					if(data.statue)
+					{
+						jry_wb_login_user.oauth_github=null;
+						tp_in();
+						jry_wb_beautiful_alert.alert("操作成功","");
+					}
+					else
+						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+				});			
+			};		
+		}
+	}	
+	if(jry_wb_tp_mi_oauth_config_enable)
+	{
+		var tr=document.createElement("tr");table.appendChild(tr);
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');
+		td.innerHTML='MI(oauth2.0)';
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');
+		if(jry_wb_login_user.oauth_mi==null||jry_wb_login_user.oauth_mi=='')
+		{
+			td.innerHTML='没有绑定,点击绑定，powered by Xiaomi.inc';
+			td.onclick=function()
+			{
+				newwindow=window.open("jry_wb_mi_oauth.php","miLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+				var timer=setInterval(function(){
+					if(newwindow.closed)
+					{
+						clearInterval(timer);
+						jry_wb_login_user.oauth_mi=JSON.parse(jry_wb_cache.get('oauth_mi'));
+						jry_wb_cache.delete('oauth_mi');
+						jry_wb_mi_user_head=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
+						tp_in();
+					}
+				},500);
+			};
+		}
+		else
+		{
+			var div=document.createElement("div");td.appendChild(div);
+			div.innerHTML=jry_wb_login_user.oauth_mi.miliaoNick;
+			var img=document.createElement("img");div.appendChild(img);
+			img.src=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
+			img.height=30;
+			img.width=30;
+			var span=document.createElement("span");td.appendChild(span);
+			span.innerHTML='点击解绑，powered by Xiaomi.inc';
+			span.classList.add('h55');
+			span.onclick=function()
+			{
+				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=mi',function(data)
+				{
+					jry_wb_loading_off();
+					var data=JSON.parse(data);
+					if(data.statue)
+					{
+						jry_wb_login_user.oauth_mi=null;
+						tp_in();
+						jry_wb_beautiful_alert.alert("操作成功","");
+					}
+					else
+						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+				});			
+			};
+		}
+	}
+}
 switch(window.location.hash)
 {
 	case '#show':
@@ -844,7 +1228,11 @@ switch(window.location.hash)
 	case '#showmusiclist':
 		showmusiclist();
 		window.onresize();
-		break;		
+		break;
+	case '#tpin':
+		tp_in();
+		window.onresize();
+		break;			
 	default:
 		show();
 		window.onresize();

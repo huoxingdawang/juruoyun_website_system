@@ -1,6 +1,6 @@
 function jry_wb_manage_hengfu_load_data(area)
 {
-	jry_wb_sync_data_with_server('',"jry_wb_manage_hengfu_get_information.php?action=list",null,function(a){return a.id==this.buf.id},function(data){jry_wb_manage_hengfu_data=data;jry_wb_manage_hengfu_run(area);},function(a,b){return a.id-b.id});
+	jry_wb_sync_data_with_server('',"jry_wb_manage_hengfu_get_information.php?action=list",null,function(a){return a.hengfu_id==this.buf.hengfu_id},function(data){jry_wb_manage_hengfu_data=data;jry_wb_manage_hengfu_run(area);},function(a,b){return a.hengfu_id-b.hengfu_id});
 }
 function jry_wb_manage_hengfu_init(area,mode)
 {
@@ -15,15 +15,15 @@ function jry_wb_manage_hengfu_run(area)
 	all.border=2;
 	var tr = document.createElement('tr');all.appendChild(tr);
 	var td = document.createElement('td');tr.appendChild(td);td.classList.add('h55');td.innerHTML='横幅';td.align='center';
-	var td = document.createElement('td');tr.appendChild(td);td.classList.add('h55');td.innerHTML='操作';td.align='center';td.setAttribute('colspan','2');
-	for(var i=0,n=jry_wb_manage_hengfu_data.length;i<n;i++)
+	var td = document.createElement('td');tr.appendChild(td);td.classList.add('h55');td.innerHTML='操作';td.align='center';td.setAttribute('colspan','3');
+	for(let i=0,n=jry_wb_manage_hengfu_data.length;i<n;i++)
 	{
 		var tr = document.createElement('tr');all.appendChild(tr);
 		var td = document.createElement('td');tr.appendChild(td);
 		var input= document.createElement('input');td.appendChild(input);
 		input.value=jry_wb_manage_hengfu_data[i].words;
 		input.classList.add('h56');
-		input.name=jry_wb_manage_hengfu_data[i].id
+		input.name=jry_wb_manage_hengfu_data[i].hengfu_id
 		var td = document.createElement('td');tr.appendChild(td);
 		var chenge= document.createElement('button');td.appendChild(chenge);
 		chenge.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_warn');
@@ -44,7 +44,7 @@ function jry_wb_manage_hengfu_run(area)
 					jry_wb_beautiful_right_alert.alert('修改失败,因为'+data.reasion,2000,'auto','ok');	
 				}
 				jry_wb_loading_off();
-			},[{'name':'words','value':input.value},{'name':'id','value':input.name}]);
+			},[{'name':'words','value':input.value},{'name':'hengfu_id','value':input.name}]);
 		};
 		var td = document.createElement('td');tr.appendChild(td);
 		var del= document.createElement('button');td.appendChild(del);
@@ -66,9 +66,31 @@ function jry_wb_manage_hengfu_run(area)
 					jry_wb_beautiful_right_alert.alert('删除失败,因为'+data.reasion,2000,'auto','ok');	
 				}
 				jry_wb_loading_off();
-			},[{'name':'id','value':input.name}]);			
+			},[{'name':'hengfu_id','value':input.name}]);			
 		};
-		input.style.width=(width-chenge.clientWidth-del.clientWidth)*0.9;
+		var td = document.createElement('td');tr.appendChild(td);
+		var enable= document.createElement('button');td.appendChild(enable);
+		enable.classList.add('jry_wb_button','jry_wb_button_size_big',(jry_wb_manage_hengfu_data[i].enable?'jry_wb_color_error':'jry_wb_color_ok'));
+		enable.innerHTML=(jry_wb_manage_hengfu_data[i].enable?'停用':'启用');
+		enable.onclick=function(event)
+		{
+			var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];
+			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action='+(jry_wb_manage_hengfu_data[i].enable?'disable':'enable'),function(data)
+			{
+				data=JSON.parse(data);
+				if(data.code==1)
+				{
+					jry_wb_beautiful_right_alert.alert('操作成功',2000,'auto','ok');
+					jry_wb_manage_hengfu_load_data(area);
+				}
+				else
+				{
+					jry_wb_beautiful_right_alert.alert('操作失败,因为'+data.reasion,2000,'auto','ok');	
+				}
+				jry_wb_loading_off();
+			},[{'name':'hengfu_id','value':input.name}]);			
+		};				
+		input.style.width=(width-chenge.clientWidth-del.clientWidth-enable.clientWidth)*0.9;
 	}
 	var tr = document.createElement('tr');all.appendChild(tr);
 	var td = document.createElement('td');tr.appendChild(td);
@@ -97,14 +119,15 @@ function jry_wb_manage_hengfu_run(area)
 		},[{'name':'words','value':input.value}]);
 	};
 	var td = document.createElement('td');tr.appendChild(td);
+	td.setAttribute('colspan','2');
 	var del= document.createElement('button');td.appendChild(del);
 	del.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_error');
-	del.innerHTML='清空'
+	del.innerHTML='清空';
 	del.onclick=function(event)
 	{
 		var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];		
 		input.value='';
 	}	
-	input.style.width=(width-chenge.clientWidth-del.clientWidth)*0.9;
+	input.style.width='90%';
 	window.onresize();
 }

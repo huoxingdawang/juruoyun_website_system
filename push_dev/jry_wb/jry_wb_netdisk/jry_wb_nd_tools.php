@@ -17,6 +17,20 @@
 		$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']=json_decode($jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']);
 		return true;
 	}
+	function jry_wb_get_netdisk_information_by_id($id)
+	{
+		$conn=jry_wb_connect_database();
+		$q='SELECT * FROM '.constant('jry_wb_netdisk').'users 
+		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.jry_nd_group_id = '.constant('jry_wb_netdisk_prefix')."group.jry_nd_group_id)
+		where ".constant('jry_wb_netdisk_prefix')."users.id =? LIMIT 1";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,$id);
+		$st->execute();
+		if(count($data=$st->fetchAll())==0)
+			return null;
+		$data[0]['jry_nd_allow_type']=json_decode($data[0]['jry_nd_allow_type']);
+		return $data[0];	
+	}
 	function jry_wb_create_netdisk_account()
 	{
 		global $jry_wb_login_user;
@@ -37,8 +51,28 @@
 		'jry_nd_group_id'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_group_id'],
 		'jry_nd_group_name'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_group_name'],
 		'lasttime'=>$jry_wb_login_user['jry_wb_nd_extern_information']['lasttime'],
+		'fast_size'=>$jry_wb_login_user['jry_wb_nd_extern_information']['fast_size'],
 		'jry_nd_allow_type'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']
 		)).'\');	
 		</script>';
+	}
+	function jry_nd_get_area_by_area_id($area_id)
+	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE area_id=? AND `use`=1 LIMIT 1');
+		$st->bindParam(1,$area_id);
+		$st->execute();
+		if(count($data=$st->fetchAll())==0)
+			return null;
+		$data[0]['config_message']=json_decode($data[0]['config_message']);
+		return $data[0];
+	}
+	function jry_nd_get_area_by_type($type)
+	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE  type=? AND `use`=1');
+		$st->bindParam(1,$type);
+		$st->execute();
+		return $st->fetchAll();		
 	}
 ?>

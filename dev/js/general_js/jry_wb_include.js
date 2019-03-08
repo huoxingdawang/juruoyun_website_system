@@ -14,7 +14,8 @@ function jry_wb_include_once_script(src,callback)
 	{
 		jry_wb_loading_off();
 		jry_wb_beautiful_right_alert.alert('加载JS完毕',500,'auto','ok');
-		callback();
+		if(typeof callback=='function')
+			callback();
 	};
 	return false;
 }

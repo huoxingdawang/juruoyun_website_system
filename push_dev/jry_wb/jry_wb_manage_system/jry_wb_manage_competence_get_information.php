@@ -12,21 +12,19 @@
 	$names=$st->fetchAll();
 	$st = $conn2->prepare("select * from ".constant('jry_wb_database_manage_system')."competence");
 	$st->execute();
-	$json=array();
-	foreach($st->fetchAll()as $competence)
+	$json=[];
+	$competences=$st->fetchAll();
+	foreach($competences as $competence)
 	{
-		$i=0;
-		foreach($names as $key=>$name)
+		$one=[];
+		foreach($names as $name)
 		{
 			if($name['Field']!='type')
-			{
-				$one[$i]=array(	'name'=>$name['Field'],
-								'value'=>$competence[$key]
-				);
-				$i++;
-			}
+				$one[]=array('name'=>$name['Field'],'value'=>$competence[$name['Field']]);
+			else
+				$type=$competence[$name['Field']];
 		}
-		array_push($json,array('type'=>$competence['type'],'data'=>$one));
+		$json[]=array('type'=>$type,'data'=>$one);
 	}
-	echo json_encode($json);	
+	echo json_encode($json);
 ?>

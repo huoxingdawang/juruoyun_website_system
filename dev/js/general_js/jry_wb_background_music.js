@@ -39,7 +39,7 @@ var jry_wb_background_music = new function()
 		{
 			this.backgroundmusic_icon=document.createElement("p");document.body.appendChild(this.backgroundmusic_icon);
 			this.backgroundmusic_icon.id='jry_wb_left_button_backgroundmusic_icon';
-			this.backgroundmusic_icon.classList.add('icon-changpian','iconfont');
+			this.backgroundmusic_icon.classList.add('jry_wb_icon_changpian','jry_wb_icon');
 			this.backgroundmusic_icon.style="z-index:9999;margin:0px;right:0px;position:fixed;width:35px;height:35px;font-size:35px";
 			this.backgroundmusic_control=document.createElement("div");document.body.appendChild(this.backgroundmusic_control);
 			this.backgroundmusic_control.id='jry_wb_left_button_backgroundmusic_control';
@@ -59,7 +59,8 @@ var jry_wb_background_music = new function()
 			};
 			this.backgroundmusic_control.onmouseout=this.backgroundmusic_icon.onmouseout=()=>
 			{
-				timer=setTimeout(()=>{this.backgroundmusic_control.style.display="none";if(timer_close!=null)clearTimeout(timer_close);},500);
+				if(typeof jry_wb_dev_mode=='undefined' || jry_wb_dev_mode==false)
+					timer=setTimeout(()=>{this.backgroundmusic_control.style.display="none";if(timer_close!=null)clearTimeout(timer_close);},500);
 			};
 			jry_wb_add_onresize(()=>
 			{

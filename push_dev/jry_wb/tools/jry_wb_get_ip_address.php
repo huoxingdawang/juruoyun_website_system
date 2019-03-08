@@ -14,11 +14,16 @@
 			$json='{"code":0,"data":{"country":"XX","area":"","region":"XX","city":"unknow","county":"unknow","isp":"unknow","country_id":"xx","area_id":"","region_id":"xx","city_id":"local","county_id":"local","isp_id":"local"}}';
 		else
 		{
-			$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general').'ip (`ip`,`data`) VALUES (?,?)');
-			$st->bindParam(1,$ip);
-			$st->bindParam(2,$json);
-			$st->execute();
+			if(!(json_decode($json)->code))
+			{
+				$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general').'ip (`ip`,`data`) VALUES (?,?)');
+				$st->bindParam(1,$ip);
+				$st->bindParam(2,$json);
+				$st->execute();
+			}
 		}
 		return json_decode($json);
 	}
+	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
+		echo json_encode(jry_wb_get_ip_address($_GET['ip']));
 ?>

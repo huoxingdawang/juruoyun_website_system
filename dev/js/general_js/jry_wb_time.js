@@ -40,5 +40,11 @@ function jry_wb_show_time(intime,addre)
 }
 function jry_wb_compare_time(d1,d2)
 {
-	return (( new Date(d1.replace(/\-/g,"/")))-( new Date(d2.replace(/\-/g,"/"))));
+	var dd1=new Date(d1);
+	if(isNaN(dd1.getTime()))
+		dd1=new Date(d1.replace(/\-/g, "/"));
+	var dd2=new Date(d2);
+	if(isNaN(dd2.getTime()))
+		dd2=new Date(d2.replace(/\-/g, "/"));		
+	return dd1-dd2;
 }

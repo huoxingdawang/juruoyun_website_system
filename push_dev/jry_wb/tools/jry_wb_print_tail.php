@@ -33,7 +33,7 @@
 				jry_wb_set_shortcut([jry_wb_keycode_up],function(){window.scrollTo(window.scrollX,0);window.onmousewheel();});
 				jry_wb_set_shortcut([jry_wb_keycode_down],function(){window.scrollTo(window.scrollX,document.body.scrollHeight-document.body.clientHeight);window.onmousewheel();});
 				setTimeout(function(){window.onresize()},500);
-				jry_wb_add_onresize(function(){if(document.getElementById('__zhanwei')==null)return;document.getElementById('__zhanwei').style.height=Math.max(0,window.innerHeight-document.getElementsByName('buttom')[0].getBoundingClientRect().top-(document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop)-document.getElementById('buttom_message').clientHeight);});
+				setInterval(jry_wb_add_onresize(function(){if(document.getElementById('__zhanwei')==null)return;document.getElementById('__zhanwei').style.height=Math.max(0,(Math.floor(window.innerHeight))-(document.getElementById('__zhanwei').getBoundingClientRect().top)-(document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop)-(document.getElementById('buttom_message').getBoundingClientRect().height));}),2000);
 				jry_wb_loading_off();
 				<?php if($jry_wb_login_user['id']!=-1){if(!$jry_wb_login_user['word_special_fact']){ ?> jry_wb_word_special_fact.switch=false;<?php }?>
 				<?php if(!$jry_wb_login_user['follow_mouth']||$jry_wb_login_user['device']!='pc'){ ?> if(follow_mouth!=null)follow_mouth.close();<?php }}?>
@@ -56,7 +56,7 @@
 			<?php } ?>
 				window.onmousewheel();
 			});
-		jry_wb_onload_function_data();
+		window.onload=jry_wb_onload_function_data;
 		</script>			
 		</body>
 		</html>

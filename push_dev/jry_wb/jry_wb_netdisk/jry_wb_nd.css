@@ -3,6 +3,13 @@
 	width:100%;
 	height:100%;
 	position:relative;
+	moz-user-select: -moz-none; 
+	-moz-user-select: none; 
+	-o-user-select:none; 
+	-khtml-user-select:none; 
+	-webkit-user-select:none; 
+	-ms-user-select:none; 
+	user-select:none;	
 }
 /*左侧*/
 .jry_wb_netdisk_body .jry_wb_netdisk_left_body
@@ -151,6 +158,10 @@
 	border:1px solid #423d42;
 	font-size:20px;
 }
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message .progress
+{
+	height:20px;
+}
 /*进度条*/
 .jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_progress
 {
@@ -233,6 +244,10 @@
 /*顶部工具栏的主要部分的按钮*/
 .jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .upload{color:#1cb522;}
 .jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .fresh{color:#5dd39e;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .new_dir{color:#34baa7;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .move{color:#525174;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .delete{color:#513b56;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .sort{color:#1cb522;}
 .jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .mid_lan_button
 {
 	float:left;

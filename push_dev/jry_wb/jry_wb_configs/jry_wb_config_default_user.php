@@ -9,7 +9,7 @@
 	define('jry_wb_logo_picture_address'				,constant('jry_wb_data_host').'general/picture/LOGO.jpg');
 	define('jry_wb_defult_woman_picture'				,constant('jry_wb_data_host').'general/picture/default_head_woman.jpg');
 	define('jry_wb_defult_man_picture'					,constant('jry_wb_data_host').'general/picture/default_head_man.jpg');
-	define('jry_wb_character_drawing_logo_address'			,constant('jry_wb_host').'jry_wb_configs/I_am_so_vegetable.js');
+	define('jry_wb_character_drawing_logo_address'		,constant('jry_wb_host').'jry_wb_configs/I_am_so_vegetable.js');
 	
 	define('jry_wb_word_special_fact_switch'			,true);
 	define('jry_wb_follow_mouth_special_fact_switch'	,true);

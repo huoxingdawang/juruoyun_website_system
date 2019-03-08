@@ -17,12 +17,11 @@
 {
 	position:absolute;
 	filter:alpha(opacity:90);
-	opacity:0.9;
+	opacity:0.8;
     background-color: #000;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+	height:30px;
 }
 .jry_wb_beautiful_video_body .jry_wb_beautiful_video_buttom_bar .jry_wb_beautiful_video_button
 {

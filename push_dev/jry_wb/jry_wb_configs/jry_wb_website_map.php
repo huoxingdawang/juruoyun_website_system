@@ -170,21 +170,6 @@
         "show_name"=> "用户指南",
         "show_at_mainpage"=> 0
     ),	
-//picturebed
-    array(
-        "url"=> "picturebed/index.php",
-        "name"=> "picturebed",
-        "type"=> 0,
-        "show_name"=> "图床",
-        "show_at_mainpage"=> 1
-    ),
-    array(
-        "url"=> "picturebed/mypicturebed.php",
-        "name"=> "mypicturebed",
-        "type"=> 0,
-        "show_name"=> "我的图床",
-        "show_at_mainpage"=> 0
-    ),
 //netdisk
     array(
         "url"=> "jry_wb_netdisk/index.php",
@@ -195,7 +180,7 @@
     ),
 //school
     array(
-        "url"=> "school/index.php",
+        "url"=> "jry_wb_school/index.php",
         "name"=> "school",
         "type"=> 0,
         "show_name"=> "校园",

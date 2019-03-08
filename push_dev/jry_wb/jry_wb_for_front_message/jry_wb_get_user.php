@@ -49,6 +49,7 @@
 		echo json_encode(array('id'=>-1,'use'=>1));
 		exit();
 	}
+	$user['oauth_qq']=json_decode($user['oauth_qq']);
 	$head=jry_wb_get_user_head($user);
 	$ip=array();
 	if($user['ip_show']||($admin_mode))
@@ -105,7 +106,7 @@
 		$user['head_special']->mouse_out->times=1;
 	}
 	$user['head_special']->mouse_out->result=jry_wb_get_user_head_style_out($user);
-	$user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($user);	
+	$user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($user);
 	echo json_encode(array(	'id'=>(int)$id,
 							'head'=>$head,
 							'head_special'=>$user['head_special'],
@@ -120,8 +121,10 @@
 							'language'=>$user['language'],
 							'zhushi'=>$user['zhushi'],
 							'lasttime'=>$user['lasttime'],
+							'lasttime_sync'=>jry_wb_get_time(),
 							'type'=>$user['type'],
 							'use'=>$user['use'],							
+							'oauth_qq'=>$user['oauth_qq']->message,
 							'login_addr'=>($user['ip_show']||($admin_mode))?$ip:-1
 							));
 ?>

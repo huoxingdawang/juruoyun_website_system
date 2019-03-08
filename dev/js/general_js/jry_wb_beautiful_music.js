@@ -19,14 +19,14 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	var bg_pic=document.createElement("div");body.appendChild(bg_pic);
 	bg_pic.classList.add('jry_wb_beautiful_music_picture');
 	var bg_pic_jiao=document.createElement("div");body.appendChild(bg_pic_jiao);
-	bg_pic_jiao.classList.add('jry_wb_beautiful_music_picture_jiao','iconfont');
+	bg_pic_jiao.classList.add('jry_wb_beautiful_music_picture_jiao','jry_wb_icon');
 	var mode=document.createElement("div");body.appendChild(mode);
 	mode.classList.add('jry_wb_beautiful_music_picture_mode');	
 	mode.innerHTML="一遍";
 	var controls=document.createElement("div");body.appendChild(controls);
 	controls.classList.add('jry_wb_beautiful_music_controls');
 	var start_button=document.createElement("div");controls.appendChild(start_button);
-	start_button.classList.add('jry_wb_beautiful_music_start_button','iconfont','icon-bofang');
+	start_button.classList.add('jry_wb_beautiful_music_start_button','jry_wb_icon','jry_wb_icon_bofang');
 	start_button.onclick=function() 
 	{ 
 		if(audio.ended)
@@ -49,20 +49,20 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	);
 	progress_bar.progress_body.style.height="20px";
 	var volume_button = document.createElement("div");controls.appendChild(volume_button);
-	volume_button.classList.add('jry_beautiful_music_volume_button','iconfont','icon-shengyin');
+	volume_button.classList.add('jry_beautiful_music_volume_button','jry_wb_icon','jry_wb_icon_shengyin');
 	volume_button.onclick = function()
 	{
 		if(audio.muted)
 		{
 			audio.muted = false;
-			volume_button.classList.remove('icon-jingyin');
-			volume_button.classList.add('icon-shengyin');
+			volume_button.classList.remove('jry_wb_icon_jingyin');
+			volume_button.classList.add('jry_wb_icon_shengyin');
 		}
 		else
 		{
 			audio.muted = true;
-			volume_button.classList.remove('icon-shengyin');
-			volume_button.classList.add('icon-jingyin');
+			volume_button.classList.remove('jry_wb_icon_shengyin');
+			volume_button.classList.add('jry_wb_icon_jingyin');
 		}
 	};
 	var vioce_bar= new jry_wb_progress_bar(controls,"10%",audio.volume,parseInt(audio.volume*100)+"%",
@@ -71,8 +71,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 			if(x!=0)
 			{
 				audio.muted = false;
-				volume_button.classList.remove('icon-jingyin');
-				volume_button.classList.add('icon-shengyin');
+				volume_button.classList.remove('jry_wb_icon_jingyin');
+				volume_button.classList.add('jry_wb_icon_shengyin');
 			}
 			vioce_bar.update(audio.volume = x,parseInt(audio.volume*1000)/10+"%");
 		},
@@ -98,7 +98,7 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	};
 	this.reply_count = 0;
 	var cycle_button = document.createElement("div");controls.appendChild(cycle_button);
-	cycle_button.classList.add("jry_beautiful_music_cycle_button","iconfont","icon-cuowu");
+	cycle_button.classList.add("jry_beautiful_music_cycle_button","jry_wb_icon","jry_wb_icon_cuowu");
 	cycle_button.onclick=()=>
 	{
 		this.reply_count++;
@@ -108,13 +108,13 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	this.cycle_button_update=()=>
 	{
 		if(this.reply_count==0)
-			cycle_button.classList.remove('icon-danquxunhuan','icon-quanbuxunhuan','icon--suiji'),cycle_button.classList.add('icon-cuowu'),mode.innerHTML="一遍";
+			cycle_button.classList.remove('jry_wb_icon_danquxunhuan','jry_wb_icon_quanbuxunhuan','jry_wb_icon_-suiji'),cycle_button.classList.add('jry_wb_icon_cuowu'),mode.innerHTML="一遍";
 		else if(this.reply_count==1)
-			cycle_button.classList.remove('icon-cuowu','icon-quanbuxunhuan','icon--suiji'),cycle_button.classList.add('icon-danquxunhuan'),mode.innerHTML="单曲";
+			cycle_button.classList.remove('jry_wb_icon_cuowu','jry_wb_icon_quanbuxunhuan','jry_wb_icon_-suiji'),cycle_button.classList.add('jry_wb_icon_danquxunhuan'),mode.innerHTML="单曲";
 		else if(this.reply_count==2)
-			cycle_button.classList.remove('icon-danquxunhuan','icon-cuowu','icon--suiji'),cycle_button.classList.add('icon-quanbuxunhuan'),mode.innerHTML="全部";
+			cycle_button.classList.remove('jry_wb_icon_danquxunhuan','jry_wb_icon_cuowu','jry_wb_icon_-suiji'),cycle_button.classList.add('jry_wb_icon_quanbuxunhuan'),mode.innerHTML="全部";
 		else if(this.reply_count==3)
-			cycle_button.classList.remove('icon-danquxunhuan','icon-quanbuxunhuan','icon-cuowu'),cycle_button.classList.add('icon--suiji'),mode.innerHTML="随机";
+			cycle_button.classList.remove('jry_wb_icon_danquxunhuan','jry_wb_icon_quanbuxunhuan','jry_wb_icon_cuowu'),cycle_button.classList.add('jry_wb_icon_-suiji'),mode.innerHTML="随机";
 	};
 	audio.onprogress=function()
 	{
@@ -132,8 +132,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	audio.onplay = function()
 	{
 		/*bg_pic.className="jry_wb_beautiful_music_picture";*/
-		start_button.classList.remove('icon-bofang');
-		start_button.classList.add("icon-zantingtingzhi");
+		start_button.classList.remove('jry_wb_icon_bofang');
+		start_button.classList.add("jry_wb_icon_zantingtingzhi");
 		jry_wb_midia_control_all.onplay(audio);
 	};
 	audio.onabort=()=>
@@ -170,8 +170,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	audio.onpause=()=>
 	{
 		/*bg_pic.className="jry_wb_beautiful_music_picture";*/
-		start_button.classList.remove('icon-zantingtingzhi');
-		start_button.classList.add("icon-bofang");
+		start_button.classList.remove('jry_wb_icon_zantingtingzhi');
+		start_button.classList.add("jry_wb_icon_bofang");
 		if(this.reply_count==1&&(audio.ended||audio.next))
 			audio.play();
 		if(this.reply_count==2&&(audio.ended||audio.next)&&(this.song_list!=null))
@@ -243,12 +243,12 @@ jry_wb_beautiful_music.prototype.do_reply_count = function(reply_count)
 jry_wb_beautiful_music.prototype.set_background_picture=function(url,type)
 {
 	if(type=='qq')
-		this.bg_pic_jiao.classList.remove('icon-wangyiyunyinle','icon-yinyue'),this.bg_pic_jiao.classList.add('icon-qq_yinyue_music_'),this.bg_pic_jiao.style.color="#02B053",this.bg_pic_jiao.style.background="#F8C913",this.bg_pic_jiao.style.borderRadius='10px';
+		this.bg_pic_jiao.classList.remove('jry_wb_icon_wangyiyunyinle','jry_wb_icon_yinyue'),this.bg_pic_jiao.classList.add('jry_wb_icon_qq_yinyue_music_'),this.bg_pic_jiao.style.color="#02B053",this.bg_pic_jiao.style.background="#F8C913",this.bg_pic_jiao.style.borderRadius='10px';
 	else if(type=='163'||type=='wangyi')
-		this.bg_pic_jiao.classList.remove('icon-qq_yinyue_music_','icon-yinyue'),this.bg_pic_jiao.classList.add('icon-wangyiyunyinle'),this.bg_pic_jiao.style.color="#D81E06",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
+		this.bg_pic_jiao.classList.remove('jry_wb_icon_qq_yinyue_music_','jry_wb_icon_yinyue'),this.bg_pic_jiao.classList.add('jry_wb_icon_wangyiyunyinle'),this.bg_pic_jiao.style.color="#D81E06",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
 	else
-		this.bg_pic_jiao.classList.remove('icon-wangyiyunyinle','icon-qq_yinyue_music_'),this.bg_pic_jiao.classList.add('icon-yinyue'),this.bg_pic_jiao.style.color="#0F88EB",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
-	this.bg_pic.style='background:url("'+(url==''?jry_wb_beautiful_music_default_picture_src:url)+'")';
+		this.bg_pic_jiao.classList.remove('jry_wb_icon_wangyiyunyinle','jry_wb_icon_qq_yinyue_music_'),this.bg_pic_jiao.classList.add('jry_wb_icon_yinyue'),this.bg_pic_jiao.style.color="#0F88EB",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
+	this.bg_pic.style='background:url("'+(url==''?'':url)+'")';
 	this.bg_pic.style.backgroundSize='cover';
 };
 jry_wb_beautiful_music.prototype.push_song_list = function(list,highlighturl)

@@ -55,11 +55,11 @@ function reset()
 			<ul class="h56" style="margin:0px;">
 				<li onclick="if(document.getElementById('status_ul').style.display=='none')document.getElementById('status_ul').style.display='';else document.getElementById('status_ul').style.display='none';window.onresize();">状态<li>
 				<ul class="" style="width:100%;" id='status_ul'>
-					<li><input name='status' 	type="radio"	onclick="oj.showwhat.status=0;chenge('status','');" checked id="status_all"/><b class="iconfont icon-quan oj_normal jry_wb_font_normal_size"></b><li>
-					<li><input name='status' 	type="radio"	onclick="oj.showwhat.status=2;chenge('status','正确的');"/><b class="iconfont icon-duigoux oj_right jry_wb_font_normal_size"></b><li>
-					<li><input name='status' 	type="radio"	onclick="oj.showwhat.status=1;chenge('status','错误的');"/><b class="iconfont icon-cuowu oj_error jry_wb_font_normal_size"></b><li>
-			<?php if($_GET['action']!='logs'){?> <li><input name='status' 	type="radio"	onclick="oj.showwhat.status=3;chenge('status','尚未尝试的');"/><b class="iconfont icon-hr oj_nottry jry_wb_font_normal_size"></b><li><?php }?>
-			<?php if($_GET['action']=='logs'){?> <li><input name='status' 	type="radio"	onclick="oj.showwhat.status=3;chenge('status','半对的');"/><b class="iconfont icon-hr oj_nottry jry_wb_font_normal_size"></b><li><?php }?>
+					<li><input name='status' 	type="radio"	onclick="oj.showwhat.status=0;chenge('status','');" checked id="status_all"/><b class="jry_wb_icon jry_wb_icon_quan oj_normal jry_wb_font_normal_size"></b><li>
+					<li><input name='status' 	type="radio"	onclick="oj.showwhat.status=2;chenge('status','正确的');"/><b class="jry_wb_icon jry_wb_icon_duigoux oj_right jry_wb_font_normal_size"></b><li>
+					<li><input name='status' 	type="radio"	onclick="oj.showwhat.status=1;chenge('status','错误的');"/><b class="jry_wb_icon jry_wb_icon_cuowu oj_error jry_wb_font_normal_size"></b><li>
+			<?php if($_GET['action']!='logs'){?> <li><input name='status' 	type="radio"	onclick="oj.showwhat.status=3;chenge('status','尚未尝试的');"/><b class="jry_wb_icon jry_wb_icon_hr oj_nottry jry_wb_font_normal_size"></b><li><?php }?>
+			<?php if($_GET['action']=='logs'){?> <li><input name='status' 	type="radio"	onclick="oj.showwhat.status=3;chenge('status','半对的');"/><b class="jry_wb_icon jry_wb_icon_hr oj_nottry jry_wb_font_normal_size"></b><li><?php }?>
 				</ul>
 			</ul>
 			<ul class="h56" style="margin:0px;">
@@ -68,11 +68,11 @@ function reset()
 				</li>
 			</ul>
 			<ul class="" style="margin:0px;">
-				<li class="icon-icon_zhanghao iconfont jry_wb_font_normal_size h56">
+				<li class="jry_wb_icon_icon_zhanghao jry_wb_icon jry_wb_font_normal_size h56">
 					&nbsp;&nbsp;<input type='text' class="h56" id="__id" style="width:200px;" onkeyup="var buf=parseInt(document.getElementById('__id').value);if(isNaN(buf))oj.showwhat.id=0;else oj.showwhat.id=parseInt(buf);"/>
 				</li>
 			</ul>			
-			<ul style="margin:0px;" class="iconfont icon-biaoqian jry_wb_font_normal_size h56" onclick="click_class()"></ul>
+			<ul style="margin:0px;" class="jry_wb_icon jry_wb_icon_biaoqian jry_wb_font_normal_size h56" onclick="click_class()"></ul>
 			<ul>
 				<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_ok" onclick="serch()">搜索</button>
 				<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_error" onclick="reset();">全部重置</button>

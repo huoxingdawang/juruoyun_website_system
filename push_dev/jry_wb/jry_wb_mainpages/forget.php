@@ -15,7 +15,7 @@ function pro()
 	jry_wb_beautiful_alert.check("重置密码很复杂，是否查看提示",
 	function()
 	{
-		jry_wb_beautiful_alert.alert('提示','根据实际情况乱点即可',function(){check(run);})
+		jry_wb_beautiful_alert.alert('提示','根据实际情况乱点即可<br>操作过程中不要刷新<br>有的时候要请求服务器<br>请耐心等待<br>密码出现后可以不刷<br>先尝试登录',function(){check(run);})
 	},
 	exit,'查看','不看');
 }
@@ -77,7 +77,7 @@ function run2()
 				jry_wb_ajax_load_data('do_forget.php?action=sendemail&id='+data_,
 				function()
 				{
-					jry_wb_beautiful_alert.alert("成功","已向您的邮箱发送新的密码及账号，请及时处理<br>点击确定以退出",function (){window.open('/','_self');}
+					jry_wb_beautiful_alert.alert("成功","已向您的邮箱发送重置密码的地址<br>点击即可重置并查看密码，请及时处理<br>点击确定以退出",function (){window.open('/','_self');}
 					);
 				});
 			},
@@ -113,7 +113,7 @@ function run3()
 					jry_wb_beautiful_alert.check('您的昵称是<br>'+data+'<br>吗？',
 						function()
 						{
-							jry_wb_beautiful_alert.alert('我们即将验证您的手机','验证手机需要0.05元(不需要您支付)<br>但为了体谅开发组不宜，我们建议您到开发组简介页面进行打赏<br>点击以验证手机',
+							jry_wb_beautiful_alert.alert('我们即将验证您的手机','验证手机需要0.05元(不需要您支付)<br>但为了体谅开发组不宜<br>我们建议您到开发组简介页面进行打赏<br>点击以验证手机',
 							function()
 							{
 								jry_wb_ajax_load_data('do_forget.php?action=sendtelcode',

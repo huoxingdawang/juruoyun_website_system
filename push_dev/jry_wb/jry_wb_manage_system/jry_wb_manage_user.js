@@ -192,6 +192,19 @@ jry_wb_manage_user.showall=function()
 					}
 					var tr=document.createElement("tr");table.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	
+					td.width="400";
+					td.classList.add('h56');
+					td.innerHTML='第三方接入';
+					var td=document.createElement("td");tr.appendChild(td);	
+					td.width="400";
+					td.classList.add('h56');
+					td.innerHTML+='QQ:';
+					if(user.oauth_qq==null)
+						td.innerHTML+='无<br>';
+					else
+						td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';						
+					var tr=document.createElement("tr");table.appendChild(tr);
+					var td=document.createElement("td");tr.appendChild(td);	
 					td.setAttribute("colspan","2");td.setAttribute("align","center");
 					var button=document.createElement("button");td.appendChild(button);
 					button.type="button";button.innerHTML="修改";button.className="jry_wb_button jry_wb_button_size_big jry_wb_color_ok";button.name=user.id;
@@ -209,10 +222,9 @@ jry_wb_manage_user.showall=function()
 						jry_wb_ajax_load_data('jry_wb_manage_user_do.php?id='+id,function (data){jry_wb_loading_off();data=JSON.parse(data);if(data.login==false){jry_wb_beautiful_right_alert.alert('无法操作，因为'+data.reasion,2000,'auto','error');return;}if(data.data=='OK'){jry_wb_beautiful_right_alert.alert('OK',2000,'auto','ok');return;}jry_wb_beautiful_right_alert.alert('Unknow error',2000,'auto','alert');},out);
 					}
 					table=null;	
-				},undefined,true
-			);
-			window.scrollTo(window.scrollX,0);
-			window.onresize();
+					window.onresize();
+					window.scrollTo(window.scrollX,0);
+				},undefined,true);
 		}
 		window.onresize();
 	}
