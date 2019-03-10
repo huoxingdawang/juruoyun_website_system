@@ -202,7 +202,17 @@ jry_wb_manage_user.showall=function()
 					if(user.oauth_qq==null)
 						td.innerHTML+='无<br>';
 					else
-						td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';						
+						td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';
+					td.innerHTML+='MI:';
+					if(user.oauth_mi==null)
+						td.innerHTML+='无<br>';
+					else
+						td.innerHTML+=user.oauth_mi.miliaoNick+'<img width="40px" src="'+user.oauth_mi.miliaoIcon_orig+'"><br>';
+					td.innerHTML+='gayhub:';
+					if(user.oauth_mi==null)
+						td.innerHTML+='无<br>';
+					else
+						td.innerHTML+=user.oauth_github.name+','+user.oauth_github.login+'<img width="40px" src="'+user.oauth_github.avatar_url+'"><br>';						
 					var tr=document.createElement("tr");table.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	
 					td.setAttribute("colspan","2");td.setAttribute("align","center");

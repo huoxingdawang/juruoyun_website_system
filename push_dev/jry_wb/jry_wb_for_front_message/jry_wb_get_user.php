@@ -50,6 +50,8 @@
 		exit();
 	}
 	$user['oauth_qq']=json_decode($user['oauth_qq']);
+	$user['oauth_mi']=json_decode($user['oauth_mi']);
+	$user['oauth_github']=json_decode($user['oauth_github']);
 	$head=jry_wb_get_user_head($user);
 	$ip=array();
 	if($user['ip_show']||($admin_mode))
@@ -125,6 +127,8 @@
 							'type'=>$user['type'],
 							'use'=>$user['use'],							
 							'oauth_qq'=>$user['oauth_qq']->message,
+							'oauth_mi'=>$user['oauth_mi'],
+							'oauth_github'=>$user['oauth_github'],
 							'login_addr'=>($user['ip_show']||($admin_mode))?$ip:-1
 							));
 ?>
