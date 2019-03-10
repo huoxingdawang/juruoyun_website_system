@@ -101,6 +101,8 @@
 				$min_use=$areas[0]['size']-$areas[0]['used'];
 				foreach($areas as $onearea)
 				{
+					if($onearea['upload']==0)
+						continue;
 					if((($onearea['size']-$onearea['used'])>$min_use)&&($onearea['samearea']||(!$jry_wb_login_user['jry_wb_nd_extern_information']['sameareaonly'])))
 					{
 						$min_use=$onearea['size']-$onearea['used'];
@@ -304,6 +306,8 @@
 				$min_use=$areas[0]['size']-$areas[0]['used'];
 				foreach($areas as $onearea)
 				{
+					if($onearea['upload']==0)
+						continue;
 					if((($onearea['size']-$onearea['used'])>$min_use)&&($onearea['samearea']||(!$jry_wb_login_user['jry_wb_nd_extern_information']['sameareaonly'])))
 					{
 						$min_use=$onearea['size']-$onearea['used'];

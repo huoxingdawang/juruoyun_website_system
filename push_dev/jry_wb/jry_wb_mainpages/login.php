@@ -256,7 +256,7 @@ function qqlogin()
 }
 function gayhublogin()
 {
-	newwindow=window.open("https://github.com/login/oauth/authorize?client_id=<?php  echo constant ('jry_wb_tp_github_oauth_config_client_id');?>","GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+	newwindow=window.open("jry_wb_github_oauth.php","GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
 	var timer=setInterval(function(){
 		if(newwindow.closed)
 		{

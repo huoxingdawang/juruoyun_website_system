@@ -15,6 +15,7 @@
 	curl_setopt($ch,CURLOPT_HEADER, 0);    
 	curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1); 
 	curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch,CURLOPT_POST,1);
 	$data=curl_exec($ch);
 	curl_close($ch);
 	$data=json_decode($data);
@@ -26,6 +27,7 @@
 			jry_wb_beautiful_alert.alert("gayhub错误",'Bad credentials',function(){window.close();});
 		</script>
 		<?php
+		echo json_encode($data);
 		jry_wb_print_tail();
 		exit();
 	}

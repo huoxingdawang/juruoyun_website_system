@@ -214,7 +214,7 @@ jry_wb_add_load(function()
 				for(var i=0;i<cnttt.length;i++)
 					here+=cnttt[i];
 				progress_total.progress.update(loaded/total,jry_wb_nd_get_size(loaded)+'/'+jry_wb_nd_get_size(total));
-				speed.innerHTML=jry_wb_nd_get_size((here)*10/cnttt.length)+'/s';
+				speed.innerHTML=jry_wb_nd_get_size((here)*10/cnttt.length)+'/s'+';还要'+parseInt((total-loaded)/((here)*10/cnttt.length))+'s';
 				if(cnt==jry_nd_upload_list.length)
 				{
 					progress_total.td1.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
@@ -610,12 +610,48 @@ jry_wb_add_load(function()
 	
 	document_list=document.createElement('div');right_body.appendChild(document_list);
 	document_list.classList.add('jry_wb_netdisk_document');
+	document_list.ondragenter=function(e)
+	{
+		e.preventDefault();
+		console.log(e);
+		if(typeof follow_mouth!='undefined')
+			follow_mouth.close();
+	};
+	document_list.ondragover=function(e)
+	{
+		e.preventDefault();
+	};
+	document_list.ondragleave=function(e)
+	{
+		e.preventDefault();
+		console.log(e);
+		if(typeof follow_mouth!='undefined')
+			follow_mouth.reinit();		
+	};
+	document_list.ondrop=function(e)
+	{
+		e.preventDefault();
+		console.log(e);
+		for (var i=0;i<e.dataTransfer.items.length;i++)
+		{
+			var entry = e.dataTransfer.items[i].webkitGetAsEntry();
+			if(entry.isFile)
+			{
+				console.log(entry);
+			}
+			else if(entry.isDirectory)
+			{
+				console.log(entry);
+			}
+		}
+		return false;
+	};
 	if(jry_nd_load_count==0)
 		jry_wb_nd_show_files_by_dir(decodeURI(document.location.hash)!=''?decodeURI(document.location.hash).split('#')[1]:'/');
 	jry_wb_add_onresize(function()
 	{
 		document_list.style.height=document.body.clientHeight-document_list.offsetTop;
-	});	
+	});
 });
 jry_wb_add_onclick(function(event)
 {

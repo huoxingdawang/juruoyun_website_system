@@ -9,9 +9,11 @@ var jry_wb_word_special_fact  =  new function()
 			return ;
 		if (!event)
 			var event  =  window.event;
+		if(typeof event.path[0].onclick=='function' ||typeof event.path[0].onmouseup=='function' ||typeof event.path[0].onmousedown=='function' || event.path[0].tagName=='BUTTON' || event.path[0].tagName=='INPUT')
+			return;
 		if(event.touches)
 			event  =  event.touches[0];
-		else 
+		else
 			event  =  event;
 		var word = document.createElement("span");document.body.appendChild(word);
 		var scrollTop = document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop;
