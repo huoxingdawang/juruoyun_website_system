@@ -21,14 +21,14 @@
 	$data=json_decode($data);
 	if($data->message=='Bad credentials')
 	{
-		jry_wb_print_head("gayhub错误",false,false,true,array('use'),true,false);
+		jry_wb_print_head("gayhub错误",false,false,false,array('use'),true,false);
 		?>
 		<script>
+			jry_wb_loading_off();
+			jry_wb_word_special_fact.switch=false;
 			jry_wb_beautiful_alert.alert("gayhub错误",'Bad credentials',function(){window.close();});
 		</script>
 		<?php
-		echo json_encode($data);
-		jry_wb_print_tail();
 		exit();
 	}
 	if($login!='ok')//登录部分
@@ -49,6 +49,8 @@
 		jry_wb_print_head("绑定",false,false,true,array('use'),true,false);
 		?>
 		<script>
+			jry_wb_loading_off();
+			jry_wb_word_special_fact.switch=false;		
 			jry_wb_cache.set('oauth_github','<?php  echo json_encode($data);?>');
 			jry_wb_beautiful_alert.alert("绑定成功",'<?php  echo $data->name . $data->login?>',function(){window.close();});
 		</script>

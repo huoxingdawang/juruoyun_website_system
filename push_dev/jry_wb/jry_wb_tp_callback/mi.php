@@ -61,9 +61,11 @@
 		$st->bindParam(2,jry_wb_get_time());
 		$st->bindParam(3,$jry_wb_login_user[id]);
 		$st->execute();
-		jry_wb_print_head("绑定",false,false,true,array('use'),true,false);
+		jry_wb_print_head("绑定",false,false,false,array('use'),true,false);
 		?>
 		<script>
+			jry_wb_loading_off();
+			jry_wb_word_special_fact.switch=false;		
 			jry_wb_cache.set('oauth_mi','<?php  echo json_encode($data);?>')
 			jry_wb_beautiful_alert.alert("绑定成功",'<?php  echo $data['miliaoNick']?>',function(){window.close();});
 		</script>
