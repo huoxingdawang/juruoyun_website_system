@@ -43,7 +43,7 @@
 	else if($type=='5')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.id'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.node_id'=? LIMIT 1");
 		$st->bindParam(1,$github_id);
 		$st->execute();
 		foreach($st->fetchAll()as $users);

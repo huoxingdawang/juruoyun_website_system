@@ -33,7 +33,7 @@
 	if($login!='ok')//登录部分
 	{
 		$type=5;
-		$github_id=$data->id;
+		$github_id=$data->node_id;
 		require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
 	}
 	else
@@ -45,7 +45,7 @@
 		$st->bindParam(2,jry_wb_get_time());
 		$st->bindParam(3,$jry_wb_login_user[id]);
 		$st->execute();			
-		jry_wb_print_head("绑定",false,false,true,array('use'),true,false);
+		jry_wb_print_head("绑定",false,false,false,array('use'),true,false);
 		?>
 		<script>
 			jry_wb_loading_off();
