@@ -3,30 +3,29 @@
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");	
 	$login=jry_wb_print_head("",true,false,false,array(),false,false);
 	$code=$_GET['code'];
-	$ch=curl_init('https://github.com/login/oauth/access_token?client_id='.constant('jry_wb_tp_github_oauth_config_client_id').'&client_secret='.constant('jry_wb_tp_github_oauth_config_client_secret').'&code='.$code);
+	$ch=curl_init('https://github.com/login/oauth/access_token?client_id='.constant('jry_wb_tp_github_oauth_config_client_id').'&client_secret='.constant('jry_wb_tp_github_oauth_config_client_secret').'&code='.$code.'&redirect_uri='.constant('jry_wb_host') ."jry_wb_tp_callback/github.php");
 	curl_setopt($ch,CURLOPT_HEADER, 0);    
 	curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1); 
 	curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
 	curl_setopt($ch,CURLOPT_POST,1);	
 	$access_token=curl_exec($ch);
 	curl_close($ch);
-	$ch=curl_init('https://api.github.com/user?access_token='.$access_token);
+	$ch=curl_init('https://api.github.com/user?'.explode('&',$access_token)[0]);
 	curl_setopt($ch,CURLOPT_USERAGENT,constant('jry_wb_tp_github_oauth_config_name'));
 	curl_setopt($ch,CURLOPT_HEADER, 0);    
 	curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1); 
 	curl_setopt($ch,CURLOPT_FOLLOWLOCATION, 1);
-	curl_setopt($ch,CURLOPT_POST,1);
 	$data=curl_exec($ch);
 	curl_close($ch);
 	$data=json_decode($data);
-	if($data->message=='Bad credentials')
+	if($data->message=='Bad credentials'||$data->message=='Not Found')
 	{
 		jry_wb_print_head("gayhub错误",false,false,false,array('use'),true,false);
 		?>
 		<script>
 			jry_wb_loading_off();
 			jry_wb_word_special_fact.switch=false;
-			jry_wb_beautiful_alert.alert("gayhub错误",'Bad credentials',function(){window.close();});
+			jry_wb_beautiful_alert.alert("gayhub错误",'<?php  echo $data->message; ?>',function(){window.close();});
 		</script>
 		<?php
 		exit();
