@@ -1,11 +1,4 @@
 *.sql
-push_dev/jry_wb/jry_wb_configs/jry_wb_config_short_message_aly.php
-push_dev/jry_wb/jry_wb_configs/jry_wb_config_database_user.php
-push_dev/jry_wb/jry_wb_configs/jry_wb_tp_github_oauth_config.php
-push_dev/jry_wb/jry_wb_configs/jry_wb_tp_mi_oauth_config.php
-push_dev/jry_wb/jry_wb_configs/jry_wb_tp_qq_oauth_config.php
-push_dev/jry_wb/jry_wb_configs/jry_wb_config_mail_user.php
-push_dev/jry_wb/jry_wb_configs/jry_wb_config_netdisk.php
 *.ffs_db
 */_notes/
 *.mp4
