@@ -3,6 +3,7 @@
 	function jry_wb_print_href($name,$css="",$zhuijia="",$return=false)
 	{
 		global $jry_wb_website_map;
+		jry_wb_load_website_map();
 		$i=0;
 		for(;$jry_wb_website_map[$i]['name']!=$name;$i++);
 		$website=$jry_wb_website_map[$i];

@@ -16,6 +16,7 @@
 			if($jry_wb_login_user['manage']==1)
 				jry_wb_print_href('jry_wb_manage_system');
 		}
+		jry_wb_load_website_map();
 		foreach($jry_wb_website_map as $website)
 			if($website['show_at_mainpage'])
 				echo '<a href="'.($website['type']==0?constant("jry_wb_host"):'').$website[url].$zhuijia.'" target="'.($website['type']==1?'_blank':'_parent').'">'.$website['show_name'].'</a>';

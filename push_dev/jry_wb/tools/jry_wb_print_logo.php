@@ -4,6 +4,7 @@
 	{
 		global $jry_wb_login_user;
 		global $jry_wb_website_map;
+		jry_wb_load_website_map();
 		$width=22;
 		$i=0;
 		for(;$jry_wb_website_map[$i]['name']!='home';$i++);

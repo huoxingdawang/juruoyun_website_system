@@ -23,6 +23,7 @@
 	add_one("http://dev.juruoyun.top/index.php",1,date("Y-m-d H:i:s",time()));
 	add_one(constant('jry_wb_host').'',1,date("Y-m-d H:i:s",time()));
 	add_one(constant('jry_wb_host').'index.php',1,date("Y-m-d H:i:s",time()));
+	jry_wb_load_website_map();
 	foreach($jry_wb_website_map as $one)
 		if($one['type']==1)
 			add_one($one['url'],0.9,date("Y-m-d H:i:s",time()));

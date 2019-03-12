@@ -31,6 +31,7 @@
 	include_once('jry_wb_pretreatment.php');
 	
 	include_once('jry_wb_log.php');
+	include_once('jry_wb_website_map.php');
 	
 	include_once('jry_wb_autoload.php');
 ?>
