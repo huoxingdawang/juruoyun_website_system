@@ -55,7 +55,15 @@
 		$st->bindParam(1,$unionId);
 		$st->execute();
 		foreach($st->fetchAll()as $users);
-	}			
+	}
+	else if($type=='7')
+	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.private_token'=? LIMIT 1");
+		$st->bindParam(1,$gitee_id);
+		$st->execute();
+		foreach($st->fetchAll()as $users);
+	}		
 	else
 	{
 		@$conn=jry_wb_connect_database();
@@ -91,7 +99,7 @@
 	$st->bindParam(5,jry_wb_get_browser(true));	
 	$st->execute();
 	$all=$st->fetchAll();
-	setcookie('id',$users['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL);
+	setcookie('id',$users['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,false);
 	if(count($all)!=0)
 	{
 		setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);

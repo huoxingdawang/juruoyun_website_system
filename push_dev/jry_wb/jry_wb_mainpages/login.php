@@ -1,6 +1,7 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");
+	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
 	include_once("../jry_wb_configs/jry_wb_tp_qq_oauth_config.php");
 	if((!constant('jry_wb_host_switch'))&&$_COOKIE['password']!=NULL&&$_COOKIE['id']!=NULL&&(!$_GET['debug']))
@@ -154,8 +155,9 @@
 		<tr>
 			<td colspan="2">
                 <div align="center">
-					<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){?><span class="jry_wb_icon jry_wb_icon_qq" onclick='qqlogin()' style='color:#36AAE8;font-size:30px;' ></span><?php  }?>
-					<?php if($jry_wb_tp_qq_oauth_config!=null){?><span class="jry_wb_icon jry_wb_icon_git" onclick='gayhublogin()' style='color:#00ff00;font-size:30px;' ></span><?php  }?>
+					<?php if($jry_wb_tp_qq_oauth_config!=null){?><span class="jry_wb_icon jry_wb_icon_qq" onclick='qqlogin()' style='color:#36AAE8;font-size:30px;' ></span><?php  }?>
+					<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){?><span class="jry_wb_icon jry_wb_icon_mayun" onclick='giteelogin()' style='color:rgb(216, 30, 6);font-size:30px;' ></span><?php  }?>
+					<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){?><span class="jry_wb_icon jry_wb_icon_git" onclick='gayhublogin()' style='color:#00ff00;font-size:30px;' ></span><?php  }?>
 					<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){?><span class="jry_wb_icon jry_wb_icon_xiaomi" onclick='milogin()' style='color:rgb(253, 88, 62);font-size:30px;' ></span><?php  }?>
                 </div>
 			</td>
@@ -249,8 +251,7 @@ function qqlogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!='')
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);
 }
@@ -261,8 +262,18 @@ function gayhublogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!='')
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+		}
+	},500);	
+}
+function giteelogin()
+{
+	newwindow=window.open("jry_wb_gitee_oauth.php","GiteeLogin","width=1200,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+	var timer=setInterval(function(){
+		if(newwindow.closed)
+		{
+			clearInterval(timer);
+			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);	
 }
@@ -273,8 +284,7 @@ function milogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!='')
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);
 }

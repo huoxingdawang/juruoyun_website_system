@@ -104,5 +104,7 @@
 	if($jry_wb_login_user['oauth_github']!='')
 		$jry_wb_login_user['oauth_github']=json_decode($jry_wb_login_user['oauth_github']);	
 	if($jry_wb_login_user['oauth_mi']!='')
-		$jry_wb_login_user['oauth_mi']=json_decode($jry_wb_login_user['oauth_mi']);		
+		$jry_wb_login_user['oauth_mi']=json_decode($jry_wb_login_user['oauth_mi']);	
+	if($jry_wb_login_user['oauth_gitee']!='')
+		$jry_wb_login_user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$jry_wb_login_user['oauth_gitee']));		
 ?>

@@ -71,6 +71,10 @@
 			return $user['oauth_github']->avatar_url;
 		else if($user['head']=='qq')
 			return "https://q2.qlogo.cn/headimg_dl?dst_uin=".(explode("@",$user['mail'])[0])."&spec=100";
+		else if($user['head']=='gitee')
+			return $user['oauth_github']->avatar_url;	
+		else if($user['head']=='mi')
+			return $user['oauth_mi']->miliaoIcon_orig;	
 		else if($user['head']!='')
 			return "http://juruoyun.top/mywork/picturebed/get_picturebed.php?size=80&pictureid=".$user[head];						
 	}

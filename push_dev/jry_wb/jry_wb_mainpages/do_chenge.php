@@ -132,7 +132,7 @@
 				$st->execute();
 			}			
 		}
-		if($_GET['type']=='gravatar')
+		else if($_GET['type']=='gravatar')
 		{
 			$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404');
 			if (preg_match("|200|", $headers[0])) 
@@ -149,7 +149,7 @@
 				exit();
 			}		
 		}
-		if($_GET['type']=='qq')
+		else if($_GET['type']=='qq')
 		{
 			if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth_qq']!='')
 			{
@@ -161,7 +161,7 @@
 				return;
 			}			
 		}
-		if($_GET['type']=='github')
+		else if($_GET['type']=='github')
 		{
 			if($jry_wb_login_user['oauth_github']!='')
 			{
@@ -173,7 +173,7 @@
 				return;
 			}			
 		}
-		if($_GET['type']=='mi')
+		else if($_GET['type']=='mi')
 		{
 			if($jry_wb_login_user['oauth_mi']!='')
 			{
@@ -184,7 +184,19 @@
 				$st->execute();
 				return;
 			}			
-		}			
+		}
+		else if($_GET['type']=='gitee')
+		{
+			if($jry_wb_login_user['oauth_gitee']!='')
+			{
+				$q ="update ".constant('jry_wb_database_general')."users set head='gitee',lasttime=? where id=?";
+				$st = $conn->prepare($q);
+				$st->bindParam(1,jry_wb_get_time());
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();
+				return;
+			}			
+		}		
 		echo json_encode(array('statue'=>true));
 		exit();		
 	}	
@@ -202,6 +214,8 @@
 			$q ="update ".constant('jry_wb_database_general')."users set oauth_github=NULL,lasttime=? where id=?";		
 		else if($_GET['type']=='mi')
 			$q ="update ".constant('jry_wb_database_general')."users set oauth_mi=NULL,lasttime=? where id=?";
+		else if($_GET['type']=='gitee')
+			$q ="update ".constant('jry_wb_database_general')."users set oauth_gitee=NULL,lasttime=? where id=?";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,jry_wb_get_time());
 		$st->bindParam(2,$jry_wb_login_user['id']);

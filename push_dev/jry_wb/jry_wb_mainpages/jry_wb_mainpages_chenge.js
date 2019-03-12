@@ -219,6 +219,38 @@ function show()
 				};
 			}
 		}
+		if(jry_wb_gitee_user_head!='')
+		{
+			var tr=document.createElement("tr"); table.appendChild(tr);
+			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
+			var td=document.createElement("td"); tr.appendChild(td);
+			var img2=document.createElement("img");td.appendChild(img2);
+			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+			img2.src=jry_wb_gitee_user_head;
+			var td=document.createElement("td"); tr.appendChild(td);
+			if(jry_wb_gitee_user_head==jry_wb_login_user.head)
+				td.innerHTML='正在使用';
+			else
+			{
+				var button=document.createElement("button");td.appendChild(button);
+				button.innerHTML="使用"; 
+				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+				button.onclick=function()
+				{
+					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_gitee_user_head;jry_wb_login_user.head=jry_wb_gitee_user_head;
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gitee',function(data)
+					{
+						jry_wb_loading_off();
+						head_alert.close();
+						var data=JSON.parse(data);
+						if(data.statue)
+							jry_wb_beautiful_alert.alert("操作成功","");
+						else
+							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					});
+				};
+			}
+		}
 		if(jry_wb_mi_user_head!='')
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -1186,6 +1218,61 @@ function tp_in()
 			};
 		}
 	}
+	if(jry_wb_tp_github_oauth_config_enable)
+	{
+		var tr=document.createElement("tr");table.appendChild(tr);
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');
+		td.innerHTML='码云(oauth2.0)';
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h55');	
+		if(jry_wb_login_user.oauth_gitee==null||jry_wb_login_user.oauth_gitee=='')
+		{
+			td.innerHTML='没有绑定,点击绑定，powered by 码云';
+			td.onclick=function()
+			{
+				newwindow=window.open("jry_wb_gitee_oauth.php","GiteeLogin","width=1200,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+				var timer=setInterval(function(){
+					if(newwindow.closed)
+					{
+						clearInterval(timer);
+						jry_wb_login_user.oauth_gitee=JSON.parse(jry_wb_cache.get('oauth_gitee').replace(/\n/g, "<br>"));
+						jry_wb_cache.delete('oauth_gitee');
+						jry_wb_github_user_head=jry_wb_login_user.oauth_gitee.avatar_url;
+						tp_in();
+					}
+				},1000);
+			};
+		}
+		else
+		{
+			var div=document.createElement("div");td.appendChild(div);
+			div.innerHTML=jry_wb_login_user.oauth_gitee.name+jry_wb_login_user.oauth_gitee.login;
+			var img=document.createElement("img");div.appendChild(img);
+			img.src=jry_wb_login_user.oauth_gitee.avatar_url;
+			img.height=30;
+			img.width=30;
+			var span=document.createElement("span");td.appendChild(span);
+			span.innerHTML='点击解绑，powered by 码云';
+			span.classList.add('h55');
+			span.onclick=function()
+			{
+				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=gitee',function(data)
+				{
+					jry_wb_loading_off();
+					var data=JSON.parse(data);
+					if(data.statue)
+					{
+						jry_wb_login_user.oauth_gitee=null;
+						tp_in();
+						jry_wb_beautiful_alert.alert("操作成功","");
+					}
+					else
+						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+				});			
+			};		
+		}
+	}		
 }
 switch(window.location.hash)
 {

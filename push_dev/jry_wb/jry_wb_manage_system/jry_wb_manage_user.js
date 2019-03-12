@@ -36,7 +36,12 @@ jry_wb_manage_user.showall=function()
 	var one=document.createElement('div');list.appendChild(one);
 	one.classList.add('jry_wb_left_toolbar_left_list_default');
 	one.innerHTML='重载';
-	one.onclick=function(event){jry_wb_manage_user.sync();for(var i=0,n=jry_wb_manage_user.reload.length;i<n;i++)jry_wb_manage_user.reload[i]=true;};
+	one.onclick=function(event)
+	{
+		jry_wb_manage_user.sync();
+		for(var i=0,n=jry_wb_manage_user.reload.length;i<n;i++)
+			jry_wb_manage_user.reload[i]=true;
+	};
 	one=null;
 	for(var i=0,n=this.all.length;i<n;i++)
 	{
@@ -209,10 +214,15 @@ jry_wb_manage_user.showall=function()
 					else
 						td.innerHTML+=user.oauth_mi.miliaoNick+'<img width="40px" src="'+user.oauth_mi.miliaoIcon_orig+'"><br>';
 					td.innerHTML+='gayhub:';
-					if(user.oauth_mi==null)
+					if(user.oauth_github==null)
 						td.innerHTML+='无<br>';
 					else
 						td.innerHTML+=user.oauth_github.name+','+user.oauth_github.login+'<img width="40px" src="'+user.oauth_github.avatar_url+'"><br>';						
+					td.innerHTML+='码云:';
+					if(user.oauth_gitee==null)
+						td.innerHTML+='无<br>';
+					else
+						td.innerHTML+=user.oauth_gitee.name+','+user.oauth_gitee.login+'<img width="40px" src="'+user.oauth_gitee.avatar_url+'"><br>';						
 					var tr=document.createElement("tr");table.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	
 					td.setAttribute("colspan","2");td.setAttribute("align","center");
