@@ -17,14 +17,39 @@
 	$data=curl_exec($ch);
 	curl_close($ch);
 	$data=json_decode($data);
+	$data=(array('access_token'=>$access_token,'lasttime'=>jry_wb_get_time(),'message'=>$data));	
+	$gitee_id=$data['message']->private_token;
 	if($login!='ok')//登录部分
 	{
 		$type=7;
-		$gitee_id=$data->private_token;
 		require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
+		$conn=jry_wb_connect_database();
+		$q ="update ".constant('jry_wb_database_general')."users set oauth_gitee=?,lasttime=? where id=? ";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,json_encode($data));		
+		$st->bindParam(2,jry_wb_get_time());
+		$st->bindParam(3,$users[id]);
+		$st->execute();
 	}
 	else
 	{
+		$conn=jry_wb_connect_database();
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.private_token'=? LIMIT 1");
+		$st->bindParam(1,$gitee_id);
+		$st->execute();
+		foreach($st->fetchAll()as $users);
+		if($users!=NULL)
+		{
+			jry_wb_print_head("绑定失败",false,false,false,array('use'),true,false);
+			?>
+			<script>
+				jry_wb_loading_off();
+				jry_wb_word_special_fact.switch=false;		
+				jry_wb_beautiful_alert.alert("绑定失败",'绑定过了',function(){window.close();});
+			</script>
+			<?php
+			exit();
+		}
 		$conn=jry_wb_connect_database();
 		$q ="update ".constant('jry_wb_database_general')."users set oauth_gitee=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
@@ -37,8 +62,8 @@
 		<script>
 			jry_wb_loading_off();
 			jry_wb_word_special_fact.switch=false;		
-			jry_wb_cache.set('oauth_gitee','<?php  echo json_encode($data);?>');
-			jry_wb_beautiful_alert.alert("绑定成功",'<?php  echo $data->name . $data->login?>',function(){window.close();});
+			jry_wb_cache.set('oauth_gitee','<?php  echo json_encode($data['message']);?>');
+			jry_wb_beautiful_alert.alert("绑定成功",'<?php  echo $data['message']->name . $data['message']->login?>',function(){window.close();});
 		</script>
 		<?php
 	}	

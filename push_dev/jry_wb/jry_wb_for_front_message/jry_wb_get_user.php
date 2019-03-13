@@ -132,9 +132,9 @@
 				'type'=>$user['type'],
 				'use'=>$user['use'],							
 				'oauth_qq'=>$user['oauth_qq']->message,
-				'oauth_mi'=>$user['oauth_mi'],
-				'oauth_github'=>$user['oauth_github'],
-				'oauth_gitee'=>$user['oauth_gitee'],
+				'oauth_mi'=>$user['oauth_mi']->message,
+				'oauth_github'=>$user['oauth_github']->message,
+				'oauth_gitee'=>$user['oauth_gitee']->message,
 				'login_addr'=>($user['ip_show']||($admin_mode))?$ip:-1
 				);
 	if(!$admin_mode)

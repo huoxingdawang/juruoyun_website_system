@@ -36,9 +36,9 @@
 					'follow_mouth'=>$jry_wb_login_user['follow_mouth'],						
 					'background_music_list'=>$jry_wb_login_user['background_music_list'],
 					'oauth_qq'=>$jry_wb_login_user['oauth_qq']->message,
-					'oauth_github'=>$jry_wb_login_user['oauth_github'],
-					'oauth_gitee'=>$jry_wb_login_user['oauth_gitee'],
-					'oauth_mi'=>$jry_wb_login_user['oauth_mi']
+					'oauth_github'=>$jry_wb_login_user['oauth_github']->message,
+					'oauth_gitee'=>$jry_wb_login_user['oauth_gitee']->message,
+					'oauth_mi'=>$jry_wb_login_user['oauth_mi']->message
 					);
 		echo (json_encode($data));?>'));
 	jry_wb_login_user.zhushi=jry_wb_login_user.zhushi.replace(/<br>/g,'\n');
