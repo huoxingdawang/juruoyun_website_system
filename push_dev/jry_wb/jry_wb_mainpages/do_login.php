@@ -43,7 +43,7 @@
 	else if($type=='5')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.node_id'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
 		$st->bindParam(1,$github_id);
 		$st->execute();
 		foreach($st->fetchAll()as $users);
@@ -51,7 +51,7 @@
 	else if($type=='6')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.unionId'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
 		$st->bindParam(1,$unionId);
 		$st->execute();
 		foreach($st->fetchAll()as $users);
@@ -59,11 +59,15 @@
 	else if($type=='7')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.private_token'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.message.private_token'=? LIMIT 1");
 		$st->bindParam(1,$gitee_id);
 		$st->execute();
 		foreach($st->fetchAll()as $users);
 	}		
+	else if($type=='8')
+	{
+		
+	}
 	else
 	{
 		@$conn=jry_wb_connect_database();
@@ -74,8 +78,22 @@
 	}
 	if($users==NULL)
 	{
-		echo json_encode(array('state'=>-2));
-		return ;
+		if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
+			echo json_encode(array('state'=>-2));
+		else
+		{	
+			jry_wb_print_head("登录失败",false,false,false);
+			?>
+			<script>
+				jry_wb_beautiful_alert.alert("登录失败",'不存在的账户',function()
+				{
+					window.close();
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+				});
+			</script>
+			<?php
+		}	
+		exit();
 	}
 	else if($psw!=$users['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 	{
@@ -148,6 +166,7 @@
 	jry_wb_beautiful_alert.alert("登录成功",'距上次登录<?php  echo $hour;?>小时<?php  echo $minute;?>分钟<?php if($green_money!=null)echo '<br>随机奖励绿币'.$green_money;?>',function()
 	{
 		window.close();
+		window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 	});
 </script>
 <?php

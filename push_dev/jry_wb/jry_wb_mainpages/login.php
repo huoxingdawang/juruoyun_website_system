@@ -18,12 +18,12 @@
 		$data=$st->fetchAll();
 		if(count($data)!=0)
 		{
-			$user=$data[0];
-			if($user['password']==$_COOKIE['password'])
+			$users=$data[0];
+			if($users['password']==$_COOKIE['password'])
 			{
 				$q="SELECT * FROM ".constant('jry_wb_database_general')."users where id=?;";
 				$st = $conn->prepare($q);
-				$st->bindParam(1,$user['id']);
+				$st->bindParam(1,$users['id']);
 				$st->execute();
 				if(count($st->fetchAll())==0)
 				{
@@ -36,64 +36,8 @@
 					<h2>邮箱:lijunyandeyouxiang@163.com</h2><?php
 					exit();
 				}
-				setcookie('id',$user['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
-				setcookie('password',$user['password'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
-				$q="update ".constant('jry_wb_database_general')."users set logdate=?,lasttime=? where id=?;";
-				$st = $conn->prepare($q);
-				$st->bindParam(1,jry_wb_get_time());
-				$st->bindParam(2,jry_wb_get_time());
-				$st->bindParam(3,$user['id']);
-				$st->execute();
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? AND device=? AND code=? AND ip=?');
-				$st->bindParam(1,$user['id']);
-				$st->bindParam(2,jry_wb_get_device(true));
-				$st->bindParam(3,$_COOKIE['code']);
-				$st->bindParam(4,$_SERVER['REMOTE_ADDR']);
-				$st->execute();
-				$all=$st->fetchAll();		
-				setcookie('id',$user['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
-				setcookie('password',$user['password'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
-				if(count($all)!=0)
-				{
-					setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
-					$st = $conn->prepare("update ".constant('jry_wb_database_general')."login SET time=? where id=? AND ip=? AND device=? AND code=? AND browser=?");
-					$st->bindParam(1,jry_wb_get_time());	
-					$st->bindParam(2,$user['id']);
-					$st->bindParam(3,$_SERVER['REMOTE_ADDR']);
-					$st->bindParam(4,jry_wb_get_device(true));
-					$st->bindParam(5,$_COOKIE['code']);
-					$st->bindParam(6,jry_wb_get_browser(true));
-					$st->execute();
-				}
-				else
-				{
-					$srcstr='123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYZ';
-					$code='';
-					mt_srand();
-					for ($i = 0; $i < 100; $i++) 
-						$code.=$srcstr[mt_rand(0, 50)];
-					$code.=md5(jry_wb_get_time()).md5($user['mail'].$user['id']);
-					setcookie('code',$code,time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
-					$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."login (id,ip,time,device,code,browser) VALUES(?,?,?,?,?,?)");
-					$st->bindParam(1,$user['id']);
-					$st->bindParam(2,$_SERVER['REMOTE_ADDR']);
-					$st->bindParam(3,jry_wb_get_time());	
-					$st->bindParam(4,jry_wb_get_device(true));				
-					$st->bindParam(5,$code);
-					$st->bindParam(6,jry_wb_get_browser(true));
-					$st->execute();
-				}
-				jry_wb_print_head("登录",false,false,true);
-			?><script language=javascript>
-				jry_wb_beautiful_alert.alert("登录成功","",function()
-				{
-					jry_wb_cache.delete_all();
-					jry_wb_cache.set('jry_wb_login_user_id',parseInt("<?php  echo $user['id'];?>"));
-					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-				});
-			</script><?php
-				$jry_wb_login_user['id']=$user['id'];
-				jry_wb_echo_log(constant('jry_wb_log_type_login'),'by other');
+				$type=8;
+				require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
 				exit();
 			}
 		}

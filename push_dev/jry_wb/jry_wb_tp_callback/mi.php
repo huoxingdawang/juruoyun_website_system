@@ -64,7 +64,7 @@
 	else
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.unionId'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
 		$st->bindParam(1,$unionId);
 		$st->execute();
 		foreach($st->fetchAll()as $users);
