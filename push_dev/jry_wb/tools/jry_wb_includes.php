@@ -13,6 +13,7 @@
 	include_once('jry_wb_get_ip_address.php');
 	include_once('jry_wb_get_device.php');
 	include_once('jry_wb_get_domain.php');
+	include_once('jry_wb_get_random_string.php');
 	
 	include_once('jry_wb_test_phone_number.php');
 	include_once('jry_wb_test_mail.php');

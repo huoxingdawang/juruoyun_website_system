@@ -63,9 +63,9 @@
 		}
 		exit();
 	}
-	if(jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok')
+	if($login=jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok')
 	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
+		echo json_encode(array('code'=>false,,'reasion'=>$login));
 		exit();			
 	}
 	if($action=='file_list')

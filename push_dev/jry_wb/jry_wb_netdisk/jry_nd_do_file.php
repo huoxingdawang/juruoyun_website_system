@@ -13,15 +13,15 @@
 11	:文件重复
 12	:文件不存在或已删除
 13	:STS签名错误
+14	:OSS连接错误
+15	:存储区连接错误
 */
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");
-	include_once("jry_wb_nd_tools.php");	
-	include_once("jry_nd_file_type.php");
-	include_once((dirname(__DIR__)."/jry_wb_tp_sdk/aly/aliyun-php-sdk-core/Regions/EndpointConfig.php"));
-	use Sts\Request\V20150401 as Sts;	
+	include_once("jry_nd_includes.php");
+	use Sts\Request\V20150401 as Sts;
 	use OSS\OssClient;
 	use OSS\Core\OssException;
+	ini_set("display_errors", "On"); 
 	if($jry_wb_login_user['id']!=-1)
 		jry_wb_get_netdisk_information();
 	$action=$_GET['action'];
@@ -127,39 +127,23 @@
 				else
 					$st->bindValue(3,$jry_wb_login_user['id']);						
 				$st->execute();
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=used-? , lasttime=? WHERE `area_id`=?;');
-				$st->bindValue(1,$data[0]['size']);
-				$st->bindValue(2,jry_wb_get_time());
-				$st->bindValue(3,$old_area['area_id']);	
-				$st->execute();
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=used+? , lasttime=? WHERE `area_id`=?;');
-				$st->bindValue(1,$data[0]['size']);
-				$st->bindValue(2,jry_wb_get_time());
-				$st->bindValue(3,$area['area_id']);	
-				$st->execute();	
+				jry_nd_database_operate_area_size($conn,$old_area,-$data[0]['size']);	//原区域减少
+				jry_nd_database_operate_area_size($conn,$area,$data[0]['size']);		//新区域增加
 				unlink($old_area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload');
 			}
 		}
 		if($fast_mode||$area['type']==1)
 		{
-			$ossclient_in	=new OssClient($area['config_message']->accesskeyid,$area['config_message']->accesskeysecret,$area['config_message']->endpoint_in,false);
-			$ossclient		=new OssClient($area['config_message']->accesskeyid,$area['config_message']->accesskeysecret,$area['config_message']->endpoint,false);
-			/*while (true)
+			try
 			{
-				$listobjectinfo=$ossclient_in->listobjects($area['config_message']->bucket,$options=array('prefix'=>$area['config_message']->dir));
-				$nextmarker=$listobjectinfo->getNextMarker();
-				$listobject=$listobjectinfo->getObjectList();
-				if (!empty($listobject))
-					foreach ($listobject as $objectinfo)
-					{		
-						$time=$ossclient_in->getObjectMeta($area['config_message']->bucket,$objectinfo->getKey())['expires'];
-						if($time!=''&&strtotime(jry_wb_get_time())>strtotime($time))
-							$ossclient_in->deleteObject($area['config_message']->bucket,$objectinfo->getKey());
-					}
-				if($listobjectinfo->getNextMarker()==='')
-					break;
+				$ossclient_in	=jry_nd_aly_connect_in_by_area($area);
+				$ossclient		=jry_nd_aly_connect_out_by_area($area);
 			}
-			*/
+			catch (jry_nd_aly_exception $e)
+			{
+				echo $e->getMessage();
+				exit();
+			}
 			$data[0]['extern']=json_decode($data[0]['extern']);
 			$new=false;
 			$fromobject=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload';
@@ -192,11 +176,7 @@
 				$copyoptions=array(OssClient::OSS_HEADERS=>array('Expires'=>date("Y-m-d H:i:s",strtotime($time)),'Content-Type'=>jry_nd_get_content_type($data[0]['type']),'Content-Disposition'=>'attachment; filename="'.urlencode($data[0]['name']).'.'.$data[0]['type'].'"'));
 			if($new)
 			{
-				$srcstr = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
-				$code='';
-				mt_srand();
-				for ($i=0;$i<30; $i++) 
-					$code.=$srcstr[mt_rand(0,strlen($srcstr)-1)];	
+				$code=jry_wb_get_random_string(30);
 				$tobject=$fromobject.$code;
 				$ossclient_in->copyObject($area['config_message']->bucket,$fromobject,$area['config_message']->bucket, $tobject,$copyoptions);
 				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET extern=? , lasttime=? WHERE `file_id`=?;');
@@ -219,8 +199,16 @@
 				$st->bindValue(3,$jry_wb_login_user['id']);	
 			else
 				$st->bindValue(3,$$share[0]['id']);
-			$st->execute();	
-			header("Location:".$ossclient->signUrl($area['config_message']->bucket,$tobject,constant('jry_nd_oss_max_time')));
+			$st->execute();
+			try
+			{
+				jry_nd_aly_download_sign($ossclient,$area,$tobject,true);
+			}
+			catch(jry_nd_exception $e)
+			{
+				echo $e->getMessage();
+				exit();
+			}			
 		}
 		else
 		{
@@ -298,7 +286,7 @@
 				$st->bindValue(3,$jry_wb_login_user['id']);
 				$st->execute();
 				
-				$method=1;
+				$method=0;
 				
 				
 				$areas=jry_nd_get_area_by_type($method);
@@ -335,35 +323,15 @@
 					$extern_message=[];
 				else if($method==1)//阿里云STS签名
 				{
-					define('ENABLE_HTTP_PROXY', FALSE);
-					define('HTTP_PROXY_IP', '127.0.0.1');
-					define('HTTP_PROXY_PORT', '8888');
-					DefaultProfile::addEndpoint($area['config_message']->sts_region_id,$area['config_message']->sts_region_id,"Sts",$area['config_message']->sts_endpoint);
-					$iclientprofile = DefaultProfile::getProfile($area['config_message']->sts_region_id,constant('jry_nd_aly_sts_accesskeyid'),constant('jry_nd_aly_sts_accesskeysecret'));
-					$client = new DefaultAcsClient($iclientprofile);
-					$request = new Sts\AssumeRoleRequest();
-					$request->setRoleSessionName("jry".$jry_wb_login_user['id'].$file_id);
-					$request->setRoleArn(constant('jry_nd_aly_sts_rolearn'));
-					$request->setDurationSeconds(60*60);
 					try
 					{
-						$response=$client->getAcsResponse($request);	
+						$extern_message=jry_nd_aly_upload_sign($area,$file_id);
 					}
-					catch(ServerException $e)
+					catch (jry_nd_exception $e)
 					{
-						echo json_encode(array('login'=>true,'code'=>false,'reason'=>13,'extern'=>"Error:".$e->getErrorCode()."Message:".$e->getMessage()));
+						echo json_encode($e->getMessage());
 						exit();
 					}
-					catch(ClientException $e)
-					{
-						echo json_encode(array('login'=>true,'code'=>false,'reason'=>13,'extern'=>"Error:".$e->getErrorCode()."Message:".$e->getMessage()));
-						exit();
-					}
-					$extern_message=array(	'response'=>$response,
-											'region'=>$area['config_message']->region,
-											'bucket'=>$area['config_message']->bucket,
-											'name'=>$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file_id.'_jryupload'
-					);
 				}
 				echo json_encode(array('login'=>true,'code'=>true,'area'=>$area['area_id'],'file_id'=>$file_id,'method'=>$method,'extern_message'=>$extern_message));
 			}
@@ -462,11 +430,11 @@
 			}
 			else if($area['type']==1)
 			{
-				$ossclient = new OssClient($area['config_message']->accesskeyid,$area['config_message']->accesskeysecret,$area['config_message']->endpoint,false);
-				$exist=$ossclient->doesObjectExist($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload');					
-				if(!$exist)
+				
+				$ossclient=jry_nd_aly_connect_out_by_area($area);
+				if(!jry_nd_aly_check_file_exist($ossclient,$area,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload'))
 				{
-					echo json_encode(array('login'=>true,'code'=>false,'reason'=>10));
+					echo json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__));
 					exit();
 				}
 				$objectmeta=$ossclient->getObjectMeta($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload');					
