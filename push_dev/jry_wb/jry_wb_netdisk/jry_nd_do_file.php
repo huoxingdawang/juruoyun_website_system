@@ -239,10 +239,14 @@
 		$st->execute();
 		exit();
 	}
-	if($login=jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok')
+	try
 	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
-		exit();			
+		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
 	}
 	if($action=='pre_check')
 	{

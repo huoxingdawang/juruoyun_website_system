@@ -1,3 +1,4 @@
+jry_wb_include_once_script_cnt=0;
 function jry_wb_include_once_script(src,callback)
 {
 	src = jry_wb_get_path(src);
@@ -7,11 +8,13 @@ function jry_wb_include_once_script(src,callback)
 		if(test[i].src==src)
 			return true;
 	jry_wb_loading_on();
+	jry_wb_include_once_script_cnt++;
 	var myscript=document.createElement('script');document.head.appendChild(myscript);
 	myscript.src=src;myscript.type='text/javascript';myscript.defer=true;
 	myscript.onload=function()
 	{
 		jry_wb_loading_off();
+		jry_wb_include_once_script_cnt--;
 		if(typeof callback=='function')
 			callback();
 	};

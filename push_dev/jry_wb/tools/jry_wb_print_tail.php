@@ -56,7 +56,14 @@
 			<?php } ?>
 				window.onmousewheel();
 			});
-		jry_wb_onload_function_data();
+		var timer=setInterval(function()
+		{
+			if(jry_wb_include_once_script_cnt==0)
+			{
+				jry_wb_onload_function_data();
+				clearInterval(timer);
+			}
+		},100);
 		</script>			
 		</body>
 		</html>

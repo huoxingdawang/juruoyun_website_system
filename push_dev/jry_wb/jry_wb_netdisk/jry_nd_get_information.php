@@ -65,7 +65,7 @@
 	}
 	try
 	{
-		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok'
+		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false);
 	}
 	catch(jry_wb_exception $e)
 	{
