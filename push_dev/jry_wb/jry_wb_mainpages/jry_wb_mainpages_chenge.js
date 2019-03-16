@@ -129,7 +129,7 @@ function show()
 				});
 			};
 		}
-		if(jry_wb_gravatar_user_head!='')
+		if(jry_wb_gravatar_user_head!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gravatar';
@@ -169,7 +169,7 @@ function show()
 				};
 			}
 		}
-		if(jry_wb_qq_user_head!='')
+		if(jry_wb_qq_user_head!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
