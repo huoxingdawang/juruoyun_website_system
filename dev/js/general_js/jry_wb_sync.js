@@ -7,9 +7,15 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,cmp,after,sort_cmp)
 		if(syncname!='')
 			var data = jry_wb_cache.get(syncname);
 		if(buf!=null)
-			if(buf.login==false)
+			if(typeof buf.code!='undefined'&&buf.code==false)
 			{
-				jry_wb_beautiful_alert.alert("没有登录","因为"+buf.reasion,"window.location.href=''");
+				if(buf.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(buf.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+buf.extern,"window.location.href=''");
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				jry_wb_loading_off();					
 				return ;	
 			}	
 		if(data==null)

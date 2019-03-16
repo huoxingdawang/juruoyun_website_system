@@ -1,13 +1,16 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	$login=jry_wb_print_head("",true,true,false,array('use','manage','managehengfu'),false);	
+	try
+	{
+		jry_wb_print_head("",true,true,false,array('use','manage','managehengfu'),false);	
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
+	}	
 	$action=$_GET['action'];
 	$hengfu_id=$_POST['hengfu_id'];
-	if($login!='ok')
-	{
-		echo json_encode(array('login'=>false,'reasion'=>$login,'code'=>0));
-		exit();	
-	}	
 	if($action=='chenge'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();
@@ -15,7 +18,7 @@
 		$st->bindParam(1,$_POST['words']);
 		$st->bindParam(2,$hengfu_id);			
 		$st->execute();
-		echo json_encode(array('code'=>1,'hengfu_id'=>$hengfu_id));
+		echo json_encode(array('code'=>true,'hengfu_id'=>$hengfu_id));
 	}
 	else if($action=='delete')
 	{
@@ -23,7 +26,7 @@
 		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_mainpage')."hengfu WHERE hengfu_id=? LIMIT 1;");
 		$st->bindParam(1,$hengfu_id);
 		$st->execute();	
-		echo json_encode(array('code'=>1,'hengfu_id'=>$hengfu_id));		
+		echo json_encode(array('code'=>true,'hengfu_id'=>$hengfu_id));		
 	}
 	else if($action=='enable'||$action=='disable')
 	{
@@ -32,7 +35,7 @@
 		$st->bindValue(1,($action=='enable'?1:0));		
 		$st->bindParam(2,$hengfu_id);
 		$st->execute();	
-		echo json_encode(array('code'=>1,'hengfu_id'=>$hengfu_id));		
+		echo json_encode(array('code'=>true,'hengfu_id'=>$hengfu_id));		
 	}	
 	else if($action=='add'&&$_POST['words']!='')
 	{
@@ -41,10 +44,10 @@
 		$st->bindParam(1,$_POST['words']);
 		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->execute();
-		echo json_encode(array('code'=>1));
+		echo json_encode(array('code'=>true));
 	}
 	else
 	{
-		echo json_encode(array('reasion'=>'unknow','code'=>0));
+		echo json_encode(array('code'=>false,'reasion'=>000000));
 	}
 ?>

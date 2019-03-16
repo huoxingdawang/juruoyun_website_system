@@ -2,10 +2,17 @@
 	include_once("../tools/jry_wb_includes.php");
 	$action=$_GET['action'];
 	$conn2=jry_wb_connect_database();
-	$login=	jry_wb_print_head("",true,true,false,array('use'),false);
+	try
+	{
+		$login=jry_wb_print_head("",true,true,false,array('use'),false);
+	}
+	catch(jry_wb_exception $e)
+	{
+		$login=false;
+	}	
 	if($action=='schoolall')
 	{
-		if($login=='ok')
+		if($login)
 		{
 			
 		}

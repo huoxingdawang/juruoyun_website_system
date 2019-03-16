@@ -5,5 +5,4 @@
 	include_once("jry_nd_file_type.php");
 	include_once("jry_nd_aly_includes.php");
 	include_once("jry_nd_database_include.php");
-	class jry_nd_exception extends Exception{};	
 ?>

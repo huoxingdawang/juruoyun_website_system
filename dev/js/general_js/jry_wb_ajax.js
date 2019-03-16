@@ -1,7 +1,6 @@
 function jry_wb_ajax_load_data(url,func,array,tong)
 {
 	jry_wb_loading_on();
-	jry_wb_beautiful_right_alert.alert('加载数据中，请稍等',500,'auto','warn');
 	if(tong==null)
 		tong = true;
 	var xmlhttp;
@@ -21,7 +20,6 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 		{
 			clearTimeout(clearTO);
 			var ajaxLoadedData = xmlhttp.responseText;
-			jry_wb_beautiful_right_alert.alert('加载数据完毕',500,'auto','ok');
 			func(ajaxLoadedData);
 		}
 	};

@@ -2,13 +2,16 @@
 	include_once("../tools/jry_wb_includes.php");
 	$st =jry_wb_connect_database()->prepare("DELETE FROM ".constant('blogdb')."text where lasttime<? AND `delete` =1");
 	$st->bindParam(1,date("Y-m-d H;i:s",time()-constant('logintime')));
-	$st->execute();		
-	$login=	jry_wb_print_head("",true,true,false,array('use','editorblog'),false);
-	if($login!='ok')
+	$st->execute();	
+	try
 	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
-		exit();			
-	}		
+		jry_wb_print_head("",true,true,false,array('use','editorblog'),false);
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
+	}
 	$action=$_GET['action'];
 	if($action=='save_as_draft')
 	{

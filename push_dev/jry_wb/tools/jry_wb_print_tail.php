@@ -56,7 +56,7 @@
 			<?php } ?>
 				window.onmousewheel();
 			});
-		window.onload=jry_wb_onload_function_data;
+		jry_wb_onload_function_data();
 		</script>			
 		</body>
 		</html>

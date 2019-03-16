@@ -23,7 +23,7 @@ function jry_wb_show_tr_with_input(table,name,id,value,type,onclick,width)
 	table.appendChild(tr);
 	var td = document.createElement("td");
 	td.width=width==null?"400":width;
-	var h55 = document.createElement("h55");
+	var h55 = document.createElement("h56");
 	td.appendChild(h55);	
 	h55.innerHTML = name;
 	tr.appendChild(td);	

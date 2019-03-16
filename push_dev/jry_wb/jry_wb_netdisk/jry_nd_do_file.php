@@ -204,7 +204,7 @@
 			{
 				jry_nd_aly_download_sign($ossclient,$area,$tobject,true);
 			}
-			catch(jry_nd_exception $e)
+			catch(jry_wb_exception $e)
 			{
 				echo $e->getMessage();
 				exit();
@@ -327,7 +327,7 @@
 					{
 						$extern_message=jry_nd_aly_upload_sign($area,$file_id);
 					}
-					catch (jry_nd_exception $e)
+					catch (jry_wb_exception $e)
 					{
 						echo json_encode($e->getMessage());
 						exit();

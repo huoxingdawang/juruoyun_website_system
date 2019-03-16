@@ -13,12 +13,12 @@
 			if($checklogin)
 			{
 				if(((isset($_COOKIE['code']) ? $_COOKIE['code'] : '')!=$jry_wb_login_user['code']||$jry_wb_login_user['code']==''))
-					return 'notlogin';			
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100000,'file'=>__FILE__,'line'=>__LINE__)));
 				foreach($compentence as $compentence_)
 					if($jry_wb_login_user[$compentence_]==0)
-						return 'lose'.$compentence_;
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>$compentence_)));
 			}
-			return 'ok';
+			return true;
 		}
 	?>	
 	<!DOCTYPE html PUBLIC >
@@ -87,7 +87,7 @@
 		{
 	?><script language=javascript>jry_wb_beautiful_alert.check("请在个人中心中验证邮箱",function(){window.location.href='<?php echo jry_wb_print_href("users",0,"",1)?>'},function(){},'现在就绑定','一会再绑定');</script> <?php		
 		}
-		if($addtool)
+		if($addtool==true)
 		{?>
 	<p id="jry_wb_left_button_up" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangshang" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
 	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_chongzi" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>

@@ -63,11 +63,15 @@
 		}
 		exit();
 	}
-	if($login=jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok')
+	try
 	{
-		echo json_encode(array('code'=>false,,'reasion'=>$login));
-		exit();			
+		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)!='ok'
 	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
+	}	
 	if($action=='file_list')
 	{
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE lasttime>? AND id=?;');

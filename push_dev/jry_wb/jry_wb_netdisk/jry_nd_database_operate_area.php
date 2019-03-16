@@ -12,7 +12,7 @@
 	function jry_nd_database_set_area_size($conn,$area,$size)
 	{
 		if($size<0)
-			throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>230001,'file'=>__FILE__,'line'=>__LINE__)));
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230001,'file'=>__FILE__,'line'=>__LINE__)));
 		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=? , lasttime=? WHERE `area_id`=?;');
 		$st->bindValue(1,$size);
 		$st->bindValue(2,$time=jry_wb_get_time());

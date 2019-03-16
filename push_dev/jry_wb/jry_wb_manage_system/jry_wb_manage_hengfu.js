@@ -34,16 +34,22 @@ function jry_wb_manage_hengfu_run(area)
 			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action=chenge',function(data)
 			{
 				data=JSON.parse(data);
-				if(data.code==1)
+				jry_wb_loading_off();
+				if(data.code==true)
 				{
 					jry_wb_beautiful_right_alert.alert('修改成功',2000,'auto','ok');
 					jry_wb_manage_hengfu_load_data(area);
 				}
 				else
 				{
-					jry_wb_beautiful_right_alert.alert('修改失败,因为'+data.reasion,2000,'auto','ok');	
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
 				}
-				jry_wb_loading_off();
 			},[{'name':'words','value':input.value},{'name':'hengfu_id','value':input.name}]);
 		};
 		var td = document.createElement('td');tr.appendChild(td);
@@ -56,16 +62,22 @@ function jry_wb_manage_hengfu_run(area)
 			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action=delete',function(data)
 			{
 				data=JSON.parse(data);
-				if(data.code==1)
+				jry_wb_loading_off();
+				if(data.code==true)
 				{
 					jry_wb_beautiful_right_alert.alert('删除成功',2000,'auto','ok');
 					jry_wb_manage_hengfu_load_data(area);
 				}
 				else
 				{
-					jry_wb_beautiful_right_alert.alert('删除失败,因为'+data.reasion,2000,'auto','ok');	
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
 				}
-				jry_wb_loading_off();
 			},[{'name':'hengfu_id','value':input.name}]);			
 		};
 		var td = document.createElement('td');tr.appendChild(td);
@@ -78,16 +90,22 @@ function jry_wb_manage_hengfu_run(area)
 			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action='+(jry_wb_manage_hengfu_data[i].enable?'disable':'enable'),function(data)
 			{
 				data=JSON.parse(data);
-				if(data.code==1)
+				jry_wb_loading_off();
+				if(data.code==true)
 				{
 					jry_wb_beautiful_right_alert.alert('操作成功',2000,'auto','ok');
 					jry_wb_manage_hengfu_load_data(area);
 				}
 				else
 				{
-					jry_wb_beautiful_right_alert.alert('操作失败,因为'+data.reasion,2000,'auto','ok');	
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
 				}
-				jry_wb_loading_off();
 			},[{'name':'hengfu_id','value':input.name}]);			
 		};				
 		input.style.width=(width-chenge.clientWidth-del.clientWidth-enable.clientWidth)*0.9;
@@ -106,16 +124,22 @@ function jry_wb_manage_hengfu_run(area)
 		jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action=add',function(data)
 		{
 			data=JSON.parse(data);
-			if(data.code==1)
+			jry_wb_loading_off();
+			if(data.code==true)
 			{
 				jry_wb_beautiful_right_alert.alert('添加成功',2000,'auto','ok');
 				jry_wb_manage_hengfu_load_data(area);
 			}
 			else
 			{
-				jry_wb_beautiful_right_alert.alert('添加失败,因为'+data.reasion,2000,'auto','ok');	
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
 			}
-			jry_wb_loading_off();
 		},[{'name':'words','value':input.value}]);
 	};
 	var td = document.createElement('td');tr.appendChild(td);

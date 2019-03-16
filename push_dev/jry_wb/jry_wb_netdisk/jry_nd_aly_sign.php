@@ -22,15 +22,15 @@
 		}
 		catch(ServerException $e)
 		{
-			throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>220003,'file'=>__FILE__,'line'=>__LINE__,'extern'=>"Error:".$e->getErrorCode()."Message:".$e->getMessage())));
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220003,'file'=>__FILE__,'line'=>__LINE__,'extern'=>"Error:".$e->getErrorCode()."Message:".$e->getMessage())));
 		}
 		catch(ClientException $e)
 		{
-			throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>220003,'file'=>__FILE__,'line'=>__LINE__,'extern'=>"Error:".$e->getErrorCode()."Message:".$e->getMessage())));
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220003,'file'=>__FILE__,'line'=>__LINE__,'extern'=>"Error:".$e->getErrorCode()."Message:".$e->getMessage())));
 		}
 		catch(OssException $e)
 		{
-			throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>220001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>"Message:".$e->getMessage())));
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>"Message:".$e->getMessage())));
 		}	
 		return array(	'response'=>$response,
 						'region'=>$area['config_message']->region,
@@ -41,7 +41,7 @@
 	function jry_nd_aly_download_sign($connect,$area,$file,$relocation=false)
 	{
 		if(!jry_nd_aly_check_file_exist($connect,$area,$file))
-			throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__)));			
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__)));			
 		$sign=$connect->signUrl($area['config_message']->bucket,$file,constant('jry_nd_oss_max_time'));
 		if($relocation)
 			header("Location:".$sign);

@@ -32,6 +32,14 @@ jry_wb_add_load(function ()
 	jry_wb_ajax_load_data("blog_getinformation.php?action=get_draft_one&blog_id=<?php echo $_GET['blog_id']?>",function(data){
 		jry_wb_loading_off();
 		data=JSON.parse(data);
+		if(data.code==false)
+		{
+			if(data.reason==100000)
+				jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+			else if(data.reason==100001)
+				jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+			return ;
+		}
 		if(data.delete||data.blog_id==null)
 		{
 			jry_wb_ajax_load_data("http://<?php echo $_SERVER['HTTP_HOST'];?>/404.php?url=http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']?>",function(data){document.write(data);});
@@ -152,19 +160,15 @@ function chenge_ziti()
 }
 function save()
 {
-	jry_wb_ajax_load_data('save.php?action=save_as_draft&blog_id='+blog_id+'&title='+return_data.title,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.login==false)jry_wb_beautiful_right_alert.alert('因为'+data.reasion+'保存失败',1000,'auto','error');else jry_wb_beautiful_right_alert.alert('已保存为 '+data.message,1000,'auto','ok')},Array({'name':'data','value':JSON.stringify(do_text())}));
+	jry_wb_ajax_load_data('save.php?action=save_as_draft&blog_id='+blog_id+'&title='+return_data.title,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录保存失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失保存失败",10000,'auto','error');return;}else jry_wb_beautiful_right_alert.alert('已保存为 '+data.message,1000,'auto','ok')},Array({'name':'data','value':JSON.stringify(do_text())}));
 }
 function push()
 {
-	push_pull.setAttribute('onclick','pull()');
-	push_pull.innerHTML='收回';
-	jry_wb_ajax_load_data('save.php?action=push&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.login==false)jry_wb_beautiful_right_alert.alert('因为'+data.reasion+'保存失败',1000,'auto','error');else jry_wb_beautiful_right_alert.alert('已成功发布'+data.message,1000,'auto')});
+	jry_wb_ajax_load_data('save.php?action=push&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录发布失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失发布失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功发布'+data.message,1000,'auto','ok');push_pull.innerHTML='收回';push_pull.setAttribute('onclick','pull()');}});
 }
 function pull()
 {
-	push_pull.setAttribute('onclick','push()');
-	push_pull.innerHTML='发布';	
-	jry_wb_ajax_load_data('save.php?action=pull&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.login==false)jry_wb_beautiful_right_alert.alert('因为'+data.reasion+'保存失败',1000,'auto','error');else jry_wb_beautiful_right_alert.alert('已成功收回'+data.message,1000,'auto')});
+	jry_wb_ajax_load_data('save.php?action=pull&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录收回失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失收回失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功收回'+data.message,1000,'auto','ok');push_pull.innerHTML='发布';push_pull.setAttribute('onclick','push()');}});
 }
 jry_wb_add_onresize(function()
 	{

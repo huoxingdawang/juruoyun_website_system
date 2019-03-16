@@ -31,28 +31,98 @@ jry_wb_manage_competence_function.prototype.showall=function()
 	one.style.width='100%';
 	one.classList.add('jry_wb_left_toolbar_left_list_1');
 	one.innerHTML='重载';
-	one.onclick=function(event){jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',function (data){jry_wb_manage_competence.doforsync(data);jry_wb_manage_competence.showall();});}
+	one.onclick=function(event){jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',function (data)
+	{
+		jry_wb_manage_competence.doforsync(data);
+		jry_wb_manage_competence.showall();
+	});}
 	one=null;
 	
 	var one=document.createElement('div');list.appendChild(one);
 	one.style.width='100%';
 	one.innerHTML='newg';
 	one.classList.add('jry_wb_left_toolbar_left_list_2');
-	one.onclick=function(){jry_wb_beautiful_alert.check('确定？',function(event){jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=new',function (data){jry_wb_loading_off();jry_wb_beautiful_right_alert.alert(data,2000,'auto');});},function(){});};
+	one.onclick=function()
+	{
+		jry_wb_beautiful_alert.check('确定？',function(event)
+		{
+			jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=new',function (data)
+			{
+				jry_wb_loading_off();
+				data=JSON.parse(data);
+				if(data.code)
+					jry_wb_beautiful_right_alert.alert(data.data,5000,'auto','ok');
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			});
+		},function(){});
+	};
 	one=null;	
 	
 	var one=document.createElement('div');list.appendChild(one);
 	one.style.width='100%';
 	one.innerHTML='addc';
 	one.classList.add('jry_wb_left_toolbar_left_list_1');
-	one.onclick=function(){jry_wb_beautiful_alert.prompt('请输入新权限名称',function(data){jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=add&name='+data,function (data){jry_wb_loading_off();jry_wb_beautiful_right_alert.alert(data,2000,'auto');})})};
+	one.onclick=function()
+	{
+		jry_wb_beautiful_alert.prompt('请输入新权限名称',function(data)
+		{
+			jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=add&name='+data,function (data)
+			{
+				jry_wb_loading_off();
+				data=JSON.parse(data);
+				if(data.code)
+					jry_wb_beautiful_right_alert.alert(data.data,5000,'auto','ok');
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			});
+		});
+	};
 	one=null;
 	
 	var one=document.createElement('div');list.appendChild(one);
 	one.style.width='100%';
 	one.innerHTML='del';
 	one.classList.add('jry_wb_left_toolbar_left_list_2');
-	one.onclick=function(){jry_wb_beautiful_alert.prompt('请输入删除权限名称',function(data){jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=delete&name='+data,function (data){jry_wb_loading_off();jry_wb_beautiful_right_alert.alert(data,2000,'auto');})})};
+	one.onclick=function()
+	{
+		jry_wb_beautiful_alert.prompt('请输入删除权限名称',function(data)
+		{
+			jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=delete&name='+data,function (data)
+			{
+				jry_wb_loading_off();
+				data=JSON.parse(data);
+				if(data.code)
+					jry_wb_beautiful_right_alert.alert(data.data,5000,'auto','ok');
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			});
+		});
+	};
 	one=null;	
 	for(var i=0,n=this.all.length;i<n;i++)
 	{
@@ -150,14 +220,29 @@ jry_wb_manage_competence_function.prototype.showall=function()
 					var jj=all.data.indexOf(j);
 					if(j!=null)
 					{
-						
 						if(j.value!=inputs[i].value)
 						{	
 							if(all.data[jj].name=='competencename'||all.data[jj].name=='color')
 								all.data[jj].value=inputs[i].value;
 							else
 								all.data[jj].value=parseInt(inputs[i].value);
-							jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=chenge&name='+inputs[i].id+'&value='+inputs[i].value+'&type='+type,function (data){jry_wb_loading_off();data=JSON.parse(data);if(data.login==false){jry_wb_beautiful_right_alert.alert('无法操作，因为'+data.reasion,2000,'auto','error');return;}jry_wb_beautiful_right_alert.alert(data.data,2000,'auto','ok');});	
+							jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=chenge&name='+inputs[i].id+'&value='+inputs[i].value+'&type='+type,function(data)
+							{
+								jry_wb_loading_off();
+								data=JSON.parse(data);
+								if(data.code)
+									jry_wb_beautiful_right_alert.alert(data.data,2000,'auto','ok');
+								else
+								{
+									if(data.reason==100000)
+										jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+									else if(data.reason==100001)
+										jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+									else
+										jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+									return ;
+								}
+							});	
 							flag=true;
 						}
 					}

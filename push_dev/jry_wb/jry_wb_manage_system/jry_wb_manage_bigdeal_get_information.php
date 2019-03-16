@@ -1,11 +1,13 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	$login=jry_wb_print_head("",true,true,false,array('use','manage','managebigdeal'),false);	
-	$action=$_GET['action'];
-	if($login!='ok')
+	try
 	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
-		exit();	
+		jry_wb_print_head("",true,true,false,array('use','manage','managebigdeal'),false);	
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
 	}
 	if($action=='list')
 	{

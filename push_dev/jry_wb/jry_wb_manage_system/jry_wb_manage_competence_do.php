@@ -1,11 +1,14 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	$method=$_GET['method'];
-	$login=jry_wb_print_head('',true,false,false,array('use','manage','managecompentence'),false);
-	if($login!='ok')
+	try
 	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
-		exit();			
+		jry_wb_print_head('',true,false,false,array('use','manage','managecompentence'),false);
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
 	}	
 	if($method=='chenge')
 	{
@@ -18,14 +21,14 @@
 		$st->bindParam(1,$value);
 		$st->bindParam(2,$type);
 		$st->execute();
-		echo json_encode(array('data'=>'Chenge '.$name.' to '.$value.' at '.$type.'OK!'));
+		echo json_encode(array('code'=>true,'data'=>'Chenge '.$name.' to '.$value.' at '.$type.'OK!'));
 	}
 	if($method=='new')
 	{
 		@$conn=jry_wb_connect_database();
 		$st = $conn->prepare("INSERT INTO ".constant('jry_wb_database_manage_system')."competence (`competencename`) VALUES ('new');");
 		$st->execute();	
-		echo json_encode(array('data'=>'New OK!'));
+		echo json_encode(array('code'=>true,'data'=>'New OK!'));
 	}
 	if($method=='add')
 	{
@@ -37,7 +40,7 @@
 		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_manage_system')."competence SET `".$name."`=?;");
 		$st->bindParam(1,$default);
 		$st->execute();
-		echo json_encode(array('data'=>'Add competence '.$name.' OK!'));
+		echo json_encode(array('code'=>true,'data'=>'Add competence '.$name.' OK!'));
 	}
 	if($method=='delete')
 	{
@@ -45,6 +48,6 @@
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare("ALTER TABLE ".constant('jry_wb_database_manage_system')."competence DROP COLUMN `".$name."`");
 		$st->execute();
-		echo json_encode(array('data'=>'Delete competence '.$name.' OK!'));
+		echo json_encode(array('code'=>true,'data'=>'Delete competence '.$name.' OK!'));
 	}
 ?>

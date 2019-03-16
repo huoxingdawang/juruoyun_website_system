@@ -1,6 +1,6 @@
 <?php 
 	include_once("../tools/jry_wb_includes.php");
-	jry_wb_print_head("校园管理",false,true,true,array('use','useschool'));
+	jry_wb_print_head("校园管理",true,true,true,array('use','useschool'));
 ?>
 <div class="jry_wb_top_toolbar">
 	<?php jry_wb_print_logo(false);?>

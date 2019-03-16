@@ -160,7 +160,7 @@
 		echo json_encode(array('state'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
 	else
 	{	
-		jry_wb_print_head("登录",false,false,true,array('use'),true,false);
+		jry_wb_print_head("登录",false,false,false,array('use'),true,false);
 ?>
 <script>
 	jry_wb_beautiful_alert.alert("登录成功",'距上次登录<?php  echo $hour;?>小时<?php  echo $minute;?>分钟<?php if($green_money!=null)echo '<br>随机奖励绿币'.$green_money;?>',function()

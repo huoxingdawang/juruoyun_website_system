@@ -18,6 +18,16 @@ function jry_wb_manage_send_mail_run(area)
 		jry_wb_ajax_load_data('jry_wb_manage_send_mail_do.php',function(data)
 		{
 			data=JSON.parse(data);
+			if(data.code==false)
+			{
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
+			}
 			for(var i=0,n=data.length;i<n;i++)
 				if(data[i].data=='OK')
 					jry_wb_beautiful_right_alert.alert('Send to '+data[i].id+' OK',Math.random()*5000,'auto','ok');

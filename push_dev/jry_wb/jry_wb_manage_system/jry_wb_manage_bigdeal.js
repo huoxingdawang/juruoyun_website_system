@@ -41,14 +41,20 @@ function jry_wb_manage_bigdeal_run(area)
 			jry_wb_ajax_load_data('jry_wb_manage_bigdeal_do.php?action=chenge',function(data)
 			{
 				data=JSON.parse(data);
-				if(data.code==1)
+				if(data.code==true)
 				{
 					jry_wb_beautiful_right_alert.alert('修改成功',2000,'auto','ok');
 					jry_wb_manage_bigdeal_load_data(area);
 				}
 				else
 				{
-					jry_wb_beautiful_right_alert.alert('修改失败,因为'+data.reasion,2000,'auto','ok');	
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
 				}
 				jry_wb_loading_off();
 			},[{'name':'name','value':input1.value},{'name':'time','value':input2.value},{'name':'bigdeal_id','value':input1.name}]);
@@ -64,14 +70,20 @@ function jry_wb_manage_bigdeal_run(area)
 			jry_wb_ajax_load_data('jry_wb_manage_bigdeal_do.php?action=delete',function(data)
 			{
 				data=JSON.parse(data);
-				if(data.code==1)
+				if(data.code==true)
 				{
 					jry_wb_beautiful_right_alert.alert('删除成功',2000,'auto','ok');
 					jry_wb_manage_bigdeal_load_data(area);
 				}
 				else
 				{
-					jry_wb_beautiful_right_alert.alert('删除失败,因为'+data.reasion,2000,'auto','ok');	
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
 				}
 				jry_wb_loading_off();
 			},[{'name':'bigdeal_id','value':input1.name}]);			
@@ -87,14 +99,20 @@ function jry_wb_manage_bigdeal_run(area)
 			jry_wb_ajax_load_data('jry_wb_manage_bigdeal_do.php?action='+(jry_wb_manage_bigdeal_data[i].enable?'disable':'enable'),function(data)
 			{
 				data=JSON.parse(data);
-				if(data.code==1)
+				if(data.code==true)
 				{
 					jry_wb_beautiful_right_alert.alert('操作成功',2000,'auto','ok');
 					jry_wb_manage_bigdeal_load_data(area);
 				}
 				else
 				{
-					jry_wb_beautiful_right_alert.alert('操作失败,因为'+data.reasion,2000,'auto','ok');	
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
 				}
 				jry_wb_loading_off();
 			},[{'name':'bigdeal_id','value':input1.name}]);			
@@ -120,14 +138,20 @@ function jry_wb_manage_bigdeal_run(area)
 		jry_wb_ajax_load_data('jry_wb_manage_bigdeal_do.php?action=add',function(data)
 		{
 			data=JSON.parse(data);
-			if(data.code==1)
+			if(data.code==true)
 			{
 				jry_wb_beautiful_right_alert.alert('添加成功',2000,'auto','ok');
 				jry_wb_manage_bigdeal_load_data(area);
 			}
 			else
 			{
-				jry_wb_beautiful_right_alert.alert('添加失败,因为'+data.reasion,2000,'auto','ok');	
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
 			}
 			jry_wb_loading_off();
 		},[{'name':'name','value':input1.value},{'name':'time','value':input2.value}]);

@@ -21,7 +21,7 @@
 				$data['area']=$time;
 			}
 			else
-				throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));
 			$file2=fopen('jry_nd.fast_save_message','w');
 			fwrite($file2,json_encode($data));
 			fclose($file2);
@@ -36,7 +36,7 @@
 			else if($mode=='area')
 				$data->area=$time;
 			else
-				throw new jry_nd_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));
 			$file2=fopen('jry_nd.fast_save_message','w');
 			fwrite($file2,json_encode($data));
 			fclose($file2);

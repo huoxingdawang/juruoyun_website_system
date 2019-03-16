@@ -114,12 +114,18 @@ function show()
 				jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=default',function(data)
 				{
 					jry_wb_loading_off();
-					head_alert.close();
 					var data=JSON.parse(data);
-					if(data.statue)
-						jry_wb_beautiful_alert.alert("操作成功","");
+					if(data.code)
+						jry_wb_beautiful_alert.alert("换头成功","使用默认的头");
 					else
-						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						return ;
+					}
+					head_alert.close();
 				});
 			};
 		}
@@ -145,12 +151,20 @@ function show()
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gravatar',function(data)
 					{
 						jry_wb_loading_off();
-						head_alert.close();
 						var data=JSON.parse(data);
-						if(data.statue)
-							jry_wb_beautiful_alert.alert("操作成功","");
+						if(data.code)
+							jry_wb_beautiful_alert.alert("换头成功","使用gravatar的头");
 						else
-							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							else if(data.reason==300000)
+								jry_wb_beautiful_alert.alert("错误的操作","gravatar头像不存在","window.location.href=''");
+							return ;
+						}
+						head_alert.close();
 					});
 				};
 			}
@@ -177,12 +191,18 @@ function show()
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=qq',function(data)
 					{
 						jry_wb_loading_off();
-						head_alert.close();
 						var data=JSON.parse(data);
-						if(data.statue)
-							jry_wb_beautiful_alert.alert("操作成功","");
+						if(data.code)
+							jry_wb_beautiful_alert.alert("换头成功","使用QQ的头");
 						else
-							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							return ;
+						}
+						head_alert.close();
 					});
 				};
 			}
@@ -209,12 +229,18 @@ function show()
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=github',function(data)
 					{
 						jry_wb_loading_off();
-						head_alert.close();
 						var data=JSON.parse(data);
-						if(data.statue)
-							jry_wb_beautiful_alert.alert("操作成功","");
+						if(data.code)
+							jry_wb_beautiful_alert.alert("换头成功","使用gayhub的头");
 						else
-							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							return ;
+						}
+						head_alert.close();
 					});
 				};
 			}
@@ -241,12 +267,18 @@ function show()
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gitee',function(data)
 					{
 						jry_wb_loading_off();
-						head_alert.close();
 						var data=JSON.parse(data);
-						if(data.statue)
-							jry_wb_beautiful_alert.alert("操作成功","");
+						if(data.code)
+							jry_wb_beautiful_alert.alert("换头成功","使用码云的头");
 						else
-							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							return ;
+						}
+						head_alert.close();
 					});
 				};
 			}
@@ -273,12 +305,18 @@ function show()
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=mi',function(data)
 					{
 						jry_wb_loading_off();
-						head_alert.close();
 						var data=JSON.parse(data);
-						if(data.statue)
-							jry_wb_beautiful_alert.alert("操作成功","");
+						if(data.code)
+							jry_wb_beautiful_alert.alert("换头成功","使用小米的头<br>小米智能头<br>年轻人的第一个头");
 						else
-							jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							return ;
+						}
+						head_alert.close();
 					});
 				};
 			}
@@ -336,7 +374,26 @@ function show_ip()
 		{
 			jry_wb_beautiful_alert.check("确定登出?",function()
 			{
-				jry_wb_ajax_load_data('do_chenge.php?action=logout',function(){jry_wb_loading_off();h55.removeChild(div);if(jry_wb_login_user.login_addr[i].isthis)document.location.href=jry_wb_message.jry_wb_index_page;},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
+				jry_wb_ajax_load_data('do_chenge.php?action=logout',function()
+				{
+					jry_wb_loading_off();
+					if(data.code)
+					{
+						h55.removeChild(div);
+						if(jry_wb_login_user.login_addr[i].isthis)
+							document.location.href=jry_wb_message.jry_wb_index_page;						
+					}
+					else
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else
+							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						return ;
+					}
+				},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
 			},function(){});
 		};
 		let trust=document.createElement("span");div.appendChild(trust);
@@ -351,14 +408,54 @@ function show_ip()
 			{
 				jry_wb_beautiful_alert.check("确定解除信任?",function()
 				{
-					jry_wb_ajax_load_data('do_chenge.php?action=untrust',function(){jry_wb_login_user.login_addr[i].trust=0;jry_wb_loading_off();trust.classList.remove('jry_wb_color_ok');},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
+					jry_wb_ajax_load_data('do_chenge.php?action=untrust',function(data)
+					{
+						data=JSON.parse(data);
+						jry_wb_loading_off();
+						if(data.code)
+						{
+							jry_wb_login_user.login_addr[i].trust=0;
+							trust.classList.remove('jry_wb_color_ok');
+							jry_wb_beautiful_right_alert.alert('解除信任成功',2000,'auto','ok');
+						}
+						else
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_right_alert.alert('因为没有登录信任失败',1000,'auto','error');
+							else if(data.reason==100001)
+								jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失信任失败",1000,'auto','error');
+							else
+								jry_wb_beautiful_right_alert.alert('信任失败',2000,'auto','error');
+							return ;
+						}						
+					},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
 				},function(){});
 			}
 			else
 			{
 				jry_wb_beautiful_alert.check("确定信任?",function()
 				{
-					jry_wb_ajax_load_data('do_chenge.php?action=trust',function(){jry_wb_login_user.login_addr[i].trust=0;jry_wb_loading_off();trust.classList.add('jry_wb_color_ok');});
+					jry_wb_ajax_load_data('do_chenge.php?action=trust',function(data)
+					{
+						data=JSON.parse(data);
+						jry_wb_loading_off();
+						if(data.code)
+						{						
+							jry_wb_login_user.login_addr[i].trust=0;
+							trust.classList.add('jry_wb_color_ok');
+							jry_wb_beautiful_right_alert.alert('信任成功',2000,'auto','ok');
+						}
+						else
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_right_alert.alert('因为没有登录信任失败',1000,'auto','error');
+							else if(data.reason==100001)
+								jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失信任失败",1000,'auto','error');
+							else
+								jry_wb_beautiful_right_alert.alert('信任失败',2000,'auto','error');
+							return ;
+						}
+					});
 				},function(){});				
 			}
 		};
@@ -560,9 +657,14 @@ function showtel()
 	form.appendChild(table);
 		
 	jry_wb_show_tr_with_input(table,'电话','tel',jry_wb_login_user.tel,'text',function(){},250);
-	var td=jry_wb_show_tr_with_input(table,'验证码','vcode','','text',function (){document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()},250);
+	var td=jry_wb_show_tr_with_input(table,'验证码','vcode','','text',function(){},250);
 	var img=document.createElement("img");td.appendChild(img);
 	img.id='vcodesrc';
+	img.onclick=function ()
+	{
+		img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+	};
+	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
 	td=null;
 	var td=jry_wb_show_tr_with_input(table,'短信验证码','phonecode','','text',function (){},250);
 
@@ -573,17 +675,50 @@ function showtel()
 	input.innerHTML='获取验证码';
 	input.onclick=function()
 	{
+		if(document.getElementById("tel").value==jry_wb_login_user.tel)
+		{
+			jry_wb_beautiful_alert.alert("并没有修改","开发组穷啊<br>一个5分钱",function()
+			{
+				document.getElementById("tel").focus();
+			});
+			return;
+		}
 		if(check_tel())
 		{
-			i=new Array();
-			i.push({name:'vcode',value:document.getElementById("vcode").value});
-			i.push({name:'tel',value:document.getElementById("tel").value});
-			jry_wb_ajax_load_data('do_chenge.php?action=send_tel',function (data_){jry_wb_beautiful_alert.alert(data_,'',function(){jry_wb_loading_off();});},i,true);
+			jry_wb_ajax_load_data('do_chenge.php?action=send_tel',function (data)
+			{
+				data=JSON.parse(data);
+				jry_wb_loading_off();
+				if(data.code)	
+					jry_wb_beautiful_alert.alert('发送成功',document.getElementById("tel").value);
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else if(data.reason==100002)
+						jry_wb_beautiful_alert.alert("验证码错误","请检查大小写",function()
+						{
+							document.getElementById("vcode").focus();
+						});
+					else if(data.reason==100003)
+						jry_wb_beautiful_alert.alert("发送过于频繁","开发组穷啊<br>一个5分钱");
+					else if(data.reason==100004)
+						jry_wb_beautiful_alert.alert("并没有修改","开发组穷啊<br>一个5分钱",function()
+						{
+							document.getElementById("tel").focus();
+						});
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+				document.getElementById("phonecode").focus();				
+			},[{'name':'vcode','value':document.getElementById("vcode").value},{'name':'tel','value':document.getElementById("tel").value}],true);
 		}
 	};
 	td.appendChild(input);
-	
-	
+	document.getElementById("tel").focus();
 	__addbutton(form,'return check_tel()');
 }
 function check_tel()
@@ -979,7 +1114,6 @@ function showmusiclist()
 	{
 		var buf={'type':select.value,'mid':input.value,'slid':input.value};
 		var data=jry_wb_get_songs_by_mid([buf]);
-		console.log(data);
 		if(data[0].name!='')
 			if(background_music_list.findIndex(function(a){return (a.type==buf.type)&&((a.type=='songlist')?a.slid==buf.slid:a.mid==buf.mid);})==-1)
 				tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf)),background_music_list.push(data[0]);
@@ -994,7 +1128,7 @@ function showmusiclist()
 		var data=jry_wb_get_songs_by_mid([buf]);
 		if(background_music_list[i].type=='songlist')
 			for(var j=0,nn=data.length,a=tree.add(tree.root,"歌单"+background_music_list[i].slid,JSON.stringify(buf));j<nn;j++)
-				tree.add(a,data[j].name+'@'+data[j].type);
+				tree.add(a,data[j].name+'@'+data[j].type,'',false);
 		else
 			tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf));
 	}
@@ -1018,10 +1152,24 @@ function showmusiclist()
 		jry_wb_ajax_load_data('do_chenge.php?action=setsonglist',function(data)
 		{
 			data=JSON.parse(data);
-			if(data.statue)
-				jry_wb_beautiful_alert.alert("操作成功","",function(){window.location.reload();});
+			jry_wb_loading_off();
+			if(data.code)
+				jry_wb_beautiful_alert.alert("操作成功","",function()
+				{
+					jry_wb_login_user.background_music_list=ans;
+					jry_wb_background_music.push_song_list(ans);
+					showmusiclist();
+				});
 			else
-				jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+			{
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
+			}
 		},[{'name':'data','value':JSON.stringify(ans)}]);
 	};
 	var div=document.createElement("div");td.appendChild(div);
@@ -1038,10 +1186,24 @@ function showmusiclist()
 		jry_wb_ajax_load_data('do_chenge.php?action=setsonglist',function(data)
 		{
 			data=JSON.parse(data);
-			if(data.statue)
-				jry_wb_beautiful_alert.alert("操作成功","",function(){window.location.reload();});
+			jry_wb_loading_off();
+			if(data.code)
+				jry_wb_beautiful_alert.alert("操作成功","",function()
+				{
+					jry_wb_login_user.background_music_list=ans;
+					jry_wb_background_music.push_song_list(ans);
+					showmusiclist();
+				});
 			else
-				jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+			{
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
+			}
 		},[{'name':'data','value':JSON.stringify(ans)}]);
 	};	
 }
@@ -1096,14 +1258,22 @@ function tp_in()
 				{
 					jry_wb_loading_off();
 					var data=JSON.parse(data);
-					if(data.statue)
+					if(data.code)
 					{
 						jry_wb_login_user.oauth_qq=null;
 						tp_in();
 						jry_wb_beautiful_alert.alert("操作成功","");
 					}
 					else
-						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else
+							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						return ;
+					}
 				});			
 			};
 		}
@@ -1151,14 +1321,22 @@ function tp_in()
 				{
 					jry_wb_loading_off();
 					var data=JSON.parse(data);
-					if(data.statue)
+					if(data.code)
 					{
 						jry_wb_login_user.oauth_github=null;
 						tp_in();
 						jry_wb_beautiful_alert.alert("操作成功","");
 					}
 					else
-						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else
+							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						return ;
+					}
 				});			
 			};		
 		}
@@ -1206,14 +1384,22 @@ function tp_in()
 				{
 					jry_wb_loading_off();
 					var data=JSON.parse(data);
-					if(data.statue)
+					if(data.code)
 					{
 						jry_wb_login_user.oauth_mi=null;
 						tp_in();
 						jry_wb_beautiful_alert.alert("操作成功","");
 					}
 					else
-						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else
+							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						return ;
+					}
 				});			
 			};
 		}
@@ -1260,15 +1446,23 @@ function tp_in()
 				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=gitee',function(data)
 				{
 					jry_wb_loading_off();
-					var data=JSON.parse(data);
-					if(data.statue)
+					var data=JSON.parse(data);	
+					if(data.code)
 					{
 						jry_wb_login_user.oauth_gitee=null;
 						tp_in();
 						jry_wb_beautiful_alert.alert("操作成功","");
 					}
 					else
-						jry_wb_beautiful_alert.alert("操作失败","因为"+data.reasion);
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else
+							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						return ;
+					}
 				});			
 			};		
 		}

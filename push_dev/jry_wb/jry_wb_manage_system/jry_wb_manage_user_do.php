@@ -1,17 +1,20 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	$login=jry_wb_print_head("控制系统",true,false,false,array('use','manage','manageusers'),false);
-	if($login!='ok')
+	try
 	{
-		echo json_encode(array('login'=>false,'reasion'=>$login));
-		exit();			
-	}	
+		jry_wb_print_head("控制系统",true,false,false,array('use','manage','manageusers'),false);
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
+	}
 	if($_GET['action']=='')
 	{
 		$id=(int)$_GET['id'];
 		if($_POST==null)
 		{
-			echo json_encode(array('login'=>false,'reasion'=>'no data'));
+			echo json_encode(array('code'=>false,'reason'=>400000));
 			exit();
 		}
 		$cmd="UPDATE ".constant('jry_wb_database_general')."users SET ";
@@ -29,7 +32,7 @@
 		$st->bindParam($i,jry_wb_get_time());
 		$st->bindParam($i+1,$id);
 		$st->execute();
-		echo json_encode(array('data'=>'OK'));
+		echo json_encode(array('code'=>true));
 	}else if($_GET['action']=='name_not_ok')
 	{
 		$id=(int)$_GET['id'];		
@@ -53,9 +56,9 @@
 		'蒟蒻云管理组感谢您的配合以及对国家相关法律法规的遵守<br>'.
 		constant('jry_wb_name').'开发组，'.constant('jry_wb_name').'管理组 '.jry_wb_get_time()
 		))
-			echo json_encode(array('data'=>'OK'));
+			echo json_encode(array('code'=>true));
 		else
-			echo json_encode(array('data'=>'mail'));			
+			echo json_encode(array('code'=>false,'reason'=>300001));			
 	}else if($_GET['action']=='bangyouxiang')
 	{
 		$q='SELECT tel,name FROM '.constant('jry_wb_database_general').'users WHERE id = ?';
@@ -65,7 +68,7 @@
 		$user=$st->fetchAll()[0];
 		require_once "../tools/SignatureHelper.php";
 		sendsms($user['tel'],Array ("name"=>$user['name']),constant('jry_wb_short_message_aly_connect_mail')); 	
-		echo json_encode('OK');
+		echo json_encode(array('code'=>true));
 		exit();
 	}
 	else if($_GET['action']=='unlock')
@@ -83,9 +86,8 @@
 		'蒟蒻云管理组感谢您的耐心等待以及对国家相关法律法规的遵守<br>'.
 		'蒟蒻云开发组，蒟蒻云管理组 '.jry_wb_get_time()
 		))
-			echo json_encode(array('data'=>'OK'));
+			echo json_encode(array('code'=>true));
 		else
-			echo json_encode(array('data'=>'mail'));
-?><script language=javascript>setTimeout("window.location.href='http://juruoyun.top'",5000);</script><?php		
+			echo json_encode(array('code'=>false,'reason'=>300001));
 	}	
 ?>

@@ -167,7 +167,7 @@ function school_showallschool_function(area)
 								}
 								package[package.length]={'name':data.enter_config[i].id,'value':input_list[data.enter_config[i].num].value};
 							}
-						jry_wb_ajax_load_data_('do_school.php?action=join',function(data_)
+						jry_wb_ajax_load_data('do_school.php?action=join',(data_)=>
 						{
 							data_=JSON.parse(data_);
 							if(data_.result)
@@ -194,14 +194,14 @@ function school_showallschool_function(area)
 						alerter.close();
 					};
 				};
-				else if(data.state==1)
-				{
-					
-				}
-				else if(data.state==2)
-				{
-					
-				}
+			}
+			else if(data.state==1)
+			{
+				
+			}
+			else if(data.state==2)
+			{
+				
 			}
 			td.appendChild(button);
 			td=null;
