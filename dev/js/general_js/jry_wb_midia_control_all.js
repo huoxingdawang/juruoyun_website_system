@@ -70,7 +70,8 @@ var jry_wb_midia_control_all  =  new function()
 		else
 		{
 			jry_wb_js_session.send(1,'get');
-			this.start();			
+			if(this.playing_buf==null&&!jry_wb_background_music.status())
+				this.start();			
 		}
 	});
 	setInterval(()=>
