@@ -6,37 +6,15 @@ var jry_wb_background_music = new function()
 	this.playing_status;
 	this.oncontrol=false;
 	this.leave=false;
-	var timer2=null;
 	this.init=function(list)
-	{	
-		timer2=setInterval(()=>
-		{
-			/*console.log('jry_wb_background_music_control_check');*/
-			if(this.oncontrol)
-				clearInterval(timer2);
-			if((!jry_wb_cache.get('background_music_playing'))&&(!this.leave))
-			{
-				/*console.log('jry_wb_background_music_control_get_by_time');*/
-				jry_wb_cache.set('background_music_playing',this.oncontrol=true);
-				clearInterval(timer2);
-				this.backup();
-			}
-		},1000);
-		document.addEventListener('visibilitychange',()=> 
-		{
-			if((!jry_wb_cache.get('background_music_playing'))&&(!this.leave)&&(!this.oncontrol))
-			{
-				/*console.log('jry_wb_background_music_control_get_by_visibilitychange');*/
-				jry_wb_cache.set('background_music_playing',this.oncontrol=true);
-				clearInterval(timer2);
-				this.backup();
-			}
-		});
+	{
 		this.list=list==null?[]:list;
 		if(list!=null)
 			this.list=list;
 		if(!inited)
 		{
+			if(typeof jry_wb_login_user!='undefined')
+				this.song_list=jry_wb_get_songs_by_mid(jry_wb_login_user.background_music_list);
 			this.backgroundmusic_icon=document.createElement("p");document.body.appendChild(this.backgroundmusic_icon);
 			this.backgroundmusic_icon.id='jry_wb_left_button_backgroundmusic_icon';
 			this.backgroundmusic_icon.classList.add('jry_wb_icon_changpian','jry_wb_icon');
@@ -69,13 +47,15 @@ var jry_wb_background_music = new function()
 				hight*=0.2;
 				this.backgroundmusic_icon.style.top=hight+jiange*3;	
 			});
-			/*console.log(jry_wb_cache.get('background_music_playing'));*/
-			this.oncontrol|=(jry_wb_cache.get('background_music_playing')==null?true:!jry_wb_cache.get('background_music_playing'));
+			if(document.visibilityState != 'hidden') 
+			{
+				jry_wb_js_session.send(1,'get');
+				this.oncontrol|=true;
+			}			
+			
 			if(this.oncontrol)
 			{
-				clearInterval(timer2);
 				jry_wb_cache.set('background_music_playing',true);
-				/*console.log('jry_wb_background_music_control_get_by_init');*/
 			};
 			this.passive=false;
 			this.audio=document.createElement("audio");document.body.appendChild(this.audio);
@@ -88,9 +68,10 @@ var jry_wb_background_music = new function()
 			{
 				this.playing_status=true;
 				this.oncontrol=true;
-				this.type=this.beautiful.type==undefined?this.type:this.beautiful.type;
+				this.playing=this.song_list.find((a)=>{ return a.music_url==this.audio.src});
+				this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);	
 				this.backgroundmusic_icon.classList.add("jry_wb_rotate");
-				jry_wb_cache.set('background_music',{'status':true,'time':this.currenttime(),'volume':this.audio.volume,'mid':(this.song_list.find((a)=>{ return a.music_url==this.audio.src}).mid),'type':this.type,'cycle':this.beautiful.reply_count});
+				this.save(true);
 				old_onplay();
 			};
 			this.audio.onpause=()=>
@@ -98,15 +79,13 @@ var jry_wb_background_music = new function()
 				if(!this.passive)
 					this.playing_status=false;
 				this.backgroundmusic_icon.classList.remove("jry_wb_rotate");
-				jry_wb_cache.set('background_music',{'status':false,'time':this.currenttime(),'volume':this.audio.volume,'mid':(this.song_list.find((a)=>{ return a.music_url==this.audio.src}).mid),'type':this.type,'cycle':this.beautiful.reply_count});
+				this.save(false);
 				old_onpause();
 			};
 			this.audio.ontimeupdate=()=>
 			{
 				old_ontimeupdate();
-				var aaaaa=this.song_list.find((a)=>{ return a.music_url==this.audio.src});
-				if(aaaaa!=null)
-					jry_wb_cache.set('background_music',{'status':true,'time':this.currenttime(),'volume':this.audio.volume,'mid':(aaaaa.mid),'type':this.type,'cycle':this.beautiful.reply_count});
+				this.save(true);
 			};
 			this.jry_background_music_flag=true;
 			inited=true;
@@ -122,10 +101,20 @@ var jry_wb_background_music = new function()
 				}
 			});
 			this.backup();
-			this.push_song_list(jry_wb_login_user.background_music_list);
+			if(this.playing==null||this.playing.mid==null)
+			{
+				this.beautiful.push_song_list(this.song_list);
+				jry_wb_beautiful_right_alert.alert("您可以打开BGM",5000,'auto','ok');
+			}			
 			return true;
 		}
 		return false;
+	};
+	this.save=function(status)
+	{
+		if(status==undefined)
+			status=this.status();
+		jry_wb_cache.set('background_music',{'status':status,'time':this.currenttime(),'volume':this.audio.volume,'mid':this.playing.mid,'type':this.playing.type,'cycle':this.beautiful.reply_count});
 	};
 	this.setsrc=function(type,mid,callback)
 	{
@@ -133,28 +122,26 @@ var jry_wb_background_music = new function()
 			this.init(document.body);
 		this.mid=mid;
 		this.type=type;
-		var a=jry_wb_get_songs_by_mid([{'type':type,'mid':mid}])[0];
-		this.beautiful.set_background_picture(a.pic_url,a.type);
-		this.audio.src=a.music_url;
+		this.playing=jry_wb_get_songs_by_mid([{'type':type,'mid':mid}])[0];
+		this.beautiful.set_background_picture(this.playing.pic_url,this.playing.type);
+		if(this.audio.src!=this.playing.music_url)
+			this.audio.src=this.playing.music_url;
 		if( typeof callback=='function')
 			callback();
 		return this.audio.src;
 	};
-	this.backup=function()
+	this.backup=function(set)
 	{
 		var playing=jry_wb_cache.get('background_music');
 		this.beautiful.reply_count=playing==null?1:playing.cycle;
 		this.beautiful.cycle_button_update();
 		if(playing==null||playing.mid==null)
 		{
-			/*console.log('jry_wb_background_music_backup_none_data');*/
-			jry_wb_beautiful_right_alert.alert("您可以打开BGM",5000,'auto','ok');
 		}
 		else
 		{
-			/*if(this.oncontrol)
-				console.log('jry_wb_background_music_backup_with_data',playing);*/
-			this.playing=this.setsrc(playing.type,playing.mid);
+			this.playing=playing;
+			this.playing.music_url=this.setsrc(playing.type,playing.mid);
 			this.audio.oncanplay=()=>
 			{
 				if(this.oncontrol)
@@ -163,6 +150,7 @@ var jry_wb_background_music = new function()
 				}
 				this.audio.oncanplay=function(){};
 			};
+			this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);			
 			this.currenttime(playing.time==null?0:playing.time);
 			this.volume(playing.volume==null?0.2:playing.volume);
 			this.beautiful.update_volume_bar();
@@ -171,7 +159,7 @@ var jry_wb_background_music = new function()
 	this.push_song_list=function(list_old)
 	{
 		this.song_list=jry_wb_get_songs_by_mid(list_old);
-		this.beautiful.push_song_list(this.song_list,this.playing);
+		this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);
 	};
 	this.volume=function(volume)
 	{
@@ -189,10 +177,15 @@ var jry_wb_background_music = new function()
 	{	
 		this.passive=true;
 		this.status(false);
+		this.save(true);
 	};
 	this.continue=function()
 	{
+		console.log('continue');
+		this.backup();		
 		this.passive=false;
+		if(this.playing!=null)
+			this.beautiful.do_reply_count(this.playing.cycle);
 		this.status(this.playing_status);
 	};
 };

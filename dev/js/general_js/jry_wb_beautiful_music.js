@@ -255,6 +255,8 @@ jry_wb_beautiful_music.prototype.push_song_list = function(list,highlighturl)
 {
 	if(list!=null)
 		this.song_list = list;
+	if(this.song_list==null)
+		return false;
 	if(this.list_area==null)
 		return false;
 	if(this.song_list_area==undefined)
@@ -293,5 +295,6 @@ jry_wb_beautiful_music.prototype.push_song_list = function(list,highlighturl)
 		if(highlighturl==this.song_list[i].music_url&&highlighturl!=undefined&&this.song_list[i].music_url!=undefined)
 			one.classList.add('active'),this.lastone = one;
 	}
-	this.beautiful_scroll=new jry_wb_beautiful_scroll(this.list_area).jry_wb_scroll_body;
+	if(this.beautiful_scroll==null)
+		this.beautiful_scroll=new jry_wb_beautiful_scroll(this.list_area).jry_wb_scroll_body;
 };
