@@ -8,7 +8,7 @@ function jry_wb_nd_fresh_file_list(qiangzhi)
 	if(qiangzhi)
 		jry_wb_cache.delete('nd_file_list');
 	var file_list;
-	if(jry_wb_compare_time(jry_wb_cache.get_last_time('nd_file_list').split(/ /)[0],jry_wb_login_user.jry_wb_nd_extern_information.lasttime)<0||qiangzhi)
+	if(jry_wb_compare_time(jry_wb_cache.get_last_time('nd_file_list').split(/ /)[0],jry_wb_login_user.nd_ei.lasttime)<0||qiangzhi)
 		jry_wb_sync_data_with_server('nd_file_list',jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_get_information.php?action=file_list&lasttime='+jry_wb_cache.get_last_time('nd_file_list',qiangzhi),null,function(a)
 		{
 			return this.buf.file_id==a.file_id;

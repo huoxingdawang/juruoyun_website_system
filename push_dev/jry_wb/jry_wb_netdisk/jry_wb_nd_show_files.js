@@ -74,12 +74,14 @@ function jry_wb_nd_show_files(checker)
 						{
 							jry_wb_loading_off();
 							data=JSON.parse(data);
-							if((!data.login)||(!data.code))
+							if(!data.code)
 							{
-								jry_wb_beautiful_alert.alert("无法操作","因为"+data.reason,"");
-								return ;
+								if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+								else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+								else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert("文件不存在或已删除",3000,"auto","error");
+								return;
 							}
-							jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+							jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 							jry_wb_nd_fresh_file_list();
 						},[{'name':'file_id','value':jry_nd_file_list[i].file_id},{'name':'dir','value':jry_nd_file_list[i].dir},{'name':'name','value':name},{'name':'type','value':type}]);
 						
@@ -132,16 +134,17 @@ function jry_wb_nd_show_files(checker)
 							{
 								jry_wb_loading_off();
 								data=JSON.parse(data);
-								if(!data.login)
+								if(!data.code)
 								{
-									jry_wb_beautiful_alert.alert("无法操作","因为"+data.reason,"window.location.href=jry_wb_message.jry_wb_host");
-									return ;
+									if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+									else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+									return;
 								}
-								jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+								jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 								jry_wb_nd_fresh_file_list();							
-								jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total=data.jry_nd_size_total;
-								jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used=data.jry_nd_size_used;
-								progress.update(data.jry_nd_size_used/data.jry_nd_size_total,jry_wb_nd_get_size(data.jry_nd_size_used)+'/'+jry_wb_nd_get_size(data.jry_nd_size_total));
+								jry_wb_login_user.nd_ei.size_total=data.size_total;
+								jry_wb_login_user.nd_ei.size_used=data.size_used;
+								progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
 							},[{'name':'file_id','value':JSON.stringify([file_id])}]);
 						},function()
 						{
@@ -169,7 +172,7 @@ function jry_wb_nd_show_files(checker)
 					{
 						window.open(jry_wb_netdisk_do_file+'?action=download&file_id='+file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
 					};
-					if((jry_nd_share_mode_flag&&jry_nd_share_mode_allow_fast)||((!jry_nd_share_mode_flag)&&jry_wb_login_user.jry_wb_nd_extern_information.fast_size>=jry_nd_file_list[i].size))
+					if((jry_nd_share_mode_flag&&jry_nd_share_mode_allow_fast)||((!jry_nd_share_mode_flag)&&jry_wb_login_user.nd_ei.fast_size>=jry_nd_file_list[i].size))
 					{
 						var open=document.createElement("div");jry_wb_right_meau.appendChild(open);
 						open.innerHTML='高速打开';
@@ -200,7 +203,7 @@ function jry_wb_nd_show_files(checker)
 					{
 						jry_wb_copy_to_clipboard(jry_wb_netdisk_do_file+'?action=download&file_id='+file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
 					};					
-					if((jry_nd_share_mode_flag&&jry_nd_share_mode_allow_fast)||((!jry_nd_share_mode_flag)&&jry_wb_login_user.jry_wb_nd_extern_information.fast_size>=jry_nd_file_list[i].size))
+					if((jry_nd_share_mode_flag&&jry_nd_share_mode_allow_fast)||((!jry_nd_share_mode_flag)&&jry_wb_login_user.nd_ei.fast_size>=jry_nd_file_list[i].size))
 					{
 						var open=document.createElement("div");jry_wb_right_meau.appendChild(open);
 						open.innerHTML='高速打开连接';
@@ -279,12 +282,13 @@ function jry_wb_nd_show_files(checker)
 						{
 							jry_wb_loading_off();
 							data=JSON.parse(data);
-							if(!data.login)
+							if(!data.code)
 							{
-								jry_wb_beautiful_alert.alert("无法操作","因为"+data.reason,"window.location.href=jry_wb_message.jry_wb_host");
-								return ;
+								if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+								else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+								return;
 							}
-							jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+							jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 							jry_wb_nd_fresh_file_list();
 						},[{'name':'file_id','value':file_id}]);
 					};

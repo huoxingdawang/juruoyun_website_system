@@ -40,7 +40,7 @@
 		$st->bindValue(4,jry_wb_get_time());
 		$st->bindValue(5,$photo['pictureid']);
 		$st->execute();
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET jry_nd_size_used=jry_nd_size_used+? , lasttime=? WHERE `id`=?;');
+		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET size_used=size_used+? , lasttime=? WHERE `id`=?;');
 		$st->bindValue(1,($size));
 		$st->bindValue(2,$lasttime=jry_wb_get_time());
 		$st->bindValue(3,$photo['id']);	

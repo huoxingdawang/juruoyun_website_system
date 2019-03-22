@@ -55,8 +55,8 @@
 			$data=$st->fetchAll();
 			$n=count($data);
 			for($i=0;$i<$n;$i++)
-				$ans[$i]=array(	'jry_nd_group_id'=>$data[$i]['jry_nd_group_id'],
-								'jry_nd_group_name'=>$data[$i]['jry_nd_group_name'],
+				$ans[$i]=array(	'group_id'=>$data[$i]['group_id'],
+								'group_name'=>$data[$i]['group_name'],
 								'jry_nd_group_type'=>$data[$i]['jry_nd_group_type'],
 								'lasttime'=>$data[$i]['lasttime']);
 			echo json_encode($ans);

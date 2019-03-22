@@ -6,8 +6,6 @@
 	if(!jry_wb_get_netdisk_information())
 	{
 		?><script>var jry_wb_netdisk_first_time_use=true;</script><?php
-		jry_wb_create_netdisk_account();
-		jry_wb_get_netdisk_information();
 	}
 	else
 	{

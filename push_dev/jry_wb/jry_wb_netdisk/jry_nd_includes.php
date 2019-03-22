@@ -5,4 +5,6 @@
 	include_once("jry_nd_file_type.php");
 	include_once("jry_nd_aly_includes.php");
 	include_once("jry_nd_database_include.php");
+	include_once("jry_nd_direct_include.php");
+	include_once("jry_wb_local_include.php");
 ?>

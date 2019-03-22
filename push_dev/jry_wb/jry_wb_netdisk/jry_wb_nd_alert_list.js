@@ -66,5 +66,6 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 		return file_list[i].tree;
 	}
 	for(let i=0,n=file_list.length;i<n;i++)
-		add_one(i);
+		if(!dironly||file_list[i].isdir)
+			add_one(i);
 }

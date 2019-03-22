@@ -27,10 +27,14 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 			if(xhr.readyState==4) 
 			{
 				var data=JSON.parse(xhr.responseText);
-				if((!data.login)||(!data.code))
+				if((!data.code))
 				{
 					if(!this.stopupload)
 					{
+						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else if(data.reason==200001)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+type+"是不允许的文件类型",5000,"auto","error");
+						else if(data.reason==200004)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"分片上传数据发送错误",5000,"auto","error");
 						this.fail_reason=data.reason;
 						uploaded_fail_call_back();
 					}
@@ -38,9 +42,9 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 					return ;
 				}
 				slices--;
-				if(slices == 0) 
+				if(slices==0) 
 					if(this.stopupload)
-						jry_wb_beautiful_right_alert.alert('文件上传失败',2000,'auto','error');
+						jry_wb_beautiful_right_alert.alert('文件上传失败',5000,'auto','error');
 					else
 						this.merge_file(blob);
 			}
@@ -94,9 +98,15 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 			if (xhr.readyState==4)
 			{
 				var data=JSON.parse(xhr.responseText);
-				if((!data.login)||(!data.code))
+				if(!data.code)
 				{
-					if(data.reason==10&&this.method==1)
+					if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else if(data.reason==200004)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"分片上传数据发送错误",5000,"auto","error");
+					else if(data.reason==200007)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"文件尺寸相差过大",5000,"auto","error");
+					else if(data.reason==220000)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"OSSSDK未知错误",5000,"auto","error");
+					else if(data.reason==220001)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"OSS连接错误",5000,"auto","error");
+					else if(data.reason==220002&&this.method==1)
 					{
 						merge_timer=setTimeout(()=>
 						{
@@ -122,7 +132,7 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 					this.stopupload=true;
 					return ;
 				}
-				jry_wb_beautiful_right_alert.alert('文件上传成功',2000,'auto','ok');
+				jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+'上传成功',2000,'auto','ok');
 				this.loaded=this.total;
 				uploaded_call_back(data)
 			}
@@ -132,18 +142,24 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 	{
 		jry_wb_loading_off();
 		data=JSON.parse(data);
-		if(!data.login)
-		{
-			this.stopupload=true;
-			this.fail_reason=data.reason;		
-			return ;
-		}
 		if(!data.code)
 		{
+			if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+			else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+			else if(data.reason==200000)	jry_wb_beautiful_right_alert.alert("错误的存储区",5000,"auto","error");
+			else if(data.reason==200001)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+type+"是不允许的文件类型",5000,"auto","error");
+			else if(data.reason==200002)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"用户空间不足",5000,"auto","error");
+			else if(data.reason==200003)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"当前存储区域不足",5000,"auto","error");
+			else if(data.reason==200005)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"文件重复",5000,"auto","error");
+			else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"父目录不存在",5000,"auto","error");
+			else if(data.reason==220000)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"OSSSDK未知错误",5000,"auto","error");
+			else if(data.reason==220001)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"OSS连接错误",5000,"auto","error");
+			else if(data.reason==220003)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"STS签名错误",5000,"auto","error");
 			this.stopupload=true;
-			this.fail_reason=data.reason;		
+			this.fail_reason=data.reason;
+			uploaded_fail_call_back();			
 			return ;
-		}
+		}		
 		this.file_id=data.file_id;
 		this.method=data.method;
 		this.extern_message=data.extern_message;

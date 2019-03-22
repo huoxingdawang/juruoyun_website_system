@@ -61,7 +61,7 @@ jry_wb_add_load(function()
 		name_word.href=jry_wb_message.jry_wb_index_page;
 	}
 	if(!jry_nd_share_mode_flag)
-		progress=new jry_wb_progress_bar(left_body,left_body.clientWidth/2,jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used/jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total,jry_wb_nd_get_size(jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used)+'/'+jry_wb_nd_get_size(jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total),null,null,"jry_wb_netdisk_progress","ok",false);/*容量占用*/
+		progress=new jry_wb_progress_bar(left_body,left_body.clientWidth/2,jry_wb_login_user.nd_ei.size_used/jry_wb_login_user.nd_ei.size_total,jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_used)+'/'+jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_total),null,null,"jry_wb_netdisk_progress","ok",false);/*容量占用*/
 	var hr=document.createElement('div');left_body.appendChild(hr);					/*分割线*/
 	hr.classList.add('jry_wb_netdisk_hr');											/*分割线属性*/
 	var button_bar=document.createElement('div');left_body.appendChild(button_bar);	/*按钮栏*/
@@ -121,22 +121,22 @@ jry_wb_add_load(function()
 			var table=document.createElement('table');message.appendChild(table);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='权限组ID';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_group_id;		
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.nd_ei.group_id;		
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='权限组名称';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_group_name;
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.nd_ei.group_name;
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='全部空间';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_total);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='已用空间';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_used);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='可以上传的类型';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_allow_type==-1?'全部':jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_allow_type.toString();		
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.nd_ei.allow_type==-1?'全部':jry_wb_login_user.nd_ei.allow_type.toString();		
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='剩余高速下载流量';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.jry_wb_nd_extern_information.fast_size);		
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.nd_ei.fast_size);		
 		};
 		upload_mesage_button.onclick=function()
 		{
@@ -328,7 +328,7 @@ jry_wb_add_load(function()
 				var total_size=0;
 				for(var i=0,n=input.files.length;i<n;i++)
 					total_size+=Math.ceil(input.files[i].size/1024);
-				var rest=jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total-jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used-total_size;
+				var rest=jry_wb_login_user.nd_ei.size_total-jry_wb_login_user.nd_ei.size_used-total_size;
 				if(rest<0)
 				{
 					jry_wb_beautiful_alert.alert("空间不够","请联系开发组");
@@ -360,12 +360,12 @@ jry_wb_add_load(function()
 						{
 							jry_nd_upload_count--;
 							jry_nd_upload_count=Math.max(0,jry_nd_upload_count);
-							jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+							jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 							if(jry_nd_upload_count==0)
 								jry_wb_nd_fresh_file_list();
-							jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total=data.jry_nd_size_total;
-							jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used=data.jry_nd_size_used;
-							progress.update(data.jry_nd_size_used/data.jry_nd_size_total,Math.ceil(data.jry_nd_size_used/1024)+'MB/'+data.jry_nd_size_total/1024+'MB');					
+							jry_wb_login_user.nd_ei.size_total=data.size_total;
+							jry_wb_login_user.nd_ei.size_used=data.size_used;
+							progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+data.size_total/1024+'MB');					
 						},function()
 						{
 							jry_nd_upload_count--;
@@ -408,12 +408,14 @@ jry_wb_add_load(function()
 				{
 					jry_wb_loading_off();
 					data=JSON.parse(data);
-					if(!data.login)
+					if(!data.code)
 					{
-						jry_wb_beautiful_alert.alert("无法操作","因为"+data.reason,"window.location.href=jry_wb_message.jry_wb_host");
-						return ;
+						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert("父目录不存在",3000,"auto","error");
+						return;
 					}
-					jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+					jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 					jry_wb_nd_fresh_file_list();
 				},[{'name':'father','value':father=dir_input.value=='/'?0:jry_nd_file_list.find(function(a){return a.dir+a.name+'/'==dir_input.value}).file_id}]);
 			};	
@@ -433,12 +435,14 @@ jry_wb_add_load(function()
 				{
 					jry_wb_loading_off();
 					data=JSON.parse(data);
-					if(!data.login)
+					if(!data.code)
 					{
-						jry_wb_beautiful_alert.alert("无法操作","因为"+data.reason,"window.location.href=jry_wb_message.jry_wb_host");
-						return ;
+						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert("父目录不存在",3000,"auto","error");
+						return;
 					}
-					jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+					jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 					jry_wb_nd_fresh_file_list();							
 				},[{'name':'file_id','value':JSON.stringify(list)},{'name':'to','value':checked[0].file_id}]);				
 			});
@@ -475,16 +479,18 @@ jry_wb_add_load(function()
 					{
 						jry_wb_loading_off();
 						data=JSON.parse(data);
-						if(!data.login)
+						if(!data.code)
 						{
-							jry_wb_beautiful_alert.alert("无法操作","因为"+data.reason,"window.location.href=jry_wb_message.jry_wb_host");
-							return ;
+							if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert("文件不存在或已删除",3000,"auto","error");
+							return;
 						}
-						jry_wb_login_user.jry_wb_nd_extern_information.lasttime=data.lasttime;
+						jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 						jry_wb_nd_fresh_file_list();							
-						jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_total=data.jry_nd_size_total;
-						jry_wb_login_user.jry_wb_nd_extern_information.jry_nd_size_used=data.jry_nd_size_used;
-						progress.update(data.jry_nd_size_used/data.jry_nd_size_total,jry_wb_nd_get_size(data.jry_nd_size_used)+'/'+jry_wb_nd_get_size(data.jry_nd_size_total));
+						jry_wb_login_user.nd_ei.size_total=data.size_total;
+						jry_wb_login_user.nd_ei.size_used=data.size_used;
+						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
 					},[{'name':'file_id','value':JSON.stringify(list)}]);					
 					delete_check.close();
 					select_delete();

@@ -89,8 +89,8 @@
 		$fast_mode=false;
 		if(	($share_mode&&$share[0]['fastdownload']&&$_GET['fast']==1&&$share_user['fast_size']>$data[0]['size'])||
 			(!$area['samearea'])||
-			($share_mode&&$jry_wb_login_user['id']!=-1&&$_GET['fast']==1&&$jry_wb_login_user['jry_wb_nd_extern_information']['fast_size']>$data[0]['size'])||
-			((!$share_mode)&&$jry_wb_login_user['jry_wb_nd_extern_information']['fast_size']>$data[0]['size']&&$_GET['fast']==1))//可以高速下载
+			($share_mode&&$jry_wb_login_user['id']!=-1&&$_GET['fast']==1&&$jry_wb_login_user['nd_ei']['fast_size']>$data[0]['size'])||
+			((!$share_mode)&&$jry_wb_login_user['nd_ei']['fast_size']>$data[0]['size']&&$_GET['fast']==1))//可以高速下载
 		{
 			$fast_mode=true;
 			if($area['type']==0)//上传
@@ -103,7 +103,7 @@
 				{
 					if($onearea['upload']==0)
 						continue;
-					if((($onearea['size']-$onearea['used'])>$min_use)&&($onearea['samearea']||(!$jry_wb_login_user['jry_wb_nd_extern_information']['sameareaonly'])))
+					if((($onearea['size']-$onearea['used'])>$min_use)&&($onearea['samearea']||(!$jry_wb_login_user['nd_ei']['sameareaonly'])))
 					{
 						$min_use=$onearea['size']-$onearea['used'];
 						$area=$onearea;
@@ -241,7 +241,7 @@
 	}
 	try
 	{
-		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false)
+		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false);
 	}
 	catch(jry_wb_exception $e)
 	{
@@ -250,470 +250,246 @@
 	}
 	if($action=='pre_check')
 	{
-		if($jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']==-1||in_array($_POST['type'],$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']))
-			if(($jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_size_total']-$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_uploading_size']-((int)$_POST['total_size'])-$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_size_used'])>=0)
+ 		try
+		{			
+			if($_POST['size']==''||$_POST['name']==''||$_POST['father']=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200004,'file'=>__FILE__,'line'=>__LINE__)));
+			if(!jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
+			if(!jry_nd_database_check_size($jry_wb_login_user,$_POST['size']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200002,'file'=>__FILE__,'line'=>__LINE__)));	
+			if(jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['father'])===null)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));
+			if(jry_nd_database_get_file_by_father_name_type($conn,$jry_wb_login_user,$_POST['father'],$_POST['name'],$_POST['type'])!=null)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200005,'file'=>__FILE__,'line'=>__LINE__)));
+			if((($area=jry_nd_direct_chose_area($conn,$jry_wb_login_user,$_POST['size']))===null))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200003,'file'=>__FILE__,'line'=>__LINE__)));
+			$file_id=jry_nd_database_new_file($conn,$jry_wb_login_user,$_POST['father'],$_POST['name'],$_POST['type'],$area,$_POST['size']);
+			if($area['type']==0)
+				$extern_message=[];
+			else if($area['type']==1)//阿里云STS签名
 			{
-				if($_POST['size']==''||$_POST['father']==''||$_POST['name']=='')
+				try
 				{
-					echo json_encode(array('login'=>true,'code'=>false,'reason'=>7));
-					exit();
+					$extern_message=jry_nd_aly_upload_sign($area,$file_id);
 				}
-				$conn=jry_wb_connect_database();
-				if($_POST['father']!=0)
+				catch (jry_wb_exception $e)
 				{
-					$st = $conn->prepare('SELECT file_id FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `file_id`=? AND `isdir`=1 AND `delete`=0');
-					$st->bindValue(1,$jry_wb_login_user['id']);
-					$st->bindValue(2,$_POST['father']);
-					$st->execute();
-					$data=$st->fetchAll();
-					if(count($data)==0)
-					{
-						echo json_encode(array('login'=>true,'code'=>false,'reason'=>4));
-						exit();
-					}	
-				}				
-				$st = $conn->prepare('SELECT file_id FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `father`=? AND `name`=? AND `type`=? AND `delete`=0');
-				$st->bindValue(1,$jry_wb_login_user['id']);
-				$st->bindValue(2,$_POST['father']);
-				$st->bindValue(3,str_replace("&","/37",$_POST['name']));
-				$st->bindValue(4,$_POST['type']);
-				$st->execute();
-				$data=$st->fetchAll();
-				if(count($data)!=0)
-				{
-					echo json_encode(array('login'=>true,'code'=>false,'reason'=>11));
-					exit();
-				}
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET jry_nd_uploading_size=jry_nd_uploading_size+? , lasttime=? WHERE `id`=?;');
-				$st->bindValue(1,$_POST['size']);
-				$st->bindValue(2,jry_wb_get_time());
-				$st->bindValue(3,$jry_wb_login_user['id']);
-				$st->execute();
-				
-				$method=0;
-				
-				
-				$areas=jry_nd_get_area_by_type($method);
-				$area=$areas[0];
-				$min_use=$areas[0]['size']-$areas[0]['used'];
-				foreach($areas as $onearea)
-				{
-					if($onearea['upload']==0)
-						continue;
-					if((($onearea['size']-$onearea['used'])>$min_use)&&($onearea['samearea']||(!$jry_wb_login_user['jry_wb_nd_extern_information']['sameareaonly'])))
-					{
-						$min_use=$onearea['size']-$onearea['used'];
-						$area=$onearea;
-					}
-				}
-				$area['config_message']=json_decode($area['config_message']);
-				if($min_use<$_POST['size'])
-				{
-					echo json_encode(array('login'=>true,'code'=>false,'reason'=>3));
-					exit();
-				}	
-				$st = $conn->prepare('INSERT INTO '.constant('jry_wb_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`) VALUES (?,?,?,?,?,?,?,?)');
-				$st->bindValue(1,$jry_wb_login_user['id']);
-				$st->bindValue(2,$_POST['father']);
-				$st->bindValue(3,$_POST['name']);
-				$st->bindValue(4,$_POST['type']);
-				$st->bindValue(5,$area['area_id']);
-				$st->bindValue(6,$_POST['size']);
-				$st->bindValue(7,jry_wb_get_time());
-				$st->bindValue(8,1);
-				$st->execute();
-				$file_id=$conn->lastInsertId();
-				if($method==0)
-					$extern_message=[];
-				else if($method==1)//阿里云STS签名
-				{
-					try
-					{
-						$extern_message=jry_nd_aly_upload_sign($area,$file_id);
-					}
-					catch (jry_wb_exception $e)
-					{
-						echo json_encode($e->getMessage());
-						exit();
-					}
-				}
-				echo json_encode(array('login'=>true,'code'=>true,'area'=>$area['area_id'],'file_id'=>$file_id,'method'=>$method,'extern_message'=>$extern_message));
+					jry_nd_database_delete_file_file_id($conn,$file_id);
+					throw new jry_wb_exception($e->getMessage());
+				}			
 			}
-			else
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>2));
-		else
-			echo json_encode(array('login'=>true,'code'=>false,'reason'=>1));	
+			jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,0,$_POST['size']);
+			jry_nd_database_operate_area_size($conn,$area,$_POST['size']);	
+		}
+		catch (jry_wb_exception $e)
+		{
+			echo $e->getMessage();
+			exit();
+		}
+		echo json_encode(array('login'=>true,'code'=>true,'area'=>$area['area_id'],'file_id'=>$file_id,'method'=>$area['type'],'extern_message'=>$extern_message));
 	}
 	else if($action=='upload')
-	{			
-		if($jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']==-1||in_array($type,$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']))
+	{
+		try
 		{
-			$conn=jry_wb_connect_database();
-			$st = $conn->prepare('SELECT file_id,area FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `father`=? AND `name`=? AND `type`=? AND `size`=? AND `uploading`=?');
-			$st->bindValue(1,$jry_wb_login_user['id']);
-			$st->bindValue(2,$_POST['father']);
-			$st->bindValue(3,str_replace("&","/37",$_POST['name']));
-			$st->bindValue(4,$_POST['type']);
-			$st->bindValue(5,$_POST['size']);
-			$st->bindValue(6,1);
-			$st->execute();
-			$data=$st->fetchAll();
-			if(count($data)==0)
+			if(jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
 			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>4));
-				exit();
+				$conn=jry_wb_connect_database();
+				if(	(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)||
+					($file['father']	!=$_POST['father'])||
+					($file['size']		!=$_POST['size'])||
+					($file['type']		!=str_replace("&","/37",$_POST['type']))||
+					($file['name']		!=str_replace("&","/37",$_POST['name']))||
+					(($area=jry_nd_database_get_area($conn,$file['area']))===null)||
+					($area['type']!=0)
+				)
+				{
+					if($file!=null)
+					{
+						jry_nd_database_delete_file_file_id($conn,$file['file_id']);
+						jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,0,-$file['size']);	
+						unlink($area['config_message']->dir. constant('jry_nd_upload_file_prefix').$file['file_id'].'-'.$_POST['index']);
+					}
+					if($area!=null)
+						jry_nd_database_operate_area_size($conn,$area,-$file['size']);
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200004,'file'=>__FILE__,'line'=>__LINE__)));
+				}
+				move_uploaded_file($_FILES['file']['tmp_name'],$area['config_message']->dir. constant('jry_nd_upload_file_prefix').$file['file_id'].'-'.$_POST['index']);
 			}
-			if($data[0]['file_id']!=$_POST['file_id'])
-			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>5));
-				exit();
-			}
-			$area=jry_nd_get_area_by_area_id($data[0]['area']);
-			if($area==null)
-			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>6,'test'=>$data[0]['area']));
-				exit();
-			}
-			if($area['type']!=0)
-			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>7));
-				exit();
-			}
-			move_uploaded_file($_FILES['file']['tmp_name'],$area['config_message']->dir. constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'-'.$_POST['index']);
-			echo json_encode(array('login'=>true,'code'=>true));
+			else
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
 		}
-		else
-			echo json_encode(array('login'=>true,'code'=>false,'reason'=>1));
+		catch (jry_wb_exception $e)
+		{
+			echo $e->getMessage();
+			exit();
+		}	
+		echo json_encode(array('code'=>true));
 	}
 	else if($action=='merge')
 	{
-		if($jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']==-1||in_array($type,$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_allow_type']))
+		try
 		{
-			$conn=jry_wb_connect_database();
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `father`=? AND `name`=? AND `type`=? AND `size`=? AND `uploading`=?');
-			$st->bindValue(1,$jry_wb_login_user['id']);
-			$st->bindValue(2,$_POST['father']);
-			$st->bindValue(3,str_replace("&","/37",$_POST['name']));
-			$st->bindValue(4,$_POST['type']);
-			$st->bindValue(5,$_POST['size']);
-			$st->bindValue(6,1);
-			$st->execute();
-			$data=$st->fetchAll();
-			if(count($data)==0)
+			if(jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
 			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>4));
-				exit();
-			}
-			if($data[0]['file_id']!=$_POST['file_id'])
-			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>5));
-				exit();
-			}
-			$area=jry_nd_get_area_by_area_id($data[0]['area']);
-			if($area==null)
-			{
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>6));
-				exit();
-			}
-			
-			$size=0;
-			if($area['type']==0)
-			{
-				$target=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'-';
-				$dst=fopen($area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload','wb');
-				for($i=0;$i<$_POST['index'];$i++) 
+				$conn=jry_wb_connect_database();
+				if(	(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)||
+					($file['father']	!=$_POST['father'])||
+					($file['size']		!=$_POST['size'])||
+					($file['type']		!=str_replace("&","/37",$_POST['type']))||
+					($file['name']		!=str_replace("&","/37",$_POST['name']))||
+					(($area=jry_nd_database_get_area($conn,$file['area']))===null)
+				)
 				{
-					$slice=$target.$i;
-					$src=fopen($slice, 'rb');
-					stream_copy_to_stream($src, $dst);
-					fclose($src);
-					unlink($slice);
-				}
-				fclose($dst);
-				$size=filesize($area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload');				
-			}
-			else if($area['type']==1)
-			{
-				
-				$ossclient=jry_nd_aly_connect_out_by_area($area);
-				if(!jry_nd_aly_check_file_exist($ossclient,$area,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload'))
-				{
-					echo json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__));
+					if($file!=null)
+					{
+						jry_nd_database_delete_file_file_id($conn,$file['file_id']);
+						jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,0,-$file['size']);
+						if($area!=null)
+						{
+							if($area['type']==0)
+							{
+								$target=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'-';
+								for($i=0;$i<$_POST['index'];$i++) 
+									unlink($target.$i);
+							}
+						}
+					}
+					if($area!=null)
+						jry_nd_database_operate_area_size($conn,$area,-$file['size']);
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200004,'file'=>__FILE__,'line'=>__LINE__)));
 					exit();
 				}
-				$objectmeta=$ossclient->getObjectMeta($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload');					
-				$size=$objectmeta['content-length'];
-			}
-			if(abs(ceil($size/1024)-$_POST['size'])>10)
-			{
-				
+				$size=0;
 				if($area['type']==0)
-					unlink($area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'_jryupload');
+				{
+					$target=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'-';
+					$dst=fopen($area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload','wb');
+					for($i=0;$i<$_POST['index'];$i++) 
+					{
+						$slice=$target.$i;
+						$src=fopen($slice, 'rb');
+						stream_copy_to_stream($src, $dst);
+						fclose($src);
+						unlink($slice);
+					}
+					fclose($dst);
+					$size=jry_nd_local_get_size($area,$file);				
+				}
 				else if($area['type']==1)
 				{
-					$ossclient = new OssClient($area['config_message']->accesskeyid,$area['config_message']->accesskeysecret,$area['config_message']->endpoint,false);
-					$ossclient->deleteObject($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data['file_id'].'_jryupload');					
+					
+					$ossclient=jry_nd_aly_connect_in_by_area($area);
+					if(!jry_nd_aly_check_file_exist($ossclient,$area,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'))
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__)));
+					$size=jry_nd_aly_get_size($ossclient,$area,$file);
 				}
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET jry_nd_uploading_size=jry_nd_uploading_size-? , lasttime=? WHERE `id`=?;');
-				$st->bindValue(1,$_POST['size']);
-				$st->bindValue(2,jry_wb_get_time());
-				$st->bindValue(3,$jry_wb_login_user['id']);
-				$st->execute();
-				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_netdisk').'file_list WHERE  `file_id`=?;');
-				$st->bindValue(1,$data[0]['file_id']);
-				$st->execute();
-				echo json_encode(array('login'=>true,'code'=>false,'reason'=>8));
-				exit();
-			}
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET jry_nd_uploading_size=jry_nd_uploading_size-?,jry_nd_size_used=jry_nd_size_used+? , lasttime=? WHERE `id`=?;');
-			$st->bindValue(1,$_POST['size']);
-			$st->bindValue(2,ceil($size/1024));
-			$st->bindValue(3,$lasttime=jry_wb_get_time());
-			$st->bindValue(4,$jry_wb_login_user['id']);	
-			$st->execute();
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET uploading=? , size=? WHERE `file_id`=? AND id=?');
-			$st->bindValue(1,0);
-			$st->bindValue(2,ceil($size/1024));
-			$st->bindValue(3,$data[0]['file_id']);
-			$st->bindValue(4,$jry_wb_login_user['id']);
-			$st->execute();
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=used+? , lasttime=? WHERE `area_id`=?;');
-			$st->bindValue(1,ceil($size/1024));
-			$st->bindValue(2,jry_wb_get_time());
-			$st->bindValue(3,$data[0]['area']);	
-			$st->execute();
-			if(($file=fopen('jry_nd.fast_save_message','r'))==false)
-			{
-				$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
-				$data->area=jry_wb_get_time();
-				$file2=fopen('jry_nd.fast_save_message','w');
-				fwrite($file2,json_encode($data));
-				fclose($file2);
-				$data['new']=true;
+				if(abs(ceil($size/1024)-$_POST['size'])>10||abs(ceil($size/1024)-$file['size'])>10)
+				{
+					
+					if($area['type']==0)
+						jry_nd_local_delete_file($area,$file);
+					else if($area['type']==1)
+						jry_nd_aly_delete_file(jry_nd_aly_connect_in_by_area($area),$area,$file);
+					jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,0,-$file['size']);
+					jry_nd_database_operate_area_size($conn,$area,-$file['size']);
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200007,'file'=>__FILE__,'line'=>__LINE__)));
+					exit();
+				}
+				jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,ceil($size/1024),-$file['size']);
+				jry_nd_database_set_file_ok($conn,$jry_wb_login_user,$file['file_id'],ceil($size/1024));
+				jry_nd_database_operate_fast_save('area',jry_wb_get_time());
+				jry_wb_get_netdisk_information();
 			}
 			else
-			{
-				$data=json_decode(fread($file,filesize('jry_nd.fast_save_message')));
-				$data->area=jry_wb_get_time();
-				$file2=fopen('jry_nd.fast_save_message','w');
-				fwrite($file2,json_encode($data));
-				fclose($file2);
-			}
-			fclose($file);
-			jry_wb_get_netdisk_information();
-			echo json_encode(array('login'=>true,'lasttime'=>$lasttime,'code'=>true,'jry_nd_size_total'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_size_total'],'jry_nd_size_used'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_size_used']));
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
 		}
-		else
-			echo json_encode(array('login'=>true,'code'=>false,'reason'=>1));
+		catch (jry_wb_exception $e)
+		{
+			echo $e->getMessage();
+			exit();
+		}		
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'size_used'=>$jry_wb_login_user['nd_ei']['size_used']));
 	}
 	else if($action=='new_dir')
 	{
-		$conn=jry_wb_connect_database();	
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`,`isdir`) VALUES (?,?,?,?,?,?,?,?,?)');
-		$st->bindValue(1,$jry_wb_login_user['id']);
-		$st->bindValue(2,$_POST['father']);
-		$st->bindValue(3,'新建文件夹'.jry_wb_get_time());
-		$st->bindValue(4,'');
-		$st->bindValue(5,1);
-		$st->bindValue(6,0);
-		$st->bindValue(7,$lasttime=jry_wb_get_time());
-		$st->bindValue(8,0);
-		$st->bindValue(9,1);
-		$st->execute();
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=? WHERE `id`=?;');
-		$st->bindValue(1,jry_wb_get_time());
-		$st->bindValue(2,$lasttime=jry_wb_get_time());
-		$st->execute();
-		echo json_encode(array('login'=>true,'code'=>true,'lasttime'=>$lasttime));
+		try
+		{
+			jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father']);
+		}
+		catch (jry_wb_exception $e)
+		{
+			echo $e->getMessage();
+			exit();
+		}			
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 	}
 	else if($action=='rename')
 	{
-		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `file_id`=? AND `delete`=0 LIMIT 1');
-		$st->bindValue(1,$jry_wb_login_user['id']);
-		$st->bindValue(2,$_POST['file_id']);
-		$st->execute();
-		$data=$st->fetchAll();
-		if(count($data)==0)
+		try
 		{
-			echo json_encode(array('login'=>true,'code'=>false,'reason'=>11));
-			exit();
+			jry_nd_direct_rename_file_id($conn,$jry_wb_login_user,$_POST['file_id'],$_POST['name'],$_POST['type']);
 		}
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET type=? , name=? ,lasttime=? WHERE `file_id`=? AND id=? LIMIT 1');
-		$st->bindValue(1,$_POST['type']);
-		$st->bindValue(2,str_replace("&","/37",$_POST['name']));
-		$st->bindValue(3,$lasttime=jry_wb_get_time());
-		$st->bindValue(4,$_POST['file_id']);
-		$st->bindValue(5,$jry_wb_login_user['id']);
-		$st->execute();
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=? WHERE `id`=? LIMIT 1;');
-		$st->bindValue(1,$lasttime=jry_wb_get_time());
-		$st->bindValue(2,$jry_wb_login_user['id']);	
-		$st->execute();
-		echo json_encode(array('login'=>true,'code'=>true,'lasttime'=>$lasttime));
+		catch (jry_wb_exception $e)
+		{
+			echo $e->getMessage();
+			exit();
+		}			
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 	}
 	else if($action=='move')
 	{
-		$files=json_decode($_POST['file_id']);
-		$conn=jry_wb_connect_database();
-		foreach($files as $file)
+		if(($to=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['to']))===null)
 		{
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `father`=? , lasttime=? WHERE `file_id`=? AND id=?');
-			$st->bindValue(1,$_POST['to']);
-			$st->bindValue(2,$lasttime=jry_wb_get_time());
-			$st->bindValue(3,$file);
-			$st->bindValue(4,$jry_wb_login_user['id']);
-			$st->execute();			
+			echo (json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));
+			exit();
+		}			
+		$files=json_decode($_POST['file_id']);
+		foreach($files as $file_id)
+		{
+			try
+			{
+				jry_nd_direct_move_file_id($conn,$jry_wb_login_user,$file_id,$to);
+			}catch (jry_wb_exception $e){}
 		}
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=? WHERE `id`=?;');
-		$st->bindValue(1,$lasttime=jry_wb_get_time());
-		$st->bindValue(2,$jry_wb_login_user['id']);
-		$st->execute();
-		echo json_encode(array('login'=>true,'lasttime'=>$lasttime,'code'=>true));
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 	}
 	else if($action=='delete')
 	{
-		function delete_one($file_id,$data)
-		{
-			global $jry_wb_login_user;
-			$conn=jry_wb_connect_database();
-			if($file_id!=0)
-			{
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `file_id`=? limit 1');
-				$st->bindValue(1,$jry_wb_login_user['id']);
-				$st->bindValue(2,$file_id);
-				$st->execute();
-				$data=$st->fetchAll();
-				if(count($data)==0)
-				{
-					return;
-				}
-				$data=$data[0];
-			}
-			if($data['delete'])
-				return 0;
-			$area=jry_nd_get_area_by_area_id($data['area']);
-			if($data['share'])
-			{
-				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_netdisk').'share WHERE id=? AND file_id=?');
-				$st->bindValue(1,$jry_wb_login_user['id']);
-				$st->bindValue(2,$data['file_id']);
-				$st->execute();
-			}
-			if($data['isdir'])
-			{
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET size=? , `delete`=? ,lasttime=? WHERE `file_id`=? AND id=?');
-				$st->bindValue(1,0);
-				$st->bindValue(2,1);
-				$st->bindValue(3,$lasttime=jry_wb_get_time());
-				$st->bindValue(4,$data['file_id']);
-				$st->bindValue(5,$jry_wb_login_user['id']);
-				$st->execute();				
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `father`=?');
-				$st->bindValue(1,$jry_wb_login_user['id']);
-				$st->bindValue(2,$data['file_id']);
-				$st->execute();
-				$data=$st->fetchAll();
-				$total=0;
-				foreach($data as $one)
-					$total+=delete_one(0,$one);
-				return $total;
-			}
-			else
-			{
-				if($area['type']==0)
-					unlink($area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data['file_id'].'_jryupload');
-				else if($area['type']==1)
-				{
-					$ossclient = new OssClient($area['config_message']->accesskeyid,$area['config_message']->accesskeysecret,$area['config_message']->endpoint,false);
-					$ossclient->deleteObject($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data['file_id'].'_jryupload');
-				}
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET size=? , `delete`=? ,lasttime=? WHERE `file_id`=? AND id=?');
-				$st->bindValue(1,0);
-				$st->bindValue(2,1);
-				$st->bindValue(3,$lasttime=jry_wb_get_time());
-				$st->bindValue(4,$data['file_id']);
-				$st->bindValue(5,$jry_wb_login_user['id']);
-				$st->execute();
-				if($data['uploading'])
-				{
-					$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=?,jry_nd_uploading_size=jry_nd_uploading_size-? WHERE `id`=?;');
-					$st->bindValue(1,$lasttime=jry_wb_get_time());
-					$st->bindValue(2,$data['size']);
-					$st->bindValue(3,$jry_wb_login_user['id']);	
-					$st->execute();					
-					return 0;
-				}
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=used-? , lasttime=? WHERE `area_id`=?;');
-				$st->bindValue(1,$data['size']);
-				$st->bindValue(2,jry_wb_get_time());
-				$st->bindValue(3,$data['area']);	
-				$st->execute();				
-				return $data['size'];
-			}
-		}
 		$files=json_decode($_POST['file_id']);
 		$conn=jry_wb_connect_database();
 		foreach($files as $file)
 		{
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=?,jry_nd_size_used=jry_nd_size_used-? WHERE `id`=?;');
-			$st->bindValue(1,$lasttime=jry_wb_get_time());
-			$st->bindValue(2,delete_one($file,1));
-			$st->bindValue(3,$jry_wb_login_user['id']);	
-			$st->execute();
+			try
+			{
+				jry_nd_direct_delete_file_id($conn,$jry_wb_login_user,$file);
+			}catch (jry_wb_exception $e){}
 		}
-		jry_wb_get_netdisk_information();
-		echo json_encode(array('login'=>true,'lasttime'=>$lasttime,'code'=>true,'jry_nd_size_total'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_size_total'],'jry_nd_size_used'=>$jry_wb_login_user['jry_wb_nd_extern_information']['jry_nd_size_used']));
-		
+		echo json_encode(array('login'=>true,'lasttime'=>jry_wb_get_time(),'code'=>true,'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'size_used'=>$jry_wb_login_user['nd_ei']['size_used']));	
 	}
-	else if($action=='share'||$action=='unshare')
+	else if($action=='share')
 	{
-		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `file_id`=? AND `delete`=0 limit 1');
-		$st->bindValue(1,$jry_wb_login_user['id']);
-		$st->bindValue(2,$_POST['file_id']);
-		$st->execute();
-		$data=$st->fetchAll();
-		if(count($data)==0)
+		if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
 		{
-			echo json_encode(array('login'=>true,'code'=>false,'reason'=>12));
+			echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
 			exit();
 		}
-		if($action=='share')
+		jry_nd_direct_share($conn,$jry_wb_login_user,$file);
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+	}
+	else if($action=='unshare')
+	{
+		if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
 		{
-			$srcstr = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
-			$code='';
-			mt_srand();
-			for ($i=0;$i<64; $i++) 
-				$code.=$srcstr[mt_rand(0,strlen($srcstr)-1)];	
-			$st = $conn->prepare('INSERT INTO '.constant('jry_wb_netdisk').'share (`id`,`key`,`file_id`,`lasttime`) VALUES (?,?,?,?)');
-			$st->bindValue(1,$jry_wb_login_user['id']);
-			$st->bindValue(2,$code);
-			$st->bindValue(3,$data[0]['file_id']);
-			$st->bindValue(4,jry_wb_get_time());
-			$st->execute();			
+			echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
+			exit();
 		}
-		else
-		{
-			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_netdisk').'share WHERE  id=? AND file_id=?');
-			$st->bindValue(1,$jry_wb_login_user['id']);
-			$st->bindValue(2,$data[0]['file_id']);
-			$st->execute();			
-		}
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `share`=?,`lasttime`=? WHERE `file_id`=? AND id=?');
-		$st->bindValue(1,($action=='share')?1:0);
-		$st->bindValue(2,$lasttime=jry_wb_get_time());
-		$st->bindValue(3,$data[0]['file_id']);
-		$st->bindValue(4,$jry_wb_login_user['id']);
-		$st->execute();
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=? WHERE `id`=?;');
-		$st->bindValue(1,$lasttime=jry_wb_get_time());
-		$st->bindValue(2,$jry_wb_login_user['id']);	
-		$st->execute();
-		echo json_encode(array('login'=>true,'code'=>true,'lasttime'=>$lasttime));
+		jry_nd_direct_unshare($conn,$jry_wb_login_user,$file);
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 	}
 	else
 	{
-		echo json_encode(array('login'=>true,'code'=>false,'reason'=>9));
+		echo json_encode(array('login'=>true,'code'=>false,'reason'=>000000));
 	}
 ?>

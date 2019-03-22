@@ -4,11 +4,13 @@
 	use OSS\OssClient;
 	use OSS\Core\OssException;		
 	function jry_nd_aly_upload_sign($area,$file_id)
-	{
+	{		
 		global $jry_wb_login_user;
 		define('ENABLE_HTTP_PROXY', FALSE);
 		define('HTTP_PROXY_IP', '127.0.0.1');
 		define('HTTP_PROXY_PORT', '8888');
+		if($area['type']!=1)
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));		
 		DefaultProfile::addEndpoint($area['config_message']->sts_region_id,$area['config_message']->sts_region_id,"Sts",$area['config_message']->sts_endpoint);
 		$iclientprofile = DefaultProfile::getProfile($area['config_message']->sts_region_id,constant('jry_nd_aly_sts_accesskeyid'),constant('jry_nd_aly_sts_accesskeysecret'));
 		$client = new DefaultAcsClient($iclientprofile);
@@ -40,6 +42,8 @@
 	}
 	function jry_nd_aly_download_sign($connect,$area,$file,$relocation=false)
 	{
+		if($area['type']!=1)
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));		
 		if(!jry_nd_aly_check_file_exist($connect,$area,$file))
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__)));			
 		$sign=$connect->signUrl($area['config_message']->bucket,$file,constant('jry_nd_oss_max_time'));

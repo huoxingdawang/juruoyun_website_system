@@ -81,14 +81,14 @@
 								'isdir'=>$file['isdir'],
 								'lasttime'=>$file['lasttime']);
 		$q='SELECT * FROM '.constant('jry_wb_netdisk').'users 
-		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.jry_nd_group_id = '.constant('jry_wb_netdisk_prefix')."group.jry_nd_group_id)";
+		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.group_id = '.constant('jry_wb_netdisk_prefix')."group.group_id)";
 		$st = $conn->prepare($q);
 		$st->execute();
 		$users=array();
 		foreach($st->fetchAll() as $user)
 			$users[]=array( 'id'=>$user['id'],
-							'jry_nd_uploading_size'=>0,
-							'jry_nd_size_used'=>0
+							'size_uploading'=>0,
+							'size_used'=>0
 			);
 		$users_id=array_column($users,'id');
 		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE `use`=1');
@@ -143,9 +143,9 @@
 									'lasttime'=>$file['lasttime']);
 					$area_size+=$file['size'];
 					if($file['uploading'])
-						$users[$result]['jry_nd_uploading_size']+=$file['size'];
+						$users[$result]['size_uploading']+=$file['size'];
 					else
-						$users[$result]['jry_nd_size_used']+=$file['size'];
+						$users[$result]['size_used']+=$file['size'];
 				}
 			}
 			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=? , lasttime=? WHERE `area_id`=?;');
@@ -157,10 +157,10 @@
 		}
 		foreach($users as $user)
 		{
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=?,jry_nd_uploading_size=?,jry_nd_size_used=? WHERE `id`=?;');
+			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET lasttime=?,size_uploading=?,size_used=? WHERE `id`=?;');
 			$st->bindValue(1,$lasttime=jry_wb_get_time());
-			$st->bindValue(2,$user['jry_nd_uploading_size']);
-			$st->bindValue(3,$user['jry_nd_size_used']);
+			$st->bindValue(2,$user['size_uploading']);
+			$st->bindValue(3,$user['size_used']);
 			$st->bindValue(4,$user['id']);	
 			$st->execute();	
 		}
