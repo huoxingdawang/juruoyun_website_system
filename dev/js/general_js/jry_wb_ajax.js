@@ -16,11 +16,22 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 	},20000);
 	xmlhttp.onreadystatechange = function()
 	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		if (xmlhttp.readyState==4)
 		{
 			clearTimeout(clearTO);
-			var ajaxLoadedData = xmlhttp.responseText;
-			func(ajaxLoadedData);
+			if(xmlhttp.status==200)
+				func(xmlhttp.responseText);
+			else
+			{
+				if(xmlhttp.status==500)
+					jry_wb_beautiful_alert.alert("吔!服务器异常!","请您把开发组从床上叫起来修复BUG后再试");
+				else if(xmlhttp.status==404)
+					jry_wb_beautiful_alert.alert("吔!找不到了耶!","请您带上黑框眼镜后再试");
+				else if(xmlhttp.status==503)
+					jry_wb_beautiful_alert.alert("吔!禁止访问!","小孩子不能进米奇妙妙屋哦");
+				xmlhttp.abort();
+				jry_wb_loading_off();		
+			}
 		}
 	};
 	xmlhttp.open("POST",url,tong);
