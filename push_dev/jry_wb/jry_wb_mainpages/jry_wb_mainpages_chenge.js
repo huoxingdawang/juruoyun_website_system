@@ -374,8 +374,9 @@ function show_ip()
 		{
 			jry_wb_beautiful_alert.check("确定登出?",function()
 			{
-				jry_wb_ajax_load_data('do_chenge.php?action=logout',function()
+				jry_wb_ajax_load_data('do_chenge.php?action=logout',function(data)
 				{
+					data=JSON.parse(data);
 					jry_wb_loading_off();
 					if(data.code)
 					{
@@ -416,6 +417,8 @@ function show_ip()
 						{
 							jry_wb_login_user.login_addr[i].trust=0;
 							trust.classList.remove('jry_wb_color_ok');
+							if(!jry_wb_login_user.login_addr[i].isthis)
+								div.removeChild(trust);
 							jry_wb_beautiful_right_alert.alert('解除信任成功',2000,'auto','ok');
 						}
 						else
