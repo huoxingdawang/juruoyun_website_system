@@ -38,6 +38,7 @@ function jry_wb_add_onclick(func)
     	window.onclick=function(event){if(oldonclick)oldonclick(event);func(event);};  
 	return func;
 }
+
 function jry_wb_add_onmouseup(func) 
 {  
   	var oldonmouseup=window.onmouseup;  
