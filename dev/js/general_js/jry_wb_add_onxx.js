@@ -38,7 +38,6 @@ function jry_wb_add_onclick(func)
     	window.onclick=function(event){if(oldonclick)oldonclick(event);func(event);};  
 	return func;
 }
-
 function jry_wb_add_onmouseup(func) 
 {  
   	var oldonmouseup=window.onmouseup;  
@@ -66,6 +65,88 @@ function jry_wb_add_onscroll(func)
     	window.onscroll=function(event){if(oldonscroll);oldonscroll(event);func(event);};
 	return func;
 }
+jry_wb_onclick_flag=false;
+jry_wb_add_load(function()
+{
+	window.ontouchstart=function(event)
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event; 					
+		if(event.touches!=null&&event.touches.length>1)
+			return;
+		else if(event.changedTouches!=null&event.changedTouches.length>1)
+			return;		
+		document.body.ontouchstart_timer=new Date();
+		return false;
+	};
+	window.ontouchmove=function(event)
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event; 					
+		if(event.touches!=null&&event.touches.length>1)
+			document.body.ontouchstart_timer=undefined;
+		else if(event.changedTouches!=null&event.changedTouches.length>1)
+			document.body.ontouchstart_timer=undefined;	
+		return false;
+	};
+	window.ontouchend=function(event)
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event;
+		if(event.touches!=null&&event.touches.length==1)
+		{
+			event.clientX		=event.touches[0].clientX;
+			event.clientY		=event.touches[0].clientY;
+			event.force			=event.touches[0].force;
+			event.identifier	=event.touches[0].identifier;
+			event.pageX			=event.touches[0].pageX;
+			event.pageY			=event.touches[0].pageY;
+			event.radiusX		=event.touches[0].radiusX;
+			event.radiusY 		=event.touches[0].radiusY;
+			event.rotationAngle	=event.touches[0].rotationAngle;
+			event.screenX		=event.touches[0].screenX;
+			event.screenY		=event.touches[0].screenY;		
+		}
+		else if(event.changedTouches!=null&&event.changedTouches.length==1)
+		{
+			event.clientX		=event.changedTouches[0].clientX;
+			event.clientY		=event.changedTouches[0].clientY;
+			event.force			=event.changedTouches[0].force;
+			event.identifier	=event.changedTouches[0].identifier;
+			event.pageX			=event.changedTouches[0].pageX;
+			event.pageY			=event.changedTouches[0].pageY;
+			event.radiusX		=event.changedTouches[0].radiusX;
+			event.radiusY 		=event.changedTouches[0].radiusY;
+			event.rotationAngle	=event.changedTouches[0].rotationAngle;
+			event.screenX		=event.changedTouches[0].screenX;
+			event.screenY		=event.changedTouches[0].screenY;
+		}
+		if(typeof document.body.ontouchstart_timer=='undefined'||document.body.ontouchstart_timer==undefined)
+			return ;
+		if((new Date()-document.body.ontouchstart_timer)<200)
+		{
+			if(jry_wb_onclick_flag)
+				return;
+			if(typeof document.body.onclick=='function')
+				document.body.onclick(event);
+			if(typeof window.onclick=='function')
+				window.onclick(event);		
+		}
+		else if((new Date()-document.body.ontouchstart_timer)<10000)
+		{
+			if(typeof document.body.oncontextmenu=='function')
+				document.body.oncontextmenu(event);
+			if(typeof window.oncontextmenu=='function')
+				window.oncontextmenu(event);					
+		}
+		document.body.ontouchstart_timer=undefined;
+		return false;
+	};
+	jry_wb_add_onclick(function()
+	{
+		jry_wb_onclick_flag=true;
+	});
+});
 function jry_wb_add_oncontextmenu(func)
 {
 	if(typeof func=='object')
