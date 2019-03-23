@@ -88,4 +88,5 @@
 		
 	});
 </script>
+<div style="position: fixed;top: 260px;left: 0px;width: 150px;height: 100px;"><span style="color:#00ff00;font-size: 37px;">蒟蒻云开发组强烈谴责这个女装大佬强迫他人女装的行为</span><img src="https://juruoyun.oss-cn-beijing.aliyuncs.com/lqrnz3.jpg" style="position: relative;width: 150px;"></div>
 <?php jry_wb_print_tail()?>
