@@ -8,6 +8,7 @@ var jry_wb_background_music = new function()
 	this.leave=false;
 	this.init=function(list)
 	{
+		if(!jry_wb_test_is_pc())return;
 		this.list=list==null?[]:list;
 		if(list!=null)
 			this.list=list;
@@ -15,7 +16,7 @@ var jry_wb_background_music = new function()
 		{
 			if(typeof jry_wb_login_user!='undefined')
 				this.song_list=jry_wb_get_songs_by_mid(jry_wb_login_user.background_music_list);
-			this.backgroundmusic_icon=document.createElement("p");document.body.appendChild(this.backgroundmusic_icon);
+			this.backgroundmusic_icon=document.createElement("p");jry_wb_right_tools.add(this.backgroundmusic_icon);
 			this.backgroundmusic_icon.id='jry_wb_left_button_backgroundmusic_icon';
 			this.backgroundmusic_icon.classList.add('jry_wb_icon_changpian','jry_wb_icon');
 			this.backgroundmusic_icon.style="z-index:9999;margin:0px;right:0px;position:fixed;width:35px;height:35px;font-size:35px";
@@ -40,13 +41,6 @@ var jry_wb_background_music = new function()
 				if(typeof jry_wb_dev_mode=='undefined' || jry_wb_dev_mode==false)
 					timer=setTimeout(()=>{this.backgroundmusic_control.style.display="none";if(timer_close!=null)clearTimeout(timer_close);},500);
 			};
-			jry_wb_add_onresize(()=>
-			{
-				var hight=document.body.clientHeight;
-				var jiange=hight*0.4/3;
-				hight*=0.2;
-				this.backgroundmusic_icon.style.top=hight+jiange*3;	
-			});
 			if(document.visibilityState != 'hidden') 
 			{
 				jry_wb_js_session.send(1,'get');
@@ -112,12 +106,14 @@ var jry_wb_background_music = new function()
 	};
 	this.save=function(status)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		if(status==undefined)
 			status=this.status();
 		jry_wb_cache.set('background_music',{'status':status,'time':this.currenttime(),'volume':this.audio.volume,'mid':this.playing.mid,'type':this.playing.type,'cycle':this.beautiful.reply_count});
 	};
 	this.setsrc=function(type,mid,callback)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		if(!inited)
 			this.init(document.body);
 		this.mid=mid;
@@ -132,6 +128,7 @@ var jry_wb_background_music = new function()
 	};
 	this.backup=function(set)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		var playing=jry_wb_cache.get('background_music');
 		this.beautiful.reply_count=playing==null?1:playing.cycle;
 		this.beautiful.cycle_button_update();
@@ -158,30 +155,35 @@ var jry_wb_background_music = new function()
 	};
 	this.push_song_list=function(list_old)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		this.song_list=jry_wb_get_songs_by_mid(list_old);
 		this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);
 	};
 	this.volume=function(volume)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		return (volume==undefined?this.audio.volume:(this.audio.volume=volume));
 	};
 	this.currenttime=function(currenttime)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		return (currenttime==undefined?this.audio.currentTime:(this.audio.currentTime=currenttime));
 	};
 	this.status=function(status)
 	{
+		if(!jry_wb_test_is_pc())return;		
 		return status==undefined?(!this.audio.paused):(status?this.audio.play():this.audio.pause());
 	};
 	this.break=function()
 	{	
+		if(!jry_wb_test_is_pc())return;	
 		this.passive=true;
 		this.status(false);
 		this.save(true);
 	};
 	this.continue=function()
 	{
-		console.log('continue');
+		if(!jry_wb_test_is_pc())return;		
 		this.backup();		
 		this.passive=false;
 		if(this.playing!=null)

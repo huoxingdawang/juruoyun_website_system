@@ -93,15 +93,10 @@
 	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_chongzi" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
 	<p id="jry_wb_left_button_down" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangxia" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
 	<script language="javascript">
-	<?php if(constant('jry_wb_background_music_switch')){?>jry_wb_background_music.init();<?php } ?>	
-		jry_wb_add_onresize(function(){
-			var hight=document.body.clientHeight;
-			var jiange=hight*0.4/3;
-			hight*=0.2;
-			document.getElementById('jry_wb_left_button_up').style.top=hight;
-			document.getElementById('jry_wb_left_button_bug').style.top=hight+jiange;
-			document.getElementById('jry_wb_left_button_down').style.top=hight+jiange*2;
-		});
+			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_up'));
+			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_bug'));
+			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_down'));
+	<?php if(constant('jry_wb_background_music_switch')){?>jry_wb_background_music.init();<?php } ?>
 		<?php if($jry_wb_login_user['id']!=-1){?>
 			document.addEventListener('visibilitychange',function()
 			{

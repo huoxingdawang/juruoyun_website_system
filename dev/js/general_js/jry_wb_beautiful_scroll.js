@@ -315,7 +315,7 @@ jry_wb_add_load(function()
 		{
 			jry_wb_scroll_body.style.height=document.body.clientHeight-Math.max(0,document.getElementsByClassName('jry_wb_top_toolbar')[0]==undefined?0:document.getElementsByClassName('jry_wb_top_toolbar')[0].clientHeight-window.scrollY);
 			jry_wb_scroll_kuai.style.height=document.body.clientHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
-			var right=parseInt(document.getElementById('jry_wb_left_button_up')==undefined?0:document.getElementById('jry_wb_left_button_up').style.right)+2;
+				var right=parseInt(jry_wb_right_tools.body.style.right)+2;
 			jry_wb_scroll_body.style.opacity=Math.max(0,Math.min(parseFloat(jry_wb_scroll_body.style.opacity)+0.1,1));
 			right=Math.max(0,Math.min(right,jry_wb_scroll_body.clientWidth));
 			if(right>Math.max(jry_wb_scroll_kuai.clientWidth,jry_wb_scroll_body.clientWidth)&&parseFloat(jry_wb_scroll_body.style.opacity)>=1)
@@ -324,10 +324,7 @@ jry_wb_add_load(function()
 				timer2=null;
 				return ;
 			}
-			if(document.getElementById('jry_wb_left_button_up')!=undefined)
-				document.getElementById('jry_wb_left_button_up').style.right=document.getElementById('jry_wb_left_button_bug').style.right=document.getElementById('jry_wb_left_button_down').style.right=right;
-			if(document.getElementById('jry_wb_left_button_backgroundmusic_icon')!=null)
-				document.getElementById('jry_wb_left_button_backgroundmusic_icon').style.right=right;			
+			jry_wb_right_tools.body.style.right=right;		
 		},1);
 	};
 	var all_flag=false;
@@ -348,7 +345,7 @@ jry_wb_add_load(function()
 					return;
 				jry_wb_scroll_body.style.height=document.body.clientHeight-Math.max(0,document.getElementsByClassName('jry_wb_top_toolbar')[0]==undefined?0:document.getElementsByClassName('jry_wb_top_toolbar')[0].clientHeight-window.scrollY);
 				jry_wb_scroll_kuai.style.height=document.body.clientHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
-				var right=parseInt(document.getElementById('jry_wb_left_button_up')==undefined?0:document.getElementById('jry_wb_left_button_up').style.right)-2;
+				var right=parseInt(jry_wb_right_tools.body.style.right)-2;
 				jry_wb_scroll_body.style.opacity=Math.max(0,Math.min(parseFloat(jry_wb_scroll_body.style.opacity)-0.1,1));
 				right=Math.max(0,Math.min(right,jry_wb_scroll_body.clientWidth));
 				if(right<=0&&parseFloat(jry_wb_scroll_body.style.opacity)<=0)
@@ -357,8 +354,7 @@ jry_wb_add_load(function()
 					timer3=null;
 					return ;
 				}
-				if(document.getElementById('jry_wb_left_button_up')!=undefined)
-					document.getElementById('jry_wb_left_button_up').style.right=document.getElementById('jry_wb_left_button_bug').style.right=document.getElementById('jry_wb_left_button_down').style.right=right;if(document.getElementById('jry_wb_left_button_backgroundmusic_icon')!=null)document.getElementById('jry_wb_left_button_backgroundmusic_icon').style.right=right;			
+				jry_wb_right_tools.body.style.right=right;
 			},20);
 		},250);
 	};
@@ -437,12 +433,12 @@ jry_wb_add_load(function()
 	};
 	window.onmousewheel=function(e)
 	{
-		if(timer!=null)clearTimeout(timer),timer=null;
-		if(timer2!=null)clearInterval(timer2),timer2=null;
 		if(timer3!=null)clearInterval(timer3),timer3=null;
 		if(timer4!=null)clearInterval(timer4),timer4=null;
 		if(document.body.clientHeight==document.body.offsetHeight||jry_wb_beautiful_scroll_run_flag)
 			return;
+		if(timer!=null)clearTimeout(timer),timer=null;
+		if(timer2!=null)clearInterval(timer2),timer2=null;
 		e=e||window.event;
 		if(e!=null)
 			window.scrollTo(window.scrollX,window.scrollY+(e.deltaY||e.detail*50));
@@ -454,7 +450,7 @@ jry_wb_add_load(function()
 		{
 			jry_wb_scroll_body.style.height=document.body.clientHeight-Math.max(0,document.getElementsByClassName('jry_wb_top_toolbar')[0]==undefined?0:document.getElementsByClassName('jry_wb_top_toolbar')[0].clientHeight-window.scrollY);
 			jry_wb_scroll_kuai.style.height=document.body.clientHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
-			var right=parseInt(document.getElementById('jry_wb_left_button_up')==undefined?0:document.getElementById('jry_wb_left_button_up').style.right)+2;
+			var right=parseInt(jry_wb_right_tools.body.style.right)+2;
 			jry_wb_scroll_body.style.opacity=Math.max(0,Math.min(parseFloat(jry_wb_scroll_body.style.opacity)+0.1,1));
 			right=Math.max(0,Math.min(right,jry_wb_scroll_body.clientWidth));
 			if(right>Math.max(jry_wb_scroll_kuai.clientWidth,jry_wb_scroll_body.clientWidth)&&parseFloat(jry_wb_scroll_body.style.opacity)>=1)
@@ -463,8 +459,7 @@ jry_wb_add_load(function()
 				timer2=null;
 				return ;
 			}			
-			if(document.getElementById('jry_wb_left_button_up')!=undefined)
-				document.getElementById('jry_wb_left_button_up').style.right=document.getElementById('jry_wb_left_button_bug').style.right=document.getElementById('jry_wb_left_button_down').style.right=right;if(document.getElementById('jry_wb_left_button_backgroundmusic_icon')!=null)document.getElementById('jry_wb_left_button_backgroundmusic_icon').style.right=right;			
+			jry_wb_right_tools.body.style.right=right;
 		},1);
 		timer=setTimeout(function()
 		{
@@ -476,7 +471,7 @@ jry_wb_add_load(function()
 			{
 				jry_wb_scroll_body.style.height=document.body.clientHeight-Math.max(0,document.getElementsByClassName('jry_wb_top_toolbar')[0]==undefined?0:document.getElementsByClassName('jry_wb_top_toolbar')[0].clientHeight-window.scrollY);
 				jry_wb_scroll_kuai.style.height=document.body.clientHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
-				var right=parseInt(document.getElementById('jry_wb_left_button_up')==undefined?0:document.getElementById('jry_wb_left_button_up').style.right)-2;
+				var right=parseInt(jry_wb_right_tools.body.style.right)-2;
 				jry_wb_scroll_body.style.opacity=Math.max(0,Math.min(parseFloat(jry_wb_scroll_body.style.opacity)-0.1,1));
 				right=Math.max(0,Math.min(right,jry_wb_scroll_body.clientWidth));
 				if(right<=0&&parseFloat(jry_wb_scroll_body.style.opacity)<=0)
@@ -485,10 +480,7 @@ jry_wb_add_load(function()
 					timer3=null;
 					return ;
 				}
-				if(document.getElementById('jry_wb_left_button_up')!=undefined)
-					document.getElementById('jry_wb_left_button_up').style.right=document.getElementById('jry_wb_left_button_bug').style.right=document.getElementById('jry_wb_left_button_down').style.right=right;
-				if(document.getElementById('jry_wb_left_button_backgroundmusic_icon')!=null)
-					document.getElementById('jry_wb_left_button_backgroundmusic_icon').style.right=right;			
+				jry_wb_right_tools.body.style.right=right;	
 			},20);
 			timer=null;
 		},1000);
