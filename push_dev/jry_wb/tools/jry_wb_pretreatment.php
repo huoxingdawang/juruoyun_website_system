@@ -64,7 +64,6 @@
 	$jry_wb_login_user['browser']=jry_wb_get_browser();
 	$jry_wb_login_user['device']=jry_wb_get_device();
 	$jry_wb_login_user['manageusers']=$jry_wb_login_user['id']==-1?0:$jry_wb_login_user['manageusers'];
-	$i=0;
 	foreach($jry_wb_login_user['ips']as $ips)
 	{
 		$arr=jry_wb_get_ip_address($ips['ip']);
@@ -80,8 +79,7 @@
 			setcookie('id',$jry_wb_login_user['id'],time()+60*60*24*100,'/',jry_wb_get_domain(),NULL,true);
 			setcookie('code',$ips['code'],time()+60*60*24*100,'/',$_SERVER['HTTP_HOST'],NULL,true);			
 		}
-		$jry_wb_login_user['login_addr'][$i]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'code'=>$ips['code']);
-		$i++;
+		$jry_wb_login_user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'code'=>$ips['code']);
 	}
 	if($jry_wb_login_user['id']==-1)
 	{
@@ -106,5 +104,5 @@
 	if($jry_wb_login_user['oauth_mi']!='')
 		$jry_wb_login_user['oauth_mi']=json_decode($jry_wb_login_user['oauth_mi']);	
 	if($jry_wb_login_user['oauth_gitee']!='')
-		$jry_wb_login_user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$jry_wb_login_user['oauth_gitee']));		
+		$jry_wb_login_user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$jry_wb_login_user['oauth_gitee']));
 ?>
