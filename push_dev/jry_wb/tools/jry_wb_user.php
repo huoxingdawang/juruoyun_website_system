@@ -78,38 +78,4 @@
 		else if($user['head']!='')
 			return "http://juruoyun.top/mywork/picturebed/get_picturebed.php?size=80&pictureid=".$user[head];						
 	}
-	function jry_wb_update_user_head($user)
-	{
-		$conn=jry_wb_connect_database();
-		if(strtolower(array_pop(explode("@",$user['mail'])))=='qq.com')
-		{
-			$q ="update ".constant('jry_wb_database_general')."users set head='qq' where id=?";
-			$st = $conn->prepare($q);
-			$st->bindParam(1,$user['id']);
-			$st->execute();
-			return;
-		}
-		$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($user['mail']). '?d=404');
-		if (preg_match("|200|", $headers[0])) 
-		{
-			$q ="update ".constant('jry_wb_database_general')."users set head='gravatar' where id=?";
-			$st = $conn->prepare($q);
-			$st->bindParam(1,$user['id']);
-			$st->execute();	
-		}
-		else if($user['sex']==0&&$user['head']=='default_head_man')
-		{
-			$q ="update ".constant('jry_wb_database_general')."users set head='default_head_woman' where id=?";
-			$st = $conn->prepare($q);
-			$st->bindParam(1,$user['id']);
-			$st->execute();
-		}
-		else if(($user['sex']==1||$user['sex']==2)&&$user['head']=='default_head_woman')
-		{
-			$q ="update ".constant('jry_wb_database_general')."users set head='default_head_man' where id=?";
-			$st = $conn->prepare($q);
-			$st->bindParam(1,$user['id']);
-			$st->execute();
-		}
-	}
 ?>

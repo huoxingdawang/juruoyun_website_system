@@ -4,6 +4,8 @@
 	include_once(dirname(dirname(__FILE__)).'/jry_wb_configs/jry_wb_config_includes.php');
 	include_once('jry_wb_database.php');
 	include_once('jry_wb_user.php');
+
+	include_once('jry_wb_set_green_money.php');
 	
 	include_once('jry_wb_print_logo.php');
 	include_once('jry_wb_print_href.php');
