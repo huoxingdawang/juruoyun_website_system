@@ -291,11 +291,7 @@
 		$st->bindParam(6,jry_wb_get_time());
 		$st->bindParam(7,$jry_wb_login_user[id]);
 		$st->execute();
-		if($jry_wb_login_user['sex']!=$sex)
-		{
-			$jry_wb_login_user['sex']=$sex;
-			jry_wb_update_user_head($jry_wb_login_user);
-		}
+		$jry_wb_login_user['sex']=$sex;
 	}
 	else if($_GET['action']=='tel')
 	{
@@ -344,7 +340,6 @@
 		$st->bindParam(2,jry_wb_get_time());
 		$st->bindParam(3,$jry_wb_login_user[id]);
 		$st->execute();
-		jry_wb_update_user_head($jry_wb_login_user);
 	}	
 	else if($_GET['action']=='pas')
 	{

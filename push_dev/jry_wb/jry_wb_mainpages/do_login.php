@@ -17,19 +17,19 @@
 	}
 	if($type=="1")
 	{
-		@$conn=jry_wb_connect_database();
+		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=? LIMIT 1');
 		$st->bindParam(1,$id);
 		$st->execute();
-		foreach($st->fetchAll()as $users);				
+		$jry_wb_login_user=$st->fetchAll()[0];
 	}
 	else if($type=="2")
 	{
-		@$conn=jry_wb_connect_database();
+		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=? LIMIT 1');
 		$st->bindParam(1,$id);
 		$st->execute();
-		foreach($st->fetchAll()as $users);			
+		$jry_wb_login_user=$st->fetchAll()[0];
 	}
 	else if($type=='4')
 	{
@@ -38,7 +38,7 @@
 		$st->bindParam(1,$open_id);
 		$st->bindParam(2,$access_token);
 		$st->execute();
-		foreach($st->fetchAll()as $users);			
+		$jry_wb_login_user=$st->fetchAll()[0];
 	}
 	else if($type=='5')
 	{
@@ -46,7 +46,7 @@
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
 		$st->bindParam(1,$github_id);
 		$st->execute();
-		foreach($st->fetchAll()as $users);
+		$jry_wb_login_user=$st->fetchAll()[0];
 	}	
 	else if($type=='6')
 	{
@@ -54,7 +54,7 @@
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
 		$st->bindParam(1,$unionId);
 		$st->execute();
-		foreach($st->fetchAll()as $users);
+		$jry_wb_login_user=$st->fetchAll()[0];
 	}
 	else if($type=='7')
 	{
@@ -62,7 +62,7 @@
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.message.private_token'=? LIMIT 1");
 		$st->bindParam(1,$gitee_id);
 		$st->execute();
-		foreach($st->fetchAll()as $users);
+		$jry_wb_login_user=$st->fetchAll()[0];
 	}		
 	else if($type=='8')
 	{
@@ -70,60 +70,37 @@
 	}
 	else
 	{
-		@$conn=jry_wb_connect_database();
+		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where id=? LIMIT 1');
 		$st->bindParam(1,$id);
 		$st->execute();
-		foreach($st->fetchAll()as $users);		
+		$jry_wb_login_user=$st->fetchAll()[0];
+
 	}
-	if($users==NULL)
-	{
-		if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
-			echo json_encode(array('state'=>-2));
-		else
-		{	
-			jry_wb_print_head("登录失败",false,false,false);
-			?>
-			<script>
-				jry_wb_beautiful_alert.alert("登录失败",'不存在的账户',function()
-				{
-					window.close();
-					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-				});
-			</script>
-			<?php
-		}	
-		exit();
-	}
-	else if($psw!=$users['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
-	{
-		echo json_encode(array('state'=>-3));
-		return ;
-	}
-	$date=floor((strtotime(jry_wb_get_time())-strtotime($users[greendate]))/86400);
-	$hour=floor((strtotime(jry_wb_get_time())-strtotime($users[greendate]))/3600);
-	$q="update ".constant('jry_wb_database_general')."users set logdate='".jry_wb_get_time()."'";
-	if($hour>=9||$date>=1)
-		$q.=' ,greendate="'.jry_wb_get_time().'" , green_money=green_money+'.($green_money=rand(2,10));
-	$q.="  where id=? ";
-	$st = $conn->prepare($q);
-	$st->bindParam(1,$users['id']);
+	jry_wb_echo_log(constant('jry_wb_log_type_login'),array('type'=>$type,'device'=>jry_wb_get_device(true),'ip'=>$_SERVER['REMOTE_ADDR'],'browser'=>jry_wb_get_browser(true)));	
+	$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET logdate=? where id=? ');
+	$st->bindParam(1,jry_wb_get_time());	
+	$st->bindParam(2,$jry_wb_login_user['id']);
 	$st->execute();
+	if(strtotime($jry_wb_login_user['greendate'].' +24 hours')<time())
+		jry_wb_set_green_money($conn,$jry_wb_login_user,$green_money=rand(1,10),constant('jry_wb_log_type_green_money_login_add'));
+	
+	
 	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? AND device=? AND code=? AND ip=? AND browser=?');
-	$st->bindParam(1,$users['id']);
+	$st->bindParam(1,$jry_wb_login_user['id']);
 	$st->bindParam(2,jry_wb_get_device(true));
 	$st->bindParam(3,$_COOKIE['code']);
 	$st->bindParam(4,$_SERVER['REMOTE_ADDR']);
 	$st->bindParam(5,jry_wb_get_browser(true));	
 	$st->execute();
 	$all=$st->fetchAll();
-	setcookie('id',$users['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,false);
+	setcookie('id',$jry_wb_login_user['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,false);
 	if(count($all)!=0)
 	{
 		setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
 		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login SET time=? where id=? AND ip=? AND device=? AND code=? AND browser=?");
 		$st->bindParam(1,jry_wb_get_time());	
-		$st->bindParam(2,$users['id']);
+		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->bindParam(3,$_SERVER['REMOTE_ADDR']);
 		$st->bindParam(4,jry_wb_get_device(true));
 		$st->bindParam(5,$_COOKIE['code']);
@@ -132,15 +109,11 @@
 	}
 	else
 	{
-		$srcstr='123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYZ';
-		$code='';
-		mt_srand();
-		for ($i = 0; $i < 100; $i++) 
-			$code.=$srcstr[mt_rand(0, 50)];
-		$code.=md5(jry_wb_get_time()).md5($users['mail'].$users['id']);
+		$code=jry_wb_get_random_string(50);
+		$code.=md5(jry_wb_get_time()).md5($jry_wb_login_user['mail'].$jry_wb_login_user['id']);
 		setcookie('code',$code,time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
 		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."login (id,ip,time,device,code,browser) VALUES(?,?,?,?,?,?)");
-		$st->bindParam(1,$users['id']);
+		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_SERVER['REMOTE_ADDR']);
 		$st->bindParam(3,jry_wb_get_time());	
 		$st->bindParam(4,jry_wb_get_device(true));				
@@ -148,18 +121,16 @@
 		$st->bindParam(6,jry_wb_get_browser(true));
 		$st->execute();
 	}
-	$st = $conn->prepare("update ".constant('jry_wb_database_general')."users SET lasttime='".jry_wb_get_time()."' where id=?");
-	$st->bindParam(1,$users['id']);
-	$st->execute();	
-	$date=floor((strtotime(jry_wb_get_time())-strtotime($users[logdate]))/86400);
-	$hour=floor((strtotime(jry_wb_get_time())-strtotime($users[logdate]))/3600);
-	$minute=floor((strtotime(jry_wb_get_time())-strtotime($users[logdate]))/60)-$hour*60;
-	$jry_wb_login_user['id']=$users['id'];
-	jry_wb_echo_log(constant('jry_wb_log_type_login'),'by password by '.$type);	
+	
+	$date=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/86400);
+	$hour=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/3600);
+	$minute=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/60)-$hour*60;
+	
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 		echo json_encode(array('state'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
 	else
-	{	
+	{
+		$jry_wb_login_user['style']=jry_wb_load_style($jry_wb_login_user['style_id']);		
 		jry_wb_print_head("登录",false,false,false,array('use'),true,false);
 ?>
 <script>
@@ -170,5 +141,5 @@
 	});
 </script>
 <?php
-	}
+	}	
 ?>

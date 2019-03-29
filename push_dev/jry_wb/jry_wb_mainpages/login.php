@@ -25,7 +25,7 @@
 				$st = $conn->prepare($q);
 				$st->bindParam(1,$users['id']);
 				$st->execute();
-				if(count($st->fetchAll())==0)
+				if(count($jry_wb_login_user=$st->fetchAll())==0)
 				{
 					jry_wb_print_head("登录",false,false,true);		
 					?><script language=javascript>
@@ -36,6 +36,7 @@
 					<h2>邮箱:lijunyandeyouxiang@163.com</h2><?php
 					exit();
 				}
+				$jry_wb_login_user=$jry_wb_login_user[0];
 				$type=8;
 				require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
 				exit();

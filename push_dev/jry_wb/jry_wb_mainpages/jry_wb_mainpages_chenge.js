@@ -29,7 +29,7 @@ function shownext()
 	var date1 =jry_wb_get_server_time();
 	var date2 = new Date(intime.replace(/\-/g, "/"));
 	var ms = (date1.getTime() - date2.getTime());
-	ms=9*60*60*1000-ms;
+	ms=24*60*60*1000-ms;
 	if(!stopnext)
 	{
 		if(ms>0)
