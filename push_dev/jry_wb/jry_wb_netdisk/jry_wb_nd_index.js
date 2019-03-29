@@ -37,7 +37,7 @@ jry_wb_add_load(function()
 	});	
 	var back=document.createElement('a');left_body.appendChild(back);				/*返回首页*/
 	back.href=jry_wb_message.jry_wb_index_page;
-	back.classList.add('jry_wb_netdisk_back','jry_wb_icon');							/*返回首页属性*/
+	back.classList.add('jry_wb_netdisk_back','jry_wb_icon');						/*返回首页属性*/
 	back.innerHTML="返回"+jry_wb_message.jry_wb_name;								/*返回首页文字*/
 	var head=document.createElement('div');left_body.appendChild(head);				/*头像*/
 	head.classList.add('jry_wb_netdisk_head');										/*头像属性*/
@@ -57,7 +57,7 @@ jry_wb_add_load(function()
 	}
 	else
 	{	
-		name_word.innerHTML="欢迎访问"+jry_wb_message.jry_wb_name;										/*用户名文字内容*/
+		name_word.innerHTML="欢迎访问"+jry_wb_message.jry_wb_name;					/*用户名文字内容*/
 		name_word.href=jry_wb_message.jry_wb_index_page;
 	}
 	if(!jry_nd_share_mode_flag)
@@ -77,6 +77,8 @@ jry_wb_add_load(function()
 	error_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_cuowuxinxi');
 	if(!jry_nd_share_mode_flag)
 	{		
+		green_money_button=document.createElement('button');button_bar.appendChild(green_money_button);
+		green_money_button.classList.add('jry_wb_icon','jry_wb_icon_jinbiduihuan');
 		select_mesage_button=document.createElement('button');button_bar.appendChild(select_mesage_button);
 		select_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_xuanzhongwenjian');
 		select_mesage_button.style.display='none';
@@ -108,6 +110,72 @@ jry_wb_add_load(function()
 			div.innerHTML+='的'+jry_wb_message.jry_wb_name+'网盘分享';
 		}			
 	}
+	error_mesage_button.onclick=function()
+	{
+		if(upload_refresh_timer!=null)
+		{
+			clearInterval(upload_refresh_timer);
+			upload_refresh_timer=null;
+		}
+		message.innerHTML='';		
+		var div=document.createElement('div');message.appendChild(div);	div.innerHTML='错误对照表';div.style.textAlign='center';
+		var table=document.createElement('table');message.appendChild(table);
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200000';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='错误的存储区';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200001';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='不允许的文件类型';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200002';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='用户空间不足';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200003';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='当前存储区域不足';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200004';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='分片上传数据发送错误';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200005';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件重复';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200006';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='父目录不存在';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200007';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件尺寸相差过大';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200008';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件不存在或已删除';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200009';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='慢速下载过大文件';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200010';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='加速器错误';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='220000';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='OSSSDK未知错误';	
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='220001';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='连接错误';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='220002';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='不存在的文件';	
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='220003';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='STS签名错误';
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='230000';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='缓存更新模式错误';	
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='230001';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='使用过的尺寸为负数';		
+		var tr=document.createElement('tr');table.appendChild(tr);
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='230000';
+		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='不存在的分享';		
+	};
+	error_mesage_button.onclick();
 	if(!jry_nd_share_mode_flag)
 	{
 		detail_mesage_button.onclick=function()
@@ -226,6 +294,11 @@ jry_wb_add_load(function()
 		};
 		select_mesage_button.onclick=function()
 		{
+			if(upload_refresh_timer!=null)
+			{
+				clearInterval(upload_refresh_timer);
+				upload_refresh_timer=null;
+			}
 			message.innerHTML='';			
 			var table=document.createElement('table');message.appendChild(table);
 			table.style.width=message.clientWidth;
@@ -248,58 +321,31 @@ jry_wb_add_load(function()
 				};
 			}			
 		};
-	}
-	detail_mesage_button.onclick();
-	error_mesage_button.onclick=function()
-	{
-		if(upload_refresh_timer!=null)
+		green_money_button.onclick=function()
 		{
-			clearInterval(upload_refresh_timer);
-			upload_refresh_timer=null;
-		}
-		message.innerHTML='';		
-		var div=document.createElement('div');message.appendChild(div);	div.innerHTML='错误对照表';div.style.textAlign='center';
-		var table=document.createElement('table');message.appendChild(table);
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='1';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='不允许的文件类型';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='2';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='用户空间不足';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='3';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='当前存储区域不足';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='4';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='分片上传数据发送错误';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='5';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='分片上传ID错误';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='6';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='分片上传存储区不存在';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='7';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='分片上传存储区上传方法错误';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='8';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件大小误差过大';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='9';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='未知操作';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='10';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='OSS文件错误';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='11';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件重复';
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='12';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件不存在或已删除';	
-		var tr=document.createElement('tr');table.appendChild(tr);
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='13';
-		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='STS签名错误';				
-	};
+			if(upload_refresh_timer!=null)
+			{
+				clearInterval(upload_refresh_timer);
+				upload_refresh_timer=null;
+			}
+			message.innerHTML='';
+			var table=document.createElement('table');message.appendChild(table);
+			table.style.width=message.clientWidth;
+			var tr=document.createElement('tr');table.appendChild(tr);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='您的绿币';
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.green_money.toFixed(3);
+			var tr=document.createElement('tr');table.appendChild(tr);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='今日价格';
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='高速流量:'+jry_wb_nd_get_size(jry_nd_price_fast_size)+'/绿币<br>'+'空间:'+jry_wb_nd_get_size(jry_nd_price_size)+'/绿币';			
+			var tr=document.createElement('tr');table.appendChild(tr);
+			var td1=document.createElement('td');tr.appendChild(td1);			td1.innerHTML='买流量';
+			var td=document.createElement('td');tr.appendChild(td);
+			var fast_size=document.createElement('input');td.appendChild(fast_size);fast_size.style.fontSize='16px';fast_size.style.width=message.clientWidth-td1.clientWidth-50;td.innerHTML+='KB<br>';
+//			td.innerHTML+='耗费'+fast_size.value
+			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
+		};
+		detail_mesage_button.onclick();
+	}
 	tool_list=document.createElement('div');right_body.appendChild(tool_list);
 	tool_list.classList.add('jry_wb_netdisk_tool');
 	top_lan=document.createElement('div');tool_list.appendChild(top_lan);
@@ -365,7 +411,7 @@ jry_wb_add_load(function()
 								jry_wb_nd_fresh_file_list();
 							jry_wb_login_user.nd_ei.size_total=data.size_total;
 							jry_wb_login_user.nd_ei.size_used=data.size_used;
-							progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+data.size_total/1024+'MB');					
+							progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));					
 						},function()
 						{
 							jry_nd_upload_count--;

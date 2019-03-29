@@ -12,7 +12,7 @@
 		if(count($root)!=0)
 			return $root[0];
 		return null;	
-	}				
+	}			
 	function jry_nd_database_get_file_by_father_name_type($conn,$user,$father,$name,$type)
 	{
 		$st = $conn->prepare('SELECT file_id FROM '.constant('jry_wb_netdisk').'file_list WHERE `id`=? AND `father`=? AND `name`=? AND `type`=? AND `delete`=0');

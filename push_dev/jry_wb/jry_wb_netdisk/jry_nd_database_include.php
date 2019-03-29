@@ -11,5 +11,8 @@
 	include_once("jry_nd_database_delete_file.php");
 	include_once("jry_nd_database_get_area.php");
 	include_once("jry_nd_database_set_file_ok.php");
+	include_once("jry_nd_database_get_share.php");
+	include_once("jry_nd_database_check_fast.php");
+	include_once("jry_nd_database_set_file_extern.php");
 
 ?>

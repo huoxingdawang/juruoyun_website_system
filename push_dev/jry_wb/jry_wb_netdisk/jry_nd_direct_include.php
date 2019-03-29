@@ -7,5 +7,7 @@
 	include_once("jry_nd_direct_move.php");
 	include_once("jry_nd_direct_share.php");
 	include_once("jry_nd_direct_delete.php");
-
+	include_once("jry_nd_direct_set_head.php");
+	include_once("jry_nd_direct_check_new_fast.php");
+	include_once("jry_nd_direct_check_file_exist.php");
 ?>

@@ -1,10 +1,9 @@
 <?php
 	include_once("jry_nd_includes.php");
 	include_once("jry_nd_aly_check_file_exist.php");
-	include_once("jry_nd_aly_copy.php");
 	include_once("jry_nd_aly_connect.php");
 	include_once("jry_nd_aly_delete.php");
-	include_once("jry_nd_aly_download.php");
+	include_once("jry_nd_aly_read.php");
 	include_once("jry_nd_aly_get_size.php");
 	include_once("jry_nd_aly_sign.php");
 	include_once("jry_nd_aly_upload.php");

@@ -123,6 +123,8 @@ function jry_nd_get_content_type($type)
 	else if($type=='htm')		return 'text/html';
 	else if($type=='asc')		return 'text/plain';
 	else if($type=='txt')		return 'text/plain';
+	else if($type=='in')		return 'text/plain';
+	else if($type=='out')		return 'text/plain';
 	else if($type=='rtx')		return 'text/richtext';
 	else if($type=='rtf')		return 'text/rtf';
 	else if($type=='sgml')		return 'text/sgml';

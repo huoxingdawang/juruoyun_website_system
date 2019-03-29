@@ -8,7 +8,7 @@
 		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `father`=? , lasttime=? WHERE `file_id`=? AND id=?');
 		$st->bindValue(1,$to['file_id']);
 		$st->bindValue(2,jry_wb_get_time());
-		$st->bindValue(3,$file['id']);
+		$st->bindValue(3,$file['file_id']);
 		$st->bindValue(4,$user['id']);
 		$st->execute();
 	}

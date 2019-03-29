@@ -6,6 +6,8 @@
 	use OSS\Core\OssException;
 	function jry_nd_aly_get_size($connect,$area,$file)
 	{
+		if($area['type']!=1)
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));			
 		try
 		{
 			return $connect->getObjectMeta($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload')['content-length'];

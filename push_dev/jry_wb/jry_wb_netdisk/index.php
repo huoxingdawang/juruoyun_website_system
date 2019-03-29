@@ -30,7 +30,7 @@
 ?>
 <div class='jry_wb_top_toolbar'></div>
 <script language="javascript" src="jry_wb_nd_index.js"></script>
-<script>var jry_nd_share_mode_flag=false,jry_nd_fast_save_message=JSON.parse('<?php  echo json_encode($data);?>');</script>
+<script>var jry_nd_share_mode_flag=false,jry_nd_fast_save_message=JSON.parse('<?php  echo json_encode($data);?>'),jry_nd_price_fast_size=JSON.parse('<?php  echo constant('jry_nd_price_fast_size');?>'),jry_nd_price_size=JSON.parse('<?php  echo constant('jry_nd_price_size');?>');</script>
 <div class="jry_wb_netdisk_body" id="body">
 
 </div>

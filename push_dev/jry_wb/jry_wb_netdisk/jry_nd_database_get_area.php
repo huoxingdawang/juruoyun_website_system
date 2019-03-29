@@ -8,6 +8,9 @@
 		if(count($data=$st->fetchAll())==0)
 			return null;
 		$data[0]['config_message']=json_decode($data[0]['config_message']);
+		if($data[0]['fast']==0)
+			if($data[0]['faster']!='')							//有加速器
+				$data[0]['faster_area']=jry_nd_database_get_area($conn,$data[0]['faster']);
 		return $data[0];	
 	}
 ?>
