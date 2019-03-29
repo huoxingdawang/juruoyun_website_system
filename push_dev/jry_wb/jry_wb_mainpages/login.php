@@ -196,7 +196,8 @@ function qqlogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)			
+				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);
 }
@@ -207,7 +208,8 @@ function gayhublogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)
+				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);	
 }
@@ -218,7 +220,8 @@ function giteelogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)			
+				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);	
 }
@@ -229,7 +232,8 @@ function milogin()
 		if(newwindow.closed)
 		{
 			clearInterval(timer);
-			window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)
+				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
 		}
 	},500);
 }

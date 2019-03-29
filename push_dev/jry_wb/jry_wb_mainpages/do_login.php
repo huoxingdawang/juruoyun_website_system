@@ -19,50 +19,49 @@
 	{
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=? LIMIT 1');
-		$st->bindParam(1,$id);
+		$st->bindValue(1,$id);
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];
 	}
 	else if($type=="2")
 	{
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=? LIMIT 1');
-		$st->bindParam(1,$id);
+		$st->bindValue(1,$id);
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];
 	}
 	else if($type=='4')
 	{
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
-		$st->bindParam(1,$open_id);
-		$st->bindParam(2,$access_token);
+		$st->bindValue(1,$open_id);
+		$st->bindValue(2,$access_token);
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];
 	}
 	else if($type=='5')
 	{
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
-		$st->bindParam(1,$github_id);
+		$st->bindValue(1,$github_id);
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];
 	}	
 	else if($type=='6')
 	{
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
-		$st->bindParam(1,$unionId);
+		$st->bindValue(1,$unionId);
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];
 	}
 	else if($type=='7')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.message.private_token'=? LIMIT 1");
-		$st->bindParam(1,$gitee_id);
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE `oauth_gitee`->'$.message.id'=".$gitee_id." LIMIT 1");
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];
 	}		
 	else if($type=='8')
 	{
@@ -74,9 +73,34 @@
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where id=? LIMIT 1');
 		$st->bindParam(1,$id);
 		$st->execute();
-		$jry_wb_login_user=$st->fetchAll()[0];
-
+		$user=$st->fetchAll()[0];
 	}
+	if($user==NULL)
+	{
+		if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
+			echo json_encode(array('state'=>-2));
+		else
+		{
+			$user['style']=jry_wb_load_style(1);			
+			jry_wb_print_head("登录失败",false,false,false);
+			?>
+			<script>
+				jry_wb_beautiful_alert.alert("登录失败",'不存在的账户',function()
+				{
+					window.close();
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+				});
+			</script>
+			<?php
+		}	
+		exit();
+	}
+	else if($psw!=$users['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
+	{
+		echo json_encode(array('state'=>-3));
+		return ;
+	}
+	$jry_wb_login_user=$user;
 	jry_wb_echo_log(constant('jry_wb_log_type_login'),array('type'=>$type,'device'=>jry_wb_get_device(true),'ip'=>$_SERVER['REMOTE_ADDR'],'browser'=>jry_wb_get_browser(true)));	
 	$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET logdate=? where id=? ');
 	$st->bindParam(1,jry_wb_get_time());	
@@ -84,7 +108,6 @@
 	$st->execute();
 	if(strtotime($jry_wb_login_user['greendate'].' +24 hours')<time())
 		jry_wb_set_green_money($conn,$jry_wb_login_user,$green_money=rand(1,10),constant('jry_wb_log_type_green_money_login_add'));
-	
 	
 	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? AND device=? AND code=? AND ip=? AND browser=?');
 	$st->bindParam(1,$jry_wb_login_user['id']);

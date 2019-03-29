@@ -30,13 +30,13 @@
 		<link rel='stylesheet' type='text/css' href='<?php echo constant('jry_wb_host')?>jry_wb_css/iconfont.css'>
 		<link rel='stylesheet' type='text/css' href='<?php echo constant('jry_wb_host')?>jry_wb_css/colorpicker.css'>
 		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['general_css_address'];?>'>
-	<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='disktop'||$jry_wb_login_user['device']=='ipad'){?>
-		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['desktop_css_address'];?>'>
-	<?php }else if($jry_wb_login_user['jry_wb_test_is_mobile']=='mobile'){?>
+	<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='mobile'){?>
 		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>
 	<?php }else if($jry_wb_login_user['jry_wb_test_is_mobile']=='weixin'){?>
-	<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>
-	<?php }?>
+		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>
+	<?php }else{?>
+		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['desktop_css_address'];?>'>
+	<?php } ?>
 		<meta name="description" content="<?php echo constant('jry_wb_description');?>;由李俊彦开发的蒟蒻云网站系统(<?php echo constant('jry_wb_version')?>)强力驱动,strong powered by 'jry web system(<?php echo constant('jry_wb_version')?>)' which is developed by lijunyan;<?php echo $jry_wb_description;?>">
 		<meta name="keywords" content="<?php echo constant('jry_wb_name')?>,蒟蒻云网站系统,juruoyun web system,<?php echo constant('jry_wb_keywords');?>,<?php echo $jry_wb_keywords;?>">
 		<meta name="robots" content="noarchive">
@@ -60,7 +60,7 @@
 		  <div class="rect5" style="-webkit-animation-delay: -0.8s;animation-delay: -0.8s;"></div>
 		</div>
 	</div>
-	<script  type='text/javascript'>jry_wb_ajax_load_data(jry_wb_save_browsing_history,function(data){data=JSON.parse(data);if(data==true)jry_wb_loading_off();else jry_wb_beautiful_alert.alert("网络错误","请刷新");},[{'name':'from','value':document.referrer},{'name':'now','value':document.location.href}]);</script>
+	<script  type='text/javascript'>/*jry_wb_ajax_load_data(jry_wb_save_browsing_history,function(data){data=JSON.parse(data);if(data==true)jry_wb_loading_off();else jry_wb_beautiful_alert.alert("网络错误","请刷新");},[{'name':'from','value':document.referrer},{'name':'now','value':document.location.href}]);*/</script>
 	<?php ob_flush();
 		if($checklogin)
 		{

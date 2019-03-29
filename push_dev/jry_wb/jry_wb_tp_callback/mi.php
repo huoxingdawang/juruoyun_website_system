@@ -48,11 +48,7 @@
 	}	
 	$data=(array('access_token'=>$tokenId,'refreshtoken'=>$refreshtoken,'lasttime'=>jry_wb_get_time(),'message'=>$data));		
 	$unionId=$data['message']['unionId'];
-	try
-	{
-		jry_wb_print_head("",true,false,false,array(),false,false);
-	}
-	catch(jry_wb_exception $e)
+	if($jry_wb_login_user['id']==-1)
 	{
 		$type=6;
 		require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
@@ -61,7 +57,7 @@
 		$st = $conn->prepare($q);
 		$st->bindParam(1,json_encode($data));		
 		$st->bindParam(2,jry_wb_get_time());
-		$st->bindParam(3,$users[id]);
+		$st->bindParam(3,$jry_wb_login_user['id']);
 		$st->execute();	
 		exit();
 	}
