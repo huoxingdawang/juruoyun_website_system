@@ -33,7 +33,7 @@
 	}
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.message.id'=? LIMIT 1");
-	$st->bindParam(1,$gitee_id);
+	$st->bindParam(1,$gitee_id,PDO::PARAM_INT);
 	$st->execute();
 	foreach($st->fetchAll()as $users);
 	if($users!=NULL)

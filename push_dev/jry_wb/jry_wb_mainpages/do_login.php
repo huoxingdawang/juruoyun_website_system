@@ -59,9 +59,10 @@
 	else if($type=='7')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE `oauth_gitee`->'$.message.id'=".$gitee_id." LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.message.id'=? LIMIT 1");
+		$st->bindValue(1,$gitee_id,PDO::PARAM_INT);
 		$st->execute();
-		$user=$st->fetchAll()[0];
+		$user=$st->fetchAll()[0];		
 	}		
 	else if($type=='8')
 	{
@@ -74,6 +75,11 @@
 		$st->bindParam(1,$id);
 		$st->execute();
 		$user=$st->fetchAll()[0];
+		if($psw!=$user['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
+		{
+			echo json_encode(array('state'=>-3));
+			return ;
+		}
 	}
 	if($user==NULL)
 	{
@@ -94,11 +100,6 @@
 			<?php
 		}	
 		exit();
-	}
-	else if($psw!=$users['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
-	{
-		echo json_encode(array('state'=>-3));
-		return ;
 	}
 	$jry_wb_login_user=$user;
 	jry_wb_echo_log(constant('jry_wb_log_type_login'),array('type'=>$type,'device'=>jry_wb_get_device(true),'ip'=>$_SERVER['REMOTE_ADDR'],'browser'=>jry_wb_get_browser(true)));	
