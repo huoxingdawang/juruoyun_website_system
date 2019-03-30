@@ -349,13 +349,28 @@ jry_wb_add_load(function()
 			{
 				if(fast_size.value=='')
 					fast_size.value=0;
-				fast_size.value=parseInt(fast_size.value);
-				fast_size_span.innerHTML='共'+jry_wb_nd_get_size(fast_size.value)+'<br>耗费'+(fast_size.value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
+				fast_size.value=fast_size_value=Number(fast_size.value);
+				if(isNaN(fast_size_value)||fast_size_value==undefined)
+					fast_size.value=0;
+				if(fast_size_value/jry_nd_price_fast_size>jry_wb_login_user.green_money)
+					fast_size_span.style.color='#ff0000';
+				else
+					fast_size_span.style.color='#000000';				
+				fast_size_span.innerHTML='共'+jry_wb_nd_get_size(fast_size_value)+'<br>耗费'+(fast_size_value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
 			};
 			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
 			button.onclick=function()
 			{
-				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_fast_size&size='+fast_size.value,function(data)
+				if(fast_size.value=='')
+					fast_size.value=0;
+				fast_size.value=fast_size_value=Number(fast_size.value);
+				if(isNaN(fast_size_value)||fast_size_value==undefined)
+					fast_size.value=0;
+				if(fast_size_value==0)
+					return;
+				if(fast_size_value/jry_nd_price_fast_size>jry_wb_login_user.green_money)
+					return jry_wb_beautiful_right_alert.alert("余额不足",3000,"auto","error");
+				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_fast_size&size='+fast_size_value,function(data)
 				{
 					jry_wb_loading_off();
 					data=JSON.parse(data);
@@ -384,13 +399,28 @@ jry_wb_add_load(function()
 			{
 				if(size_total.value=='')
 					size_total.value=0;
-				size_total.value=parseInt(size_total.value);
-				size_total_span.innerHTML='共'+jry_wb_nd_get_size(size_total.value)+'<br>耗费'+(size_total.value/jry_nd_price_size).toFixed(4)+'个绿币';
+				size_total.value=size_total_value=Number(size_total.value);
+				if(isNaN(size_total_value)||size_total_value==undefined)
+					size_total.value=0;	
+				if(size_total_value/jry_nd_price_size>jry_wb_login_user.green_money)
+					size_total_span.style.color='#ff0000';
+				else
+					size_total_span.style.color='#000000';
+				size_total_span.innerHTML='共'+jry_wb_nd_get_size(size_total_value)+'<br>耗费'+(size_total_value/jry_nd_price_size).toFixed(4)+'个绿币';
 			};
 			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
 			button.onclick=function()
 			{
-				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_size&size='+size_total.value,function(data)
+				if(size_total.value=='')
+					size_total.value=0;
+				size_total.value=size_total_value=Number(size_total.value);
+				if(isNaN(size_total_value)||size_total_value==undefined)
+					size_total.value=0;
+				if(size_total_value==0)
+					return;
+				if(size_total_value/jry_nd_price_size>jry_wb_login_user.green_money)
+					return jry_wb_beautiful_right_alert.alert("余额不足",3000,"auto","error");
+				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_size&size='+size_total_value,function(data)
 				{
 					jry_wb_loading_off();
 					data=JSON.parse(data);
