@@ -340,9 +340,74 @@ jry_wb_add_load(function()
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td1=document.createElement('td');tr.appendChild(td1);			td1.innerHTML='买流量';
 			var td=document.createElement('td');tr.appendChild(td);
-			var fast_size=document.createElement('input');td.appendChild(fast_size);fast_size.style.fontSize='16px';fast_size.style.width=message.clientWidth-td1.clientWidth-50;td.innerHTML+='KB<br>';
-//			td.innerHTML+='耗费'+fast_size.value
+			var fast_size=document.createElement('input');td.appendChild(fast_size);fast_size.style.fontSize='16px';fast_size.style.width=message.clientWidth-td1.clientWidth-50;
+			fast_size.value=0;
+			var span=document.createElement('span');td.appendChild(span);span.innerHTML='KB<br>';
+			var fast_size_span=document.createElement('span');td.appendChild(fast_size_span);
+			fast_size_span.innerHTML='共'+jry_wb_nd_get_size(fast_size.value)+'<br>耗费'+(fast_size.value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
+			fast_size.onkeyup=function()
+			{
+				if(fast_size.value=='')
+					fast_size.value=0;
+				fast_size.value=parseInt(fast_size.value);
+				fast_size_span.innerHTML='共'+jry_wb_nd_get_size(fast_size.value)+'<br>耗费'+(fast_size.value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
+			};
 			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
+			button.onclick=function()
+			{
+				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_fast_size&size='+fast_size.value,function(data)
+				{
+					jry_wb_loading_off();
+					data=JSON.parse(data);
+					if(!data.code)
+					{
+						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else if(data.reason==300002)	jry_wb_beautiful_right_alert.alert("余额不足",3000,"auto","error");
+						green_money_button.onclick();									
+						return;
+					}
+					jry_wb_login_user.nd_ei.fast_size=data.fast_size;
+					jry_wb_login_user.green_money=data.green_money;
+					green_money_button.onclick();									
+				});
+			};
+			var tr=document.createElement('tr');table.appendChild(tr);
+			var td1=document.createElement('td');tr.appendChild(td1);			td1.innerHTML='买空间';
+			var td=document.createElement('td');tr.appendChild(td);
+			var size_total=document.createElement('input');td.appendChild(size_total);size_total.style.fontSize='16px';size_total.style.width=message.clientWidth-td1.clientWidth-50;
+			size_total.value=0;
+			var span=document.createElement('span');td.appendChild(span);span.innerHTML='KB<br>';
+			var size_total_span=document.createElement('span');td.appendChild(size_total_span);
+			size_total_span.innerHTML='共'+jry_wb_nd_get_size(size_total.value)+'<br>耗费'+(size_total.value/jry_nd_price_size).toFixed(4)+'个绿币';
+			size_total.onkeyup=function()
+			{
+				if(size_total.value=='')
+					size_total.value=0;
+				size_total.value=parseInt(size_total.value);
+				size_total_span.innerHTML='共'+jry_wb_nd_get_size(size_total.value)+'<br>耗费'+(size_total.value/jry_nd_price_size).toFixed(4)+'个绿币';
+			};
+			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
+			button.onclick=function()
+			{
+				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_size&size='+size_total.value,function(data)
+				{
+					jry_wb_loading_off();
+					data=JSON.parse(data);
+					if(!data.code)
+					{
+						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else if(data.reason==300002)	jry_wb_beautiful_right_alert.alert("余额不足",3000,"auto","error");
+						green_money_button.onclick();
+						return;
+					}
+					jry_wb_login_user.nd_ei.size_total=data.size_total;
+					jry_wb_login_user.green_money=data.green_money;
+					green_money_button.onclick();
+					progress.update(jry_wb_login_user.nd_ei.size_used/jry_wb_login_user.nd_ei.size_total,jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_used)+'/'+jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_total));					
+				});
+			};			
 		};
 		detail_mesage_button.onclick();
 	}

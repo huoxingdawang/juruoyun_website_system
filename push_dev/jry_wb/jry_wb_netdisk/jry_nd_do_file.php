@@ -407,14 +407,16 @@
 	}
 	else if($action=='add_size')
 	{
-		$size=$_GET['size'];
+		$size=(int)$_GET['size'];
+		$size=max(0,$size);
 		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/constant('jry_nd_price_size')),constant('jry_wb_log_type_green_money_pay_nd_size')))
 			jry_nd_database_operate_user_size($conn,$jry_wb_login_user,$size);
 		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'green_money'=>$jry_wb_login_user['green_money']));
 	}
 	else if($action=='add_fast_size')
 	{
-		$size=$_GET['size'];
+		$size=(int)$_GET['size'];
+		$size=max(0,$size);
 		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/constant('jry_nd_price_fast_size')),constant('jry_wb_log_type_green_money_pay_nd_size')))
 			jry_nd_database_operate_user_fast($conn,$jry_wb_login_user,$size);
 		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'fast_size'=>$jry_wb_login_user['nd_ei']['fast_size'],'green_money'=>$jry_wb_login_user['green_money']));		
