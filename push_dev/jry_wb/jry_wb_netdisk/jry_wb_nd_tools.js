@@ -10,6 +10,8 @@ function jry_wb_nd_get_size(size)
 		return (size/1024/1024).toFixed(2)+'GB';
 	else if(size<1024*1024*1024*1024)
 		return (size/1024/1024/1024).toFixed(2)+'TB';
+	else
+		return (size/1024/1024/1024/1024).toFixed(2)+'PB';
 	
 }
 function get_dir(i)
