@@ -30,7 +30,7 @@
 		<link rel='stylesheet' type='text/css' href='<?php echo constant('jry_wb_host')?>jry_wb_css/iconfont.css'>
 		<link rel='stylesheet' type='text/css' href='<?php echo constant('jry_wb_host')?>jry_wb_css/colorpicker.css'>
 		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['general_css_address'];?>'>
-	<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='mobile'){?>
+	<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='mobile'&&$jry_wb_login_user['device']!='ipad'){?>
 		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>
 	<?php }else if($jry_wb_login_user['jry_wb_test_is_mobile']=='weixin'){?>
 		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>

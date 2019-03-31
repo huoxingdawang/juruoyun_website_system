@@ -154,4 +154,3 @@
 			jry_nd_database_set_user_used_uploading($conn,$user,$user['size_used'],$user['size_uploading']);
 		echo json_encode(array('delete_log'=>$delete_log,'file_log'=>$file_log,'area_log'=>$area_log,'users'=>$users,'code'=>true));
 	}
-?>
