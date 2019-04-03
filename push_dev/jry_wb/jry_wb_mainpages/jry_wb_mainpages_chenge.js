@@ -1231,7 +1231,7 @@ function tp_in()
 			td.innerHTML='没有绑定,点击绑定，powered by Tencent';
 			td.onclick=function()
 			{
-				newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=320,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+				newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
 				var timer=setInterval(function(){
 					if(newwindow.closed)
 					{
