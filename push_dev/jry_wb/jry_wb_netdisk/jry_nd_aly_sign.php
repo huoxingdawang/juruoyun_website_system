@@ -11,8 +11,8 @@
 		define('HTTP_PROXY_PORT', '8888');
 		if($area['type']!=1)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));		
-		DefaultProfile::addEndpoint($area['config_message']->sts_region_id,$area['config_message']->sts_region_id,"Sts",$area['config_message']->sts_endpoint);
-		$iclientprofile = DefaultProfile::getProfile($area['config_message']->sts_region_id,constant('jry_nd_aly_sts_accesskeyid'),constant('jry_nd_aly_sts_accesskeysecret'));
+		DefaultProfile::addEndpoint($area['config_message']->region,$area['config_message']->region,"Sts",'sts'.$area['config_message']->region.'.aliyuncs.com');
+		$iclientprofile = DefaultProfile::getProfile($area['config_message']->region,constant('jry_nd_aly_sts_accesskeyid'),constant('jry_nd_aly_sts_accesskeysecret'));
 		$client = new DefaultAcsClient($iclientprofile);
 		$request = new Sts\AssumeRoleRequest();
 		$request->setRoleSessionName("jry".$jry_wb_login_user['id'].$file_id);

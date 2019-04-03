@@ -26,7 +26,7 @@
 			}
 			catch(OssException $e)
 			{
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220000,'file'=>__FILE__,'line'=>__LINE__)));
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220000,'extern'=>$e->getMessage(),'file'=>__FILE__,'line'=>__LINE__)));
 			}
 			$data=array();
 			$nextmarker=$listobjectinfo->getNextMarker();

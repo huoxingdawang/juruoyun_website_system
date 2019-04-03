@@ -176,7 +176,7 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 		else if(this.method==1)/*阿里云OSS*/
 		{
 			var ossconfig={
-			  region:data.extern_message.region,
+			  region:'oss-'+data.extern_message.region,
 			  bucket:data.extern_message.bucket,
 			  accessKeyId:data.extern_message.response.Credentials.AccessKeyId,
 			  accessKeySecret:data.extern_message.response.Credentials.AccessKeySecret,

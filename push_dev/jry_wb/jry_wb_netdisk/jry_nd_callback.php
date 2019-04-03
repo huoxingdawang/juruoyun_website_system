@@ -5,7 +5,7 @@
 	include_once("jry_nd_file_type.php");	
 	use OSS\OssClient;
 	use OSS\Core\OssException;
-	if($_GET['action']=='aly_download')
+/*	if($_GET['action']=='aly_download')
 	{
 		$receive_data=json_decode(base64_decode(file_get_contents("php://input")));
 		$conn=jry_wb_connect_database();
@@ -14,7 +14,6 @@
 		$st->bindValue(1,json_encode($receive_data));
 		$st->bindValue(2,jry_wb_get_time());
 		$st->execute();
-		*/
 		
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'area WHERE `type`=1 AND config_message->"$.bucket"=? AND `use`=1');
 		$st->bindValue(1,$receive_data->events[0]->oss->bucket->name);
@@ -50,4 +49,5 @@
 		$st->bindValue(3,$data2[0]['id']);	
 		$st->execute();	
 	}
+	*/
 ?>
