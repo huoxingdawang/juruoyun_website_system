@@ -1,3 +1,11 @@
+if(typeof jry_wb_message=='undefined')
+	var jry_wb_message={"jry_wb_name":"","jry_wb_title":"","jry_wb_host":"","jry_wb_get_message":"","jry_wb_logo":"","jry_wb_data_host":"","jry_wb_index_page":"","jry_wb_chenge_page":"","jry_wb_background_music_switch":0};
+if(typeof jry_wb_login_user=='undefined')
+	var jry_wb_login_user={"id":-1,"color":null,"use":null,"head":null,"green_money":null,"enroldate":null,"logdate":null,"greendate":null,"competencename":null,"name":null,"sex":null,"tel":null,"mail":null,"language":"zh-CN","zhushi":"","style":{"style_id":1,"id":1,"name":"","note":"","data":{"desktop_css_type":0,"desktop_css_address":"http://dev.juruoyun.top/jry_wb/jry_wb_css/default/desktop.css","general_css_type":0,"general_css_address":"http://dev.juruoyun.top/jry_wb/jry_wb_css/default/general.css","mobile_css_type":0,"mobile_css_address":"http://dev.juruoyun.top/jry_wb/jry_wb_css/default/mobile.css","mainpages_index_css_type":0,"mainpages_index_css_address":"http://dev.juruoyun.top/jry_wb/jry_wb_css/default/mainpages/index.css"},"update":[]},"login_addr":null,"tel_show":null,"ip_show":null,"mail_show":null,"word_special_fact":null,"follow_mouth":null,"background_music_list":[],"oauth_qq":null,"oauth_github":null,"oauth_gitee":null,"oauth_mi":null};
+if(typeof jry_wb_save_browsing_history=='undefined')
+	var jry_wb_save_browsing_history='';
+if(typeof jry_wb_time_different=='undefined')
+	jry_wb_time_different=0;
 jry_wb_onload_function_data=null;
 function jry_wb_add_load(func) 
 {  

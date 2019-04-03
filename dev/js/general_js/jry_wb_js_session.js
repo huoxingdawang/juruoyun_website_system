@@ -3,7 +3,9 @@ var jry_wb_js_session=new function()
 	var lastsend=0;
 	this.close=false;
 	var map=new Map();
-	if(typeof SharedWorker=='undefined')
+	if(jry_wb_message.jry_wb_host=='')
+		this.close=true;
+	else if(typeof SharedWorker=='undefined')
 		this.close=true;
 	else
 	{

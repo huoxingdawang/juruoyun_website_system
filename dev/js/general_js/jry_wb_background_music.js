@@ -129,6 +129,7 @@ var jry_wb_background_music = new function()
 	this.backup=function(set)
 	{
 		if(!jry_wb_test_is_pc())return;		
+		if(this.audio==undefined)return undefined;
 		var playing=jry_wb_cache.get('background_music');
 		this.beautiful.reply_count=playing==null?1:playing.cycle;
 		this.beautiful.cycle_button_update();
@@ -162,16 +163,19 @@ var jry_wb_background_music = new function()
 	this.volume=function(volume)
 	{
 		if(!jry_wb_test_is_pc())return;		
+		if(this.audio==undefined)return undefined;
 		return (volume==undefined?this.audio.volume:(this.audio.volume=volume));
 	};
 	this.currenttime=function(currenttime)
 	{
 		if(!jry_wb_test_is_pc())return;		
+		if(this.audio==undefined)return undefined;
 		return (currenttime==undefined?this.audio.currentTime:(this.audio.currentTime=currenttime));
 	};
-	this.status=function(status)
+	this.status=function (status)
 	{
-		if(!jry_wb_test_is_pc())return;		
+		if(!jry_wb_test_is_pc())return;	
+		if(this.audio==undefined)return undefined;
 		return status==undefined?(!this.audio.paused):(status?this.audio.play():this.audio.pause());
 	};
 	this.break=function()
