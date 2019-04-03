@@ -9,10 +9,13 @@
 		if($type=='')
 			$type=$_GET['type'];
 		$show='';
-		if($vcode!= $_SESSION['vcode']||$vcode=='')
+		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 		{
-			echo json_encode(array('state'=>-1));
-			return ;
+			if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+				echo json_encode(array('code'=>false,'reason'=>100005));
+			else
+				echo json_encode(array('code'=>false,'reason'=>100002));
+			exit();
 		}
 	}
 	if($type=="1")
@@ -77,14 +80,14 @@
 		$user=$st->fetchAll()[0];
 		if($psw!=$user['password']&&($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 		{
-			echo json_encode(array('state'=>-3));
+			echo json_encode(array('code'=>false,'reason'=>100006));
 			return ;
 		}
 	}
 	if($user==NULL)
 	{
 		if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
-			echo json_encode(array('state'=>-2));
+			echo json_encode(array('code'=>false,'reason'=>100007));
 		else
 		{
 			$user['style']=jry_wb_load_style(1);			
@@ -151,7 +154,7 @@
 	$minute=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/60)-$hour*60;
 	
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
-		echo json_encode(array('state'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
+		echo json_encode(array('code'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
 	else
 	{
 		$jry_wb_login_user['style']=jry_wb_load_style($jry_wb_login_user['style_id']);		
