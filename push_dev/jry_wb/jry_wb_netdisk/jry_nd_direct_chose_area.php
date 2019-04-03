@@ -6,7 +6,7 @@
 			$method=0;
 		else
 			$method=1;
-		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE  type=? AND `use`=1');
+		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE  type=? AND `use`=1 AND `upload`=1');
 		$st->bindParam(1,$method);
 		$st->execute();
 		if(count($areas=$st->fetchAll())==0)
