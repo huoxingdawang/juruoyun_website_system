@@ -4,6 +4,9 @@ var jry_wb_cache=
 	{
 		if(time==undefined)
 			time=jry_wb_get_server_time();
+		else
+			if(typeof time=="number")
+				time=new Date(time);
 		if(longtime==null||longtime==undefined)
 			longtime = true;
 		if(longtime)
