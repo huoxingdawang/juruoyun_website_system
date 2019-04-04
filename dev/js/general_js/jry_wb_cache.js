@@ -1,13 +1,15 @@
 var jry_wb_cache=
 {
-	set:function(name,data,longtime)
+	set:function(name,data,longtime,time)
 	{
+		if(time==undefined)
+			time=jry_wb_get_server_time();
 		if(longtime==null)
 			longtime = true;
 		if(longtime)
-			localStorage.setItem(name,JSON.stringify({lasttime:jry_wb_get_server_time(),data:data}));
+			localStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));
 		else 
-			sessionStorage.setItem(name,JSON.stringify({lasttime:jry_wb_get_server_time(),data:data}));
+			sessionStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));
 	},
 	set_last_time:function(name,time,longtime)
 	{
