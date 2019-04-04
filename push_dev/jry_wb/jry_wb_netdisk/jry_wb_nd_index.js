@@ -539,8 +539,20 @@ jry_wb_add_load(function()
 			fresh.classList.add("mid_lan_button","jry_wb_icon","fresh","jry_wb_icon_yunduanshuaxin");
 			fresh.onclick=function()
 			{
-				jry_wb_nd_fresh(true);
+				jry_wb_nd_fresh(2);
 			};
+			fresh.oncontextmenu=function()
+			{
+				jry_wb_beautiful_alert.check('强制同步？',function()
+				{
+					jry_wb_nd_fresh(true);
+				},function()
+				{
+					
+				},'同步','放弃');
+				return false;
+			};
+			jry_wb_add_oncontextmenu(fresh);			
 			var new_dir=document.createElement("div");mid_lan.appendChild(new_dir);
 			new_dir.classList.add("mid_lan_button","jry_wb_icon","new_dir","jry_wb_icon_xinjianwenjianjia");
 			new_dir.onclick=function()

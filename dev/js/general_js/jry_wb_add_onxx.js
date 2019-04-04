@@ -159,6 +159,22 @@ function jry_wb_add_oncontextmenu(func)
 {
 	if(typeof func=='object')
 	{
+		func.old_onclick=func.onclick;
+		func.old_oncontextmenu=func.oncontextmenu;
+		func.onclick=function(event)
+		{
+			if(typeof func.old_onclick=='function')			
+				if((new Date()-func.last_onclick_time)>1000||typeof func.last_onclick_time=='undefined')
+					return (func.last_onclick_time=new Date()),func.old_onclick(event);
+
+		};
+		func.oncontextmenu=function(event)
+		{
+			if(typeof func.old_oncontextmenu=='function')			
+				if((new Date()-func.last_oncontextmenu_time)>1000||typeof func.last_oncontextmenu_time=='undefined')
+					return (func.last_oncontextmenu_time=new Date()),func.old_oncontextmenu(event);
+
+		};
 		func.ontouchstart=function(event)
 		{
 			if(typeof event=='undefined'||event==undefined)
@@ -184,13 +200,15 @@ function jry_wb_add_oncontextmenu(func)
 				return ;
 			if((new Date()-func.ontouchstart_timer)<200)
 			{
-				if(typeof func.onclick=='function')
-					func.onclick(event);
+				if(typeof func.old_onclick=='function')
+					if((new Date()-func.last_onclick_time)>1000||typeof func.last_onclick_time=='undefined')
+						return (func.last_onclick_time=new Date()),func.old_onclick(event);
 			}
 			else if((new Date()-func.ontouchstart_timer)<10000)
 			{
-				if(typeof func.oncontextmenu=='function')
-					func.oncontextmenu(event);
+				if(typeof func.old_oncontextmenu=='function')
+					if((new Date()-func.last_oncontextmenu_time)>1000||typeof func.last_oncontextmenu_time=='undefined')
+						return (func.last_oncontextmenu_time=new Date()),func.old_oncontextmenu(event);
 			}
 			func.ontouchstart_timer=undefined;
 		};

@@ -5,7 +5,7 @@
 	{
 		global $jry_wb_login_user;
 		$conn=jry_wb_connect_database();
-		$q='SELECT * FROM '.constant('jry_wb_netdisk').'users 
+		$q='SELECT *,'.constant('jry_wb_netdisk_prefix').'users.lasttime as lasttime FROM '.constant('jry_wb_netdisk').'users 
 		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.group_id = '.constant('jry_wb_netdisk_prefix')."group.group_id)
 		where ".constant('jry_wb_netdisk_prefix')."users.id =? LIMIT 1";
 		$st = $conn->prepare($q);
@@ -24,7 +24,7 @@
 	function jry_wb_get_netdisk_information_by_id($id)
 	{
 		$conn=jry_wb_connect_database();
-		$q='SELECT * FROM '.constant('jry_wb_netdisk').'users 
+		$q='SELECT *,'.constant('jry_wb_netdisk_prefix').'users.lasttime as lasttime  FROM '.constant('jry_wb_netdisk').'users 
 		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.group_id = '.constant('jry_wb_netdisk_prefix')."group.group_id)
 		where ".constant('jry_wb_netdisk_prefix')."users.id =? LIMIT 1";
 		$st = $conn->prepare($q);
