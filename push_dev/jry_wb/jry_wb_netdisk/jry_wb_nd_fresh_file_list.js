@@ -16,14 +16,15 @@ function jry_wb_nd_fresh_file_list(qiangzhi)
 		{
 			file_list=data;
 			var flag=false;
+			var time="1926-08-17 00:00:00".to_time();
 			if(file_list!=null)
 				for(var i=0;i<file_list.length;i++)
 					if(file_list[i].delete)
 						file_list.splice(i,1),flag=true,i--;
 					else
-						file_list[i].name=file_list[i].name.replace(/\/37/g,'&');
+						file_list[i].name=file_list[i].name.replace(/\/37/g,'&'),time=Math.max(time,file_list[i].lasttime.to_time());
 			if(flag)
-				jry_wb_cache.set('nd_file_list',file_list);
+				jry_wb_cache.set('nd_file_list',file_list,undefined,time);
 			jry_nd_load_count--;
 			if(!jry_nd_share_mode_flag)
 			{
