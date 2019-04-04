@@ -4,7 +4,7 @@ var jry_wb_cache=
 	{
 		if(time==undefined)
 			time=jry_wb_get_server_time();
-		if(longtime==null)
+		if(longtime==null||longtime==undefined)
 			longtime = true;
 		if(longtime)
 			localStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));
