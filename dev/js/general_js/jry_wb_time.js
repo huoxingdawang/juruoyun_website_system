@@ -38,13 +38,14 @@ function jry_wb_show_time(intime,addre)
 	 timerid=setTimeout(function(){jry_wb_show_time(intime,addre)},1000);
 	 timerRunning=true;
 }
-function jry_wb_compare_time(d1,d2)
+String.prototype.to_time=function()
 {
-	var dd1=new Date(d1);
+	var dd1=new Date(this);
 	if(isNaN(dd1.getTime()))
-		dd1=new Date(d1.replace(/\-/g, "/"));
-	var dd2=new Date(d2);
-	if(isNaN(dd2.getTime()))
-		dd2=new Date(d2.replace(/\-/g, "/"));		
-	return dd1-dd2;
+		dd1=new Date(this.replace(/\-/g, "/"));
+	return dd1;
+};
+function jry_wb_compare_time(d1,d2)
+{	
+	return d1.to_time()-d2.to_time();
 }
