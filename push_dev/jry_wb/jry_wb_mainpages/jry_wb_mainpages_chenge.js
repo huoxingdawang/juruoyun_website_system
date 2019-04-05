@@ -747,42 +747,95 @@ function showmail()
 	showdiv.innerHTML='';
 	stoplogin=true;
 	stopnext=true;
-	var form=document.createElement("form");
-	form.method='POST';
-	form.action="do_chenge.php?action=mail_send";
-	showdiv.appendChild(form);	
 	
 	var table=document.createElement("table");
 	table.border=1;
 	table.width="100%";
-	form.appendChild(table);	
+	showdiv.appendChild(table);	
 	
-	jry_wb_show_tr_with_input(table,'邮箱','mail',jry_wb_login_user.mail,'text',function(){},250);
+	time1=0;
+	time2=0;
+	var mail=jry_wb_show_tr_with_input(table,'邮箱','mail',jry_wb_login_user.mail,'text',function(){},250).children[0];
+	mail.onfocus=mail.onkeyup=function()
+	{
+		if(mail.value!=""&&(jry_wb_test_mail(mail.value)==false))
+		{
+			if(((new Date())-time1)>5000)
+			{
+				time1=new Date();
+				jry_wb_beautiful_right_alert.alert("邮箱错误",2000,"auto","error");
+			}	
+			mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";
+		}
+		else
+			mail.style.border="",mail.style.margin="",time1=0;
+	};
+	mail.onclick();
 	var td=jry_wb_show_tr_with_input(table,'验证码','vcode','','text',function (){},250);
+	vcode=td.children[0];
+	vcode.onfocus=vcode.onkeyup=function()
+	{
+		if(vcode.value!=''&&vcode.value.length!=4)
+		{
+			if(((new Date())-time2)>5000)
+			{
+				time2=new Date();
+				jry_wb_beautiful_right_alert.alert("4位验证码",2000,"auto","error");
+			}
+			vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";
+		}
+		else
+			vcode.style.border="",vcode.style.margin="",time2=0;
+	};	
 	var img=document.createElement("img");td.appendChild(img);
 	img.id='vcodesrc';
 	img.onclick=function ()
 	{
 		img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+	};	
+	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+	var button=document.createElement("button");showdiv.appendChild(button);
+	button.classList.add('jry_wb_button','jry_wb_button_size_middle','jry_wb_color_ok');
+	button.type='button';
+	button.innerHTML='获取验证码';
+	button.onclick=function()
+	{
+		jry_wb_ajax_load_data('do_chenge.php?action=send_mail',function (data)
+		{
+			data=JSON.parse(data);
+			jry_wb_loading_off();
+			if(data.code)	
+				jry_wb_beautiful_alert.alert('发送成功',mail.value,function()
+				{
+					if(mail.value.includes("@163.com"))
+						window.open("https://mail.163.com/");
+					else if(mail.value.includes("@qq.com"))
+						window.open("https://mail.qq.com/");					
+				});
+			else
+			{
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				if(data.reason==100005)
+					jry_wb_beautiful_alert.alert("发送失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100002)
+					jry_wb_beautiful_alert.alert("发送失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100004)
+					jry_wb_beautiful_alert.alert("发送失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+				else if(data.reason==100014)
+					jry_wb_beautiful_alert.alert("发送失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+				else if(data.reason==100015)
+					jry_wb_beautiful_alert.alert("发送失败","别人绑定过了",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+				else if(data.reason==100016)
+					jry_wb_beautiful_alert.alert("发送失败","联系开发组");				
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
+			}
+		},[{'name':'vcode','value':vcode.value},{'name':'mail','value':mail.value}],true);
 	};
-	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();	
-	__addbutton(form,'return check_mail()');
-}
-function check_mail()
-{ 
-	var mail= document.getElementById("mail").value;
-	var vcode= document.getElementById("vcode").value;
-	if(vcode=='')
-	{
-		jry_wb_beautiful_alert.alert("请填写完整信息","验证码为空",'document.getElementById("vcode").focus()');
-		return false;		
-	}
-	if(jry_wb_test_mail(mail)==false)
-	{
-		jry_wb_beautiful_alert.alert("请填写正确信息","邮箱错误",'document.getElementById("mail").focus()');
-        return false;
-    }
-    return true;
 }
 function showpas()
 {

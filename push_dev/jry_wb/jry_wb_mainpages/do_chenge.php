@@ -33,7 +33,10 @@
 	{
 		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 		{
-			echo json_encode(array('code'=>false,'reason'=>100002));
+			if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+				echo json_encode(array('code'=>false,'reason'=>100005));
+			else
+				echo json_encode(array('code'=>false,'reason'=>100002));
 			exit();
 		}
 		if($_POST['tel']==$jry_wb_login_user['tel'])
@@ -41,6 +44,19 @@
 			echo json_encode(array('code'=>false,'reason'=>100004));
 			exit();
 		}
+		if(!jry_wb_test_phone_number($_POST['tel']))
+		{
+			echo json_encode(array('code'=>false,'reason'=>100008));
+			exit();
+		}
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+		$st->bindParam(1,$_POST['tel']);
+		$st->execute();
+		if(count($st->fetchAll())!=0)
+		{
+			echo json_encode(array('code'=>false,'reason'=>100009));
+			exit();
+		}		
 		require_once "../tools/SignatureHelper.php";
 		if(($code=gettelsmscode($_POST['tel']))==-1)
 		{
@@ -203,22 +219,69 @@
 		echo json_encode(array('code'=>true));
 		exit();
 	}
-	if($_GET['action']=='mail')
-		$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
-	jry_wb_print_head("用户管理",true,false,false,array(),true,false);	
-	if($_GET['action']=='mail_send')
+	else if($_GET['action']=='send_mail')
 	{
-		$vcode=$_POST["vcode"];
-		$mail=$_POST["mail"];
-		if($vcode!= $_SESSION['vcode'])	{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','验证码错误'	,'self.location=document.referrer;');</script>		<?php	exit();}
-		if(!jry_wb_test_mail($mail))			{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误'					,'self.location=document.referrer;');</script>		<?php	exit();}
-
-		if(!jry_wb_send_mail_code($mail,"jry_wb_mainpages/do_chenge.php?action=mail&"))
-		{?><script language=javascript>jry_wb_beautiful_alert.alert('发送失败','<?php echo $mail->ErrorInfo?>'	,'self.location=document.referrer;');</script>		<?php	exit();}
-		else{?><script language=javascript>jry_wb_beautiful_alert.alert('验证邮件已发送到您邮箱的辣鸡箱中','请注意查收'	,'self.location=document.referrer;');</script>		<?php exit();}
+		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+		{
+			if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+				echo json_encode(array('code'=>false,'reason'=>100005));
+			else
+				echo json_encode(array('code'=>false,'reason'=>100002));
+			exit();
+		}
+		if($_POST['mail']==$jry_wb_login_user['mail'])
+		{
+			echo json_encode(array('code'=>false,'reason'=>100004));
+			exit();
+		}
+		if(!jry_wb_test_mail($_POST['mail']))
+		{
+			echo json_encode(array('code'=>false,'reason'=>100014));
+			exit();
+		}
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+		$st->bindParam(1,$_POST['mail']);
+		$st->execute();
+		if(count($st->fetchAll())!=0)
+		{
+			echo json_encode(array('code'=>false,'reason'=>100015));
+			exit();
+		}
+		if(!jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&"))
+		{
+			echo json_encode(array('code'=>false,'reason'=>100016));
+			exit();
+		}
+		echo json_encode(array('code'=>true));		
 		exit();
-	}	
-	else if($_GET['action']=='simple')
+	}		
+	else if($_GET['action']=='mail')
+	{
+		jry_wb_print_head("用户管理|邮箱绑定",true,false,false,array(),true,false);	
+		$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where code=?');
+		$st->bindParam(1,$_GET['code']);
+		$st->execute();		
+		foreach($st->fetchAll()as $code);
+		if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码','','self.location=document.referrer;');</script>		<?php	exit();}
+		$mail=$code['mail'];
+		if(!jry_wb_test_mail($mail)){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误','self.location=document.referrer;');</script>		<?php	exit();}
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+		$st->bindParam(1,$mail);
+		$st->execute();
+		foreach($st->fetchAll()as $users)
+			if($users['id']!=''&&$users['id']!=$jry_wb_login_user['id']){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写非重复信息','邮箱重复'	,'self.location=document.referrer;');</script>		<?php	exit();}
+		$q ="update ".constant('jry_wb_database_general')."users set mail=?,lasttime=? where id=? ";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,($jry_wb_login_user['mail']=$mail));
+		$st->bindParam(2,jry_wb_get_time());
+		$st->bindParam(3,$jry_wb_login_user['id']);
+		$st->execute();	
+		?><script language=javascript>jry_wb_beautiful_alert.alert("修改成功","","window.location.href='chenge.php'");</script><?php
+		exit();
+	}
+	jry_wb_print_head("用户管理",true,false,false,array(),true,false);
+	if($_GET['action']=='simple')
 	{
 		$name=$_POST["name"];
 		$sex=$_POST["sex"];
@@ -264,27 +327,6 @@
 		$st->bindParam(1,$_POST['phonecode']);
 		$st->execute();	
 		
-	}	
-	else if($_GET['action']=='mail')
-	{
-		$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where code=?');
-		$st->bindParam(1,$_GET['code']);
-		$st->execute();		
-		foreach($st->fetchAll()as $code);
-		if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码',''					,'self.location=document.referrer;');</script>		<?php	exit();}
-		$mail=$code['mail'];
-		if(!jry_wb_test_mail($mail))						{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误'					,'self.location=document.referrer;');</script>		<?php	exit();}
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
-		$st->bindParam(1,$mail);
-		$st->execute();
-		foreach($st->fetchAll()as $users)if($users[id]!=''&&$users[id]!=$jry_wb_login_user[id])	{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写非重复信息','邮箱重复'	,'self.location=document.referrer;');</script>		<?php	exit();}
-		$q ="update ".constant('jry_wb_database_general')."users set mail=?,lasttime=? where id=? ";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,($jry_wb_login_user['mail']=$mail));
-		$st->bindParam(2,jry_wb_get_time());
-		$st->bindParam(3,$jry_wb_login_user[id]);
-		$st->execute();
 	}	
 	else if($_GET['action']=='pas')
 	{
