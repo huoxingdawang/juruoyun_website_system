@@ -29,6 +29,17 @@
 	box-shadow:0px 10px 5px #555555;
 	border-radius:7px;
 }
+.jry_wb_netdisk_file .uploading_and_trust
+{
+	opacity:1;
+	background:#00000000;
+	position:absolute;
+	left:90px;
+	top:100px;
+	font-size:32px;
+	width:32px;
+	height:32px;
+}
 .jry_wb_netdisk_file .jry_wb_netdisk_file_type
 {
 	font-size:125px;

@@ -96,6 +96,7 @@
 							'size'=>$data[$i]['size'],
 							'download_times'=>$data[$i]['download_times'],
 							'uploading'=>$data[$i]['uploading'],
+							'trust'=>$data[$i]['trust'],
 							'toll_flow'=>$data[$i]['toll_flow'],
 							'delete'=>$data[$i]['delete'],
 							'isdir'=>$data[$i]['isdir'],
