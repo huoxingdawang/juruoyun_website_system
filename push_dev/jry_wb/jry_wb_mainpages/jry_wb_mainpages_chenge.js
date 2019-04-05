@@ -649,18 +649,43 @@ function showtel()
 	showdiv.innerHTML='';
 	stoplogin=true;
 	stopnext=true;
-	var form=document.createElement("form");
-	form.method='POST';
-	form.action="do_chenge.php?action=tel";
-	showdiv.appendChild(form);	
 	
-	var table=document.createElement("table");
+	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;
 	table.width="100%";
-	form.appendChild(table);
-		
-	jry_wb_show_tr_with_input(table,'电话','tel',jry_wb_login_user.tel,'text',function(){},250);
+	time1=0;
+	time2=0;
+	var tel=jry_wb_show_tr_with_input(table,'电话','tel',jry_wb_login_user.tel,'text',function(){},250).children[0];
+	tel.onfocus=tel.onkeyup=function()
+	{
+		if(tel.value!=""&&(jry_wb_test_phone_number(tel.value)==false))
+		{
+			if(((new Date())-time1)>5000)
+			{
+				time1=new Date();
+				jry_wb_beautiful_right_alert.alert("电话错误",2000,"auto","error");
+			}	
+			tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";
+		}
+		else
+			tel.style.border="",tel.style.margin="",time1=0;
+	};	
 	var td=jry_wb_show_tr_with_input(table,'验证码','vcode','','text',function(){},250);
+	var vcode=td.children[0];
+	vcode.onfocus=vcode.onkeyup=function()
+	{
+		if(vcode.value!=''&&vcode.value.length!=4)
+		{
+			if(((new Date())-time2)>5000)
+			{
+				time2=new Date();
+				jry_wb_beautiful_right_alert.alert("4位验证码",2000,"auto","error");
+			}
+			vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";
+		}
+		else
+			vcode.style.border="",vcode.style.margin="",time2=0;
+	};		
 	var img=document.createElement("img");td.appendChild(img);
 	img.id='vcodesrc';
 	img.onclick=function ()
@@ -670,7 +695,7 @@ function showtel()
 	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
 	td=null;
 	var td=jry_wb_show_tr_with_input(table,'短信验证码','phonecode','','text',function (){},250);
-
+	var phonecode=td.children[0];
 	var input=document.createElement("button");
 	input.name=input.id='button';
 	input.classList.add('jry_wb_button','jry_wb_button_size_middle','jry_wb_color_ok');
@@ -678,7 +703,7 @@ function showtel()
 	input.innerHTML='获取验证码';
 	input.onclick=function()
 	{
-		if(document.getElementById("tel").value==jry_wb_login_user.tel)
+		if(tel.value==jry_wb_login_user.tel)
 		{
 			jry_wb_beautiful_alert.alert("并没有修改","开发组穷啊<br>一个5分钱",function()
 			{
@@ -686,61 +711,87 @@ function showtel()
 			});
 			return;
 		}
-		if(check_tel())
+		if(tel.value==jry_wb_login_user.tel)
+			return jry_wb_beautiful_alert.alert("发送失败","并没有修改",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+		if(!jry_wb_test_phone_number(tel.value))
+			return jry_wb_beautiful_alert.alert("发送失败","错误的格式",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+		jry_wb_ajax_load_data('do_chenge.php?action=send_tel',function (data)
 		{
-			jry_wb_ajax_load_data('do_chenge.php?action=send_tel',function (data)
+			data=JSON.parse(data);
+			jry_wb_loading_off();
+			if(data.code)	
+				jry_wb_beautiful_alert.alert('发送成功',document.getElementById("tel").value,function(){phonecode.focus();});
+			else
 			{
-				data=JSON.parse(data);
-				jry_wb_loading_off();
-				if(data.code)	
-					jry_wb_beautiful_alert.alert('发送成功',document.getElementById("tel").value);
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				if(data.reason==100005)
+					jry_wb_beautiful_alert.alert("发送失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100002)
+					jry_wb_beautiful_alert.alert("发送失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100004)
+					jry_wb_beautiful_alert.alert("发送失败","并没有修改",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100003)
+					jry_wb_beautiful_alert.alert("发送过于频繁","开发组穷啊<br>一个5分钱",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100008)
+					jry_wb_beautiful_alert.alert("手机号格式错误","",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100009)
+					jry_wb_beautiful_alert.alert("手机号重复","",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
 				else
-				{
-					if(data.reason==100000)
-						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-					else if(data.reason==100001)
-						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-					else if(data.reason==100002)
-						jry_wb_beautiful_alert.alert("验证码错误","请检查大小写",function()
-						{
-							document.getElementById("vcode").focus();
-						});
-					else if(data.reason==100003)
-						jry_wb_beautiful_alert.alert("发送过于频繁","开发组穷啊<br>一个5分钱");
-					else if(data.reason==100004)
-						jry_wb_beautiful_alert.alert("并没有修改","开发组穷啊<br>一个5分钱",function()
-						{
-							document.getElementById("tel").focus();
-						});
-					else
-						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-					return ;
-				}
-				document.getElementById("phonecode").focus();				
-			},[{'name':'vcode','value':document.getElementById("vcode").value},{'name':'tel','value':document.getElementById("tel").value}],true);
-		}
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
+			}
+		},[{'name':'vcode','value':vcode.value},{'name':'tel','value':tel.value}],true);
 	};
 	td.appendChild(input);
 	document.getElementById("tel").focus();
-	__addbutton(form,'return check_tel()');
-}
-function check_tel()
-{ 
-	var tel= document.getElementById("tel").value;
-	var vcode= document.getElementById("vcode").value;
-	if(vcode=='')
+	var button=document.createElement("button");showdiv.appendChild(button);
+	button.classList.add('jry_wb_button','jry_wb_button_size_middle','jry_wb_color_ok');
+	button.type='button';
+	button.innerHTML='提交';
+	button.onclick=function()
 	{
-		jry_wb_beautiful_alert.alert("请填写完整信息","验证码为空",'document.getElementById("vcode").focus()');
-		return false;		
-	}
-	if(tel!=""&&jry_wb_test_phone_number(tel)==false)
-	{
-		jry_wb_beautiful_alert.alert("请填写正确信息","电话错误",'document.getElementById("tel").focus()');
-        return false;
-    }
-    return true;
+		if(tel.value==jry_wb_login_user.tel)
+			return jry_wb_beautiful_alert.alert("修改失败","并没有修改",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+		if(!jry_wb_test_phone_number(tel.value))
+			return jry_wb_beautiful_alert.alert("修改失败","错误的格式",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+		if(phonecode.value=='')
+			jry_wb_beautiful_alert.alert("修改失败","手机验证码为空",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});	
+		jry_wb_ajax_load_data('do_chenge.php?action=tel',function (data)
+		{
+			data=JSON.parse(data);
+			jry_wb_loading_off();
+			if(data.code)	
+				jry_wb_beautiful_alert.alert('修改成功',tel.value,function(){jry_wb_login_user.tel=tel.value});
+			else
+			{
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				if(data.reason==100005)
+					jry_wb_beautiful_alert.alert("修改失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100002)
+					jry_wb_beautiful_alert.alert("修改失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100004)
+					jry_wb_beautiful_alert.alert("修改失败","并没有修改",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100003)
+					jry_wb_beautiful_alert.alert("发送过于频繁","开发组穷啊<br>一个5分钱",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100008)
+					jry_wb_beautiful_alert.alert("手机号格式错误","",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100009)
+					jry_wb_beautiful_alert.alert("手机号重复","",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				else if(data.reason==100010)
+					jry_wb_beautiful_alert.alert("修改失败","手机验证码错误",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});	
+				else
+					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+				return ;
+			}
+		},[{'name':'vcode','value':vcode.value},{'name':'tel','value':tel.value},{'name':'phonecode','value':phonecode.value}],true);		
+	};
 }
-
 function showmail()
 {
 	window.location.hash='showmail';
@@ -800,6 +851,10 @@ function showmail()
 	button.innerHTML='获取验证码';
 	button.onclick=function()
 	{
+		if(mail.value==jry_wb_login_user.mail)
+			return jry_wb_beautiful_alert.alert("发送失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+		if(!jry_wb_test_mail(mail.value))
+			return jry_wb_beautiful_alert.alert("发送失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
 		jry_wb_ajax_load_data('do_chenge.php?action=send_mail',function (data)
 		{
 			data=JSON.parse(data);

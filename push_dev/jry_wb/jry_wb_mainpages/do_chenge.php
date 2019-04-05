@@ -280,6 +280,57 @@
 		?><script language=javascript>jry_wb_beautiful_alert.alert("修改成功","","window.location.href='chenge.php'");</script><?php
 		exit();
 	}
+	else if($_GET['action']=='tel')
+	{
+		
+		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+		{
+			if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+				echo json_encode(array('code'=>false,'reason'=>100005));
+			else
+				echo json_encode(array('code'=>false,'reason'=>100002));
+			exit();
+		}
+		if($_POST['tel']==$jry_wb_login_user['tel'])
+		{
+			echo json_encode(array('code'=>false,'reason'=>100004));
+			exit();
+		}
+		if(!jry_wb_test_phone_number($_POST['tel']))
+		{
+			echo json_encode(array('code'=>false,'reason'=>100008));
+			exit();
+		}
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+		$st->bindParam(1,$_POST['tel']);
+		$st->execute();
+		if(count($st->fetchAll())!=0)
+		{
+			echo json_encode(array('code'=>false,'reason'=>100009));
+			exit();
+		}		
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+		$st->bindParam(1,$_POST['tel']);
+		$st->execute();	
+		foreach($st->fetchAll()as $tels);		
+		if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+		{
+			echo json_encode(array('code'=>false,'reason'=>100010));
+			exit();
+		}		
+		$q ="update ".constant('jry_wb_database_general')."users set tel=?,lasttime=? where id=? ";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,$_POST['tel']);
+		$st->bindParam(2,jry_wb_get_time());
+		$st->bindParam(3,$jry_wb_login_user['id']);
+		$st->execute();
+		
+		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where code=?');
+		$st->bindParam(1,$_POST['phonecode']);
+		$st->execute();	
+		echo json_encode(array('code'=>true));				
+		exit();
+	}	
 	jry_wb_print_head("用户管理",true,false,false,array(),true,false);
 	if($_GET['action']=='simple')
 	{
@@ -301,33 +352,6 @@
 		$st->execute();
 		$jry_wb_login_user['sex']=$sex;
 	}
-	else if($_GET['action']=='tel')
-	{
-		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']==''){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','验证码错误'					,'self.location=document.referrer;');</script>		<?php	exit();}
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
-		$st->bindParam(1,$_POST['tel']);
-		$st->execute();	
-		foreach($st->fetchAll()as $tels);		
-		if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']==''){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','手机验证码错误'					,'self.location=document.referrer;');</script>		<?php	exit();}					
-		$tel=$_POST["tel"];
-		if(!jry_wb_test_phone_number($tel))				{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','电话错误'					,'self.location=document.referrer;');</script>		<?php	exit();}
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
-		$st->bindParam(1,$tel);
-		$st->execute();
-		foreach($st->fetchAll()as $users)if($users[id]!=''&&$users[id]!=$jry_wb_login_user[id])	{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写非重复信息','电话重复'	,'self.location=document.referrer;');</script>		<?php	exit();}		
-		
-		$q ="update ".constant('jry_wb_database_general')."users set tel=?,lasttime=? where id=? ";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$tel);
-		$st->bindParam(2,jry_wb_get_time());
-		$st->bindParam(3,$jry_wb_login_user[id]);
-		$st->execute();
-		
-		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where code=?');
-		$st->bindParam(1,$_POST['phonecode']);
-		$st->execute();	
-		
-	}	
 	else if($_GET['action']=='pas')
 	{
 		$psw1=$_POST["password1"];
