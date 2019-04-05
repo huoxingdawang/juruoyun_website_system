@@ -103,14 +103,19 @@
 			{
 				$file['extern']=json_decode($file['extern']);
 				$result=array_search($file['id'],$users_id);
-				if(!$file['is_dir'])
+				if($result!==false)
 				{
-					if(jry_nd_direct_check_file_exist($area,$file))
+					if(!$file['isdir'])
 					{
-						if($file['uploading'])
-							jry_nd_database_set_file_ok($conn,$users[$result],$file['file_id'],$file['size']);
+						if(jry_nd_direct_check_file_exist($area,$file))
+						{
+							if($file['uploading'])
+								jry_nd_database_set_file_ok($conn,$users[$result],$file['file_id'],$file['size']);
+						}
+						else 
+							$result=false;
 					}
-					else 
+					if(jry_nd_database_get_father($conn,$users[$result],$file)===null)
 						$result=false;
 				}
 				if($result===false)
@@ -122,6 +127,7 @@
 									'area'=>$file['area'],
 									'size'=>$file['size'],
 									'uploading'=>$file['uploading'],
+									'delete'=>$file['delete'],
 									'isdir'=>$file['isdir'],
 									'lasttime'=>$file['lasttime']);
 					$st = $conn->prepare('DELETE FROM '.constant('jry_wb_netdisk').'file_list WHERE file_id=?');
