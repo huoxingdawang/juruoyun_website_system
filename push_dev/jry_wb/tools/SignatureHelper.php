@@ -48,6 +48,7 @@ function sendsms($number,$codes,$muban)
 			"Version" => "2017-05-25",
 		))
 	);
+	jry_wb_echo_log(constant('jry_wb_log_type_send_tel_code'),array('number'=>$number,'codes'=>$codes,'muban'=>$muban));
 	return $content;
 }
 //以下代码来自阿里云
