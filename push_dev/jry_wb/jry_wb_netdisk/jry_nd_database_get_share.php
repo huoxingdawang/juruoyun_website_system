@@ -23,8 +23,10 @@
 			global $share;
 			return ($file['file_id']==$share['file_id']);
 		});
-		if(($father['file_id']!=$share['file_id'])||$father['file_id']==0)
+		if(($father['file_id']!=$share['file_id']||$father['file_id']==0)&&$file['file_id']!=$share['file_id'])
 			return false;
+		if(!$file['trust'])
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230001,'file'=>__FILE__,'line'=>__LINE__)));
 		return array('user'=>$user,'share'=>$share,'father'=>$father,'file'=>$file);
 	}		
 ?>

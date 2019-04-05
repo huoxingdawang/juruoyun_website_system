@@ -33,10 +33,13 @@
 			{
 				$share_mode=true;
 				$file=$share['file'];
-				$area=$share['area'];
+				if(($area=jry_nd_database_get_area($conn,$file['area']))===null)
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));
 			}
 			if(!$share_mode)
 			{
+				if($_GET['share_id']!='')
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));					
 				if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_GET['file_id']))===null)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
 				if(($area=jry_nd_database_get_area($conn,$file['area']))===null)
@@ -145,6 +148,7 @@
 				case 230000:
 				case 200008:
 				case 200001:
+				case 230001:
 					header('HTTP/1.1 404 Not Found'); 
 					header("status: 404 Not Found"); 
 					include('../../404.php');
