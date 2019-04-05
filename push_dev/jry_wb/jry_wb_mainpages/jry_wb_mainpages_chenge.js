@@ -758,9 +758,14 @@ function showmail()
 	form.appendChild(table);	
 	
 	jry_wb_show_tr_with_input(table,'邮箱','mail',jry_wb_login_user.mail,'text',function(){},250);
-	var td=jry_wb_show_tr_with_input(table,'验证码','vcode','','text',function (){document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()},250);
+	var td=jry_wb_show_tr_with_input(table,'验证码','vcode','','text',function (){},250);
 	var img=document.createElement("img");td.appendChild(img);
 	img.id='vcodesrc';
+	img.onclick=function ()
+	{
+		img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+	};
+	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();	
 	__addbutton(form,'return check_mail()');
 }
 function check_mail()
