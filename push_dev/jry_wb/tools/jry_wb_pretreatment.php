@@ -1,5 +1,10 @@
 <?php
-	include_once("jry_wb_includes.php");	
+	include_once("jry_wb_includes.php");
+	if($_SERVER['HTTP_HOST']!=constant('jry_wb_domin'))
+	{
+		header("Location:".constant('jry_wb_host'));
+		exit();
+	}	
 	global $jry_wb_login_user;
 	session_start();
 	//预处理
