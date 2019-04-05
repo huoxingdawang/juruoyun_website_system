@@ -7,9 +7,17 @@
 	$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
 	$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
 	$st->execute();
-	if($_GET['action']=='unlock')
+	try
 	{
 		jry_wb_print_head("",true,false,false,array(),false,false);
+	}
+	catch(jry_wb_exception $e)
+	{
+		echo $e->getMessage();
+		exit();
+	}
+	if($_GET['action']=='unlock')
+	{
 		if(jry_wb_send_mail('lijunyandeyouxiang@163.com',
 		$_GET['id'].'申请解封',
 		$_GET['id'].'在'.jry_wb_get_time().'申请解封<br>'.'请及时处理<br>'.
@@ -23,15 +31,6 @@
 	}
 	else if($_GET['action']=='send_tel')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}
 		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 		{
 			echo json_encode(array('code'=>false,'reason'=>100002));
@@ -54,15 +53,6 @@
 	}
 	else if($_GET['action']=='setsonglist')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}
 		$q ="update ".constant('jry_wb_database_general')."users set background_music_list=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,urldecode($_POST["data"]));	
@@ -74,15 +64,6 @@
 	}
 	else if($_GET['action']=='trust')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}	
 		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=1 where id=? AND code=?");
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_COOKIE['code']);
@@ -92,15 +73,6 @@
 	}
 	else if($_GET['action']=='untrust')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}
 		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=0 where id=? AND code=?");
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_POST['code']);
@@ -110,15 +82,6 @@
 	}
 	else if($_GET['action']=='logout')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}	
 		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=? AND code=?");
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_POST['code']);
@@ -128,15 +91,6 @@
 	}	
 	else if($_GET['action']=='chengehead')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}
 		if($_GET['type']=='default')
 		{
 			if($jry_wb_login_user['sex']==0&&$jry_wb_login_user['head']!='default_head_woman')
@@ -234,15 +188,6 @@
 	}	
 	else if($_GET['action']=='untpin')
 	{
-		try
-		{
-			jry_wb_print_head("",true,false,false,array(),false,false);
-		}
-		catch(jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}
 		if($_GET['type']=='qq')
 			$q ="update ".constant('jry_wb_database_general')."users set oauth_qq=NULL,lasttime=? where id=?";
 		else if($_GET['type']=='github')
