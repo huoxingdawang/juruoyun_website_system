@@ -16,10 +16,10 @@
 <div align="center" >
 	<table  border="1" cellspacing="0" cellpadding="0">
 		<tr>
-			<td width="200">
+			<td width="200" id="td1">
 				<h55>昵称</h55>
 			</td>
-			<td width="300">
+			<td width="300" id="td2">
 				<input name="name" type="text" id="name" class="h56"/>
 			</td>
 		</tr>
@@ -45,10 +45,10 @@
 			</td>
 			<td>
 				<input type="radio" name="sex" value="1" checked/>
-				<h56>男&nbsp;&nbsp;</h56>
-				<input type="radio" name="sex" value="0" />
-				<h56>女&nbsp;&nbsp;</h56>
-				<input type="radio" name="sex" value="2" />
+				<h56>男</h56>
+				<input style="margin-left:20px;" type="radio" name="sex" value="0" />
+				<h56>女</h56>
+				<input style="margin-left:20px;" type="radio" name="sex" value="2" />
 				<h56>女装大佬</h56>		
 			</td>
 		</tr>
@@ -68,8 +68,8 @@
 				<h55>验证码</h55>
 			</td>
 			<td>
-			<input name="vcode" type="text" id="vcode" class="h56" size="4"/>
-			<img id="vcodesrc" src="<?php echo jry_wb_print_href("verificationcode",0,"",1);?>" onload="window.onresize()" onclick="document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()"/>
+				<input name="vcode" type="text" id="vcode" class="h56" style="width:200px"/>
+				<img id="vcodesrc" src="<?php echo jry_wb_print_href("verificationcode",0,"",1);?>" onload="window.onresize()" onclick="document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()"/>
 			</td>
 		</tr>
 <?php if(constant('jry_wb_check_tel_switch')){ ?>
@@ -78,10 +78,8 @@
 				<h55>电话验证码</h55>
 			</td>
 			<td>
-			<input name="phonecode" type="text" id="phonecode" class="h56" size="4"
-			onclick="";
-			/>
-			<button id="button" name="button" class="jry_wb_button jry_wb_button_size_middle jry_wb_color_ok" type="button" onclick="check_tel()">获取验证码</button>
+				<input name="phonecode" type="text" id="phonecode" class="h56" size="4" onclick="";/>
+				<button id="button" name="button" class="jry_wb_button jry_wb_button_size_middle jry_wb_color_ok" type="button" onclick="check_tel()">获取验证码</button>
 		</tr>
 <?php } ?>
 		<tr>
@@ -99,13 +97,17 @@
 </div>
 <script language="javascript">
 	namee=document.getElementById('name');
+	td1=document.getElementById('td1');
+	td2=document.getElementById('td2');
 	tel=document.getElementById('tel');
 	sexs=document.getElementsByName('sex');
 	password1=document.getElementById('password1');
 	password2=document.getElementById('password2');
 	vcode=document.getElementById('vcode');
 	phonecode=document.getElementById('phonecode');
+	vcodesrc=document.getElementById('vcodesrc');
 	tr_tel=document.getElementById('tr_tel');
+	vcode.style.width=td2.clientWidth-25-vcodesrc.clientWidth;
 	var get=JSON.parse(jry_wb_cache.get('login'));
 	if(get!=null)
 	{
@@ -339,7 +341,7 @@
 		{
 			tel.style.border="",tel.style.margin="";
 			if(tel.value!="")
-				tr_tel.style.display="";
+				tr_tel.style.display="",window.onresize();
 		}			
 	};
 	vcode.onfocus=vcode.onkeyup=function()
