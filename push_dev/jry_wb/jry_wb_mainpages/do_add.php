@@ -9,6 +9,8 @@
 	{
 		if(!constant('jry_wb_check_tel_switch'))
 			exit();
+		if(constant('jry_wb_short_message_switch')=='')
+			exit();
 		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 		{
 			if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
@@ -78,17 +80,20 @@
 			echo json_encode(array('code'=>false,'reason'=>100008));
 			exit();
 		}
-		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
-		$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
-		$st->execute();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
-		$st->bindParam(1,$_POST['tel']);
-		$st->execute();	
-		foreach($st->fetchAll()as $tels);		
-		if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+		if(constant('jry_wb_short_message_switch')!='')
 		{
-			echo json_encode(array('code'=>false,'reason'=>100010));
-			exit();
+			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
+			$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
+			$st->execute();
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+			$st->bindParam(1,$_POST['tel']);
+			$st->execute();	
+			foreach($st->fetchAll()as $tels);	
+			if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+			{
+				echo json_encode(array('code'=>false,'reason'=>100010));
+				exit();
+			}
 		}
 		
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
@@ -98,10 +103,13 @@
 		{
 			echo json_encode(array('code'=>false,'reason'=>100009));
 			exit();
-		}						
-		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
-		$st->bindParam(1,$tel);
-		$st->execute();
+		}
+		if(constant('jry_wb_short_message_switch')!='')
+		{		
+			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+			$st->bindParam(1,$tel);
+			$st->execute();
+		}			
 	}
 	$psw1=md5($psw1);
 	$conn=jry_wb_connect_database();

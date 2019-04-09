@@ -72,7 +72,7 @@
 				<img id="vcodesrc" src="<?php echo jry_wb_print_href("verificationcode",0,"",1);?>" onload="window.onresize()" onclick="document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()"/>
 			</td>
 		</tr>
-<?php if(constant('jry_wb_check_tel_switch')){ ?>
+<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
 		<tr id="tr_tel">
 			<td>
 				<h55>电话验证码</h55>
@@ -99,15 +99,20 @@
 	namee=document.getElementById('name');
 	td1=document.getElementById('td1');
 	td2=document.getElementById('td2');
+	<?php if(constant('jry_wb_check_tel_switch')){ ?>
 	tel=document.getElementById('tel');
+	<?php } ?>
 	sexs=document.getElementsByName('sex');
 	password1=document.getElementById('password1');
 	password2=document.getElementById('password2');
 	vcode=document.getElementById('vcode');
+	vcode.style.width=0;
+	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
 	phonecode=document.getElementById('phonecode');
-	vcodesrc=document.getElementById('vcodesrc');
 	tr_tel=document.getElementById('tr_tel');
-	vcode.style.width=td2.clientWidth-25-vcodesrc.clientWidth;
+	<?php } ?>
+	vcodesrc=document.getElementById('vcodesrc');
+	jry_wb_add_load(function(){vcode.style.width=td2.clientWidth-25-vcodesrc.clientWidth;});
 	var get=JSON.parse(jry_wb_cache.get('login'));
 	if(get!=null)
 	{
@@ -115,25 +120,33 @@
 		tel.value=get.tel;
 		password1.value=get.password1;
 		password2.value=get.password2;
+		<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 		phonecode.value=get.phonecode;
+		<?php } ?>
 		for(var i=0,n=sexs.length;i<n;i++)
 			if(sexs[i].value==get.sex)
 				sexs[i].click();
 	}
 	delete get;
+<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	if(tel.value=="")
 		tr_tel.style.display="none";
+	<?php } ?>	
 	if(namee.value=="")
 		namee.focus();
+	<?php if(constant('jry_wb_check_tel_switch')){ ?>	
 	else if(tel.value=="")
 		tel.focus();
+	<?php } ?>	
 	else if(password1.value=="")
 		password1.focus();
 	else if(vcode.value=="")
 		vcode.focus();
+	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	else if(phonecode.value=="")
-		phonecode.focus();
-	function check()
+		phonecode.focus();	
+	<?php } ?>	
+function check()
 	{ 
 		if(namee.value=="")
 			return jry_wb_beautiful_alert.alert("请填写完整信息","名字为空",function(){namee.focus();namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";});
@@ -150,6 +163,8 @@
 		<?php if(constant('jry_wb_check_tel_switch')){ ?>
 		else if(tel.value!=""&&jry_wb_test_phone_number(tel.value)==false)
 			return jry_wb_beautiful_alert.alert("请填写正确信息","电话错误",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+		<?php } ?>
+		<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 		else if(phonecode.value=='')
 			return jry_wb_beautiful_alert.alert("请填写完整信息","电话验证码为空",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});
 		<?php } ?>
@@ -200,10 +215,12 @@
 					jry_wb_beautiful_alert.alert("注册失败","手机号格式错误",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
 				else if(data.reason==100009)
 					jry_wb_beautiful_alert.alert("注册失败","手机号重复",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+				<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 				else if(data.reason==100003)
 					jry_wb_beautiful_alert.alert("注册失败","电话验证码发送频繁");
 				else if(data.reason==100010)
 					jry_wb_beautiful_alert.alert("注册失败","手机验证码错误",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});	
+				<?php } ?>
 				else if(data.reason==100011)
 					jry_wb_beautiful_alert.alert("注册失败","密码不同",function(){password2.focus();password2.style.border="5px solid #ff0000",password2.style.margin="0px 0px";});	
 				else if(data.reason==100012)
@@ -211,10 +228,10 @@
 				else if(data.reason==100013)
 					jry_wb_beautiful_alert.alert("注册失败","昵称为空",function(){namee.focus();namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";});				
 				}
-		},[{'name':'name','value':namee.value},{'name':'tel','value':tel.value},{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},{'name':'phonecode','value':phonecode.value}],true);
+		},[{'name':'name','value':namee.value},<?php if(constant('jry_wb_check_tel_switch')){ ?>{'name':'tel','value':tel.value},<?php } ?>{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>{'name':'phonecode','value':phonecode.value}<?php } ?>],true);
 		return true;
 	}
-	<?php if(constant('jry_wb_check_tel_switch')){ ?>
+	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	function check_tel()
 	{ 
 		if(vcode.value=='')
@@ -263,7 +280,7 @@
 		for(var i=0,n=sexs.length;i<n;i++)
 			if(sexs[i].checked)
 				sex=sexs[i].value;	
-		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,'tel':tel.value,'sex':sex,'password1':password1.value,'password2':password2.value,'phonecode':phonecode.value}));
+		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,<?php if(constant('jry_wb_check_tel_switch')){ ?>'tel':tel.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value<?php } ?>}));
 	}
 	namee.onfocus=namee.onkeyup=function()
 	{
@@ -280,7 +297,9 @@
 		else
 			namee.style.border="",namee.style.margin="",time5=0;
 	};
+	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	phonecode.onkeyup=function(){save();};
+	<?php } ?>
 	for(var i=0,n=sexs.length;i<n;i++)
 		sexs[i].onclick=function(){save();};
 	password1.onfocus=password1.onkeyup=function()
@@ -316,6 +335,7 @@
 		else
 			password2.style.border="",password2.style.margin="",time2=0;
 	};
+	<?php if(constant('jry_wb_check_tel_switch')){ ?>	
 	tel.onfocus=tel.onkeyup=function()
 	{
 		save();
@@ -331,10 +351,13 @@
 		else
 		{
 			tel.style.border="",tel.style.margin="";
+			<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 			if(tel.value!="")
 				tr_tel.style.display="",window.onresize();
+			<?php } ?>
 		}			
 	};
+	<?php } ?>
 	vcode.onfocus=vcode.onkeyup=function()
 	{
 		save();
@@ -349,6 +372,6 @@
 		}
 		else
 			vcode.style.border="",vcode.style.margin="",time4=0;
-	};
+	};	
 </script>
 <?php jry_wb_print_tail()?>
