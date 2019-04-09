@@ -131,19 +131,12 @@
 				'lasttime_sync'=>jry_wb_get_time(),
 				'type'=>$user['type'],
 				'use'=>$user['use'],							
-				'oauth_qq'=>$user['oauth_qq']->message,
-				'oauth_mi'=>$user['oauth_mi']->message,
-				'oauth_github'=>$user['oauth_github']->message,
-				'oauth_gitee'=>$user['oauth_gitee']->message,
+				'oauth_qq'=>(($admin_mode||$user['oauth_show'])?$user['oauth_qq']->message:null),
+				'oauth_mi'=>(($admin_mode||$user['oauth_show'])?$user['oauth_mi']->message:null),
+				'oauth_github'=>(($admin_mode||$user['oauth_show'])?$user['oauth_github']->message:null),
+				'oauth_gitee'=>(($admin_mode||$user['oauth_show'])?$user['oauth_gitee']->message:null),
 				'login_addr'=>($user['ip_show']||($admin_mode))?$ip:-1,
 				'password'=>($admin_mode)?$user['password']:''
 				);
-	if(!$admin_mode)
-	{
-		$data['oauth_qq']=null;
-		$data['oauth_mi']=null;
-		$data['oauth_github']=null;
-		$data['oauth_gitee']=null;
-	}
 	echo json_encode($data);
 ?>

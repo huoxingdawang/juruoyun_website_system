@@ -116,7 +116,9 @@ function jry_wb_show_user(addr,user,width,float,inline)
 		adder.innerHTML = user.show;
 	else
 	{
-		adder.innerHTML = user.name;
+		var span = document.createElement("span");adder.appendChild(span);
+		span.innerHTML = user.name;
+		span.setAttribute('name','jry_wb_user_name_'+user.id);
 		var img = document.createElement("img");
 		jry_wb_set_user_head_special(user,img);
 		adder.appendChild(img);
@@ -200,6 +202,33 @@ function jry_wb_show_user_full(user,width,height)
 			}
 		}
 	}
+	var tr=document.createElement("tr");table.appendChild(tr);
+	var td=document.createElement("td");tr.appendChild(td);	
+	td.width="400";
+	td.classList.add('h56');
+	td.innerHTML='第三方接入';
+	var td=document.createElement("td");tr.appendChild(td);	
+	td.classList.add('h56');
+	td.innerHTML+='QQ:';
+	if(user.oauth_qq==null)
+		td.innerHTML+='无<br>';
+	else
+		td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';
+	td.innerHTML+='MI:';
+	if(user.oauth_mi==null)
+		td.innerHTML+='无<br>';
+	else
+		td.innerHTML+=user.oauth_mi.miliaoNick+'<img width="40px" src="'+user.oauth_mi.miliaoIcon_orig+'"><br>';
+	td.innerHTML+='gayhub:';
+	if(user.oauth_github==null)
+		td.innerHTML+='无<br>';
+	else
+		td.innerHTML+=user.oauth_github.name+','+user.oauth_github.login+'<img width="40px" src="'+user.oauth_github.avatar_url+'"><br>';						
+	td.innerHTML+='码云:';
+	if(user.oauth_gitee==null)
+		td.innerHTML+='无<br>';
+	else
+		td.innerHTML+=user.oauth_gitee.name+','+user.oauth_gitee.login+'<img width="40px" src="'+user.oauth_gitee.avatar_url+'"><br>';	
 	jry_wb_beautiful_scroll(jry_wb_beautiful_alert.msgObj);	
 }
 function jry_wb_show_user_intext(user)
@@ -208,7 +237,7 @@ function jry_wb_show_user_intext(user)
 		{user={color:666666,show:'[禁止使用]'};flag = true;}
 	else if((user==null)||(user.show==null&&user.name==null&&user.head==null))
 		{user={color:666666,show:'用户已消失'};flag = true;}	
-	document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name+'</span>');
+	document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name+'</span>');
 }
 function jry_wb_get_and_show_user(addr,id,width,float,inline)
 {

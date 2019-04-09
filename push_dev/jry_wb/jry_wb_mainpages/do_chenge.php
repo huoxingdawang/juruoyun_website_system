@@ -331,15 +331,83 @@
 		echo json_encode(array('code'=>true));				
 		exit();
 	}	
-	jry_wb_print_head("用户管理",true,false,false,array(),true,false);
-	if($_GET['action']=='simple')
+	else if($_GET['action']=='specialfact')
+	{
+		$q ="update ".constant('jry_wb_database_general')."users set word_special_fact=?,follow_mouth=?,head_special=?,lasttime=? where id=? ";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,urldecode($_POST["word_special_fact"]));	
+		$st->bindParam(2,urldecode($_POST["follow_mouth"]));	
+		$st->bindParam(3,json_encode($head_special=array(	'mouse_on'=>array(	'speed'=>(float)$_POST['mouse_on_speed'],
+																				'direction'=>(float)$_POST['mouse_on_direction'],
+																				'times'=>(float)$_POST['mouse_on_times']
+																			),
+															'mouse_out'=>array(	'speed'=>(float)$_POST['mouse_out_speed'],
+																				'direction'=>(float)$_POST['mouse_out_direction'],
+																				'times'=>(float)$_POST['mouse_out_times']
+																			))));
+		$st->bindParam(4,jry_wb_get_time());
+		$st->bindParam(5,$jry_wb_login_user[id]); 
+		$st->execute();
+		echo json_encode(array('code'=>true,'head_special'=>$head_special));				
+		exit();		
+	}		
+	else if($_GET['action']=='show')
+	{
+		$q ="update ".constant('jry_wb_database_general')."users set tel_show=?,mail_show=?,ip_show=?,oauth_show=?,lasttime=? where id=? ";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,urldecode($_POST["tel_show"]));	
+		$st->bindParam(2,urldecode($_POST["mail_show"]));			
+		$st->bindParam(3,urldecode($_POST["ip_show"]));			
+		$st->bindParam(4,urldecode($_POST["oauth_show"]));
+		$st->bindParam(5,jry_wb_get_time());
+		$st->bindParam(6,$jry_wb_login_user['id']);
+		$st->execute();
+		echo json_encode(array('code'=>true,'head_special'=>$head_special));				
+		exit();			
+	}
+	else if($_GET['action']=='pas')
+	{
+		$psw1=$_POST["password1"];
+		$psw2=$_POST["password2"];
+		$psw_yuan=md5($_POST["password_yuan"]);
+		if(strlen($psw1)<8)	
+		{
+			echo json_encode(array('code'=>false,'reason'=>100012));
+			exit();
+		}		
+		if($psw1!=$psw2)
+		{
+			echo json_encode(array('code'=>false,'reason'=>100011));
+			exit();
+		}
+		if($jry_wb_login_user['password']!=$psw_yuan)	
+		{
+			echo json_encode(array('code'=>false,'reason'=>100006));
+			return ;
+		}
+		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=?");
+		$st->bindParam(1,$jry_wb_login_user['id']);
+		$st->execute();	
+		$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set password=?,lasttime=? where id=? ");
+		$st->bindParam(1,md5($psw1));	
+		$st->bindParam(2,jry_wb_get_time());
+		$st->bindParam(3,$jry_wb_login_user[id]);
+		$st->execute();	
+		echo json_encode(array('code'=>true));				
+		exit();			
+	}	
+	else if($_GET['action']=='simple')
 	{
 		$name=$_POST["name"];
 		$sex=$_POST["sex"];
 		$zhushi=$_POST["zhushi"];
 		$language=$_POST["language"];
 		$style_id=$_POST["style_id"];		
-		if($name==""){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写完整信息','名字为空'					,'self.location=document.referrer;');</script>		<?php	exit();}
+		if($name=="")
+		{
+			echo json_encode(array('code'=>false,'reason'=>100013));
+			exit();
+		}
 		$q ="update ".constant('jry_wb_database_general')."users set name=? , sex=?,zhushi=?,language=?,style_id=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$name);
@@ -350,63 +418,8 @@
 		$st->bindParam(6,jry_wb_get_time());
 		$st->bindParam(7,$jry_wb_login_user[id]);
 		$st->execute();
-		$jry_wb_login_user['sex']=$sex;
+		echo json_encode(array('code'=>true,'style'=>jry_wb_load_style($style_id)));				
+		exit();				
 	}
-	else if($_GET['action']=='pas')
-	{
-		$psw1=$_POST["password1"];
-		$psw2=$_POST["password2"];
-		$psw_yuan=md5($_POST["password_yuan"]);
-		if($psw1!=$psw2)							{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写完整信息','试图修改密码但两次密码不同'	,'self.location=document.referrer;');</script>		<?php	exit();}
-		if((strlen($psw1)<8)&&($psw1!=''))							{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','密码太短'					,'self.location=document.referrer;');</script>		<?php 	exit();}
-		if($jry_wb_login_user[password]!=$psw_yuan)	{?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','密码错误'					,'self.location=document.referrer;');</script>		<?php	exit();}
-		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=?");
-		$st->bindParam(1,$jry_wb_login_user['id']);
-		$st->execute();	
-		$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set password=?,lasttime=? where id=? ");
-		$st->bindParam(1,md5($psw1));	
-		$st->bindParam(2,jry_wb_get_time());
-		$st->bindParam(3,$jry_wb_login_user[id]);
-		$st->execute();			
-	}	
-	else if($_GET['action']=='show')
-	{
-		$q ="update ".constant('jry_wb_database_general')."users set tel_show=?,mail_show=?,ip_show=?,lasttime=? where id=? ";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,urldecode($_POST["tel_show"]));	
-		$st->bindParam(2,urldecode($_POST["mail_show"]));			
-		$st->bindParam(3,urldecode($_POST["ip_show"]));			
-		$st->bindParam(4,jry_wb_get_time());
-		$st->bindParam(5,$jry_wb_login_user[id]);
-		$st->execute();			
-	}
-	else if($_GET['action']=='specialfact')
-	{
-		$q ="update ".constant('jry_wb_database_general')."users set word_special_fact=?,follow_mouth=?,head_special=?,lasttime=? where id=? ";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,urldecode($_POST["word_special_fact"]));	
-		$st->bindParam(2,urldecode($_POST["follow_mouth"]));	
-		$st->bindParam(3,json_encode
-			(
-				array
-				(
-				'mouse_on'=>array
-				(
-					'speed'=>$_POST['mouse_on_speed'],
-					'direction'=>$_POST['mouse_on_direction'],
-					'times'=>$_POST['mouse_on_times']
-				),
-				'mouse_out'=>array
-				(
-					'speed'=>$_POST['mouse_out_speed'],
-					'direction'=>$_POST['mouse_out_direction'],
-					'times'=>$_POST['mouse_out_times']
-				)
-			)
-		));
-		$st->bindParam(4,jry_wb_get_time());
-		$st->bindParam(5,$jry_wb_login_user[id]); 
-		$st->execute();
-	}		
 ?>
 <script language=javascript>jry_wb_beautiful_alert.alert("修改成功","","window.location.href='chenge.php'");</script>

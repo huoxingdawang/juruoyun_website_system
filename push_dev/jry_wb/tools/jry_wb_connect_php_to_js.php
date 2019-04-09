@@ -31,6 +31,7 @@
 					'login_addr'=>$jry_wb_login_user['login_addr'],
 					'tel_show'=>$jry_wb_login_user['tel_show'],
 					'ip_show'=>$jry_wb_login_user['ip_show'],
+					'oauth_show'=>$jry_wb_login_user['oauth_show'],
 					'mail_show'=>$jry_wb_login_user['mail_show'],
 					'word_special_fact'=>$jry_wb_login_user['word_special_fact'],
 					'follow_mouth'=>$jry_wb_login_user['follow_mouth'],						

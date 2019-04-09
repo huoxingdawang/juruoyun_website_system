@@ -41,7 +41,7 @@
 		}
 		else
 		{
-			$show=$row[name];
+			$show='<span name="jry_wb_user_name_'.$row['id'].'">'.$row['name'].'</span>';
 			$width=22;
 			$add=jry_wb_print_href('users','','',true);
 			$on=	'animation:'		.$row['head_special']->mouse_on->result.

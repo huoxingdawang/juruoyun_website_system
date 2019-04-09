@@ -45,7 +45,12 @@ String.prototype.to_time=function()
 		dd1=new Date(this.replace(/\-/g, "/"));
 	return dd1;
 };
+
 function jry_wb_compare_time(d1,d2)
-{	
-	return d1.to_time()-d2.to_time();
+{
+	if(typeof d1.to_time=='function')
+		d1=d1.to_time();
+	if(typeof d2.to_time=='function')
+		d2=d2.to_time();	
+	return d1-d2;
 }

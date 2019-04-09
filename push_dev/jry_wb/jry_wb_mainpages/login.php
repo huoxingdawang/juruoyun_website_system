@@ -18,12 +18,12 @@
 		$data=$st->fetchAll();
 		if(count($data)!=0)
 		{
-			$users=$data[0];
-			if($users['password']==$_COOKIE['password'])
+			$user=$data[0];
+			if($user['password']==$_COOKIE['password'])
 			{
 				$q="SELECT * FROM ".constant('jry_wb_database_general')."users where id=?;";
 				$st = $conn->prepare($q);
-				$st->bindParam(1,$users['id']);
+				$st->bindParam(1,$user['id']);
 				$st->execute();
 				if(count($jry_wb_login_user=$st->fetchAll())==0)
 				{
