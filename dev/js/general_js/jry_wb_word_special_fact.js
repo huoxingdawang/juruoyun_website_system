@@ -7,6 +7,8 @@ var jry_wb_word_special_fact  =  new function()
 	{
 		if(!this.switch)
 			return ;
+		if(this.word.length==0)
+			return;
 		if(typeof event.path!='undefined'&&typeof event.path[0]!='undefined'&&(typeof event.path[0].onclick=='function' ||typeof event.path[0].onmouseup=='function' ||typeof event.path[0].onmousedown=='function' || event.path[0].tagName=='BUTTON' || event.path[0].tagName=='INPUT'))return;
 		if(typeof event.target!='undefined'&&(typeof event.target.onclick=='function' ||typeof event.target.onmouseup=='function' ||typeof event.target.onmousedown=='function' || event.target.tagName=='BUTTON' || event.target.tagName=='INPUT'))return ;
 		if(typeof event.srcElement!='undefined'&&(typeof event.srcElement.onclick=='function' ||typeof event.srcElement.onmouseup=='function' ||typeof event.srcElement.onmousedown=='function' || event.srcElement.tagName=='BUTTON' || event.srcElement.tagName=='INPUT'))return ;
