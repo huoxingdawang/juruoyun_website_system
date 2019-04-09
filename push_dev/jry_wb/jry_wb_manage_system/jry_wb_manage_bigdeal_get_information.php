@@ -9,7 +9,7 @@
 		echo $e->getMessage();
 		exit();
 	}
-	if($action=='list')
+	if($_GET['action']=='list')
 	{
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'bigdeal ORDER BY time');
@@ -17,7 +17,7 @@
 		$i=0;
 		$json=array();
 		foreach($st->fetchAll()as $bigdeal)
-				array_push($json,array('bigdeal_id'=>(int)$bigdeal['bigdeal_id'],'name'=>$bigdeal['name'],'time'=>$bigdeal['time'],'enable'=>$bigdeal['enable']));
+			$json[]=array('bigdeal_id'=>(int)$bigdeal['bigdeal_id'],'name'=>$bigdeal['name'],'time'=>$bigdeal['time'],'enable'=>$bigdeal['enable']);
 		echo json_encode($json);
 	}
 ?>
