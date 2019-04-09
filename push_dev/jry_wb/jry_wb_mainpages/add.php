@@ -136,46 +136,22 @@
 	function check()
 	{ 
 		if(namee.value=="")
-		{
-			jry_wb_beautiful_alert.alert("请填写完整信息","名字为空",function(){namee.focus();namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";});
-			return false;
-		}
-		if(vcode.value=="")
-		{
-			jry_wb_beautiful_alert.alert("请填写完整信息","验证码为空",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
-			return false;
-		}
-		if(password1.value=="")
-		{
-			jry_wb_beautiful_alert.alert("请填写完整信息","密码为空",function(){password1.focus();password1.style.border="5px solid #ff0000",password1.style.margin="0px 0px";});
-			return false;
-		}
-		if(password2.value=="")
-		{
-			jry_wb_beautiful_alert.alert("请填写完整信息","密码为空",function(){password2.focus();password2.style.border="5px solid #ff0000",password2.style.margin="0px 0px";});
-			return false;
-		}
-		if(password1.value.length<8)
-		{
-			jry_wb_beautiful_alert.alert("请填写正确信息","密码太短",function(){password1.focus();password1.style.border="5px solid #ff0000",password1.style.margin="0px 0px";});
-			return false;
-		}
-		if(password1.value!=password2.value)
-		{
-			jry_wb_beautiful_alert.alert("请填写正确信息","密码不同",function(){password2.focus();password2.style.border="5px solid #ff0000",password2.style.margin="0px 0px";});
-			return false;
-		}
+			return jry_wb_beautiful_alert.alert("请填写完整信息","名字为空",function(){namee.focus();namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";});
+		else if(vcode.value=="")
+			return jry_wb_beautiful_alert.alert("请填写完整信息","验证码为空",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+		else if(password1.value=="")
+			return jry_wb_beautiful_alert.alert("请填写完整信息","密码为空",function(){password1.focus();password1.style.border="5px solid #ff0000",password1.style.margin="0px 0px";});
+		else if(password2.value=="")
+			return jry_wb_beautiful_alert.alert("请填写完整信息","密码为空",function(){password2.focus();password2.style.border="5px solid #ff0000",password2.style.margin="0px 0px";});
+		else if(password1.value.length<8)
+			return jry_wb_beautiful_alert.alert("请填写正确信息","密码太短",function(){password1.focus();password1.style.border="5px solid #ff0000",password1.style.margin="0px 0px";});
+		else if(password1.value!=password2.value)
+			return jry_wb_beautiful_alert.alert("请填写正确信息","密码不同",function(){password2.focus();password2.style.border="5px solid #ff0000",password2.style.margin="0px 0px";});
 		<?php if(constant('jry_wb_check_tel_switch')){ ?>
-		if(tel.value!=""&&jry_wb_test_phone_number(tel.value)==false)
-		{
-			jry_wb_beautiful_alert.alert("请填写正确信息","电话错误",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
-			return false;
-		}
-		if(phonecode.value=='')
-		{
-			jry_wb_beautiful_alert.alert("请填写完整信息","电话验证码为空",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});
-			return false;
-		}
+		else if(tel.value!=""&&jry_wb_test_phone_number(tel.value)==false)
+			return jry_wb_beautiful_alert.alert("请填写正确信息","电话错误",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
+		else if(phonecode.value=='')
+			return jry_wb_beautiful_alert.alert("请填写完整信息","电话验证码为空",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});
 		<?php } ?>
 		var sex=0;
 		for(var i=0,n=sexs.length;i<n;i++)
@@ -280,6 +256,7 @@
 	time2=0;
 	time3=0;
 	time4=0;
+	time5=0;
 	function save()
 	{
 		var sex=0;
@@ -288,7 +265,21 @@
 				sex=sexs[i].value;	
 		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,'tel':tel.value,'sex':sex,'password1':password1.value,'password2':password2.value,'phonecode':phonecode.value}));
 	}
-	namee.onkeyup=function(){save();};
+	namee.onfocus=namee.onkeyup=function()
+	{
+		save();		
+		if(namee.value=='')
+		{
+			if(((new Date())-time5)>5000)
+			{
+				time5=new Date();
+				jry_wb_beautiful_right_alert.alert("昵称不为空",2000,"auto","error");
+			}
+			namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";
+		}
+		else
+			namee.style.border="",namee.style.margin="",time5=0;
+	};
 	phonecode.onkeyup=function(){save();};
 	for(var i=0,n=sexs.length;i<n;i++)
 		sexs[i].onclick=function(){save();};
