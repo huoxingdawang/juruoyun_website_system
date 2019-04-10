@@ -26,9 +26,9 @@
 		else if($_GET['action']=='send_tel')
 		{
 			if(!constant('jry_wb_check_tel_switch'))
-				exit();
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if(constant('jry_wb_short_message_switch')=='')
-				exit();		
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{
 				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
@@ -203,7 +203,7 @@
 		else if($_GET['action']=='send_mail')
 		{
 			if(constant('jry_wb_mail_switch')=='')
-				exit();		
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{
 				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
@@ -220,8 +220,7 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
-			if(!jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&"))
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100016,'file'=>__FILE__,'line'=>__LINE__)));
+			jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
 			echo json_encode(array('code'=>true));		
 			exit();
 		}		

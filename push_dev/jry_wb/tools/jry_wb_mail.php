@@ -31,7 +31,7 @@
 		$mailer->Body = $text;
 		if($mailer->send())
 			return true;
-		throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'file'=>__FILE__,'line'=>__LINE__)));
+		throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100016,'file'=>__FILE__,'line'=>__LINE__)));
 	}
 	function jry_wb_send_mail_code($mail,$url)
 	{

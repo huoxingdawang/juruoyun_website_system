@@ -83,7 +83,7 @@
 	?><script language=javascript>jry_wb_beautiful_alert.alert("请验证电话",'',"window.location.href='<?php echo jry_wb_print_href("users",0,"",1)?>'");</script> <?php			
 				exit();
 		}
-		if($jry_wb_login_user['id']!=-1&&constant('jry_wb_check_mail_switch')&&$mt&&(($jry_wb_login_user['mail']==null||$jry_wb_login_user['mail']=='')))
+		if($jry_wb_login_user['id']!=-1&&constant('jry_wb_check_mail_switch')&&constant('jry_wb_mail_switch')!=''&&$mt&&(($jry_wb_login_user['mail']==null||$jry_wb_login_user['mail']=='')))
 		{
 	?><script language=javascript>jry_wb_beautiful_alert.check("请在个人中心中验证邮箱",function(){window.location.href='<?php echo jry_wb_print_href("users",0,"",1)?>'},function(){},'现在就绑定','一会再绑定');</script> <?php		
 		}

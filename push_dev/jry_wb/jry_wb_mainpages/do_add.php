@@ -84,6 +84,22 @@
 				$st->execute();
 			}			
 		}
+		$send=false;
+		if(constant('jry_wb_check_mail_switch'))
+		{
+			if(!jry_wb_test_mail($_POST['mail']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));		
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+			$st->bindParam(1,$_POST['mail']);
+			$st->execute();
+			if(count($st->fetchAll())!=0)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
+			if(constant('jry_wb_mail_switch')!='')
+			{
+				jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
+				$send=true;	
+			}
+		}
 		$psw1=md5($psw1);
 		$conn=jry_wb_connect_database();
 		$now=jry_wb_get_time();//时间
@@ -101,7 +117,7 @@
 		$st->execute();
 		$jry_wb_login_user['id']=$conn->lastInsertId();
 		jry_wb_echo_log(constant('jry_wb_log_type_add'),'');
-		echo json_encode(array('code'=>true,'id'=>$jry_wb_login_user['id']));
+		echo json_encode(array('code'=>true,'id'=>$jry_wb_login_user['id'],'send'=>$send));
 	}
 	catch(jry_wb_exception $e)
 	{

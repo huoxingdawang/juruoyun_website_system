@@ -53,13 +53,23 @@
 			</td>
 		</tr>
 		
-		<tr>
 <?php if(constant('jry_wb_check_tel_switch')){ ?>
+		<tr>
 			<td width="200">
 				<h55>电话</h55>
 			</td>
 			<td width="300">
 				<input name="tel" type="text" id="tel" class="h56"/>
+			</td>
+		</tr>
+<?php } ?>
+<?php if(constant('jry_wb_check_mail_switch')){ ?>
+		<tr>
+			<td width="200">
+				<h55>邮箱</h55>
+			</td>
+			<td width="300">
+				<input name="mail" type="text" id="mail" class="h56"/>
 			</td>
 		</tr>
 <?php } ?>			
@@ -99,6 +109,9 @@
 	namee=document.getElementById('name');
 	td1=document.getElementById('td1');
 	td2=document.getElementById('td2');
+	<?php if(constant('jry_wb_check_mail_switch')){ ?>
+	mail=document.getElementById('mail');
+	<?php } ?>
 	<?php if(constant('jry_wb_check_tel_switch')){ ?>
 	tel=document.getElementById('tel');
 	<?php } ?>
@@ -120,6 +133,9 @@
 		tel.value=get.tel;
 		password1.value=get.password1;
 		password2.value=get.password2;
+		<?php if(constant('jry_wb_check_mail_switch')){ ?>
+		mail.value=get.mail;
+		<?php } ?>		
 		<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 		phonecode.value=get.phonecode;
 		<?php } ?>
@@ -128,7 +144,7 @@
 				sexs[i].click();
 	}
 	delete get;
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
+	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	if(tel.value=="")
 		tr_tel.style.display="none";
 	<?php } ?>	
@@ -137,7 +153,11 @@
 	<?php if(constant('jry_wb_check_tel_switch')){ ?>	
 	else if(tel.value=="")
 		tel.focus();
-	<?php } ?>	
+	<?php } ?>
+	<?php if(constant('jry_wb_check_mail_switch')){ ?>	
+	else if(mail.value=="")
+		mail.focus();
+	<?php } ?>		
 	else if(password1.value=="")
 		password1.focus();
 	else if(vcode.value=="")
@@ -145,7 +165,7 @@
 	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	else if(phonecode.value=="")
 		phonecode.focus();	
-	<?php } ?>	
+	<?php } ?>
 function check()
 	{ 
 		if(namee.value=="")
@@ -204,6 +224,8 @@ function check()
 						});
 					});
 				});
+				if(data.send)
+					jry_wb_beautiful_alert.alert('验证邮件已发送','请进入邮箱完成绑定',function(){});
 			}
 			else
 			{
@@ -227,8 +249,16 @@ function check()
 					jry_wb_beautiful_alert.alert("注册失败","密码太短",function(){password1.focus();password1.style.border="5px solid #ff0000",password1.style.margin="0px 0px";});
 				else if(data.reason==100013)
 					jry_wb_beautiful_alert.alert("注册失败","昵称为空",function(){namee.focus();namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";});				
+				<?php if(constant('jry_wb_check_mail_switch')){ ?>
+				else if(data.reason==100014)
+					jry_wb_beautiful_alert.alert("注册失败","邮箱错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+				else if(data.reason==100015)
+					jry_wb_beautiful_alert.alert("注册失败","邮箱别人绑定过了",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+				else if(data.reason==100016)
+					jry_wb_beautiful_alert.alert("注册失败","邮件发送失败，联系开发组");	
+				<?php } ?>
 				}
-		},[{'name':'name','value':namee.value},<?php if(constant('jry_wb_check_tel_switch')){ ?>{'name':'tel','value':tel.value},<?php } ?>{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>{'name':'phonecode','value':phonecode.value}<?php } ?>],true);
+		},[{'name':'name','value':namee.value},<?php if(constant('jry_wb_check_tel_switch')){ ?>{'name':'tel','value':tel.value},<?php } ?><?php if(constant('jry_wb_check_mail_switch')){ ?>{'name':'mail','value':mail.value},<?php } ?>{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>{'name':'phonecode','value':phonecode.value}<?php } ?>],true);
 		return true;
 	}
 	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
@@ -268,19 +298,20 @@ function check()
 		},[{'name':'vcode','value':vcode.value},{'name':'tel','value':tel.value}],true);
 		return true;
 	}
-	<?php } ?>
-	time1=0;
+	<?php } ?>	
+time1=0;
 	time2=0;
 	time3=0;
 	time4=0;
 	time5=0;
+	time6=0;
 	function save()
 	{
 		var sex=0;
 		for(var i=0,n=sexs.length;i<n;i++)
 			if(sexs[i].checked)
 				sex=sexs[i].value;	
-		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,<?php if(constant('jry_wb_check_tel_switch')){ ?>'tel':tel.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value<?php } ?>}));
+		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,<?php if(constant('jry_wb_check_tel_switch')){ ?>'tel':tel.value,<?php } ?><?php if(constant('jry_wb_check_mail_switch')){ ?>'mail':mail.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value<?php } ?>}));
 	}
 	namee.onfocus=namee.onkeyup=function()
 	{
@@ -335,6 +366,23 @@ function check()
 		else
 			password2.style.border="",password2.style.margin="",time2=0;
 	};
+	<?php if(constant('jry_wb_check_mail_switch')){ ?>
+	mail.onfocus=mail.onkeyup=function()
+	{
+		save();
+		if(mail.value!=""&&(jry_wb_test_mail(mail.value)==false))
+		{
+			if(((new Date())-time6)>5000)
+			{
+				time6=new Date();
+				jry_wb_beautiful_right_alert.alert("邮箱错误",2000,"auto","error");
+			}	
+			mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";
+		}
+		else
+			mail.style.border="",mail.style.margin="",time6=0;
+	};	
+	<?php } ?>	
 	<?php if(constant('jry_wb_check_tel_switch')){ ?>	
 	tel.onfocus=tel.onkeyup=function()
 	{
@@ -353,7 +401,7 @@ function check()
 			tel.style.border="",tel.style.margin="";
 			<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 			if(tel.value!="")
-				tr_tel.style.display="",window.onresize();
+				tr_tel.style.display="",window.onresize(),time3=0;
 			<?php } ?>
 		}			
 	};
