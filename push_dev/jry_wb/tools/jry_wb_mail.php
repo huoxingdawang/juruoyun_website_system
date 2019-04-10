@@ -8,10 +8,10 @@
 		$mailer=new PHPMailer();
 		$mailer->CharSet = 'UTF-8';
 		$mailer->isSMTP();
-		$mailer->Host=constant('jry_wb_mail_host');
+		$mailer->Host=constant('jry_wb_mail_phpmailer_host');
 		$mailer->SMTPAuth=true;
-		$mailer->Username=constant('jry_wb_mail_user');
-		$mailer->Password=constant('jry_wb_mail_pas');
+		$mailer->Username=constant('jry_wb_mail_phpmailer_user');
+		$mailer->Password=constant('jry_wb_mail_phpmailer_password');
 		$mailer->SMTPSecure='ssl';
 		$mailer->Port = 465;
 		$mailer->SMTPOptions = array(
@@ -21,9 +21,9 @@
 			'allow_self_signed' => true
 			)
 		);		
-		$mailer->setFrom(constant('jry_wb_mail_user'),constant('jry_wb_name'));
-		$mailer->addAddress($to,constant('jry_wb_mail_to'));
-		$mailer->addReplyTo(constant('jry_wb_mail_replay'),constant('jry_wb_mail_replay_name'));
+		$mailer->setFrom(constant('jry_wb_mail_phpmailer_user'),constant('jry_wb_name'));
+		$mailer->addAddress($to,constant('jry_wb_mail_phpmailer_to'));
+		$mailer->addReplyTo(constant('jry_wb_mail_phpmailer_replay'),constant('jry_wb_mail_phpmailer_replay_name'));
 
 		$mailer->isHTML(true); 
 
@@ -31,15 +31,11 @@
 		$mailer->Body = $text;
 		if($mailer->send())
 			return true;
-		exit();
+		throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'file'=>__FILE__,'line'=>__LINE__)));
 	}
 	function jry_wb_send_mail_code($mail,$url)
 	{
-		$srcstr = '23456789abcdefghijklmnpqrstwyzABCDEFGHJKLMNPQRSTWYZ';
-		$code='';
-		mt_srand();
-		for ($i = 0; $i < 100; $i++) 
-			$code.=$srcstr[mt_rand(0, 50)];
+		$code=jry_wb_get_random_string(100);
 		$code=md5($mail.$code.jry_wb_get_time());
 		$conn=jry_wb_connect_database();
 		$q = "INSERT INTO ".constant('jry_wb_database_general')."mail_code (mail,code,time) VALUES (?,?,?)";
