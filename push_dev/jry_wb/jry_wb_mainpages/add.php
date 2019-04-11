@@ -106,6 +106,16 @@
 	<a href>问题或建议点边上的小虫子</a>
 </div>
 <script language="javascript">
+	var old_onkeydown=document.onkeydown;
+	document.onkeydown=function(e)
+	{
+		if (!e) 
+			e=window.event;
+		var keycode=(e.keyCode||e.which);
+		if(keycode==jry_wb_keycode_enter)
+			check();
+		return old_onkeydown();
+	};
 	namee=document.getElementById('name');
 	td1=document.getElementById('td1');
 	td2=document.getElementById('td2');
