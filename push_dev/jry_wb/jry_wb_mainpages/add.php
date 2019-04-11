@@ -200,6 +200,7 @@ function check()
 			{
 				jry_wb_beautiful_alert.alert('已注册,第一遍提醒','您的<h56>ID='+data.id+'</h56><br>ID是您登录本网站的<h56>唯一</h56>凭证<br>请牢记',function()
 				{
+					jry_wb_cache.delete('login');
 					jry_wb_beautiful_alert.alert('已注册,第二遍提醒','您的<h56>ID='+data.id+'</h56><br>ID是您登录本网站的<h56>唯一</h56>凭证<br>请牢记',function()
 					{
 						jry_wb_beautiful_alert.alert('已注册,第三遍提醒','您的<h56>ID='+data.id+'</h56><br>ID是您登录本网站的<h56>唯一</h56>凭证<br>请牢记',function()
