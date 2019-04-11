@@ -5,85 +5,57 @@
 		global $user_agent;
 		if($jry_wb_socket_mode===false)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];
-		if(!$db)
-		{
-			if(strpos($user_agent,"MSIE8.0"))
-				return "IE8.0";
-			else if(strpos($user_agent,"MSIE7.0"))
-				return "IE7.0";
-			else if(strpos($user_agent,"MSIE6.0"))
-				return "IE6.0";
-			else if(strpos($user_agent,"Edge"))
-				return "Edge";
-			else if(strpos($user_agent,"MQQBrowser"))
-				return 'Mobile QQ browser';
-			else if(strpos($user_agent,"QQBrowser"))
-				return 'QQ browser';			
-			else if(strpos($user_agent,"FxiOS"))
-				return 'Firefox for iOS';
-			else if(strpos($user_agent,"CriOS"))
-				return 'Chrome for iOS';
-			else if(strpos($user_agent,"Opera")||strpos($user_agent,"OPR"))
-				return "Opera";	
-			else if(strpos($user_agent,"Firefox17"))
-				return "Firefox17";
-			else if(strpos($user_agent,"Firefox16"))
-				return "Firefox16";
-			else if(strpos($user_agent,"Firefox"))
-				return "Firefox";			
-			else if(strpos($user_agent,"Chrome"))
-				return "Chrome";
-			else if(strpos($user_agent,"Safari"))
-				return "Safari";
-			else if(strpos($user_agent,"MQBHD"))
-				return 'Mobile QQ browser HD';
-			else
-				return 'unknow';
-		}
+		if(strpos($user_agent,"MSIE 6.0")!==false)
+			$type=3;
+		else if(strpos($user_agent,"MSIE 7.0")!==false)
+			$type=2;
+		else if(strpos($user_agent,"MSIE 8.0")!==false)
+			$type=1;
+		else if(strpos($user_agent,"MSIE 9.0")!==false)
+			$type=18;
+		else if(strpos($user_agent,"MSIE 10.0")!==false)
+			$type=17;
+		else if(strpos($user_agent,"Trident/7.0; rv:11.0")!==false)
+			$type=16;
+		else if(strpos($user_agent,"Edge"))
+			$type=9;
+		else if(strpos($user_agent,"MQQBrowser")!==false)
+			$type=12;
+		else if(strpos($user_agent,"QQBrowser")!==false)
+			$type=15;	
+		else if(strpos($user_agent,"FxiOS")!==false)
+			$type=13;
+		else if(strpos($user_agent,"CriOS")!==false)
+			$type=14;				
+		else if(strpos($user_agent,"Opera")||strpos($user_agent,"OPR")!==false)
+			$type=8;	
+		else if(strpos($user_agent,"Firefox17")!==false)
+			$type=4;
+		else if(strpos($user_agent,"Firefox16")!==false)
+			$type=5;
+		else if(strpos($user_agent,"Firefox")!==false)
+			$type=10;			
+		else if(strpos($user_agent,"Chrome")!==false)
+			$type=6;
+		else if(strpos($user_agent,"Safari")!==false)
+			$type=7;
+		else if(strpos($user_agent,"MQBHD")!==false)
+			$type=11;			
 		else
-		{
-			if(strpos($user_agent,"MSIE8.0"))
-				return 1;
-			else if(strpos($user_agent,"MSIE7.0"))
-				return 2;
-			else if(strpos($user_agent,"MSIE6.0"))
-				return 3;
-			else if(strpos($user_agent,"Edge"))
-				return 9;
-			else if(strpos($user_agent,"MQQBrowser"))
-				return 12;
-			else if(strpos($user_agent,"QQBrowser"))
-				return 15;	
-			else if(strpos($user_agent,"FxiOS"))
-				return 13;
-			else if(strpos($user_agent,"CriOS"))
-				return 14;				
-			else if(strpos($user_agent,"Opera")||strpos($user_agent,"OPR"))
-				return 8;	
-			else if(strpos($user_agent,"Firefox17"))
-				return 4;
-			else if(strpos($user_agent,"Firefox16"))
-				return 5;
-			else if(strpos($user_agent,"Firefox"))
-				return 10;			
-			else if(strpos($user_agent,"Chrome"))
-				return 6;
-			else if(strpos($user_agent,"Safari"))
-				return 7;
-			else if(strpos($user_agent,"MQBHD"))
-				return 11;			
-			else
-				return 0;			
-		}
+			$type=0;
+		if($db)
+			return $type;
+		else 
+			return jry_wb_get_browser_from_database($type);
 	}
 	function jry_wb_get_browser_from_database($data)
 	{
 		if($data==1)
-			return "IE8.0";
+			return "IE8";
 		else if($data==2)
-			return "IE7.0";
+			return "IE7";
 		else if($data==3)
-			return "IE6.0";
+			return "IE6";
 		else if($data==4)
 			return "Firefox17";
 		else if($data==5)
@@ -108,6 +80,12 @@
 			return 'Chrome for iOS';
 		else if($data==15)
 			return 'QQ browser';		
+		else if($data==16)
+			return "IE11";
+		else if($data==17)
+			return "IE10";
+		else if($data==18)
+			return "IE9";	
 		else
 			return 'unknow';		
 	}
