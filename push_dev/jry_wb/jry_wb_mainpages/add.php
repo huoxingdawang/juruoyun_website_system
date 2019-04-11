@@ -310,7 +310,7 @@ function check()
 		return true;
 	}
 	<?php } ?>	
-time1=0;
+	time1=0;
 	time2=0;
 	time3=0;
 	time4=0;
