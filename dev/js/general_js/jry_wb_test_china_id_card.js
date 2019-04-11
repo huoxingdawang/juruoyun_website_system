@@ -2,13 +2,13 @@ function jry_wb_test_china_id_card(idcard)
 {
 	idcard.toUpperCase();
     if (idcard.length==15)
-        return jry_wb_test_china_id_card_is_true_birthday_15(idcard);   
+        return jry_wb_test_china_id_card_15(idcard);   
 	else if (idcard.length==18)
-        return (jry_wb_test_china_id_card_is_true_birthday_18(idcard)&&jry_wb_test_china_id_card_is_true_date_code_18(idcard/*.split('')*/));
+        return (jry_wb_test_china_id_card_is_true_birthday_18(idcard)&&jry_wb_test_china_id_card_18(idcard));
 	else
         return false;
 }   
-function jry_wb_test_china_id_card_is_true_date_code_18(idcard)
+function jry_wb_test_china_id_card_18(idcard)
 {   
 	idcard.toUpperCase();
 	var wi = [7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2,1];
@@ -20,7 +20,16 @@ function jry_wb_test_china_id_card_is_true_date_code_18(idcard)
         sum += wi[i] * idcard[i]; 
     valCodePosition = sum % 11;  
     if (idcard[17] == valideCode[valCodePosition])
-        return true;   
+	{
+		var year =  idcard.substring(6,10);   
+		var month = idcard.substring(10,12);   
+		var day = idcard.substring(12,14);   
+		var temp_date = new Date(year,parseFloat(month)-1,parseFloat(day));   
+		if(temp_date.getFullYear()!=parseFloat(year)||temp_date.getMonth()!=parseFloat(month)-1||temp_date.getDate()!=parseFloat(day)) 
+			return false;   
+		else
+			return true;
+	}
 	else
         return false;   
 }    
@@ -46,19 +55,7 @@ function jry_wb_get_sex_by_china_id_card(idcard)
 	else
 		return false;   
 } 
-function jry_wb_test_china_id_card_is_true_birthday_18(idcard18)
-{   
-	idcard18.toUpperCase();
-	var year =  idcard18.substring(6,10);   
-	var month = idcard18.substring(10,12);   
-	var day = idcard18.substring(12,14);   
-	var temp_date = new Date(year,parseFloat(month)-1,parseFloat(day));   
-	if(temp_date.getFullYear()!=parseFloat(year)||temp_date.getMonth()!=parseFloat(month)-1||temp_date.getDate()!=parseFloat(day)) 
-		return false;   
-	else
-		return true;
-}
-function jry_wb_test_china_id_card_is_true_birthday_15(idcard15)
+function jry_wb_test_china_id_card_15(idcard15)
 {
 	idcard15.toUpperCase();
 	var year=idcard15.substring(6,8);   
