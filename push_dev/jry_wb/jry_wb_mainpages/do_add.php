@@ -94,11 +94,7 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
-			if(constant('jry_wb_mail_switch')!='')
-			{
-				jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
-				$send=true;	
-			}
+
 		}
 		$psw1=md5($psw1);
 		$conn=jry_wb_connect_database();
@@ -116,6 +112,21 @@
 		$st->bindParam(6,$now);
 		$st->execute();
 		$jry_wb_login_user['id']=$conn->lastInsertId();
+		if(constant('jry_wb_check_mail_switch'))
+		{		
+			if(constant('jry_wb_mail_switch')!='')
+			{
+				jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
+				$send=true;	
+			}
+			else
+			{
+				$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET mail=? WHERE id=? ');
+				$st->bindParam(1,$_POST['mail']);
+				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->execute();					
+			}
+		}			
 		jry_wb_echo_log(constant('jry_wb_log_type_add'),'');
 		echo json_encode(array('code'=>true,'id'=>$jry_wb_login_user['id'],'send'=>$send));
 	}

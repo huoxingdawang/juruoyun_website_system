@@ -1,5 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
 	jry_wb_print_head("注册",false,false,true);
 	if(!constant('jry_wb_host_switch')&&$_GET['debug']!=1)
 	{
@@ -92,6 +93,23 @@
 				<button id="button" name="button" class="jry_wb_button jry_wb_button_size_middle jry_wb_color_ok" type="button" onclick="check_tel()">获取验证码</button>
 		</tr>
 <?php } ?>
+<?php
+	foreach(constant('jry_wb_config_user_extern_message') as $one)
+	{
+?>		<tr>
+			<td>
+				<h55><?php  echo $one['name']; ?></h55>
+			</td>
+			<td width="300">
+				<?php
+					if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id')
+					{ ?>
+						<input name="<?php  echo $one['key']; ?>" type="text" id="<?php  echo $one['key']; ?>" class="h56"/>
+					<?php }
+				?>
+			</td>
+		</tr>			
+<?php }?>
 		<tr>
 			<td colspan="2">
 			<div align="center">
@@ -135,6 +153,9 @@
 	tr_tel=document.getElementById('tr_tel');
 	<?php } ?>
 	vcodesrc=document.getElementById('vcodesrc');
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+	<?php  echo $one['key']; ?>=document.getElementById('<?php  echo $one['key']; ?>');	
+<?php } ?>	
 	jry_wb_add_load(function(){vcode.style.width=td2.clientWidth-25-vcodesrc.clientWidth;});
 	var get=JSON.parse(jry_wb_cache.get('login'));
 	if(get!=null)
@@ -152,6 +173,9 @@
 		for(var i=0,n=sexs.length;i<n;i++)
 			if(sexs[i].value==get.sex)
 				sexs[i].click();
+	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+		<?php  echo $one['key']; ?>.value=get.<?php  echo $one['key']; ?>;	
+	<?php } ?>	
 	}
 	delete get;
 	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
@@ -176,7 +200,11 @@
 	else if(phonecode.value=="")
 		phonecode.focus();	
 	<?php } ?>
-function check()
+	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+	else if(<?php  echo $one['key']; ?>.value=="")
+		<?php  echo $one['key']; ?>.focus();		
+	<?php } ?>
+	function check()
 	{ 
 		if(namee.value=="")
 			return jry_wb_beautiful_alert.alert("请填写完整信息","名字为空",function(){namee.focus();namee.style.border="5px solid #ff0000",namee.style.margin="0px 0px";});
@@ -316,13 +344,16 @@ function check()
 	time4=0;
 	time5=0;
 	time6=0;
+	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>time_<?php echo $one['key']; ?>=0;<?php } ?>
 	function save()
 	{
 		var sex=0;
 		for(var i=0,n=sexs.length;i<n;i++)
 			if(sexs[i].checked)
-				sex=sexs[i].value;	
-		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,<?php if(constant('jry_wb_check_tel_switch')){ ?>'tel':tel.value,<?php } ?><?php if(constant('jry_wb_check_mail_switch')){ ?>'mail':mail.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value<?php } ?>}));
+				sex=sexs[i].value;
+		jry_wb_cache.set('login',JSON.stringify({'name':namee.value,<?php if(constant('jry_wb_check_tel_switch')){ ?>'tel':tel.value,<?php } ?><?php if(constant('jry_wb_check_mail_switch')){ ?>'mail':mail.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value,<?php } ?>
+			<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?>.value,<?php } ?>	
+		}));
 	}
 	namee.onfocus=namee.onkeyup=function()
 	{
@@ -431,6 +462,28 @@ function check()
 		}
 		else
 			vcode.style.border="",vcode.style.margin="",time4=0;
-	};	
+	};
+	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){?>
+	<?php echo $one['key']; ?>.onfocus=<?php echo $one['key']; ?>.onkeyup=function()
+	{
+		save();
+		<?php if($one['type']=='tel'){ ?>
+			if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_phone_number(<?php echo $one['key']; ?>.value)==false))
+			{
+				if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
+				{
+					time_<?php echo $one['key']; ?>=new Date();
+					jry_wb_beautiful_right_alert.alert("电话错误",2000,"auto","error");
+				}	
+				<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+			}
+			else
+			{
+				<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+			}		
+		<?php } ?>
+	};
+	<?php } ?>
+	
 </script>
 <?php jry_wb_print_tail()?>
