@@ -80,7 +80,7 @@
 			</td>
 			<td>
 				<input name="vcode" type="text" id="vcode" class="h56" style="width:200px"/>
-				<img id="vcodesrc" src="<?php echo jry_wb_print_href("verificationcode",0,"",1);?>" onload="window.onresize()" onclick="document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()"/>
+				<img id="vcodesrc" src="" onload="window.onresize()"/>
 			</td>
 		</tr>
 <?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
@@ -153,6 +153,8 @@
 	tr_tel=document.getElementById('tr_tel');
 	<?php } ?>
 	vcodesrc=document.getElementById('vcodesrc');
+	vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
+	vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random()};
 <?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
 	<?php  echo $one['key']; ?>=document.getElementById('<?php  echo $one['key']; ?>');	
 <?php } ?>	

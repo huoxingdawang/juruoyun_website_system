@@ -87,7 +87,7 @@
 			</td>
 			<td>
 				<input name="vcode" type="text" id="vcode" class="h56" size="4"/>
-				<img id="vcodesrc" src="<?php echo jry_wb_print_href("verificationcode",0,"",1);?>" onload="window.onresize()" onclick="document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()"/>
+				<img id="vcodesrc" src="" onload="window.onresize()"/>
 			</td>
 		</tr>
 		<tr>
@@ -115,185 +115,188 @@
 	<a href>问题或建议点边上的小虫子</a>	
 </div>
 <script language="javascript">
-time1=0;
-time2=0;
-time3=0;
-id=document.getElementById('id');
-password=document.getElementById('password');
-vcode=document.getElementById('vcode');
-types=document.getElementsByName('type');
-function check()
-{ 
-	var type=0;
-	for(var i=0,n=types.length;i<n;i++)
-		if(types[i].checked)
-			type=types[i].value;
-	if(id.value=="")
-    {
-        jry_wb_beautiful_alert.alert("请填写完整信息","ID为空",function(){id.focus();id.style.border="5px solid #ff0000",id.style.margin="0px 0px";});
-        return;
-    }
-	if((type==1)&&(!jry_wb_test_phone_number(id.value)))
-	{
-        jry_wb_beautiful_alert.alert("请填写正确信息","错误的电话格式",function(){id.focus();id.style.border="5px solid #ff0000",id.style.margin="0px 0px";});		
-        return;
-	}
-	else if((type==2)&&(!jry_wb_test_mail(id.value)))
-	{
-        jry_wb_beautiful_alert.alert("请填写正确信息","错误的邮箱格式",function(){id.focus();id.style.border="5px solid #ff0000",id.style.margin="0px 0px";});				
-        return;
-	}	
-	if(password.value=="")
-    {
-		jry_wb_beautiful_alert.alert("请填写完整信息","密码为空",function(){password.focus();password.style.border="5px solid #ff0000",password.style.margin="0px 0px";});
-       return;
-    }
-	if(vcode.value=="")
-    {
-        jry_wb_beautiful_alert.alert("请填写完整信息","验证码为空",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
-        return;
-    }
-	jry_wb_ajax_load_data('do_login.php',function(data)
-	{
-		data=JSON.parse(data);
-		jry_wb_loading_off();
-		if(data.code)
+	time1=0;
+	time2=0;
+	time3=0;
+	id=document.getElementById('id');
+	password=document.getElementById('password');
+	vcode=document.getElementById('vcode');
+	vcodesrc=document.getElementById('vcodesrc');
+	vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
+	vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random()};
+	types=document.getElementsByName('type');
+	function check()
+	{ 
+		var type=0;
+		for(var i=0,n=types.length;i<n;i++)
+			if(types[i].checked)
+				type=types[i].value;
+		if(id.value=="")
 		{
-			jry_wb_beautiful_alert.alert("登录成功",'距上次登录'+data.message.hour+'小时'+data.message.minute+'分钟'+(data.message.green_money==null?'':'<br>随机奖励绿币'+data.message.green_money),function()
+			jry_wb_beautiful_alert.alert("请填写完整信息","ID为空",function(){id.focus();id.style.border="5px solid #ff0000",id.style.margin="0px 0px";});
+			return;
+		}
+		if((type==1)&&(!jry_wb_test_phone_number(id.value)))
+		{
+			jry_wb_beautiful_alert.alert("请填写正确信息","错误的电话格式",function(){id.focus();id.style.border="5px solid #ff0000",id.style.margin="0px 0px";});		
+			return;
+		}
+		else if((type==2)&&(!jry_wb_test_mail(id.value)))
+		{
+			jry_wb_beautiful_alert.alert("请填写正确信息","错误的邮箱格式",function(){id.focus();id.style.border="5px solid #ff0000",id.style.margin="0px 0px";});				
+			return;
+		}	
+		if(password.value=="")
+		{
+			jry_wb_beautiful_alert.alert("请填写完整信息","密码为空",function(){password.focus();password.style.border="5px solid #ff0000",password.style.margin="0px 0px";});
+		   return;
+		}
+		if(vcode.value=="")
+		{
+			jry_wb_beautiful_alert.alert("请填写完整信息","验证码为空",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+			return;
+		}
+		jry_wb_ajax_load_data('do_login.php',function(data)
+		{
+			data=JSON.parse(data);
+			jry_wb_loading_off();
+			if(data.code)
 			{
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-			});
-			return ;
+				jry_wb_beautiful_alert.alert("登录成功",'距上次登录'+data.message.hour+'小时'+data.message.minute+'分钟'+(data.message.green_money==null?'':'<br>随机奖励绿币'+data.message.green_money),function()
+				{
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+				});
+				return ;
+			}
+			else
+			{
+				if(data.reason==100005)
+					jry_wb_beautiful_alert.alert("登录失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100002)
+					jry_wb_beautiful_alert.alert("登录失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+				else if(data.reason==100007)
+					jry_wb_beautiful_alert.alert("登录失败","不存在的账号",function(){id.style.border="5px solid #ff0000",id.style.margin="0px 0px";id.focus();});
+				else if(data.reason==100006)
+					jry_wb_beautiful_alert.alert("登录失败","密码错误",function(){password.style.border="5px solid #ff0000",password.style.margin="0px 0px";password.focus();});
+			}
+		},[{'name':'id','value':id.value},{'name':'password','value':password.value},{'name':'vcode','value':vcode.value},{'name':'type','value':type}]);	
+	}
+	password.onfocus=password.onkeyup=function()
+	{
+		if(password.value!=''&&password.value.length<8)
+		{
+			if(((new Date())-time1)>5000)
+			{
+				time1=new Date();
+				jry_wb_beautiful_right_alert.alert("密码长度大于8位",2000,"auto","error");
+			}
+			password.style.border="5px solid #ff0000",password.style.margin="0px 0px";
 		}
 		else
-		{
-			if(data.reason==100005)
-				jry_wb_beautiful_alert.alert("登录失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
-			else if(data.reason==100002)
-				jry_wb_beautiful_alert.alert("登录失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
-			else if(data.reason==100007)
-				jry_wb_beautiful_alert.alert("登录失败","不存在的账号",function(){id.style.border="5px solid #ff0000",id.style.margin="0px 0px";id.focus();});
-			else if(data.reason==100006)
-				jry_wb_beautiful_alert.alert("登录失败","密码错误",function(){password.style.border="5px solid #ff0000",password.style.margin="0px 0px";password.focus();});
-		}
-	},[{'name':'id','value':id.value},{'name':'password','value':password.value},{'name':'vcode','value':vcode.value},{'name':'type','value':type}]);	
-}
-password.onfocus=password.onkeyup=function()
-{
-	if(password.value!=''&&password.value.length<8)
+			password.style.border="",password.style.margin="",time1=0;
+	};
+	vcode.onfocus=vcode.onkeyup=function()
 	{
-		if(((new Date())-time1)>5000)
+		if(vcode.value!=''&&vcode.value.length!=4)
 		{
-			time1=new Date();
-			jry_wb_beautiful_right_alert.alert("密码长度大于8位",2000,"auto","error");
+			if(((new Date())-time2)>5000)
+			{
+				time2=new Date();
+				jry_wb_beautiful_right_alert.alert("4位验证码",2000,"auto","error");
+			}
+			vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";
 		}
-		password.style.border="5px solid #ff0000",password.style.margin="0px 0px";
-	}
-	else
-		password.style.border="",password.style.margin="",time1=0;
-};
-vcode.onfocus=vcode.onkeyup=function()
-{
-	if(vcode.value!=''&&vcode.value.length!=4)
+		else
+			vcode.style.border="",vcode.style.margin="",time2=0;
+	};
+	id.onfocus=id.onkeyup=function()
 	{
-		if(((new Date())-time2)>5000)
+		var type=0;
+		for(var i=0,n=types.length;i<n;i++)
+			if(types[i].checked)
+				type=types[i].value;
+		if(id.value!=""&&(type==1)&&(!jry_wb_test_phone_number(id.value)))
 		{
-			time2=new Date();
-			jry_wb_beautiful_right_alert.alert("4位验证码",2000,"auto","error");
+			if(((new Date())-time3)>5000)
+			{
+				time3=new Date();
+				jry_wb_beautiful_right_alert.alert("错误的电话格式",2000,"auto","error");
+			}
+			id.style.border="5px solid #ff0000",id.style.margin="0px 0px";
 		}
-		vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";
-	}
-	else
-		vcode.style.border="",vcode.style.margin="",time2=0;
-};
-id.onfocus=id.onkeyup=function()
-{
-	var type=0;
+		else if(id.value!=""&&(type==2)&&(!jry_wb_test_mail(id.value)))
+		{
+			if(((new Date())-time3)>5000)
+			{
+				time3=new Date();
+				jry_wb_beautiful_right_alert.alert("错误的邮箱格式",2000,"auto","error");
+			}
+			id.style.border="5px solid #ff0000",id.style.margin="0px 0px";
+		}
+		else
+			id.style.border="",id.style.margin="",time3=0;
+	};
 	for(var i=0,n=types.length;i<n;i++)
-		if(types[i].checked)
-			type=types[i].value;
-	if(id.value!=""&&(type==1)&&(!jry_wb_test_phone_number(id.value)))
+		type=types[i].onclick=id.onfocus;
+	var old_onkeydown=document.onkeydown;
+	document.onkeydown=function(e)
 	{
-		if(((new Date())-time3)>5000)
-		{
-			time3=new Date();
-			jry_wb_beautiful_right_alert.alert("错误的电话格式",2000,"auto","error");
-		}
-		id.style.border="5px solid #ff0000",id.style.margin="0px 0px";
-	}
-	else if(id.value!=""&&(type==2)&&(!jry_wb_test_mail(id.value)))
+		if (!e) 
+			e=window.event;
+		var keycode=(e.keyCode||e.which);
+		if(keycode==jry_wb_keycode_enter)
+			check();
+		return old_onkeydown();
+	};
+	document.getElementById('id').focus();
+	function qqlogin()
 	{
-		if(((new Date())-time3)>5000)
-		{
-			time3=new Date();
-			jry_wb_beautiful_right_alert.alert("错误的邮箱格式",2000,"auto","error");
-		}
-		id.style.border="5px solid #ff0000",id.style.margin="0px 0px";
+		newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+		var timer=setInterval(function(){
+			if(newwindow.closed)
+			{
+				clearInterval(timer);
+				if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)			
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			}
+		},500);
 	}
-	else
-		id.style.border="",id.style.margin="",time3=0;
-};
-for(var i=0,n=types.length;i<n;i++)
-	type=types[i].onclick=id.onfocus;
-var old_onkeydown=document.onkeydown;
-document.onkeydown=function(e)
-{
-	if (!e) 
-		e=window.event;
-	var keycode=(e.keyCode||e.which);
-	if(keycode==jry_wb_keycode_enter)
-		check();
-	return old_onkeydown();
-};
-document.getElementById('id').focus();
-function qqlogin()
-{
-	newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-	var timer=setInterval(function(){
-		if(newwindow.closed)
-		{
-			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)			
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-		}
-	},500);
-}
-function gayhublogin()
-{
-	newwindow=window.open("jry_wb_github_oauth.php","GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-	var timer=setInterval(function(){
-		if(newwindow.closed)
-		{
-			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-		}
-	},500);	
-}
-function giteelogin()
-{
-	newwindow=window.open("jry_wb_gitee_oauth.php","GiteeLogin","width=1200,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-	var timer=setInterval(function(){
-		if(newwindow.closed)
-		{
-			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)			
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-		}
-	},500);	
-}
-function milogin()
-{
-	newwindow=window.open("jry_wb_mi_oauth.php","MiLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-	var timer=setInterval(function(){
-		if(newwindow.closed)
-		{
-			clearInterval(timer);
-			if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)
-				window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
-		}
-	},500);
-}
+	function gayhublogin()
+	{
+		newwindow=window.open("jry_wb_github_oauth.php","GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+		var timer=setInterval(function(){
+			if(newwindow.closed)
+			{
+				clearInterval(timer);
+				if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			}
+		},500);	
+	}
+	function giteelogin()
+	{
+		newwindow=window.open("jry_wb_gitee_oauth.php","GiteeLogin","width=1200,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+		var timer=setInterval(function(){
+			if(newwindow.closed)
+			{
+				clearInterval(timer);
+				if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)			
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			}
+		},500);	
+	}
+	function milogin()
+	{
+		newwindow=window.open("jry_wb_mi_oauth.php","MiLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+		var timer=setInterval(function(){
+			if(newwindow.closed)
+			{
+				clearInterval(timer);
+				if(jry_wb_cookie.get('id')!=undefined&&jry_wb_cookie.get('id')!=-1)
+					window.location.href='<?php if($_SESSION['url']!='')echo $_SESSION['url'];else echo jry_wb_print_href("home","","",1)?>';
+			}
+		},500);
+	}
 </script>
 <?php
 	jry_wb_print_tail();

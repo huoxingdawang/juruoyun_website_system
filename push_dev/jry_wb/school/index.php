@@ -61,7 +61,7 @@ jry_wb_add_load(function()
 		<td><h55>验证码</h55></td>
 		<td>
 		<input name="vcode" type="text" id="vcode" class="h56" size="4"
-		onclick="document.getElementById('vcodesrc').src='<?php echo jry_wb_print_href("verificationcode",0,"",1);?>?r='+Math.random()"
+		onclick="document.getElementById('vcodesrc').src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r=+Math.random()"
 		class="h56"
 		/>
 		<img id="vcodesrc" src=""/>

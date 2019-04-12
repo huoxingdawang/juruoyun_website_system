@@ -732,9 +732,9 @@ function showtel()
 	img.id='vcodesrc';
 	img.onclick=function ()
 	{
-		img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+		img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 	};
-	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+	img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 	td=null;
 	var td=jry_wb_show_tr_with_input(table,'短信验证码','phonecode','','text',function (){},250);
 	var phonecode=td.children[0];
@@ -887,9 +887,9 @@ function showmail()
 	img.id='vcodesrc';
 	img.onclick=function ()
 	{
-		img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+		img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 	};	
-	img.src=jry_wb_message.jry_wb_host+'tools/verificationcode.php?r='+Math.random();
+	img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 	var button=document.createElement("button");showdiv.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
