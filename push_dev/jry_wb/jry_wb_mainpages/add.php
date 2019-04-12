@@ -105,6 +105,9 @@
 					if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id')
 					{ ?>
 						<input name="<?php  echo $one['key']; ?>" type="text" id="<?php  echo $one['key']; ?>" class="h56"/>
+					<?php }else if($one['type']=='select')
+					{ ?>
+						
 					<?php }
 				?>
 			</td>
@@ -144,6 +147,7 @@
 	tel=document.getElementById('tel');
 	<?php } ?>
 	sexs=document.getElementsByName('sex');
+	sex=0;
 	password1=document.getElementById('password1');
 	password2=document.getElementById('password2');
 	vcode=document.getElementById('vcode');
@@ -186,6 +190,10 @@
 	<?php } ?>	
 	if(namee.value=="")
 		namee.focus();
+	else if(password1.value=="")
+		password1.focus();
+	else if(vcode.value=="")
+		vcode.focus();
 	<?php if(constant('jry_wb_check_tel_switch')){ ?>	
 	else if(tel.value=="")
 		tel.focus();
@@ -194,10 +202,6 @@
 	else if(mail.value=="")
 		mail.focus();
 	<?php } ?>		
-	else if(password1.value=="")
-		password1.focus();
-	else if(vcode.value=="")
-		vcode.focus();
 	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	else if(phonecode.value=="")
 		phonecode.focus();	
@@ -349,7 +353,6 @@
 	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>time_<?php echo $one['key']; ?>=0;<?php } ?>
 	function save()
 	{
-		var sex=0;
 		for(var i=0,n=sexs.length;i<n;i++)
 			if(sexs[i].checked)
 				sex=sexs[i].value;
@@ -376,7 +379,13 @@
 	phonecode.onkeyup=function(){save();};
 	<?php } ?>
 	for(var i=0,n=sexs.length;i<n;i++)
-		sexs[i].onclick=function(){save();};
+		sexs[i].onclick=function()
+		{
+			save();
+			for(var i=0,n=sexs.length;i<n;i++)
+				if(sexs[i].checked)
+					sex=sexs[i].value;
+		};
 	password1.onfocus=password1.onkeyup=function()
 	{
 		save();
@@ -469,21 +478,76 @@
 	<?php echo $one['key']; ?>.onfocus=<?php echo $one['key']; ?>.onkeyup=function()
 	{
 		save();
-		<?php if($one['type']=='tel'){ ?>
+		<?php if($one['type']=='tel')
+		{ ?>
 			if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_phone_number(<?php echo $one['key']; ?>.value)==false))
 			{
 				if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
 				{
 					time_<?php echo $one['key']; ?>=new Date();
-					jry_wb_beautiful_right_alert.alert("电话错误",2000,"auto","error");
-				}	
+					jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>错误",2000,"auto","error");
+				}
 				<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+				return ;
 			}
 			else
-			{
 				<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
-			}		
-		<?php } ?>
+		<?php }else if($one['type']=='mail'){ ?>
+			if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_mail(<?php echo $one['key']; ?>.value)==false))
+			{
+				if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
+				{
+					time_<?php echo $one['key']; ?>=new Date();
+					jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>错误",2000,"auto","error");
+				}	
+				<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+				return ;
+			}
+			else
+				<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+		<?php }else if($one['type']=='china_id'){ ?>
+			if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_china_id_card(<?php echo $one['key']; ?>.value)==false))
+			{
+				if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
+				{
+					time_<?php echo $one['key']; ?>=new Date();
+					jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>错误",2000,"auto","error");
+				}	
+				<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+				return ;
+			}
+			else
+				<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+		<?php
+		}
+		if($one['connect']!=NULL)
+		{
+			foreach($one['connect'] as $connect)
+			{
+				if($one['type']=='china_id'&&$connect=='sex')
+				{ ?>
+					if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_get_sex_by_china_id_card(<?php echo $one['key']; ?>.value)!=sex))
+					{
+						jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>与性别不符",2000,"auto","error");
+						<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+						return ;
+					}
+					else
+						<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="";
+				<?php }else{ ?>
+					if(<?php echo $one['key']; ?>.value!=""&&(<?php echo $one['key']; ?>.value==<?php echo $connect.($connect=='sex'?'':'.value'); ?>))
+					{
+						jry_wb_beautiful_right_alert.alert("信息重复",2000,"auto","error");
+						<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+						return ;
+					}
+					else
+						<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;					
+				<?php }
+			}
+		}
+		?>
+		
 	};
 	<?php } ?>
 	

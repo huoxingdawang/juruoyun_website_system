@@ -4,7 +4,7 @@ function jry_wb_test_china_id_card(idcard)
     if (idcard.length==15)
         return jry_wb_test_china_id_card_15(idcard);   
 	else if (idcard.length==18)
-        return (jry_wb_test_china_id_card_is_true_birthday_18(idcard)&&jry_wb_test_china_id_card_18(idcard));
+        return (jry_wb_test_china_id_card_18(idcard));
 	else
         return false;
 }   
