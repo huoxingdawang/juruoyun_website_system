@@ -76,13 +76,13 @@
 	{
 		if($_SESSION['tel']=='')
 			return;
-		require_once "../tools/SignatureHelper.php";
-		if(($code=gettelsmscode($_SESSION['tel']))==-1)
+		require_once "../tools/jry_wb_short_message.php";
+		if(($code=jry_wb_get_short_message_code($_SESSION['tel']))==-1)
 		{
 			echo json_encode("toofast");
 			exit();
 		}
-		sendsms($_SESSION['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_forget')); 	
+		jry_wb_send_short_message($_SESSION['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_forget')); 	
 		echo json_encode('OK');
 		exit();
 	}else if($action=='checkcode')

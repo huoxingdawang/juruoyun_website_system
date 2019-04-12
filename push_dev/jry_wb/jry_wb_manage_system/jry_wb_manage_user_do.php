@@ -66,8 +66,8 @@
 		$st->bindParam(1,$_GET['id']);
 		$st->execute();	
 		$user=$st->fetchAll()[0];
-		require_once "../tools/SignatureHelper.php";
-		sendsms($user['tel'],Array ("name"=>$user['name']),constant('jry_wb_short_message_aly_connect_mail')); 	
+		require_once "../tools/jry_wb_short_message.php";
+		jry_wb_send_short_message($user['tel'],Array ("name"=>$user['name']),constant('jry_wb_short_message_aly_connect_mail')); 	
 		echo json_encode(array('code'=>true));
 		exit();
 	}

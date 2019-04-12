@@ -1,6 +1,6 @@
 <?php
 include_once("jry_wb_includes.php");
-function gettelsmscode($number)
+function jry_wb_get_short_message_code($number)
 {
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
@@ -25,7 +25,7 @@ function gettelsmscode($number)
 	$st->execute();	
 	return $code; 	
 }
-function sendsms($number,$codes,$muban) 
+function jry_wb_send_short_message($number,$codes,$muban) 
 {
 	$params = array ();
 	$accessKeyId = constant('jry_wb_short_message_aly_accesskeyid');

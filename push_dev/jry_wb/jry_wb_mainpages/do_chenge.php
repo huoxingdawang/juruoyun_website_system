@@ -45,10 +45,10 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));	
-			require_once "../tools/SignatureHelper.php";
-			if(($code=gettelsmscode($_POST['tel']))==-1)
+			require_once "../tools/jry_wb_short_message.php";
+			if(($code=jry_wb_get_short_message_code($_POST['tel']))==-1)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100003,'file'=>__FILE__,'line'=>__LINE__)));	
-			sendsms($_POST['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_chenge'));
+			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_chenge'));
 			echo json_encode(array('code'=>true));
 			exit();
 		}
