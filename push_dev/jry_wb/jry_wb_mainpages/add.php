@@ -131,7 +131,7 @@
 			<td colspan="2">
 			<div align="center">
 				<button onclick="return clear_all();" class="jry_wb_button jry_wb_button_size_big jry_wb_color_error"/>清空</button>
-				<button onclick="return check();" style="margin-left:100px;" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok"/>提交</button>
+				<button id='tijiao_button' onclick="return check();" style="margin-left:100px;" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok"/>提交</button>
 			</div>
 			</td>
 		</tr>
