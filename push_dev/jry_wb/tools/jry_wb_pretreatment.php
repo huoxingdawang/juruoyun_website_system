@@ -51,8 +51,8 @@
 			{
 				$user['id']=-1;
 				$_SESSION['language']=$user['language']=constant('jry_wb_default_language');
-				setcookie('id','',-1,'/',jry_wb_get_domain(),NULL,false);
-				setcookie('code','',-1,'/',$_SERVER['HTTP_HOST'],NULL,true);
+				setcookie('id',-1,time()-1,'/',constant('jry_wb_domin'),NULL,false);
+				setcookie('code','',time()-1,'/',constant('jry_wb_domin'),NULL,true);
 			}
 			else
 			{
@@ -97,8 +97,9 @@
 				if($isthis=($cookie['code']==$ips['code']))
 				{
 					$user['logdate']=$ips['time'];
-					setcookie('id',$user['id'],time()+60*60*24*100,'/',jry_wb_get_domain(),NULL,false);
-					setcookie('code',$ips['code'],time()+60*60*24*100,'/',$_SERVER['HTTP_HOST'],NULL,true);			
+					setcookie('id',$user['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,false);
+					setcookie('id',$user['id'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,false);			
+					setcookie('code',$ips['code'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,true);			
 				}
 				$user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'code'=>$ips['code']);
 			}

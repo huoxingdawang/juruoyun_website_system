@@ -122,9 +122,10 @@
 	$st->execute();
 	$all=$st->fetchAll();
 	setcookie('id',$jry_wb_login_user['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,false);
+	setcookie('id',$jry_wb_login_user['id'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,false);
 	if(count($all)!=0)
 	{
-		setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
+		setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,true);
 		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login SET time=? where id=? AND ip=? AND device=? AND code=? AND browser=?");
 		$st->bindParam(1,jry_wb_get_time());	
 		$st->bindParam(2,$jry_wb_login_user['id']);
@@ -138,12 +139,12 @@
 	{
 		$code=jry_wb_get_random_string(50);
 		$code.=md5(jry_wb_get_time()).md5($jry_wb_login_user['mail'].$jry_wb_login_user['id']);
-		setcookie('code',$code,time()+constant('logintime'),'/',$_SERVER['HTTP_HOST'],NULL,true);
+		setcookie('code',$code,time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,true);
 		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."login (id,ip,time,device,code,browser) VALUES(?,?,?,?,?,?)");
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_SERVER['REMOTE_ADDR']);
 		$st->bindParam(3,jry_wb_get_time());	
-		$st->bindParam(4,jry_wb_get_device(true));				
+		$st->bindParam(4,jry_wb_get_device(true));
 		$st->bindParam(5,$code);
 		$st->bindParam(6,jry_wb_get_browser(true));
 		$st->execute();

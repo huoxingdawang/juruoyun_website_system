@@ -1,7 +1,7 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	setcookie('id',-1,time()-constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
-	setcookie('password','',time()-constant('logintime'),'/',jry_wb_get_domain(),NULL,true);
+	setcookie('id',-1,time()-1,'/',constant('jry_wb_domin'),NULL,false);
+	setcookie('code','',time()-1,'/',constant('jry_wb_domin'),NULL,true);
 	jry_wb_print_head("登出",false,false,false);
 	if($_GET['action']=='all')
 	{
