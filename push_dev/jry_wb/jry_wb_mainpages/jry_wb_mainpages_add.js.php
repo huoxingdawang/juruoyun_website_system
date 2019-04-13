@@ -70,6 +70,28 @@ if(get!=null)
 <?php }} ?>	
 }
 delete get;
+function clear_all()
+{
+	namee.value='';
+	tel.value='';
+	password1.value='';
+	password2.value='';
+	<?php if(constant('jry_wb_check_mail_switch')){ ?>
+	mail.value='';
+	<?php } ?>		
+	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
+	phonecode.value='';
+	<?php } ?>
+	sexs[0].click();
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ 
+	if($one['type']=='check')
+	{ ?>
+		<?php  echo $one['key']; ?>s[0].click();
+	<?php }else{ ?>
+	<?php  echo $one['key']; ?>.value='';	
+<?php }} ?>
+	jry_wb_cache.delete('add');
+}
 <?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 if(tel.value=="")
 	tr_tel.style.display="none";
@@ -456,5 +478,5 @@ function check_all()
 	if(event.target!=vcode)vcode.onkeyup();
 	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>if(event.target!=<?php echo $one['key']; ?>)<?php echo $one['key']; ?>.onkeyup();<?php } ?>
 }
-setInterval(function(){save()},1000);
+setInterval(function(){save();},1000);
 	

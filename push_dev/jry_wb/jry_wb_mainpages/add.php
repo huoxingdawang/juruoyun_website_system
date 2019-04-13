@@ -89,6 +89,7 @@
 					<?php }else if($one['type']=='select')
 					{ ?>
 						<select id="<?php echo $one['key']; ?>" name="<?php echo $one['key']; ?>" class="h56">
+							<option style='display: none'></option>
 							<?php foreach($one['select'] as $select)
 							{ if(is_array($select)){?>
 								<option value="<?php echo $select['value']; ?>"><?php echo $select['name']; ?></option>
@@ -129,7 +130,8 @@
 		<tr>
 			<td colspan="2">
 			<div align="center">
-				<button onclick="return check();" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok"/>提交</button>
+				<button onclick="return clear_all();" class="jry_wb_button jry_wb_button_size_big jry_wb_color_error"/>清空</button>
+				<button onclick="return check();" style="margin-left:100px;" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok"/>提交</button>
 			</div>
 			</td>
 		</tr>
