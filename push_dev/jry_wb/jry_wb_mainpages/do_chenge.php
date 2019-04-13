@@ -219,7 +219,7 @@
 			$st->bindParam(1,$_POST['mail']);
 			$st->execute();
 			if(count($st->fetchAll())!=0)
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));
 			jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
 			echo json_encode(array('code'=>true));		
 			exit();

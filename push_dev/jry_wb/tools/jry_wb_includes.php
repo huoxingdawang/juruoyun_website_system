@@ -26,7 +26,7 @@
 
 	include_once('jry_wb_aes.php');
 	
-	if(constant('jry_wb_check_mail_switch'))
+	if(constant('jry_wb_mail_switch')!='')
 		include_once('jry_wb_mail.php');
 //	if(constant('jry_wb_short_message_switch'))
 //		include_once('');

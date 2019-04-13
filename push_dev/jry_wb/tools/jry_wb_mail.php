@@ -4,7 +4,7 @@
 	function jry_wb_send_mail($to,$subject,$text)
 	{
 		if($to==''||$subject==''||$text=='')
-			return false;
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100016,'file'=>__FILE__,'line'=>__LINE__)));
 		$mailer=new PHPMailer();
 		$mailer->CharSet = 'UTF-8';
 		$mailer->isSMTP();
