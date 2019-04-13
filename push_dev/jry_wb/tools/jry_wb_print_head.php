@@ -97,27 +97,6 @@
 			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_bug'));
 			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_down'));
 	<?php if(constant('jry_wb_background_music_switch')){?>jry_wb_background_music.init();<?php } ?>
-		<?php if($jry_wb_login_user['id']!=-1){?>
-			document.addEventListener('visibilitychange',function()
-			{
-				if(jry_wb_cookie.get('id')==-1)
-					history.go(0);
-			});
-		<?php }else{?>
-			if(jry_wb_cache.get('jry_wb_login_user_id')!=undefined&&jry_wb_cache.get('jry_wb_login_user_id')!=-1)
-			{
-				jry_wb_cache.delete_all();
-				jry_wb_cookie.set('id',-1);
-				jry_wb_cookie.delete('password');
-				jry_wb_cache.set('jry_wb_login_user_id',-1);
-				history.go(0);
-			}
-			document.addEventListener('visibilitychange',function()
-			{
-				if(jry_wb_cookie.get('id')!=-1&&jry_wb_cookie.get('id')!=undefined)
-					history.go(0);
-			});
-		<?php } ?>
 	</script>
 	<?php }
 	}
