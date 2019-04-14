@@ -97,7 +97,7 @@
                 </div>
 			</td>
 		</tr>
-		<tr>
+		<?php if(constant('jry_wb_oauth_switch')){ ?><tr>
 			<td colspan="2">
                 <div align="center">
 					<?php if($jry_wb_tp_qq_oauth_config!=null){?><span class="jry_wb_icon jry_wb_icon_qq" onclick='qqlogin()' style='color:#36AAE8;font-size:30px;' ></span><?php  }?>
@@ -106,7 +106,7 @@
 					<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){?><span class="jry_wb_icon jry_wb_icon_xiaomi" onclick='milogin()' style='color:rgb(253, 88, 62);font-size:30px;' ></span><?php  }?>
                 </div>
 			</td>
-		</tr>		
+		</tr><?php } ?>
 	</table>
 	<a target="_blank" href="<?php echo jry_wb_print_href("forget",'','',true);?>">老子把账户密码忘了</a><br>
 	<a target="_blank" href="<?php echo jry_wb_print_href("xieyi",'','',true);?>">登录即代表同意《蒟蒻云用户协议》</a><br>

@@ -1,10 +1,11 @@
 <?php
+	define('jry_wb_domin'								,'dev.juruoyun.top');
 	include_once("jry_wb_config_default_system.php");
 	
 	define('sessiontime'								,3600);//s
 	define('logintime'									,60*60*24);//s
 	define('jry_wb_name'								,'蒟蒻云内测');
-	define('jry_wb_default_language'					,'zh-CN');	
+	define('jry_wb_default_language'					,'zh-CN');
 	define('jry_wb_logo_ico_address'					,constant('jry_wb_data_host').'general/picture/logo.ico');
 	define('jry_wb_logo_picture_address'				,constant('jry_wb_data_host').'general/picture/LOGO.jpg');
 	define('jry_wb_defult_woman_picture'				,constant('jry_wb_data_host').'general/picture/default_head_woman.jpg');
@@ -16,7 +17,7 @@
 	define('jry_wb_show_video_switch'					,false);
 	define('jry_wb_chenge_title_switch'					,true);	
 	define('jry_wb_background_music_switch'				,true);
-	define('jry_wb_check_mail_switch'					,true);
+	define('jry_wb_check_mail_switch'					,false);
 	define('jry_wb_check_tel_switch'					,true);
 	define('jry_wb_host_switch'							,false);//主站？
 	define('jry_wb_host_addr'							,'http://juruoyun.top/mywork/');//主站？

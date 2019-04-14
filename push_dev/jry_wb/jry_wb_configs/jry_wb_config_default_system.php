@@ -1,7 +1,12 @@
 <?php
+	include_once("jry_wb_config_default_user.php");
+	include_once("jry_wb_tp_gitee_oauth_config.php");
+	include_once("jry_wb_tp_github_oauth_config.php");
+	include_once("jry_wb_tp_mi_oauth_config.php");
+	include_once("jry_wb_tp_qq_oauth_config.php");
 	define('jry_wb_local_dir',dirname(dirname(__FILE__)));
-	define('jry_wb_domin','');
 	define('jry_wb_host','http://'.constant('jry_wb_domin').'/jry_wb/');
 	define('jry_wb_data_host','http://'.constant('jry_wb_domin').'/data/');
 	define('jry_wb_version','3.0dev');
+	define('jry_wb_oauth_switch',!(constant('jry_wb_tp_gitee_oauth_config_client_id')==''&&constant('jry_wb_tp_github_oauth_config_client_id')==''&&constant('jry_wb_tp_mi_oauth_config_client_id')==''&&$jry_wb_tp_qq_oauth_config==NULL));
 ?>
