@@ -7,7 +7,7 @@
 		global $jry_wb_keywords; 
 		global $jry_wb_description; 
 		if($setweb)
-			$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
+			$_SESSION['url']='http://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];	
 		if($out==false)
 		{
 			if($checklogin)

@@ -1,5 +1,6 @@
 <?php
 	define('jry_wb_domin'								,'dev.juruoyun.top');
+	define('jry_wb_port','');
 	include_once("jry_wb_config_default_system.php");
 	
 	define('sessiontime'								,3600);//s
