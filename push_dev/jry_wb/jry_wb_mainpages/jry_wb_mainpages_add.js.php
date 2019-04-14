@@ -3,6 +3,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 ?>
+<?php if(false){ ?><script><?php } ?>
 var old_onkeydown=document.onkeydown;
 document.onkeydown=function(e)
 {
@@ -510,4 +511,4 @@ function check_all(e)
 	return true;
 }
 setInterval(function(){save();},1000);
-	
+<?php if(false){ ?></script><?php } ?>	

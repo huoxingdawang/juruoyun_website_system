@@ -1,3 +1,9 @@
+<?php
+	header("content-type: application/x-javascript");
+	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
+?>
+<?php if(false){ ?><script><?php } ?>
 var showdiv=document.getElementById("show");
 function unlock()
 {
@@ -1106,6 +1112,7 @@ function showshow()
 			option.setAttribute("selected","selected");
 		option.innerHTML=options[i].name;
 	}
+	<?php if(constant('jry_wb_oauth_switch')){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="250";
@@ -1122,7 +1129,8 @@ function showshow()
 		if(options[i].id==jry_wb_login_user.oauth_show)
 			option.setAttribute("selected","selected");
 		option.innerHTML=options[i].name;
-	}	
+	}
+	<?php }?>
 	var button=document.createElement("button");showdiv.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
@@ -1151,7 +1159,7 @@ function showshow()
 					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 				return ;
 			}
-		},[{'name':'tel_show','value':tel_show.value},{'name':'mail_show','value':mail_show.value},{'name':'ip_show','value':ip_show.value},{'name':'oauth_show','value':oauth_show.value}],true);
+		},[{'name':'tel_show','value':tel_show.value},{'name':'mail_show','value':mail_show.value},{'name':'ip_show','value':ip_show.value},{'name':'oauth_show','value':<?php if(constant('jry_wb_oauth_switch')){ ?>oauth_show.value<?php }else{?>0<?php }?>}],true);
 	};
 }
 function showspecialfact()
@@ -1388,6 +1396,7 @@ function showcache(loaded)
 			td.innerHTML='系统信息';
 	}	
 }
+<?php if(constant('jry_wb_background_music_switch')){ ?>
 function showmusiclist()
 {
 	window.location.hash='showmusiclist';	
@@ -1507,6 +1516,8 @@ function showmusiclist()
 		},[{'name':'data','value':JSON.stringify(ans)}]);
 	};	
 }
+<?php } ?>
+<?php if(constant('jry_wb_oauth_switch')){ ?>		
 function tp_in()
 {
 	window.location.hash='tpin';	
@@ -1515,259 +1526,256 @@ function tp_in()
 	stopnext=true;
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;table.width='100%';
-	if(jry_wb_tp_qq_oauth_config_enable)
+	<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>
+	var tr=document.createElement("tr");table.appendChild(tr);
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.innerHTML='QQ(oauth2.0)';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h55');
+	if(jry_wb_login_user.oauth_qq==null||jry_wb_login_user.oauth_qq=='')
 	{
-		var tr=document.createElement("tr");table.appendChild(tr);
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h56');
-		td.innerHTML='QQ(oauth2.0)';
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h55');
-		if(jry_wb_login_user.oauth_qq==null||jry_wb_login_user.oauth_qq=='')
+		td.innerHTML='没有绑定,点击绑定，powered by Tencent';
+		td.onclick=function()
 		{
-			td.innerHTML='没有绑定,点击绑定，powered by Tencent';
-			td.onclick=function()
-			{
-				newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-				var timer=setInterval(function(){
-					if(newwindow.closed)
-					{
-						clearInterval(timer);
-						jry_wb_login_user.oauth_qq=JSON.parse(jry_wb_cache.get('oauth_qq'));
-						jry_wb_cache.delete('oauth_qq');
-						jry_wb_qq_user_head=jry_wb_login_user.oauth_qq.figureurl_qq_2;
-						tp_in();
-					}
-				},500);
-			};
-		}
-		else
-		{
-			var div=document.createElement("div");td.appendChild(div);
-			div.innerHTML=jry_wb_login_user.oauth_qq.nickname;
-			var img=document.createElement("img");div.appendChild(img);
-			img.src=jry_wb_login_user.oauth_qq.figureurl_qq_2;
-			img.height=30;
-			img.width=30;
-			var span=document.createElement("span");td.appendChild(span);
-			span.innerHTML='点击解绑，powered by Tencent';
-			span.classList.add('h55');
-			span.onclick=function()
-			{
-				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=qq',function(data)
+			newwindow=window.open("jry_wb_qq_oauth.php","TencentLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+			var timer=setInterval(function(){
+				if(newwindow.closed)
 				{
-					jry_wb_loading_off();
-					var data=JSON.parse(data);
-					if(data.code)
-					{
-						jry_wb_login_user.oauth_qq=null;
-						tp_in();
-						jry_wb_beautiful_alert.alert("操作成功","");
-					}
-					else
-					{
-						if(data.reason==100000)
-							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-						else if(data.reason==100001)
-							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-						else
-							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-						return ;
-					}
-				});			
-			};
-		}
+					clearInterval(timer);
+					jry_wb_login_user.oauth_qq=JSON.parse(jry_wb_cache.get('oauth_qq'));
+					jry_wb_cache.delete('oauth_qq');
+					jry_wb_qq_user_head=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+					tp_in();
+				}
+			},500);
+		};
 	}
-	if(jry_wb_tp_github_oauth_config_enable)
+	else
 	{
-		var tr=document.createElement("tr");table.appendChild(tr);
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h56');
-		td.innerHTML='gayhub(oauth2.0)';
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h55');	
-		if(jry_wb_login_user.oauth_github==null||jry_wb_login_user.oauth_github=='')
+		var div=document.createElement("div");td.appendChild(div);
+		div.innerHTML=jry_wb_login_user.oauth_qq.nickname;
+		var img=document.createElement("img");div.appendChild(img);
+		img.src=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+		img.height=30;
+		img.width=30;
+		var span=document.createElement("span");td.appendChild(span);
+		span.innerHTML='点击解绑，powered by Tencent';
+		span.classList.add('h55');
+		span.onclick=function()
 		{
-			td.innerHTML='没有绑定,点击绑定，powered by github';
-			td.onclick=function()
+			jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=qq',function(data)
 			{
-				newwindow=window.open("jry_wb_github_oauth.php","GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-				var timer=setInterval(function(){
-					if(newwindow.closed)
-					{
-						clearInterval(timer);
-						jry_wb_login_user.oauth_github=JSON.parse(jry_wb_cache.get('oauth_github'));
-						jry_wb_cache.delete('oauth_github');
-						jry_wb_github_user_head=jry_wb_login_user.oauth_github.avatar_url;
-						tp_in();
-					}
-				},1000);
-			};
-		}
-		else
-		{
-			var div=document.createElement("div");td.appendChild(div);
-			div.innerHTML=jry_wb_login_user.oauth_github.name+jry_wb_login_user.oauth_github.login;
-			var img=document.createElement("img");div.appendChild(img);
-			img.src=jry_wb_login_user.oauth_github.avatar_url;
-			img.height=30;
-			img.width=30;
-			var span=document.createElement("span");td.appendChild(span);
-			span.innerHTML='点击解绑，powered by github';
-			span.classList.add('h55');
-			span.onclick=function()
-			{
-				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=github',function(data)
+				jry_wb_loading_off();
+				var data=JSON.parse(data);
+				if(data.code)
 				{
-					jry_wb_loading_off();
-					var data=JSON.parse(data);
-					if(data.code)
-					{
-						jry_wb_login_user.oauth_github=null;
-						tp_in();
-						jry_wb_beautiful_alert.alert("操作成功","");
-					}
+					jry_wb_login_user.oauth_qq=null;
+					tp_in();
+					jry_wb_beautiful_alert.alert("操作成功","");
+				}
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
 					else
-					{
-						if(data.reason==100000)
-							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-						else if(data.reason==100001)
-							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			});			
+		};
+	}
+	<?php } ?>
+	<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){ ?>
+	var tr=document.createElement("tr");table.appendChild(tr);
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.innerHTML='gayhub(oauth2.0)';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h55');	
+	if(jry_wb_login_user.oauth_github==null||jry_wb_login_user.oauth_github=='')
+	{
+		td.innerHTML='没有绑定,点击绑定，powered by github';
+		td.onclick=function()
+		{
+			newwindow=window.open("jry_wb_github_oauth.php","GithubLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+			var timer=setInterval(function(){
+				if(newwindow.closed)
+				{
+					clearInterval(timer);
+					jry_wb_login_user.oauth_github=JSON.parse(jry_wb_cache.get('oauth_github'));
+					jry_wb_cache.delete('oauth_github');
+					jry_wb_github_user_head=jry_wb_login_user.oauth_github.avatar_url;
+					tp_in();
+				}
+			},1000);
+		};
+	}
+	else
+	{
+		var div=document.createElement("div");td.appendChild(div);
+		div.innerHTML=jry_wb_login_user.oauth_github.name+jry_wb_login_user.oauth_github.login;
+		var img=document.createElement("img");div.appendChild(img);
+		img.src=jry_wb_login_user.oauth_github.avatar_url;
+		img.height=30;
+		img.width=30;
+		var span=document.createElement("span");td.appendChild(span);
+		span.innerHTML='点击解绑，powered by github';
+		span.classList.add('h55');
+		span.onclick=function()
+		{
+			jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=github',function(data)
+			{
+				jry_wb_loading_off();
+				var data=JSON.parse(data);
+				if(data.code)
+				{
+					jry_wb_login_user.oauth_github=null;
+					tp_in();
+					jry_wb_beautiful_alert.alert("操作成功","");
+				}
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
 						else
-							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 						return ;
-					}
-				});			
-			};		
-		}
+				}
+			});			
+		};		
 	}	
-	if(jry_wb_tp_mi_oauth_config_enable)
+	<?php } ?>
+	<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
+	var tr=document.createElement("tr");table.appendChild(tr);
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.innerHTML='MI(oauth2.0)';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h55');
+	if(jry_wb_login_user.oauth_mi==null||jry_wb_login_user.oauth_mi=='')
 	{
-		var tr=document.createElement("tr");table.appendChild(tr);
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h56');
-		td.innerHTML='MI(oauth2.0)';
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h55');
-		if(jry_wb_login_user.oauth_mi==null||jry_wb_login_user.oauth_mi=='')
+		td.innerHTML='没有绑定,点击绑定，powered by Xiaomi.inc';
+		td.onclick=function()
 		{
-			td.innerHTML='没有绑定,点击绑定，powered by Xiaomi.inc';
-			td.onclick=function()
-			{
-				newwindow=window.open("jry_wb_mi_oauth.php","miLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-				var timer=setInterval(function(){
-					if(newwindow.closed)
-					{
-						clearInterval(timer);
-						jry_wb_login_user.oauth_mi=JSON.parse(jry_wb_cache.get('oauth_mi'));
-						jry_wb_cache.delete('oauth_mi');
-						jry_wb_mi_user_head=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
-						tp_in();
-					}
-				},500);
-			};
-		}
-		else
-		{
-			var div=document.createElement("div");td.appendChild(div);
-			div.innerHTML=jry_wb_login_user.oauth_mi.miliaoNick;
-			var img=document.createElement("img");div.appendChild(img);
-			img.src=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
-			img.height=30;
-			img.width=30;
-			var span=document.createElement("span");td.appendChild(span);
-			span.innerHTML='点击解绑，powered by Xiaomi.inc';
-			span.classList.add('h55');
-			span.onclick=function()
-			{
-				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=mi',function(data)
+			newwindow=window.open("jry_wb_mi_oauth.php","miLogin","width=450,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+			var timer=setInterval(function(){
+				if(newwindow.closed)
 				{
-					jry_wb_loading_off();
-					var data=JSON.parse(data);
-					if(data.code)
-					{
-						jry_wb_login_user.oauth_mi=null;
-						tp_in();
-						jry_wb_beautiful_alert.alert("操作成功","");
-					}
-					else
-					{
-						if(data.reason==100000)
-							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-						else if(data.reason==100001)
-							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-						else
-							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-						return ;
-					}
-				});			
-			};
-		}
+					clearInterval(timer);
+					jry_wb_login_user.oauth_mi=JSON.parse(jry_wb_cache.get('oauth_mi'));
+					jry_wb_cache.delete('oauth_mi');
+					jry_wb_mi_user_head=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
+					tp_in();
+				}
+			},500);
+		};
 	}
-	if(jry_wb_tp_github_oauth_config_enable)
+	else
 	{
-		var tr=document.createElement("tr");table.appendChild(tr);
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h56');
-		td.innerHTML='码云(oauth2.0)';
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h55');	
-		if(jry_wb_login_user.oauth_gitee==null||jry_wb_login_user.oauth_gitee=='')
+		var div=document.createElement("div");td.appendChild(div);
+		div.innerHTML=jry_wb_login_user.oauth_mi.miliaoNick;
+		var img=document.createElement("img");div.appendChild(img);
+		img.src=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
+		img.height=30;
+		img.width=30;
+		var span=document.createElement("span");td.appendChild(span);
+		span.innerHTML='点击解绑，powered by Xiaomi.inc';
+		span.classList.add('h55');
+		span.onclick=function()
 		{
-			td.innerHTML='没有绑定,点击绑定，powered by 码云';
-			td.onclick=function()
+			jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=mi',function(data)
 			{
-				newwindow=window.open("jry_wb_gitee_oauth.php","GiteeLogin","width=1200,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
-				var timer=setInterval(function(){
-					if(newwindow.closed)
-					{
-						clearInterval(timer);
-						jry_wb_login_user.oauth_gitee=JSON.parse(jry_wb_cache.get('oauth_gitee').replace(/\n/g, "<br>"));
-						jry_wb_cache.delete('oauth_gitee');
-						jry_wb_github_user_head=jry_wb_login_user.oauth_gitee.avatar_url;
-						tp_in();
-					}
-				},1000);
-			};
-		}
-		else
-		{
-			var div=document.createElement("div");td.appendChild(div);
-			div.innerHTML=jry_wb_login_user.oauth_gitee.name+jry_wb_login_user.oauth_gitee.login;
-			var img=document.createElement("img");div.appendChild(img);
-			img.src=jry_wb_login_user.oauth_gitee.avatar_url;
-			img.height=30;
-			img.width=30;
-			var span=document.createElement("span");td.appendChild(span);
-			span.innerHTML='点击解绑，powered by 码云';
-			span.classList.add('h55');
-			span.onclick=function()
-			{
-				jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=gitee',function(data)
+				jry_wb_loading_off();
+				var data=JSON.parse(data);
+				if(data.code)
 				{
-					jry_wb_loading_off();
-					var data=JSON.parse(data);	
-					if(data.code)
-					{
-						jry_wb_login_user.oauth_gitee=null;
-						tp_in();
-						jry_wb_beautiful_alert.alert("操作成功","");
-					}
+					jry_wb_login_user.oauth_mi=null;
+					tp_in();
+					jry_wb_beautiful_alert.alert("操作成功","");
+				}
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
 					else
-					{
-						if(data.reason==100000)
-							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-						else if(data.reason==100001)
-							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-						else
-							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-						return ;
-					}
-				});			
-			};		
-		}
-	}		
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			});			
+		};
+	}
+	<?php } ?>
+	<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
+	var tr=document.createElement("tr");table.appendChild(tr);
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.innerHTML='码云(oauth2.0)';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h55');	
+	if(jry_wb_login_user.oauth_gitee==null||jry_wb_login_user.oauth_gitee=='')
+	{
+		td.innerHTML='没有绑定,点击绑定，powered by 码云';
+		td.onclick=function()
+		{
+			newwindow=window.open("jry_wb_gitee_oauth.php","GiteeLogin","width=1200,height=700,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");	
+			var timer=setInterval(function(){
+				if(newwindow.closed)
+				{
+					clearInterval(timer);
+					jry_wb_login_user.oauth_gitee=JSON.parse(jry_wb_cache.get('oauth_gitee').replace(/\n/g, "<br>"));
+					jry_wb_cache.delete('oauth_gitee');
+					jry_wb_github_user_head=jry_wb_login_user.oauth_gitee.avatar_url;
+					tp_in();
+				}
+			},1000);
+		};
+	}
+	else
+	{
+		var div=document.createElement("div");td.appendChild(div);
+		div.innerHTML=jry_wb_login_user.oauth_gitee.name+jry_wb_login_user.oauth_gitee.login;
+		var img=document.createElement("img");div.appendChild(img);
+		img.src=jry_wb_login_user.oauth_gitee.avatar_url;
+		img.height=30;
+		img.width=30;
+		var span=document.createElement("span");td.appendChild(span);
+		span.innerHTML='点击解绑，powered by 码云';
+		span.classList.add('h55');
+		span.onclick=function()
+		{
+			jry_wb_ajax_load_data('do_chenge.php?action=untpin&type=gitee',function(data)
+			{
+				jry_wb_loading_off();
+				var data=JSON.parse(data);	
+				if(data.code)
+				{
+					jry_wb_login_user.oauth_gitee=null;
+					tp_in();
+					jry_wb_beautiful_alert.alert("操作成功","");
+				}
+				else
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			});			
+		};
+	}
+	<?php } ?>
 }
+<?php } ?>
 switch(window.location.hash)
 {
 	case '#show':
@@ -1806,15 +1814,20 @@ switch(window.location.hash)
 		showcache();
 		window.onresize();
 		break;
+<?php if(constant('jry_wb_background_music_switch')){ ?>		
 	case '#showmusiclist':
-		showmusiclist();
-		window.onresize();
-		break;
-	case '#tpin':
+	showmusiclist();
+	window.onresize();
+	break;
+<?php } ?>
+<?php if(constant('jry_wb_oauth_switch')){ ?>		
+		case '#tpin':
 		tp_in();
 		window.onresize();
 		break;			
-	default:
+<?php } ?>
+		default:
 		show();
 		window.onresize();
 }
+<?php if(false){ ?></script><?php } ?>
