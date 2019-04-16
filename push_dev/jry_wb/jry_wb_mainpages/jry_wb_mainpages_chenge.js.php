@@ -626,7 +626,7 @@ function showchenge()
 		else
 		{
 			style_href.innerHTML="预览"+style_id.options[style_id.selectedIndex].text;
-			style_href.href=jry_wb_mainpages_chenge_prelook_styles+'?try='+style_id.options[style_id.selectedIndex].value;
+			style_href.href='<?php echo jry_wb_print_href('jry_wb_style_control','','',true);?>'+'?try='+style_id.options[style_id.selectedIndex].value;
 		}
 	}
 	tr=null;
