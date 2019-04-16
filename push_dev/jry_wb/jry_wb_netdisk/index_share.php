@@ -28,7 +28,7 @@
 		include('../../404.php');		
 		exit();
 	}
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE file_id=? AND id=? AND `delete`=0 LIMIT 1');
+	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE file_id=? AND id=? AND trust=1 AND `delete`=0 LIMIT 1');
 	$st->bindValue(1,$share[0]['file_id']);
 	$st->bindValue(2,$share[0]['id']);
 	$st->execute();
@@ -69,6 +69,7 @@
 								'area'=>$one['area'],
 								'size'=>$one['size'],
 								'isdir'=>$one['isdir'],
+								'trust'=>$one['trust'],
 								'lasttime'=>$one['lasttime']);
 				if($one['isdir']==1)
 					get_filse($one['file_id']);

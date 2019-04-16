@@ -1,6 +1,6 @@
 <?php
 	include_once('jry_nd_database_include.php');
-	function jry_nd_database_get_father($conn,$user,$file,$judger=null)
+	function jry_nd_database_get_father($conn,$user,$file,$judger=null,$extern=null)
 	{
 		if($judger==null)
 			$judger=function()
@@ -12,7 +12,7 @@
 			return true;
 		if($file===null)
 			return null;
-		if($judger($file))
+		if($judger($file,$extern))
 			return $file;
 		else
 			return jry_nd_database_get_father($conn,$user,$file,$judger);
