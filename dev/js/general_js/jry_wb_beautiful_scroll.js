@@ -431,6 +431,29 @@ jry_wb_add_load(function()
 	{
 		return false;
 	};
+	var last_y=0;
+	document.addEventListener("touchstart",function(evt)
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event;
+		if(event.touches!=null&&event.touches.length==1)
+			event.clientY		=event.touches[0].clientY;
+		else if(event.changedTouches!=null&&event.changedTouches.length==1)
+			event.clientY		=event.changedTouches[0].clientY;
+		last_y=event.clientY;
+		
+	},false);
+	document.addEventListener("touchmove",function(evt)
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event;
+		if(event.touches!=null&&event.touches.length==1)
+			event.clientY		=event.touches[0].clientY;
+		else if(event.changedTouches!=null&&event.changedTouches.length==1)
+			event.clientY		=event.changedTouches[0].clientY;
+		window.onmousewheel({'deltaY':last_y-event.clientY});
+		last_y=event.clientY;		
+	},false);
 	window.onmousewheel=function(e)
 	{
 		if(timer3!=null)clearInterval(timer3),timer3=null;
@@ -486,5 +509,4 @@ jry_wb_add_load(function()
 		},1000);
 	};
 	window.scrollTo(x,y);
-	if(document.addEventListener)document.addEventListener('DOMMouseScroll',window.onmousewheel,false);
 });

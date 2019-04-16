@@ -74,10 +74,12 @@ function jry_wb_add_onscroll(func)
 	return func;
 }
 jry_wb_onclick_flag=false;
-jry_wb_add_load(function()
+/*jry_wb_add_load(function()
 {
 	window.ontouchstart=function(event)
 	{
+		event.preventDefault()
+		console.log(event);
 		if(typeof event=='undefined'||event==undefined)
 			event=window.event; 					
 		if(event.touches!=null&&event.touches.length>1)
@@ -89,12 +91,15 @@ jry_wb_add_load(function()
 	};
 	window.ontouchmove=function(event)
 	{
+		event.preventDefault()
+		console.log(event);
 		if(typeof event=='undefined'||event==undefined)
 			event=window.event; 					
 		if(event.touches!=null&&event.touches.length>1)
 			document.body.ontouchstart_timer=undefined;
 		else if(event.changedTouches!=null&event.changedTouches.length>1)
 			document.body.ontouchstart_timer=undefined;	
+		
 		return false;
 	};
 	window.ontouchend=function(event)
@@ -155,6 +160,7 @@ jry_wb_add_load(function()
 		jry_wb_onclick_flag=true;
 	});
 });
+*/
 function jry_wb_add_oncontextmenu(func)
 {
 	if(typeof func=='object')
