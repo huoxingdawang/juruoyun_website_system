@@ -116,7 +116,9 @@ function show()
 			button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 			button.onclick=function()
 			{
-				for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_default_user_head;jry_wb_login_user.head=jry_wb_default_user_head;
+				for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
+					all[i].src=jry_wb_default_user_head;
+				jry_wb_login_user.head=jry_wb_default_user_head;
 				jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=default',function(data)
 				{
 					jry_wb_loading_off();
@@ -153,7 +155,9 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_gravatar_user_head;jry_wb_login_user.head=jry_wb_gravatar_user_head;
+					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
+						all[i].src=jry_wb_gravatar_user_head;
+					jry_wb_login_user.head=jry_wb_gravatar_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gravatar',function(data)
 					{
 						jry_wb_loading_off();
@@ -193,7 +197,9 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_qq_user_head;jry_wb_login_user.head=jry_wb_qq_user_head;
+					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
+						all[i].src=jry_wb_qq_user_head;
+					jry_wb_login_user.head=jry_wb_qq_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=qq',function(data)
 					{
 						jry_wb_loading_off();
@@ -231,7 +237,9 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_github_user_head;jry_wb_login_user.head=jry_wb_github_user_head;
+					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
+						all[i].src=jry_wb_github_user_head;
+					jry_wb_login_user.head=jry_wb_github_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=github',function(data)
 					{
 						jry_wb_loading_off();
@@ -269,7 +277,9 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_gitee_user_head;jry_wb_login_user.head=jry_wb_gitee_user_head;
+					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
+						all[i].src=jry_wb_gitee_user_head;
+					jry_wb_login_user.head=jry_wb_gitee_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gitee',function(data)
 					{
 						jry_wb_loading_off();
@@ -307,7 +317,9 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)if(all[i].src==jry_wb_login_user.head)all[i].src=jry_wb_mi_user_head;jry_wb_login_user.head=jry_wb_mi_user_head;
+					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
+						all[i].src=jry_wb_default_user_head;
+					jry_wb_login_user.head=jry_wb_default_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=mi',function(data)
 					{
 						jry_wb_loading_off();

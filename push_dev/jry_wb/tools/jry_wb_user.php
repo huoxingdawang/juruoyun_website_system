@@ -52,7 +52,7 @@
 					'-moz-animation:'	.$row['head_special']->mouse_out->result.
 					'-webkit-animation:'.$row['head_special']->mouse_out->result.
 					'-o-animation:'		.$row['head_special']->mouse_out->result;
-			$show.=("<img style='".$out."' ".'onMouseOver="this.style=\''.$on.'\';" '.'onMouseOut="this.style=\''.$out.'\';" '."src= '".jry_wb_get_user_head($row)."' width='".$width."' height='".$width."'/>");
+			$show.=("<img name='jry_wb_user_head_".$row['id']."' style='".$out."' ".'onMouseOver="this.style=\''.$on.'\';" '.'onMouseOut="this.style=\''.$out.'\';" '."src= '".jry_wb_get_user_head($row)."' width='".$width."' height='".$width."'/>");
 	
 		}
 		echo "<a href=".$add." target='_parent' class=".($active?'active':'')." jry_wb_top_toolbar_right>".$show."</a>";

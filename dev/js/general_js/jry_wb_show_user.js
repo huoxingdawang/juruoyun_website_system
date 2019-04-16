@@ -37,6 +37,7 @@ function jry_wb_set_user_head_special(user,img)
 		img.style.MozAnimationName				=img.style.animationName			=user.head_special.mouse_out.direction?'jry_wb_rotate_clockwise':'jry_wb_rotate_anticlockwise';
 		img.style.MozAnimationIterationCount	=img.style.animationIterationCount	=user.head_special.mouse_out.times==-1?'infinite':user.head_special.mouse_out.times;
 	};
+	img.setAttribute('name','jry_wb_user_head_'+user.id);	
 }
 function jry_wb_get_user(id,reload,callback,tong,admin_mode)
 {
@@ -141,7 +142,7 @@ function jry_wb_show_user_full(user,width,height)
 	var table = document.createElement("table");jry_wb_beautiful_alert.msgObj.appendChild(table);
 	table.border = 1;table.width="75%";
 	jry_wb_show_tr_no_input(table,'ID',user.id);	
-	jry_wb_show_tr_no_input(table,'昵称',user.name);	
+	jry_wb_show_tr_no_input(table,'昵称',user.name).children[0].setAttribute('name','jry_wb_user_name_'+user.id);	
 	var tr = document.createElement("tr");
 	table.appendChild(tr);
 	var td = document.createElement("td");
