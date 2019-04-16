@@ -43,9 +43,9 @@
 	var jry_wb_default_user_head='<?php  if($jry_wb_login_user['sex']==0)echo constant('jry_wb_defult_woman_picture');else echo constant('jry_wb_defult_man_picture');?>';
 	var jry_wb_gravatar_user_head=<?php	$uri = 'http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404';$headers = @get_headers($uri);if (preg_match("|200|", $headers[0])) echo "'".$uri."'";else echo 'null';?>;
 	var jry_wb_qq_user_head=<?php if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com')echo "'"."https://q2.qlogo.cn/headimg_dl?dst_uin=".(explode("@",$jry_wb_login_user['mail'])[0])."&spec=100"."'";else if($jry_wb_login_user['oauth_qq']!='') echo '"'.$jry_wb_login_user['oauth_qq']->message->figureurl_qq_2.'"';else echo 'null';?>;
-	var jry_wb_github_user_head='<?php if($jry_wb_login_user['oauth_github']!='')echo $jry_wb_login_user['oauth_github']->message->avatar_url;?>';
-	var jry_wb_gitee_user_head='<?php if($jry_wb_login_user['oauth_gitee']!='')echo $jry_wb_login_user['oauth_gitee']->message->avatar_url;?>';
-	var jry_wb_mi_user_head='<?php if($jry_wb_login_user['oauth_mi']!='')echo $jry_wb_login_user['oauth_mi']->message->miliaoIcon_orig;?>';	
+	<?php if(constant('jry_wb_tp_gihub_oauth_config_client_id')!=''){ ?>var jry_wb_github_user_head='<?php if($jry_wb_login_user['oauth_github']!='')echo $jry_wb_login_user['oauth_github']->message->avatar_url;?>';<?php } ?>
+	<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>var jry_wb_gitee_user_head='<?php if($jry_wb_login_user['oauth_gitee']!='')echo $jry_wb_login_user['oauth_gitee']->message->avatar_url;?>';<?php } ?>
+	<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>var jry_wb_mi_user_head='<?php if($jry_wb_login_user['oauth_mi']!='')echo $jry_wb_login_user['oauth_mi']->message->miliaoIcon_orig;?>';<?php } ?>
 	var style=JSON.parse('<?php  echo json_encode($ans);?>');
 </script>
 <script language="javascript" src="jry_wb_mainpages_chenge.js.php"></script>

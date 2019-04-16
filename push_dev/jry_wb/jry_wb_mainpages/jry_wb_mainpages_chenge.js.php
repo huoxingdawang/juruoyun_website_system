@@ -137,6 +137,7 @@ function show()
 				});
 			};
 		}
+
 		if(jry_wb_gravatar_user_head!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -179,6 +180,7 @@ function show()
 				};
 			}
 		}
+		<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>		
 		if(jry_wb_qq_user_head!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -219,6 +221,8 @@ function show()
 				};
 			}
 		}
+		<?php } ?>
+		<?php if(constant('jry_wb_tp_gihub_oauth_config_client_id')!=''){ ?>
 		if(jry_wb_github_user_head!='')
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -259,6 +263,8 @@ function show()
 				};
 			}
 		}
+		<?php } ?>
+		<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
 		if(jry_wb_gitee_user_head!='')
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -299,6 +305,8 @@ function show()
 				};
 			}
 		}
+		<?php } ?>
+		<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
 		if(jry_wb_mi_user_head!='')
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -339,6 +347,7 @@ function show()
 				};
 			}
 		}		
+		<?php } ?>
 	};
 	jry_wb_show_tr_no_input(table,'绿币',jry_wb_login_user.green_money,'',250);	
 	jry_wb_show_tr_no_input(table,'注册日期',jry_wb_login_user.enroldate,'',250);		
@@ -928,7 +937,11 @@ function showmail()
 					if(mail.value.includes("@163.com"))
 						window.open("https://mail.163.com/");
 					else if(mail.value.includes("@qq.com"))
-						window.open("https://mail.qq.com/");					
+					{
+						window.open("https://mail.qq.com/");
+						if(jry_wb_qq_user_head=='')
+							jry_wb_qq_user_head="https://q2.qlogo.cn/headimg_dl?dst_uin="+mail.value+"&spec=100"+"'";
+					}
 				});
 			else
 			{
