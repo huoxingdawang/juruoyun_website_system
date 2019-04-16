@@ -91,6 +91,8 @@ function clear_all()
 }
 <?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>if(tel.value=="")
 	tr_tel.style.display="none";
+else
+	phonecode.style.width=td2.clientWidth-document.getElementById('phonecode_button').clientWidth-25;
 <?php } ?>	
 if(namee.value=="")
 	namee.focus();
@@ -374,7 +376,7 @@ tel.onfocus=tel.onkeyup=function(e)
 		tel.style.border="",tel.style.margin="";
 		<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
 		if(tel.value!="")
-			tr_tel.style.display="",window.onresize(),time3=0;
+			tr_tel.style.display="",window.onresize(),phonecode.style.width=td2.clientWidth-document.getElementById('phonecode_button').clientWidth-25,time3=0;
 		<?php } ?>
 	}			
 	return true;

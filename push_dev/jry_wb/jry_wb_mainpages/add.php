@@ -21,7 +21,7 @@
 				<h55>昵称</h55>
 			</td>
 			<td width="300" id="td2">
-				<input name="name" type="text" id="name" class="h56"/>
+				<input name="name" type="text" id="name" class="h56" style='width:99%;'/>
 			</td>
 		</tr>
 		<tr>
@@ -29,7 +29,7 @@
 				<h55>密码</h55>
 			</td>
 			<td>
-				<input name="password1" type="password" class="h56" id="password1"/>
+				<input name="password1" type="password" class="h56" id="password1" style='width:99%;'/>
 			</td>
 		</tr>
 		<tr>
@@ -37,7 +37,7 @@
 				<h55>再输密码</h55>
 			</td>
 			<td>
-				<input name="password2" type="password" id="password2" class="h56"/>
+				<input name="password2" type="password" id="password2" class="h56" style='width:99%;'/>
 			</td>
 		</tr>
 		<tr>
@@ -60,7 +60,7 @@
 				<h55>电话</h55>
 			</td>
 			<td width="300">
-				<input name="tel" type="text" id="tel" class="h56"/>
+				<input name="tel" type="text" id="tel" class="h56" style='width:99%;'/>
 			</td>
 		</tr>
 <?php } ?>
@@ -70,7 +70,7 @@
 				<h55>邮箱</h55>
 			</td>
 			<td width="300">
-				<input name="mail" type="text" id="mail" class="h56"/>
+				<input name="mail" type="text" id="mail" class="h56" style='width:99%;'/>
 			</td>
 		</tr>
 <?php } ?>			
@@ -85,10 +85,10 @@
 				<?php
 					if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id')
 					{ ?>
-						<input name="<?php  echo $one['key']; ?>" type="text" id="<?php  echo $one['key']; ?>" class="h56"/>
+						<input name="<?php  echo $one['key']; ?>" type="text" id="<?php  echo $one['key']; ?>" class="h56" style='width:99%;'/>
 					<?php }else if($one['type']=='select')
 					{ ?>
-						<select id="<?php echo $one['key']; ?>" name="<?php echo $one['key']; ?>" class="h56">
+						<select id="<?php echo $one['key']; ?>" name="<?php echo $one['key']; ?>" class="h56" style='width:99%;'>
 							<option style='display: none'></option>
 							<?php foreach($one['select'] as $select)
 							{ if(is_array($select)){?>
@@ -124,7 +124,7 @@
 			</td>
 			<td>
 				<input name="phonecode" type="text" id="phonecode" class="h56" size="4" onclick="";/>
-				<button id="button" name="button" class="jry_wb_button jry_wb_button_size_middle jry_wb_color_ok" type="button" onclick="check_tel()">获取验证码</button>
+				<button id="phonecode_button" name="phonecode_button" class="jry_wb_button jry_wb_button_size_middle jry_wb_color_ok" type="button" onclick="check_tel()">获取验证码</button>
 		</tr>
 <?php } ?>
 		<tr>
