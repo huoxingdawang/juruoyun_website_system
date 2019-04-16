@@ -222,7 +222,7 @@ function show()
 			}
 		}
 		<?php } ?>
-		<?php if(constant('jry_wb_tp_gihub_oauth_config_client_id')!=''){ ?>
+		<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){ ?>
 		if(jry_wb_github_user_head!='')
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
