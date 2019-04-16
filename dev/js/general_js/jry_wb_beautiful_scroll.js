@@ -46,7 +46,7 @@ function jry_wb_beautiful_scroll(area,absolute)
 		}
 		else
 		{
-			var yy=this.now_y;
+			var yy=now_y;
 			scrollto(0);
 			for(var i=0,n=area.children.length;i<n;i++)
 			{
@@ -132,11 +132,13 @@ function jry_wb_beautiful_scroll(area,absolute)
 			},20);
 		},250);
 	};
-	this.now_y=0;
+	var now_y=0;
 	function scrollto(y)
 	{
+		if(isNaN(y))
+			return ;
 		y=Math.max(0,Math.min(y,get_all_child_height()-area.clientHeight));
-		this.now_y=y;
+		now_y=y;
 		for(var i=0,n=area.children.length;i<n;i++)
 			if(area.children[i]!=jry_wb_scroll_body)
 			{
@@ -156,9 +158,33 @@ function jry_wb_beautiful_scroll(area,absolute)
 	this.scrollto=scrollto;
 	function get_scrolly()
 	{
-		return this.now_y;
+		if(isNaN(now_y))
+			return 0;
+		return now_y;
 	}
-	jry_wb_scroll_body.onmousewheel=area.onmousewheel=function(e)
+	var last_y=0;
+	area.addEventListener("touchstart",(evt)=>
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event;
+		if(event.touches!=null&&event.touches.length==1)
+			event.clientY=event.touches[0].clientY;
+		else if(event.changedTouches!=null&&event.changedTouches.length==1)
+			event.clientY=event.changedTouches[0].clientY;
+		last_y=event.clientY;
+	},false);
+	area.addEventListener("touchmove",(evt)=>
+	{
+		if(typeof event=='undefined'||event==undefined)
+			event=window.event;
+		if(event.touches!=null&&event.touches.length==1)
+			event.clientY		=event.touches[0].clientY;
+		else if(event.changedTouches!=null&&event.changedTouches.length==1)
+			event.clientY		=event.changedTouches[0].clientY;
+		area.onmousewheel({'deltaY':last_y-event.clientY});
+		last_y=event.clientY;		
+	},false);	
+	jry_wb_scroll_body.onmousewheel=area.onmousewheel=(e)=>
 	{
 		if(area.clientHeight>=get_all_child_height())
 		{
