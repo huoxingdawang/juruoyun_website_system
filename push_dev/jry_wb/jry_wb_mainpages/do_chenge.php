@@ -25,8 +25,6 @@
 		}
 		else if($_GET['action']=='send_tel')
 		{
-			if(!constant('jry_wb_check_tel_switch'))
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if(constant('jry_wb_short_message_switch')=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
@@ -221,32 +219,90 @@
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));
 			jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
-			echo json_encode(array('code'=>true));		
+			echo json_encode(array('code'=>true));
 			exit();
 		}		
 		else if($_GET['action']=='mail')
 		{
-			jry_wb_print_head("用户管理|邮箱绑定",true,false,false,array(),true,false);	
-			$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where code=?');
-			$st->bindParam(1,$_GET['code']);
-			$st->execute();		
-			foreach($st->fetchAll()as $code);
-			if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码','','self.location=document.referrer;');</script>		<?php	exit();}
-			$mail=$code['mail'];
-			if(!jry_wb_test_mail($mail)){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误','self.location=document.referrer;');</script>		<?php	exit();}
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
-			$st->bindParam(1,$mail);
-			$st->execute();
-			foreach($st->fetchAll()as $users)
+			if(constant('jry_wb_mail_switch')=='')
+			{
+				$mail=$_POST['mail'];
+				if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+				{
+					if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100005,'file'=>__FILE__,'line'=>__LINE__)));		
+					else
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100002,'file'=>__FILE__,'line'=>__LINE__)));		
+				}
+				if($_POST['mail']==$jry_wb_login_user['mail'])
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100004,'file'=>__FILE__,'line'=>__LINE__)));
+				if(!jry_wb_test_mail($_POST['mail']))
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));	
+				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+				$st->bindParam(1,$_POST['mail']);
+				$st->execute();
+				if(count($st->fetchAll())!=0)
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
+			}
+			else
+			{
+				jry_wb_print_head("用户管理|邮箱绑定",true,false,false,array(),true,false);	
+				$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
+				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where code=?');
+				$st->bindParam(1,$_GET['code']);
+				$st->execute();		
+				foreach($st->fetchAll()as $code);
+				if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码','','self.location=document.referrer;');</script><?php	exit();}
+				$mail=$code['mail'];
+				if(!jry_wb_test_mail($mail)){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误','self.location=document.referrer;');</script><?php	exit();}
+				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+				$st->bindParam(1,$mail);
+				$st->execute();
+				foreach($st->fetchAll()as $users)
 				if($users['id']!=''&&$users['id']!=$jry_wb_login_user['id']){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写非重复信息','邮箱重复'	,'self.location=document.referrer;');</script>		<?php	exit();}
-			$q ="update ".constant('jry_wb_database_general')."users set mail=?,lasttime=? where id=? ";
+			}
+			$set_head='';
+			if($jry_wb_login_user['head']=='gravatar')
+			{
+				$uri = 'http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
+				$headers = @get_headers($uri);
+				if (preg_match("|200|", $headers[0]))
+				{
+					$jry_wb_gravatar_user_head='';
+					$set_head='';
+				}
+				else
+				{
+					if($jry_wb_login_user['sex']==0)
+						$set_head=' ,head=\'default_head_woman\' ';					
+					else
+						$set_head=' ,head=\'default_head_man\' ';
+					$jry_wb_gravatar_user_head=$uri;
+				}
+			}
+			else
+			{
+				$uri = 'http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
+				$headers = @get_headers($uri);
+				if (preg_match("|200|", $headers[0]))
+					$jry_wb_gravatar_user_head=$uri;
+				else
+					$jry_wb_gravatar_user_head='';
+			}			
+			$q ="update ".constant('jry_wb_database_general')."users set mail=?,lasttime=?".$set_head." where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,($jry_wb_login_user['mail']=$mail));
 			$st->bindParam(2,jry_wb_get_time());
 			$st->bindParam(3,$jry_wb_login_user['id']);
-			$st->execute();	
-			?><script language=javascript>jry_wb_beautiful_alert.alert("修改成功","","window.location.href='chenge.php'");</script><?php
+			$st->execute();
+			if(constant('jry_wb_mail_switch')=='')
+			{
+				echo json_encode(array('code'=>true,'mail'=>$mail,'jry_wb_gravatar_user_head'=>$jry_wb_gravatar_user_head,'head'=>($set_head==''?'':($jry_wb_login_user['sex']==0?constant('jry_wb_defult_woman_picture'):constant('jry_wb_defult_man_picture')))));
+			}
+			else
+			{
+				?><script language=javascript>jry_wb_beautiful_alert.alert("修改成功","","window.location.href='chenge.php'");</script><?php
+			}			 
 			exit();
 		}
 		else if($_GET['action']=='tel')
@@ -268,22 +324,24 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));	
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
-			$st->bindParam(1,$_POST['tel']);
-			$st->execute();	
-			foreach($st->fetchAll()as $tels);		
-			if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));		
+			if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!='')
+			{
+				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+				$st->bindParam(1,$_POST['tel']);
+				$st->execute();	
+				foreach($st->fetchAll()as $tels);		
+				if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));		
+				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where code=?');
+				$st->bindParam(1,$_POST['phonecode']);
+				$st->execute();	
+			}
 			$q ="update ".constant('jry_wb_database_general')."users set tel=?,lasttime=? where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,$_POST['tel']);
 			$st->bindParam(2,jry_wb_get_time());
 			$st->bindParam(3,$jry_wb_login_user['id']);
 			$st->execute();
-			
-			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where code=?');
-			$st->bindParam(1,$_POST['phonecode']);
-			$st->execute();	
 			echo json_encode(array('code'=>true));				
 			exit();
 		}	
