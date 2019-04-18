@@ -1,5 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
@@ -31,8 +32,9 @@
 			<div class="jry_wb_left_toolbar_left_list_1" onClick="showshow();window.onresize();">隐私设置</div>
 			<div class="jry_wb_left_toolbar_left_list_2" onClick="showspecialfact();window.onresize();">特效设置</div>
 			<div class="jry_wb_left_toolbar_left_list_1" onClick="showcache();window.onresize();">缓存查看</div>
-			<?php if(constant('jry_wb_background_music_switch')){ ?><div class="jry_wb_left_toolbar_left_list_2" onClick="showmusiclist();window.onresize();">歌单管理</div><?php } ?>
-			<?php if(constant('jry_wb_oauth_switch')){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo (constant('jry_wb_background_music_switch')?'1':'2')?>" onClick="tp_in();window.onresize();">第三方接入</div><?php } ?>
+			<?php $i=1;if(constant('jry_wb_background_music_switch')){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showmusiclist();window.onresize();">歌单管理</div><?php } ?>
+			<?php if(constant('jry_wb_oauth_switch')){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="tp_in();window.onresize();">第三方接入</div><?php } ?>
+			<?php if(constant('jry_wb_config_user_extern_message')!=NULL){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="extern();window.onresize();">扩展信息</div><?php } ?>
 			<?php if(!$jry_wb_login_user['use']){ ?><div class="leftlist_default" onClick="unlock()">申请解封</div><?php } ?>
 	  </td>
 		<td id="show"  valign="top">

@@ -413,8 +413,7 @@ for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 	if(e==undefined)e=window.event;
 	if(e.target==this)check_all(e);
 	if(e.target==tijiao_button&&this.value=='')return jry_wb_beautiful_alert.alert("请填写完整信息","<?php echo $one['name']; ?>为空",function(){<?php echo $one['key']; ?>.focus();<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";}),false;
-	<?php if($one['type']=='tel')
-	{ ?>
+	<?php if($one['type']=='tel'){ ?>
 		if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_phone_number(<?php echo $one['key']; ?>.value)==false))
 		{
 			if(((new Date())-time_<?php echo $one['key']; ?>)>5000)

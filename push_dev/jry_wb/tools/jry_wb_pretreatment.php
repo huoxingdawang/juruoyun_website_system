@@ -122,6 +122,8 @@
 				$user['oauth_mi']=json_decode($user['oauth_mi']);	
 			if($user['oauth_gitee']!='')
 				$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
+			if($user['extern']!='')
+				$user['extern']=json_decode($user['extern']);					
 		}
 		else
 		{

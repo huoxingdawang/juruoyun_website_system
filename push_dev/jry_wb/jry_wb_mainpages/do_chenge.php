@@ -423,6 +423,61 @@
 			echo json_encode(array('code'=>true,'style'=>jry_wb_load_style($style_id)));				
 			exit();				
 		}
+		else if($_GET['action']=='extern')
+		{
+			$extern=json_decode(urldecode($_POST["extern"]),true);
+			foreach(constant('jry_wb_config_user_extern_message') as $one)
+			{
+				if($extern[$one['key']]=='')
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+				if($one['type']=='china_id')
+					if(jry_wb_test_china_id_card($extern[$one['key']])===false)
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+				if($one['type']=='tel')
+					if(jry_wb_test_phone_number($extern[$one['key']])===false)
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+				if($one['type']=='mail')
+					if(jry_wb_test_mail($extern[$one['key']])===false)
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+				if($one['connect']!=NULL)
+				{
+					foreach($one['connect'] as $connect)
+					{
+						if($one['type']=='china_id'&&$connect=='sex')
+						{
+							
+						}
+						else if($connect=='tel')
+						{
+							if($extern[$one['key']]==$jry_wb_login_user['tel'])
+								throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+						}
+						else if($connect=='namee'||$connect=='name')
+						{
+							if($extern[$one['key']]==$jry_wb_login_user['name'])
+								throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+						}
+						else if($connect=='mail')
+						{
+							if($extern[$one['key']]==$jry_wb_login_user['mail'])
+								throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+						}
+						else
+						{
+							if($extern[$one['key']]==$extern[$connect])
+								throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
+						}
+					}
+				}
+			}
+			$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set extern=? , lasttime=? where id=? ");
+			$st->bindParam(1,json_encode($extern));
+			$st->bindParam(2,jry_wb_get_time());
+			$st->bindParam(3,$jry_wb_login_user['id']);
+			$st->execute();
+			echo json_encode(array('code'=>true));				
+			exit();				
+		}
 		else
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
 	}

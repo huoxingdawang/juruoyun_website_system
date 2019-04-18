@@ -496,13 +496,15 @@ function show_ip()
 			
 		li=null;		
 	}
-	var button=document.createElement('button');showdiv.appendChild(button);	
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.setAttribute('onclick',"window.open('logout.php','_parent');");
 	button.innerHTML="登出";
-	button=null;
-	
-	var button=document.createElement("button");showdiv.appendChild(button);	
+	button=null;	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add("jry_wb_button","jry_wb_button_size_big","jry_wb_color_warn");
 	button.setAttribute('onclick',"window.open('logout.php?action=all','_parent')");
 	button.innerHTML="全部登出";
@@ -666,7 +668,10 @@ function showchenge()
 		markdown(result,0,0,(zhushi.value),false);		
 	}
 	new jry_wb_beautiful_scroll(result);
-	var button=document.createElement("button");showdiv.appendChild(button);
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='提交';
@@ -816,7 +821,10 @@ function showtel()
 	};
 	<?php } ?>
 	document.getElementById("tel").focus();
-	var button=document.createElement("button");showdiv.appendChild(button);
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='提交';
@@ -923,7 +931,10 @@ function showmail()
 		img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 	};	
 	img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
-	var button=document.createElement("button");showdiv.appendChild(button);
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='获取验证码';
@@ -1047,7 +1058,10 @@ function showpas()
 		else
 			password2.style.border="",password2.style.margin="",time2=0;
 	};	
-	var button=document.createElement("button");showdiv.appendChild(button);
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='提交';
@@ -1175,7 +1189,10 @@ function showshow()
 		option.innerHTML=options[i].name;
 	}
 	<?php }?>
-	var button=document.createElement("button");showdiv.appendChild(button);
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='提交';
@@ -1327,8 +1344,10 @@ function showspecialfact()
 	mouse_on_times.style.width='100px';
 	mouse_on_times.value=jry_wb_login_user.head_special.mouse_on.times;
 	mouse_on_times.name=mouse_on_times.id='mouse_on_times';
-
-	var button=document.createElement("button");showdiv.appendChild(button);
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);
+	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='提交';
@@ -1486,8 +1505,9 @@ function showmusiclist()
 			tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf));
 	}
 	tree.openall();
-	var tr=document.createElement("tr");table.appendChild(tr);
+	var tr=document.createElement("tr");table.appendChild(tr);	
 	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);	
 	var button=document.createElement("button");td.appendChild(button);
 	button.innerHTML="删除选中";
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_error');	
@@ -1525,14 +1545,11 @@ function showmusiclist()
 			}
 		},[{'name':'data','value':JSON.stringify(ans)}]);
 	};
-	var div=document.createElement("div");td.appendChild(div);
-	div.style.height=1;
-	div.style.width=100;
-	div.style.float='left';
 	var button=document.createElement("button");td.appendChild(button);
 	button.innerHTML="保存";
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');	
 	button.style.float='left';
+	button.style.marginLeft='100px';
 	button.onclick=function()
 	{
 		var ans=background_music_list.slice();
@@ -1820,6 +1837,202 @@ function tp_in()
 	<?php } ?>
 }
 <?php } ?>
+<?php if(constant('jry_wb_config_user_extern_message')!=NULL){ ?>
+function showextern()
+{
+	window.location.hash='extern';
+	showdiv.innerHTML='';
+	stoplogin=true;
+	stopnext=true;	
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+	var time_<?php echo $one['key']; ?>=0;
+<?php } ?>	
+	var table=document.createElement("table");showdiv.appendChild(table);	
+	table.border=1;
+	table.width="100%";
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one){?>
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.style.width='250px';
+	td.innerHTML='<?php echo $one['name']; ?>';	
+	td.classList.add('h56');
+	var td=document.createElement("td");tr.appendChild(td);
+<?php if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id'){ ?>
+	var <?php  echo $one['key']; ?>=document.createElement("input");td.appendChild(<?php  echo $one['key']; ?>);
+	<?php  echo $one['key']; ?>.type='text';
+	<?php  echo $one['key']; ?>.id=<?php  echo $one['key']; ?>.name='<?php  echo $one['key']; ?>';
+	<?php  echo $one['key']; ?>.classList.add('h56');
+	<?php  echo $one['key']; ?>.value=jry_wb_login_user.extern.<?php  echo $one['key']; ?>;
+<?php }else if($one['type']=='select'){ ?>
+	var <?php  echo $one['key']; ?>=document.createElement("select");td.appendChild(<?php  echo $one['key']; ?>);
+	<?php  echo $one['key']; ?>.classList.add('h56');
+	var option=document.createElement('option');<?php  echo $one['key']; ?>.appendChild(option);
+	option.style.display='none';
+<?php foreach($one['select'] as $select){ if(is_array($select)){?>
+	var option=document.createElement('option');<?php  echo $one['key']; ?>.appendChild(option);
+	option.value='<?php echo $select['value']; ?>';
+	option.innerHTML='<?php echo $select['name']; ?>';	
+<?php }else{ ?>
+	var option=document.createElement('option');<?php  echo $one['key']; ?>.appendChild(option);
+	option.value=option.innerHTML='<?php echo $select; ?>';
+<?php } ?>
+<?php }?>
+<?php  echo $one['key']; ?>.value=jry_wb_login_user.extern.<?php  echo $one['key']; ?>;
+<?php }else if($one['type']=='check'){ ?>
+	var <?php  echo $one['key']; ?>s=[];
+	var input=document.createElement('input');td.appendChild(input);
+	if(jry_wb_login_user.extern.<?php  echo $one['key']; ?>==(input.value=1))
+		input.setAttribute('checked','');
+	input.type='radio';
+	input.name='<?php  echo $one['key']; ?>';
+	input.onclick=function(e){if(e==undefined)e=window.event;if(e.target==this)check_all(e);};
+	<?php  echo $one['key']; ?>s[0]=input;
+	var h56=document.createElement('h56');td.appendChild(h56);
+	h56.innerHTML='是';
+	var input=document.createElement('input');td.appendChild(input);
+	if(jry_wb_login_user.extern.<?php  echo $one['key']; ?>==(input.value=0))
+		input.setAttribute('checked','');
+	input.type='radio';
+	input.name='<?php  echo $one['key']; ?>';
+	input.onclick=function(e){if(e==undefined)e=window.event;if(e.target==this)check_all(e);};
+	<?php  echo $one['key']; ?>s[1]=input;
+	var h56=document.createElement('h56');td.appendChild(h56);
+	h56.innerHTML='否';	
+	h56.style.marginLeft='20px';		 
+<?php }?>
+<?php }?>
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+<?php if($one['type']!='check'){ ?>
+<?php echo $one['key']; ?>.onfocus=<?php echo $one['key']; ?>.onkeyup=<?php echo $one['key']; ?>.onchenge=<?php echo $one['key']; ?>.onblur=function(e)
+	{
+		if(e==undefined)e=window.event;
+		if(e.target==this)check_all(e);		
+<?php if($one['type']=='tel'){ ?>
+		if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_phone_number(<?php echo $one['key']; ?>.value)==false))
+		{
+			if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
+			{
+				time_<?php echo $one['key']; ?>=new Date();
+				jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>错误",2000,"auto","error");
+			}
+			<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+			return false;
+		}
+		else
+			<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+<?php }else if($one['type']=='mail'){ ?>
+		if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_mail(<?php echo $one['key']; ?>.value)==false))
+		{
+			if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
+			{
+				time_<?php echo $one['key']; ?>=new Date();
+				jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>错误",2000,"auto","error");
+			}	
+			<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+			return false;
+		}
+		else
+			<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+<?php }else if($one['type']=='china_id'){ ?>
+		if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_test_china_id_card(<?php echo $one['key']; ?>.value)==false))
+		{
+			if(((new Date())-time_<?php echo $one['key']; ?>)>5000)
+			{
+				time_<?php echo $one['key']; ?>=new Date();
+				jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>错误",2000,"auto","error");
+			}	
+			<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+			return false;
+		}
+		else
+			<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+<?php } ?>
+<?php if($one['connect']!=NULL)
+{
+	foreach($one['connect'] as $connect)
+	{
+		if($one['type']=='china_id'&&$connect=='sex')
+		{ ?>
+			if(<?php echo $one['key']; ?>.value!=""&&(jry_wb_get_sex_by_china_id_card(<?php echo $one['key']; ?>.value)!=jry_wb_login_user.sex))
+			{
+				jry_wb_beautiful_right_alert.alert("<?php echo $one['name']; ?>与性别不符",2000,"auto","error");
+				<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+				return false;
+			}
+			else
+				<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="";
+		<?php }else{ ?>
+			if(<?php echo $one['key']; ?>.value!=""&&(<?php echo $one['key']; ?>.value==<?php echo ($connect=='namee')?('jry_wb_login_user.name'):((($connect=='sex'||$connect=='tel'||$connect=='mail')?'jry_wb_login_user.':'').$connect.(($connect=='sex'||$connect=='tel'||$connect=='mail'?'':'.value'))); ?>))
+			{
+				jry_wb_beautiful_right_alert.alert("信息重复",2000,"auto","error");
+				<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+				return false;
+			}
+			else
+				<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;					
+		<?php }
+	}
+}
+?>
+		if(eval("<?php echo $one['checker']; ?>")==false)
+		{
+			jry_wb_beautiful_right_alert.alert("信息错误",2000,"auto","error");
+			<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
+			return false;
+		}
+		return true;		
+	}
+<?php }?>
+<?php }?>
+	function check_all(e)
+	{
+		if(e==undefined)e=window.event;
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one)if($one['type']!='check'){ ?>
+		if(e.target!=<?php echo $one['key']; ?>)if(!<?php echo $one['key']; ?>.onkeyup(e))return false;
+<?php } ?>
+		return true;
+	}
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.setAttribute('colspan',2);
+	var button=document.createElement("button");td.appendChild(button);
+	button.innerHTML="提交";
+	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');	
+	button.style.float='left';
+	button.onclick=function()
+	{
+<?php foreach(constant('jry_wb_config_user_extern_message') as $one){if($one['type']=='check'){ ?>
+		for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
+			if(<?php echo $one['key']; ?>s[i].checked)
+				<?php echo $one['key']; ?>=<?php echo $one['key']; ?>s[i].value;
+<?php }} ?>
+		if(!check_all({'target':button}))
+			return jry_wb_beautiful_alert.alert("修改失败","");
+		var extern={<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
+		if(<?php $i=0; foreach(constant('jry_wb_config_user_extern_message') as $one)if($one['type']!='check'){ ?><?php if($i!=0)echo '&&';$i++; ?>(extern.<?php echo $one['key']; ?>===jry_wb_login_user.extern.<?php echo $one['key']; ?>)<?php } ?>)
+			return jry_wb_beautiful_alert.alert("修改失败","并没有修改");
+		jry_wb_ajax_load_data('do_chenge.php?action=extern',function (data)
+		{
+			data=JSON.parse(data);
+			jry_wb_loading_off();
+			if(data.code)
+			{	
+				jry_wb_beautiful_alert.alert('修改成功','',function(){jry_wb_login_user.extern=extern;showextern();})
+			}
+			else
+			{
+				if(data.reason==100000)
+					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				else if(data.reason==100001)
+					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");				
+				else if(data.reason==100017)
+					jry_wb_beautiful_alert.alert("注册失败",data.extern.name+"为空或错误",function(){eval(data.extern.key).focus();eval(data.extern.key).style.border="5px solid #ff0000",eval(data.extern.key).style.margin="0px 0px";});
+			}
+		},[{'name':'extern','value':encodeURIComponent(JSON.stringify(extern))}],true);
+		return true;
+	}
+}
+<?php } ?>
 switch(window.location.hash)
 {
 	case '#show':
@@ -1860,18 +2073,24 @@ switch(window.location.hash)
 		break;
 <?php if(constant('jry_wb_background_music_switch')){ ?>		
 	case '#showmusiclist':
-	showmusiclist();
-	window.onresize();
-	break;
+		showmusiclist();
+		window.onresize();
+		break;
 <?php } ?>
 <?php if(constant('jry_wb_oauth_switch')){ ?>		
-		case '#tpin':
+	case '#tpin':
 		tp_in();
 		window.onresize();
 		break;			
 <?php } ?>
-		default:
-		show();
+<?php if(constant('jry_wb_config_user_extern_message')!=NULL){ ?>
+	case '#extern':
+		showextern();
 		window.onresize();
+		break;	
+<?php } ?>
+		default:
+			show();
+			window.onresize();
 }
 <?php if(false){ ?></script><?php } ?>
