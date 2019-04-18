@@ -1,14 +1,29 @@
 <?php
-function jry_wb_test_china_id_card($id_card) 
+function jry_wb_test_china_id_card($idcard) 
 { 
-	if(strlen($id_card) == 18) 
-		return jry_wb_test_china_id_card_18($id_card); 
-	else if((strlen($id_card) == 15)) 
-		return jry_wb_test_china_id_card_15($id_card); 
+	if(strlen($idcard) == 18) 
+		return jry_wb_test_china_id_card_18($idcard); 
+	else if((strlen($idcard) == 15)) 
+		return jry_wb_test_china_id_card_15($idcard); 
 	else 
 		return false; 
 } 
-// 计算身份证校验码，根据国家标准GB 11643-1999 
+function jry_wb_get_sex_by_china_id_card($idcard)
+{
+	if(jry_wb_test_china_id_card($idcard)===false)
+		return false;
+	if (strlen($idcard) == 15)
+	{		
+		if (array_search(substr($idcard, 12, 3), array('996', '997', '998', '999')) !== false)
+			$idcard = substr($idcard, 0, 6) . '18'. substr($idcard, 6, 9); 
+		else
+			$idcard = substr($idcard, 0, 6) . '19'. substr($idcard, 6, 9); 
+		$idcard=$idcard.jry_wb_get_china_id_card_code($idcard); 
+	}
+	if(substr($idcard,14,3)%2==0)
+		return 0;
+	return 1;
+}
 function jry_wb_get_china_id_card_code($idcard_base) 
 { 
 	if(strlen($idcard_base)!=17) 
@@ -21,7 +36,7 @@ function jry_wb_get_china_id_card_code($idcard_base)
 	$mod=$checksum%11; 
 	$verify_number=$verify_number_list[$mod]; 
 	return $verify_number; 
-} 
+}
 function jry_wb_test_china_id_card_15($idcard)
 {
 	if (strlen($idcard) != 15) 
@@ -30,7 +45,7 @@ function jry_wb_test_china_id_card_15($idcard)
 		$idcard = substr($idcard, 0, 6) . '18'. substr($idcard, 6, 9); 
 	else
 		$idcard = substr($idcard, 0, 6) . '19'. substr($idcard, 6, 9); 
-	$idcard=$idcard.jry_wb_test_china_id_card_18($idcard); 
+	$idcard=$idcard.jry_wb_get_china_id_card_code($idcard); 
 	return jry_wb_test_china_id_card_18($idcard); 
 } 
 function jry_wb_test_china_id_card_18($idcard)
