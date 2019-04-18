@@ -1837,20 +1837,20 @@ function tp_in()
 	<?php } ?>
 }
 <?php } ?>
-<?php if(constant('jry_wb_config_user_extern_message')!=NULL){ ?>
+<?php if($jry_wb_config_user_extern_message!=NULL){ ?>
 function showextern()
 {
 	window.location.hash='extern';
 	showdiv.innerHTML='';
 	stoplogin=true;
 	stopnext=true;	
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one){ ?>
 	var time_<?php echo $one['key']; ?>=0;
 <?php } ?>	
 	var table=document.createElement("table");showdiv.appendChild(table);	
 	table.border=1;
 	table.width="100%";
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){?>
+<?php foreach($jry_wb_config_user_extern_message as $one){?>
 	var tr=document.createElement("tr");table.appendChild(tr);	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.style.width='250px';
@@ -1901,7 +1901,7 @@ function showextern()
 	h56.style.marginLeft='20px';		 
 <?php }?>
 <?php }?>
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one){ ?>
 <?php if($one['type']!='check'){ ?>
 <?php echo $one['key']; ?>.onfocus=<?php echo $one['key']; ?>.onkeyup=<?php echo $one['key']; ?>.onchenge=<?php echo $one['key']; ?>.onblur=function(e)
 	{
@@ -1974,12 +1974,16 @@ function showextern()
 	}
 }
 ?>
-		if(eval("<?php echo $one['checker']; ?>")==false)
+<?php if($one['checker_js']!=''){ ?>
+		if(eval("<?php echo $one['checker_js']; ?>")==false)
 		{
 			jry_wb_beautiful_right_alert.alert("信息错误",2000,"auto","error");
 			<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
 			return false;
 		}
+		else
+			<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;		
+<?php }?>
 		return true;		
 	}
 <?php }?>
@@ -1987,7 +1991,7 @@ function showextern()
 	function check_all(e)
 	{
 		if(e==undefined)e=window.event;
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one)if($one['type']!='check'){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='check'){ ?>
 		if(e.target!=<?php echo $one['key']; ?>)if(!<?php echo $one['key']; ?>.onkeyup(e))return false;
 <?php } ?>
 		return true;
@@ -2001,15 +2005,15 @@ function showextern()
 	button.style.float='left';
 	button.onclick=function()
 	{
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){if($one['type']=='check'){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one){if($one['type']=='check'){ ?>
 		for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 			if(<?php echo $one['key']; ?>s[i].checked)
 				<?php echo $one['key']; ?>=<?php echo $one['key']; ?>s[i].value;
 <?php }} ?>
 		if(!check_all({'target':button}))
 			return jry_wb_beautiful_alert.alert("修改失败","");
-		var extern={<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
-		if(<?php $i=0; foreach(constant('jry_wb_config_user_extern_message') as $one)if($one['type']!='check'){ ?><?php if($i!=0)echo '&&';$i++; ?>(extern.<?php echo $one['key']; ?>===jry_wb_login_user.extern.<?php echo $one['key']; ?>)<?php } ?>)
+		var extern={<?php foreach($jry_wb_config_user_extern_message as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
+		if(<?php $i=0; foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='check'){ ?><?php if($i!=0)echo '&&';$i++; ?>(extern.<?php echo $one['key']; ?>===jry_wb_login_user.extern.<?php echo $one['key']; ?>)<?php } ?>)
 			return jry_wb_beautiful_alert.alert("修改失败","并没有修改");
 		jry_wb_ajax_load_data('do_chenge.php?action=extern',function (data)
 		{
@@ -2083,7 +2087,7 @@ switch(window.location.hash)
 		window.onresize();
 		break;			
 <?php } ?>
-<?php if(constant('jry_wb_config_user_extern_message')!=NULL){ ?>
+<?php if($jry_wb_config_user_extern_message!=NULL){ ?>
 	case '#extern':
 		showextern();
 		window.onresize();

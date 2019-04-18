@@ -1,5 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");		
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'mail_code where time<?');
 	$st->bindParam(1,date("Y-m-d H:i:s",time()-12*60*60));
@@ -426,7 +427,7 @@
 		else if($_GET['action']=='extern')
 		{
 			$extern=json_decode(urldecode($_POST["extern"]),true);
-			foreach(constant('jry_wb_config_user_extern_message') as $one)
+			foreach($jry_wb_config_user_extern_message as $one)
 			{
 				if($extern[$one['key']]=='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
@@ -445,7 +446,8 @@
 					{
 						if($one['type']=='china_id'&&$connect=='sex')
 						{
-							
+							if(jry_wb_get_sex_by_china_id_card($extern[$one['key']])!==(int)$jry_wb_login_user['sex'])
+								throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
 						}
 						else if($connect=='tel')
 						{
@@ -469,6 +471,9 @@
 						}
 					}
 				}
+				if(is_object($one['checker_php'])===true)
+					if($one['checker_php']($extern)!==true)
+						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
 			}
 			$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set extern=? , lasttime=? where id=? ");
 			$st->bindParam(1,json_encode($extern));

@@ -37,7 +37,7 @@ tr_tel=document.getElementById('tr_tel');
 vcodesrc=document.getElementById('vcodesrc');
 vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random()};
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ 
+<?php foreach($jry_wb_config_user_extern_message as $one){ 
 	if($one['type']=='check')
 	{ ?>
 <?php  echo $one['key']; ?>s=document.getElementsByName('<?php  echo $one['key']; ?>');	
@@ -59,7 +59,7 @@ if(get!=null)
 	for(var i=0,n=sexs.length;i<n;i++)
 		if(sexs[i].value==get.sex)
 			sexs[i].click();
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ 
+<?php foreach($jry_wb_config_user_extern_message as $one){ 
 	if($one['type']=='check')
 	{ ?>
 	for(var i=0,n=<?php  echo $one['key']; ?>s.length;i<n;i++)
@@ -80,7 +80,7 @@ function clear_all()
 	<?php if(constant('jry_wb_check_mail_switch')){ ?>mail.value='';<?php } ?>
 	<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>phonecode.value='';<?php } ?>
 	sexs[0].click();
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ 
+<?php foreach($jry_wb_config_user_extern_message as $one){ 
 	if($one['type']=='check')
 	{ ?>
 		<?php  echo $one['key']; ?>s[0].click();
@@ -106,7 +106,7 @@ else if(password2.value=="")
 <?php if(constant('jry_wb_check_mail_switch')){ ?>else if(mail.value=="")
 	mail.focus();
 <?php } ?>		
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one)if($one['type']!='check'){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='check'){ ?>
 else if(<?php  echo $one['key']; ?>.value=="")
 	<?php  echo $one['key']; ?>.focus();		
 <?php } ?>
@@ -121,14 +121,14 @@ function check()
 	for(var i=0,n=sexs.length;i<n;i++)
 		if(sexs[i].checked)
 			sex=sexs[i].value;
-	<?php foreach(constant('jry_wb_config_user_extern_message') as $one){
+	<?php foreach($jry_wb_config_user_extern_message as $one){
 	if($one['type']=='check'){ ?>
 	for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 		if(<?php echo $one['key']; ?>s[i].checked)
 			<?php echo $one['key']; ?>=<?php echo $one['key']; ?>s[i].value;
 	<?php }} ?>
 	if(!check_all({'target':tijiao_button}))return false;
-	var extern={<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
+	var extern={<?php foreach($jry_wb_config_user_extern_message as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
 	extern=encodeURIComponent(JSON.stringify(extern))
 	jry_wb_ajax_load_data('do_add.php?debug=<?php  echo $_GET['debug']?>',function (data)
 	{
@@ -246,7 +246,7 @@ time3=0;
 time4=0;
 time5=0;
 time6=0;
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one){ ?>
 time_<?php echo $one['key']; ?>=0;
 <?php } ?>
 function save()
@@ -254,14 +254,14 @@ function save()
 	for(var i=0,n=sexs.length;i<n;i++)
 		if(sexs[i].checked)
 			sex=sexs[i].value;
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){
+<?php foreach($jry_wb_config_user_extern_message as $one){
 if($one['type']=='check'){ ?>
 for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 	if(<?php echo $one['key']; ?>s[i].checked)
 		<?php echo $one['key']; ?>=<?php echo $one['key']; ?>s[i].value;
 <?php }} ?>	
 	jry_wb_cache.set('add',JSON.stringify({'name':namee.value,<?php if(constant('jry_wb_check_tel_switch')){ ?>'tel':tel.value,<?php } ?><?php if(constant('jry_wb_check_mail_switch')){ ?>'mail':mail.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value,<?php } ?>
-		<?php foreach(constant('jry_wb_config_user_extern_message') as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>	
+		<?php foreach($jry_wb_config_user_extern_message as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>	
 	}));
 }
 namee.onfocus=namee.onkeyup=function(e)
@@ -402,7 +402,7 @@ vcode.onfocus=vcode.onkeyup=function(e)
 		vcode.style.border="",vcode.style.margin="",time4=0;
 	return true;
 };
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one){
+<?php foreach($jry_wb_config_user_extern_message as $one){
 if($one['type']=='check')
 { ?>
 for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
@@ -481,7 +481,8 @@ for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 		}
 	}
 	?>
-	if(eval("<?php echo $one['checker']; ?>")==false)
+<?php if($one['checker_js']!=''){ ?>	
+	if(eval("<?php echo $one['checker_js']; ?>")==false)
 	{
 		jry_wb_beautiful_right_alert.alert("信息错误",2000,"auto","error");
 		<?php echo $one['key']; ?>.style.border="5px solid #ff0000",<?php echo $one['key']; ?>.style.margin="0px 0px";
@@ -489,6 +490,7 @@ for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 	}
 	else
 		<?php echo $one['key']; ?>.style.border="",<?php echo $one['key']; ?>.style.margin="",time_<?php echo $one['key']; ?>=0;
+<?php } ?>
 	return true;
 };
 <?php }} ?>
@@ -501,7 +503,7 @@ function check_all(e)
 	if(e.target!=password2)if(!password2.onkeyup(e))return false;
 	<?php if(constant('jry_wb_check_tel_switch')){ ?>if(e.target!=tel)if(!tel.onkeyup(e))return false;<?php } ?>
 	<?php if(constant('jry_wb_check_mail_switch')){ ?>if(e.target!=mail)if(!mail.onkeyup(e))return false;<?php } ?>
-<?php foreach(constant('jry_wb_config_user_extern_message') as $one)if($one['type']!='check'){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='check'){ ?>
 	if(e.target!=<?php echo $one['key']; ?>)if(!<?php echo $one['key']; ?>.onkeyup(e))return false;
 <?php } ?>
 	if(e.target!=vcode)if(!vcode.onkeyup(e))return false;

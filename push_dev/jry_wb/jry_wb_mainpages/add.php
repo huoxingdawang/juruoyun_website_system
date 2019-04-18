@@ -75,7 +75,7 @@
 		</tr>
 <?php } ?>			
 <?php
-	foreach(constant('jry_wb_config_user_extern_message') as $one)
+	foreach($jry_wb_config_user_extern_message as $one)
 	{
 ?>		<tr>
 			<td>
