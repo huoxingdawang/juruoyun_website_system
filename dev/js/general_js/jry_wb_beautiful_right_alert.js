@@ -17,7 +17,7 @@ function jry_wb_beautiful_right_alert_function()
 		time = time==null?2000:time;
 		width = width==null?'auto':width;
 		var one = document.createElement ("div");this.bgObj.appendChild(one); 
-		one.classList.add('h55');one.classList.add('jry_wb_beautiful_alert_one');
+		one.classList.add('jry_wb_beautiful_alert_one','jry_wb_font_normal_size');
 		if(type=='error')
 			one.classList.add('jry_wb_color_error');
 		else if(type=='ok')
