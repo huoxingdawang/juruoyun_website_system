@@ -1,5 +1,5 @@
 <?php
-	include_once("jry_wb_includes.php");
+	include_once("jry_wb_database.php");
 	require_once '../jry_wb_tp_sdk/ip2region/Ip2Region.php';
 	function jry_wb_get_ip_address($ip)
 	{

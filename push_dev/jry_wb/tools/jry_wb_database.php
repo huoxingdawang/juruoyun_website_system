@@ -1,4 +1,6 @@
 <?php
+	include_once("../jry_wb_configs/jry_wb_config_database_user.php");
+	include_once("../jry_wb_configs/jry_wb_config_database_system.php");
 	function jry_wb_connect_database()
 	{
 		try{ $dbh = new PDO("mysql:host=".constant('jry_wb_database_addr').";",constant('jry_wb_database_user_name'),constant('jry_wb_database_user_password')); } 
