@@ -13,7 +13,6 @@
 	<?php jry_wb_print_href("login","");?>
 	<?php jry_wb_print_href('add_user',"active");?>
 </div>
-<body>
 <div align="center" >
 	<table  border="1" cellspacing="0" cellpadding="0">
 <?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']=='cutter'&&$one['before']===true){?>
