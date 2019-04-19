@@ -429,6 +429,8 @@
 			$extern=json_decode(urldecode($_POST["extern"]),true);
 			foreach($jry_wb_config_user_extern_message as $one)
 			{
+				if($one['type']=='cutter')
+					continue;
 				if($extern[$one['key']]=='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
 				if($one['type']=='china_id')

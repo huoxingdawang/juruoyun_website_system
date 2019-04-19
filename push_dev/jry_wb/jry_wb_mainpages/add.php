@@ -16,6 +16,11 @@
 <body>
 <div align="center" >
 	<table  border="1" cellspacing="0" cellpadding="0">
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']=='cutter'&&$one['before']===true){?>
+		<tr>
+			<td colspan='2' style='text-align:center;'><h56><?php echo $one['name']; ?></h56></td>
+		</tr>			
+<?php }?>
 		<tr>
 			<td width="200" id="td1">
 				<h55>昵称</h55>
@@ -77,7 +82,13 @@
 <?php
 	foreach($jry_wb_config_user_extern_message as $one)
 	{
-?>		<tr>
+?>
+		<?php if($one['type']=='cutter'){if($one['before']!==true){?>
+		<tr>
+			<td colspan='2' style='text-align:center;'><h56><?php echo $one['name']; ?></h56></td>
+		</tr>			
+		<?php }}else{ ?>
+		<tr>
 			<td>
 				<h55><?php  echo $one['name']; ?></h55>
 			</td>
@@ -103,8 +114,8 @@
 						<input type="radio" name="<?php echo $one['key']; ?>" value="1" checked/>
 						<h56>是</h56>
 						<input style="margin-left:20px;" type="radio" name="<?php echo $one['key']; ?>" value="0" />
-						<h56>否</h56>
-					<?php }?>
+						<h56>否</h56>					
+					<?php } }?>
 			</td>
 		</tr>			
 <?php }?>

@@ -1844,13 +1844,13 @@ function showextern()
 	showdiv.innerHTML='';
 	stoplogin=true;
 	stopnext=true;	
-<?php foreach($jry_wb_config_user_extern_message as $one){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){ ?>
 	var time_<?php echo $one['key']; ?>=0;
 <?php } ?>	
 	var table=document.createElement("table");showdiv.appendChild(table);	
 	table.border=1;
 	table.width="100%";
-<?php foreach($jry_wb_config_user_extern_message as $one){?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){?>
 	var tr=document.createElement("tr");table.appendChild(tr);	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.style.width='250px';
@@ -1901,7 +1901,7 @@ function showextern()
 	h56.style.marginLeft='20px';		 
 <?php }?>
 <?php }?>
-<?php foreach($jry_wb_config_user_extern_message as $one){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){ ?>
 <?php if($one['type']!='check'){ ?>
 <?php echo $one['key']; ?>.onfocus=<?php echo $one['key']; ?>.onkeyup=<?php echo $one['key']; ?>.onchenge=<?php echo $one['key']; ?>.onblur=function(e)
 	{
@@ -1991,7 +1991,7 @@ function showextern()
 	function check_all(e)
 	{
 		if(e==undefined)e=window.event;
-<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='check'){ ?>
+<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'&&$one['type']!='check'){ ?>
 		if(e.target!=<?php echo $one['key']; ?>)if(!<?php echo $one['key']; ?>.onkeyup(e))return false;
 <?php } ?>
 		return true;
@@ -2012,8 +2012,8 @@ function showextern()
 <?php }} ?>
 		if(!check_all({'target':button}))
 			return jry_wb_beautiful_alert.alert("修改失败","");
-		var extern={<?php foreach($jry_wb_config_user_extern_message as $one){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
-		if(<?php $i=0; foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='check'){ ?><?php if($i!=0)echo '&&';$i++; ?>(extern.<?php echo $one['key']; ?>===jry_wb_login_user.extern.<?php echo $one['key']; ?>)<?php } ?>)
+		var extern={<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>};
+		if(<?php $i=0; foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'&&$one['type']!='check'){ ?><?php if($i!=0)echo '&&';$i++; ?>(extern.<?php echo $one['key']; ?>===jry_wb_login_user.extern.<?php echo $one['key']; ?>)<?php } ?>)
 			return jry_wb_beautiful_alert.alert("修改失败","并没有修改");
 		jry_wb_ajax_load_data('do_chenge.php?action=extern',function (data)
 		{
