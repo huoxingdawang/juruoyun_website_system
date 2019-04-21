@@ -6,6 +6,7 @@
 		<div class="jry_wb_top_toolbar">
 			<?php jry_wb_print_logo(false);?>	
 			<?php jry_wb_print_href("bug","active");?>
+			<?php jry_wb_print_href("showbug");?>			
 			<?php if($jry_wb_login_user[id]!=-1)jry_wb_show_user($jry_wb_login_user);?>
 		</div>
 		<form method="post" action="bugreport.php?action=save">
