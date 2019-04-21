@@ -11,6 +11,7 @@
 		<form method="post" action="bugreport.php?action=save">
 		<table>
 			<tr><td><h55>出现BUG的位置</h55></td><td><input name="url" id="url" value="" class="h56" style="width:1000px;"></td></tr>
+			<tr><td><h55>您的联系方式(注明是邮箱还是QQ还是电话)</h55></td><td><input name="connect" id="connect" value="" class="h56" style="width:1000px;"></td></tr>
 			<tr><td valign="top"><h55>出现BUG的现象</h55></td><td><textarea id="bugmeaasge" name="bugmeaasge" class="h56" rows="20"></textarea></td></tr>
 			<tr><td colspan="2" align="center"><input onclick="return check();" id="submit" name="submit" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok" type="submit" value="提交"></td></tr>
 		</table>
@@ -53,12 +54,15 @@
 			?><script language="javascript">jry_wb_beautiful_alert.alert("出现不能包含的关键词","",function(){history.go(-1);});</script><?php
 			exit();			
 		}
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."bug (id,url,bug,device,time) VALUES(?,?,?,?,?)");
+		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."bug (id,url,bug,device,time,connect,ip,ua) VALUES(?,?,?,?,?,?,?,?)");
 		$st->bindParam(1,$jry_wb_login_user['id']); 
 		$st->bindParam(2,$_POST['url']);
 		$st->bindParam(3,$_POST['bugmeaasge']);	
 		$st->bindParam(4,jry_wb_get_device(true));				
 		$st->bindParam(5,jry_wb_get_time());				
+		$st->bindParam(6,$_POST['connect']);
+		$st->bindParam(7,$_SERVER['REMOTE_ADDR']);
+		$st->bindParam(8,$_SERVER['HTTP_USER_AGENT']);
 		$st->execute();
 		jry_wb_send_mail("lijunyandeyouxiang@163.com",
 		"BUGreport",
