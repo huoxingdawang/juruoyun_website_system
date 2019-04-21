@@ -7,6 +7,9 @@ var jry_wb_midia_control_all  =  new function()
 	var timer3=null;
 	jry_wb_js_session.add_listener(1,(data)=>
 	{
+		var playing=jry_wb_cache.get('background_music');
+		if(playing.status==true)
+			this.stop_background=false;
 		if(data=='get')
 		{
 			if(timer1!=null)
@@ -92,7 +95,10 @@ var jry_wb_midia_control_all  =  new function()
 	this.start=()=>
 	{
 		if(this.playing_buf==null)
-			jry_wb_background_music.oncontrol=true,jry_wb_background_music.continue();	
+		{
+			if((this.stop_background==false||typeof this.stop_background=='undefined'))
+				jry_wb_background_music.oncontrol=true,jry_wb_background_music.continue();	
+		}
 		else
 			this.playing_buf.play();
 	};
@@ -100,20 +106,23 @@ var jry_wb_midia_control_all  =  new function()
 	{
 		if(this.playing_buf!=null)
 			this.playing_buf.pause();
-		if(audio==jry_wb_background_music.audio)
-			return;
+		if(audio.id=='jry_wb_background_music')
+			return this.stop_background=false;
 		if(this.playing_buf==null)
 			jry_wb_background_music.break();
 		this.playing_buf = audio;
 	};
 	this.onpause = function(audio)
 	{
-		if(audio==jry_wb_background_music.audio)
-			return;
-		this.playing_buf=null;
-		setTimeout(function()
+		if(audio.id=='jry_wb_background_music')
+			this.stop_background=true;
+		else
 		{
-			jry_wb_background_music.oncontrol=true,jry_wb_background_music.continue();
-		},500);
+			this.playing_buf=null;
+			setTimeout(function()
+			{
+				jry_wb_background_music.oncontrol=true,jry_wb_background_music.continue();
+			},500);
+		}
 	};
 };

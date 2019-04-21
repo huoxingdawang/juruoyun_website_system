@@ -53,6 +53,7 @@ var jry_wb_background_music = new function()
 			};
 			this.passive=false;
 			this.audio=document.createElement("audio");document.body.appendChild(this.audio);
+			this.audio.id='jry_wb_background_music';
 			this.beautiful= new jry_wb_beautiful_music(this.audio,this.backgroundmusic_control,true);
 			this.beautiful.do_reply_count(1);
 			var old_onplay=this.audio.onplay;
@@ -79,7 +80,7 @@ var jry_wb_background_music = new function()
 			this.audio.ontimeupdate=()=>
 			{
 				old_ontimeupdate();
-				this.save(true);
+				this.save();
 			};
 			this.jry_background_music_flag=true;
 			inited=true;
@@ -106,6 +107,7 @@ var jry_wb_background_music = new function()
 	};
 	this.save=function(status)
 	{
+		if (document.visibilityState == 'hidden') return;		
 		if(!jry_wb_test_is_pc())return;		
 		if(status==undefined)
 			status=this.status();
@@ -133,13 +135,19 @@ var jry_wb_background_music = new function()
 		var playing=jry_wb_cache.get('background_music');
 		this.beautiful.reply_count=playing==null?1:playing.cycle;
 		this.beautiful.cycle_button_update();
-		if(playing==null||playing.mid==null)
+		if(playing==null||playing.mid==null||typeof playing=='undefined')
 		{
 		}
 		else
 		{
 			this.playing=playing;
 			this.playing.music_url=this.setsrc(playing.type,playing.mid);
+			this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);			
+			this.currenttime(playing.time==null?0:playing.time);
+			this.volume(playing.volume==null?0.2:playing.volume);
+			this.beautiful.update_volume_bar();
+			if(playing.status==false)
+				return jry_wb_midia_control_all.stop_background=true;
 			this.audio.oncanplay=()=>
 			{
 				if(this.oncontrol)
@@ -148,10 +156,6 @@ var jry_wb_background_music = new function()
 				}
 				this.audio.oncanplay=function(){};
 			};
-			this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);			
-			this.currenttime(playing.time==null?0:playing.time);
-			this.volume(playing.volume==null?0.2:playing.volume);
-			this.beautiful.update_volume_bar();
 		}
 	};
 	this.push_song_list=function(list_old)
@@ -183,7 +187,7 @@ var jry_wb_background_music = new function()
 		if(!jry_wb_test_is_pc())return;	
 		this.passive=true;
 		this.status(false);
-		this.save(true);
+		this.save();
 	};
 	this.continue=function()
 	{
