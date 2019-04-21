@@ -15,29 +15,18 @@
 	<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1176402460&site=qq&menu=yes"><b class="jry_wb_font_buttom">在QQ上嘲笑我的菜</b></a><br>
 	<a target="_blank" href="http://www.juruoyun.top"><b class="jry_wb_font_buttom">您当前在开发版，点此返回稳定版本</b></a><br>
 <script language="javascript">
-	//重定向函数
-	function jry_redirect(message, to_link) {
-		jry_wb_beautiful_right_alert.alert(message, 3000, 'auto', 'ok');
-		window.open(to_link);
-	}
-	//重定向列表，形式为"keycode"
-	jry_redirect_list = [
-		{"keycode": [jry_wb_keycode_f1], "message": "已打开新主页", "link": '<?php echo jry_wb_print_href('home','','',true);?>'},
-		{"keycode": [jry_wb_keycode_f2], "message": "已打开个人中心", "link": '<?php echo jry_wb_print_href('users','','',true);?>'},
-		{"keycode": [jry_wb_keycode_f3], "message": "已打开百度", "link": 'https://www.baidu.com'},
-		{"keycode": [jry_wb_keycode_f4], "message": "已打开洛谷", "link": 'https://www.luogu.org/'},
-		{"keycode": [jry_wb_keycode_a], "message": "已打开阿里云", "link": 'https://www.aliyun.com/?userCode=e05zvjms'},
-		{"keycode": [jry_wb_keycode_b], "message": "已打开百度", "link": 'https://www.baidu.com'},
-		{"keycode": [jry_wb_keycode_c,jry_wb_keycode_f], "message": "已打开CF", "link": 'http://codeforces.com/'},
-		{"keycode": [jry_wb_keycode_b,jry_wb_keycode_i], "message": "已打开B站", "link": 'https://www.bilibili.com/'},
-		{"keycode": [jry_wb_keycode_l], "message": "已打开洛谷", "link": 'https://www.luogu.org/'},
-		{"keycode": [jry_wb_keycode_o], "message": "已打开开源电子网", "link": 'http://www.openedv.com/?fromuid=47947'},
-		{"keycode": [jry_wb_keycode_p], "message": "已打开POJ", "link": 'http://poj.org/'},
-		{"keycode": [jry_wb_keycode_q], "message": "已打开七牛云", "link": 'https://www.qiniu.com/'},
-		{"keycode": [jry_wb_keycode_r], "message": "已打开RT-thread", "link": 'https://www.rt-thread.org/'},
-		{"keycode": [jry_wb_keycode_t], "message": "已打开teencode", "link": 'http://106.12.116.155'}
-	]
-	jry_redirect_list.forEach(function(k) {
-		jry_wb_set_shortcut(k.keycode, jry_redirect(k.message, k.link));
-	});
+	jry_wb_set_shortcut([jry_wb_keycode_f1],function(){jry_wb_beautiful_right_alert.alert("已打开新主页",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('home','','',true);?>');});
+	jry_wb_set_shortcut([jry_wb_keycode_f2],function(){jry_wb_beautiful_right_alert.alert("已打开个人中心",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('users','','',true);?>');});
+	jry_wb_set_shortcut([jry_wb_keycode_f3],function(){jry_wb_beautiful_right_alert.alert("已打开百度",3000,'auto','ok');window.open('https://www.baidu.com');});
+	jry_wb_set_shortcut([jry_wb_keycode_f4],function(){jry_wb_beautiful_right_alert.alert("已打开洛谷",3000,'auto','ok');window.open('https://www.luogu.org/');});
+	jry_wb_set_shortcut([jry_wb_keycode_a],function(){jry_wb_beautiful_right_alert.alert("已打开阿里云",3000,'auto','ok');window.open('https://www.aliyun.com/?userCode=e05zvjms');});
+	jry_wb_set_shortcut([jry_wb_keycode_b],function(){jry_wb_beautiful_right_alert.alert("已打开百度",3000,'auto','ok');window.open('https://www.baidu.com');});
+	jry_wb_set_shortcut([jry_wb_keycode_c,jry_wb_keycode_f],function(){jry_wb_beautiful_right_alert.alert("已打开CF",3000,'auto','ok');window.open('http://codeforces.com/');});
+	jry_wb_set_shortcut([jry_wb_keycode_b,jry_wb_keycode_i],function(){jry_wb_beautiful_right_alert.alert("已打开B站",3000,'auto','ok');window.open('https://www.bilibili.com/');});
+	jry_wb_set_shortcut([jry_wb_keycode_l],function(){jry_wb_beautiful_right_alert.alert("已打开洛谷",3000,'auto','ok');window.open('https://www.luogu.org/');});
+	jry_wb_set_shortcut([jry_wb_keycode_o],function(){jry_wb_beautiful_right_alert.alert("已打开开源电子网",3000,'auto','ok');window.open('http://www.openedv.com/?fromuid=47947');});
+	jry_wb_set_shortcut([jry_wb_keycode_p],function(){jry_wb_beautiful_right_alert.alert("已打开POJ",3000,'auto','ok');window.open('http://poj.org/');});
+	jry_wb_set_shortcut([jry_wb_keycode_q],function(){jry_wb_beautiful_right_alert.alert("已打开七牛云",3000,'auto','ok');window.open('https://www.qiniu.com/');});
+	jry_wb_set_shortcut([jry_wb_keycode_r],function(){jry_wb_beautiful_right_alert.alert("已打开RT-thread",3000,'auto','ok');window.open('https://www.rt-thread.org/');});
+	jry_wb_set_shortcut([jry_wb_keycode_t],function(){jry_wb_beautiful_right_alert.alert("已打开teencode",3000,'auto','ok');window.open('http://106.12.116.155');});
 </script>
