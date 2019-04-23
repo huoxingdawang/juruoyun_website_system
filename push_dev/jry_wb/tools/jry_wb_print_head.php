@@ -41,7 +41,7 @@
 		<meta name="keywords" content="<?php echo constant('jry_wb_name')?>,蒟蒻云网站系统,juruoyun web system,<?php echo constant('jry_wb_keywords');?>,<?php echo $jry_wb_keywords;?>">
 		<meta name="robots" content="noarchive">
 	<?php include_once('jry_wb_connect_php_to_js.php');?>
-		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/jry_wb_core_js.js"></script>
+		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/jry_wb_core_js.js.php"></script>
 		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/md5.js"></script>
 		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/colorpicker.js"></script>
 		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/jry_wb_markdown.js"></script>

@@ -9,6 +9,7 @@
 #include<map>
 #include<ctime>
 #include <io.h>
+#include <fstream>
 #define debuglog(x) cerr<<"\tdebug:"<<#x<<endl
 #define debug(x) cerr<<"\tdebug:"<<#x<<"="<<(x)<<endl
 #define debugg(x,y) cerr<<"\tdebug;"<<(x)<<":"<<#y<<"="<<(y)<<endl
@@ -25,9 +26,9 @@ using namespace std;
 
 void listfiles(const char * dir,void(*callback)(char*),const char * type);
 void parsecode(char *dir1);
-char s[10000000];
+char s[1024*1024*1024];
 char dir[200]={"E:\\mydocument\\science\\PHP\\jry_webserve_dev\\dev\\js\\general_js"};
-char out_dir[200]={"E:\\mydocument\\science\\PHP\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js"};
+char out_dir[200]={"E:\\mydocument\\science\\PHP\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
 char cmd[200];
 U LL yuan_total,xin_total;
 int main()
@@ -59,7 +60,22 @@ int main()
 			yuan_total=xin_total=0;
 			FILE *out=fopen(out_dir,"w");
 			fclose(out);
-			listfiles(dir,parsecode,"js");
+			listfiles(dir,parsecode,"*");
+
+			fstream f(out_dir);
+			string line;
+			getline(f,line);
+			f.close();
+			cout<<'\t'<<"<?php if(false){ ?><script><?php } ?>"<<endl;
+			long long pos=0;
+			while ((pos=line.find("<?php if(false){ ?><script><?php } ?>"))!=-1)
+				line.erase(pos,37),xin_total-=37;
+			cout<<'\t'<<"<?php if(false){ ?></script><?php } ?>"<<endl;
+			while ((pos=line.find("<?php if(false){ ?></script><?php } ?>"))!=-1)
+				line.erase(pos,38),xin_total-=38;
+			ofstream f2(out_dir);
+			f2<<line;
+			f2.close();			
 			printf("OK old:%lld byte,now:%lld byte,lose:%lld byte,parse ratio:%lf%%\n>",yuan_total,xin_total,yuan_total-xin_total,(double)(yuan_total-xin_total)/yuan_total*100);
 		}
 		else
@@ -72,6 +88,7 @@ void parsecode(char *dir1)
 	FILE *out=fopen(out_dir,"a");
 	FILE *fp=fopen(dir1,"r");
 	bool yasuo=false;
+	bool lastkong=false;
 	bool befor_yasuo=false;
 	bool string_1=false;
 	bool string_2=false;
@@ -149,21 +166,38 @@ void parsecode(char *dir1)
 		if(zhushi||zhushi_add||zhushi_del)
 			continue;
 		//处理换行
-		if(c=='\n'||c=='\t'||c==' ')
+		if(c==' ')
+		{
+			if(lastkong==false)
+			{
+				fprintf(out," ");
+				lastkong=true;
+				continue;
+			}
+			else
+			{
+				lastkong=false;
+				yasuo=true;
+				continue;
+			}	
+		}
+		else
+			lastkong=false;
+		if(c=='\n'||c=='\t')
 		{
 			yasuo=true;
 			continue;
 		}
 		if(yasuo&&befor_yasuo)
 		{
-			if((c!='!'&&c!='@'&&c!='#'&&c!='$'&&c!='%'&&c!='&'&&c!='*'&&c!='('&&c!=')'&&c!='+'&&c!='-'&&c!='='&&c!='{'&&c!='}'&&c!='['&&c!=']'&&c!=';'&&c!=':'&&c!='|'&&c!='\\'&&c!='<'&&c!='>'&&c!='/'&&c!=','&&c!='.'))
+			if((c!='!'&&c!='@'&&c!='#'&&c!='$'&&c!='%'&&c!='&'&&c!='*'&&c!='('&&c!=')'&&c!='+'&&c!='-'&&c!='='&&c!='{'&&c!='}'&&c!='['&&c!=']'&&c!=';'&&c!=':'&&c!='|'&&c!='\\'&&c!='<'&&c!='>'&&c!='/'&&c!=','&&c!='.'&&c!='?'))
 			{
 				fprintf(out," ");
 				xin_total++;
 			}
 		}
 		yasuo=false;
-		befor_yasuo=(c!='!'&&c!='@'&&c!='#'&&c!='$'&&c!='%'&&c!='&'&&c!='*'&&c!='('&&c!=')'&&c!='+'&&c!='-'&&c!='='&&c!='{'&&c!='}'&&c!='['&&c!=']'&&c!=';'&&c!=':'&&c!='|'&&c!='\\'&&c!='<'&&c!='>'&&c!='/'&&c!=','&&c!='.');
+		befor_yasuo=(c!='!'&&c!='@'&&c!='#'&&c!='$'&&c!='%'&&c!='&'&&c!='*'&&c!='('&&c!=')'&&c!='+'&&c!='-'&&c!='='&&c!='{'&&c!='}'&&c!='['&&c!=']'&&c!=';'&&c!=':'&&c!='|'&&c!='\\'&&c!='<'&&c!='>'&&c!='/'&&c!=','&&c!='.'&&c!='?');
 		fprintf(out,"%c",c);
 		xin_total++;
 	}

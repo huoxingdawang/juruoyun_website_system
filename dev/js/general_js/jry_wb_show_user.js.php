@@ -1,3 +1,4 @@
+<?php if(false){ ?><script><?php } ?>
 function jry_wb_get_user_head_out(user)
 {
 	return 	'animation:'		+user.head_special.mouse_out.result+
@@ -203,6 +204,7 @@ function jry_wb_show_user_full(user,width,height)
 			}
 		}
 	}
+<?php if(constant('jry_wb_oauth_switch')){ ?>	
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="400";
@@ -210,26 +212,35 @@ function jry_wb_show_user_full(user,width,height)
 	td.innerHTML='第三方接入';
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.classList.add('h56');
+<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>
 	td.innerHTML+='QQ:';
 	if(user.oauth_qq==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';
+<?php } ?>
+<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
 	td.innerHTML+='MI:';
 	if(user.oauth_mi==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth_mi.miliaoNick+'<img width="40px" src="'+user.oauth_mi.miliaoIcon_orig+'"><br>';
+<?php } ?>
+<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){ ?>
 	td.innerHTML+='gayhub:';
 	if(user.oauth_github==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth_github.name+','+user.oauth_github.login+'<img width="40px" src="'+user.oauth_github.avatar_url+'"><br>';						
+<?php } ?>
+<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
 	td.innerHTML+='码云:';
 	if(user.oauth_gitee==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth_gitee.name+','+user.oauth_gitee.login+'<img width="40px" src="'+user.oauth_gitee.avatar_url+'"><br>';	
+<?php } ?>
+<?php } ?>
 	jry_wb_beautiful_scroll(jry_wb_beautiful_alert.msgObj);	
 }
 function jry_wb_show_user_intext(user)
@@ -286,3 +297,4 @@ function jry_wb_get_and_show_user_full(id,width,height)
 		);
 	}		
 }
+<?php if(false){ ?></script><?php } ?>

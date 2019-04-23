@@ -1,3 +1,9 @@
+<?php
+	header("content-type: application/x-javascript");
+	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
+?>
+<?php if(false){ ?><script><?php } ?>
 if(typeof jry_wb_message=='undefined')
 	var jry_wb_message={"jry_wb_name":"","jry_wb_title":"","jry_wb_host":"","jry_wb_get_message":"","jry_wb_logo":"","jry_wb_data_host":"","jry_wb_index_page":"","jry_wb_chenge_page":"","jry_wb_background_music_switch":0};
 if(typeof jry_wb_login_user=='undefined')
@@ -241,3 +247,4 @@ function jry_wb_add_onbeforeunload(func)
     	window.onbeforeunload=function(event){if(oldonbeforeunload);oldonbeforeunload(event);func(event);};
 	return func;
 }
+<?php if(false){ ?></script><?php } ?>
