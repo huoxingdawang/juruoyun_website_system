@@ -94,6 +94,7 @@
 	background:#666;
 	position:fixed;
 	overflow:hidden;
+	z-index:11;
 }
 .jry_wb_netdisk_right_menu .jry_wb_netdisk_right_menu_text
 {
