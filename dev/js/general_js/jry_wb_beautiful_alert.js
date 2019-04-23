@@ -296,10 +296,9 @@ function  jry_wb_beautiful_alert_function()
 						if(document.addEventListener)
 							document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
 						jry_wb_beautiful_scroll_run_flag=false;
+						jry_wb_midia_control_all.onpause(video);
 						if(typeof func!="undefined")
 							eval(func);
-						if((!qq_music_player_paused)&&(qq_music_player.__.audio.paused))
-							qq_music_player.play(jry_wb_cache.get("playing").id);
 					};			
 				}
 				Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");   

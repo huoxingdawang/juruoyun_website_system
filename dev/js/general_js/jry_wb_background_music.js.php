@@ -1,3 +1,5 @@
+<?php if(constant('jry_wb_background_music_switch')){ ?>
+<?php if(false){ ?><script><?php } ?>
 var jry_wb_background_music = new function()
 {
 	var inited=false;
@@ -199,3 +201,5 @@ var jry_wb_background_music = new function()
 		this.status(this.playing_status);
 	};
 };
+<?php if(false){ ?></script><?php } ?>
+<?php } ?>
