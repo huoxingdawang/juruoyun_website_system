@@ -48,15 +48,21 @@ function jry_wb_nd_show_files(checker)
 			if(jry_nd_file_list[i].uploading)
 			{
 				let uploading=document.createElement('span');one.appendChild(uploading);
-				uploading.classList.add('jry_wb_netdisk_file','uploading_and_trust','jry_wb_icon','jry_wb_icon_shangchuan','jry_wb_color_warn_font');
+				uploading.classList.add('uploading_and_trust','jry_wb_icon','jry_wb_icon_shangchuan','jry_wb_color_warn_font');
 				uploading.name='jry_nd_file_memeber';
 			}
 			if(jry_nd_file_list[i].trust)
 			{
 				let trust=document.createElement('span');one.appendChild(trust);
-				trust.classList.add('jry_wb_netdisk_file','uploading_and_trust','jry_wb_icon','jry_wb_icon_shenhetongguo','jry_wb_color_ok_font');
+				trust.classList.add('uploading_and_trust','jry_wb_icon','jry_wb_icon_shenhetongguo','jry_wb_color_ok_font');
 				trust.name='jry_nd_file_memeber';			
 			}
+			if(jry_nd_file_list[i].share)
+			{
+				let share=document.createElement('span');one.appendChild(share);
+				share.classList.add('share','jry_wb_icon','jry_wb_icon_fenxiang','jry_wb_color_ok_font');
+				share.name='jry_nd_file_memeber';			
+			}			
 			let name=document.createElement("div");one.appendChild(name);
 			name.name='jry_nd_file_memeber';
 			name.innerHTML=(jry_nd_file_list[i].name+(jry_nd_file_list[i].isdir?'':('.'+jry_nd_file_list[i].type)));

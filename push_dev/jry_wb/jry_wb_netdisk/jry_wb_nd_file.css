@@ -40,6 +40,17 @@
 	width:32px;
 	height:32px;
 }
+.jry_wb_netdisk_file .share
+{
+	opacity:1;
+	background:#00000000;
+	position:absolute;
+	left:58px;
+	top:100px;
+	font-size:32px;
+	width:32px;
+	height:32px;
+}
 .jry_wb_netdisk_file .jry_wb_netdisk_file_type
 {
 	font-size:125px;
