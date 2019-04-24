@@ -7,7 +7,8 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 		dironly=true;	
 	if(jry_wb_login_user.id=='-1'||jry_wb_login_user.id=='')
 		return ;
-	var file_list=jry_nd_file_list.slice();
+	var file_list=jry_nd_file_list;
+	var added=new Array(file_list.length);
 	var alerter=new jry_wb_beautiful_alert_function();
 	var title=alerter.frame(jry_wb_login_user.name+"的网盘",document.body.clientWidth*0.75,document.body.clientHeight*0.75,document.body.clientWidth*4/32,document.body.clientHeight*4/32);
 	var confirm = document.createElement("button"); title.appendChild(confirm);
@@ -52,7 +53,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 	};
 	function add_one(i)
 	{
-		if(file_list[i].added)
+		if(added[i]===true)
 			return file_list[i].tree;
 		var father=file_list.find(function(a){return a.file_id==file_list[i].father});
 		if(father==null)
@@ -63,6 +64,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 			tree_father=father.tree;
 		file_list[i].tree=tree.add(tree_father,file_list[i].name+(file_list[i].isdir?'':('.'+file_list[i].type)),file_list[i].file_id);
 		file_list[i].added=true;
+		added[i]=true;
 		return file_list[i].tree;
 	}
 	for(let i=0,n=file_list.length;i<n;i++)
