@@ -155,7 +155,6 @@
 .jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message table tr td
 {
 	transition: all .5s;
-	border:1px solid #423d42;
 	font-size:20px;
 }
 .jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message .progress

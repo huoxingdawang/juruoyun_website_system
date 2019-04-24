@@ -18,6 +18,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 	confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");
 	confirm.onclick=function()
 	{
+		setTimeout(function(){select_mesage_lock=false;},100);
 		alerter.close();
 	};
 	var confirm = document.createElement("button"); title.appendChild(confirm);
@@ -49,6 +50,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 				jry_wb_beautiful_right_alert.alert('请选中一个文件夹');				
 		if(typeof callback=='function')
 			callback(checked);
+		select_mesage_lock=false;
 		alerter.close();
 	};
 	function add_one(i)

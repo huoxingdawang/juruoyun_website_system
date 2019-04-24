@@ -120,6 +120,7 @@ jry_wb_add_load(function()
 		message.innerHTML='';		
 		var div=document.createElement('div');message.appendChild(div);	div.innerHTML='错误对照表';div.style.textAlign='center';
 		var table=document.createElement('table');message.appendChild(table);
+		table.setAttribute('border',1);table.setAttribute('cellspacing',0);table.setAttribute('cellpadding',0);
 		var tr=document.createElement('tr');table.appendChild(tr);
 		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='200000';
 		var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='错误的存储区';
@@ -187,6 +188,7 @@ jry_wb_add_load(function()
 			}
 			message.innerHTML='';
 			var table=document.createElement('table');message.appendChild(table);
+			table.setAttribute('border',1);table.setAttribute('cellspacing',0);table.setAttribute('cellpadding',0);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='权限组ID';
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.nd_ei.group_id;		
@@ -221,6 +223,7 @@ jry_wb_add_load(function()
 				return ;
 			}
 			var table=document.createElement('table');message.appendChild(table);
+			table.setAttribute('border',1);table.setAttribute('cellspacing',0);table.setAttribute('cellpadding',0);
 			table.style.width=message.clientWidth;
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td1=document.createElement('td');tr.appendChild(td1);td1.innerHTML='速度';
@@ -301,15 +304,18 @@ jry_wb_add_load(function()
 			}
 			message.innerHTML='';			
 			var table=document.createElement('table');message.appendChild(table);
+			table.setAttribute('border',1);table.setAttribute('cellspacing',0);table.setAttribute('cellpadding',0);
 			table.style.width=message.clientWidth;
 			table.name='select_mesage_button_member';
 			for(let i=0,n=jry_nd_selected_list.length;i<n;i++)
 			{
 				var tr=document.createElement('tr');table.appendChild(tr);
 				tr.name='select_mesage_button_member';
-				var td1=document.createElement('td');tr.appendChild(td1);td1.innerHTML=jry_nd_selected_list[i].file.name+(jry_nd_selected_list[i].file.isdir?'':('.'+jry_nd_selected_list[i].file.type));
+				var td1=document.createElement('td');tr.appendChild(td1);
+				td1.innerHTML=jry_nd_selected_list[i].file.name+(jry_nd_selected_list[i].file.isdir?'':('.'+jry_nd_selected_list[i].file.type));
 				td1.name='select_mesage_button_member';
 				td1.classList.add('jry_wb_word_cut');
+				td1.style.width=message.clientWidth-4+'px';
 				td1.onclick=function()
 				{
 					jry_nd_selected_list[i].body.classList.remove('jry_wb_netdisk_file_active');
@@ -330,6 +336,7 @@ jry_wb_add_load(function()
 			}
 			message.innerHTML='';
 			var table=document.createElement('table');message.appendChild(table);
+			table.setAttribute('border',1);table.setAttribute('cellspacing',0);table.setAttribute('cellpadding',0);
 			table.style.width=message.clientWidth;
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='您的绿币';
@@ -579,6 +586,7 @@ jry_wb_add_load(function()
 		move_file_button.classList.add("mid_lan_button","jry_wb_icon","move","jry_wb_icon_yidongwenjian");
 		move_file_button.onclick=function()
 		{
+			select_mesage_lock=true;
 			var list=[];
 			for(var i=0,n=jry_nd_selected_list.length;i<n;i++)
 				list.push(jry_nd_selected_list[i].file.file_id);
@@ -596,7 +604,7 @@ jry_wb_add_load(function()
 						return;
 					}
 					jry_wb_login_user.nd_ei.lasttime=data.lasttime;
-					jry_wb_nd_fresh_file_list();							
+					jry_wb_nd_fresh_file_list();			
 				},[{'name':'file_id','value':JSON.stringify(list)},{'name':'to','value':checked[0].file_id}]);				
 			});
 		};
@@ -812,6 +820,7 @@ jry_wb_add_load(function()
 		document_list.style.height=document.body.clientHeight-document_list.offsetTop;
 	});
 });
+select_mesage_lock=false;
 jry_wb_add_onclick(function(event)
 {
 	event=event||window.event;
@@ -822,7 +831,7 @@ jry_wb_add_onclick(function(event)
 		document.body.removeChild(jry_wb_right_meau);
 		jry_wb_right_meau=null;
 	}
-	if(jry_nd_selected_list.length!=0&&event.target!=select_mesage_button&&event.target!=move_file_button&&event.target!=delete_button&&(jry_wb_test_is_pc()&&(!event.ctrlKey)||event.target.name!='jry_nd_file_memeber')&&event.target.name!='select_mesage_button_member')
+	if(jry_nd_selected_list.length!=0&&event.target!=select_mesage_button&&event.target!=move_file_button&&event.target!=delete_button&&(jry_wb_test_is_pc()&&(!event.ctrlKey)||event.target.name!='jry_nd_file_memeber')&&event.target.name!='select_mesage_button_member'&&!select_mesage_lock)
 		select_delete();
 });
 var dir_stack=[];
