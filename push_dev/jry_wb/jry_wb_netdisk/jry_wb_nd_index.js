@@ -12,6 +12,7 @@ jry_wb_include_once_script('jry_wb_nd_upload_file.js');
 jry_wb_include_once_script('jry_wb_nd_area.js');
 jry_wb_include_once_script('jry_wb_nd_alert_list.js');
 jry_wb_include_once_script('jry_wb_nd_fresh_file_list.js');
+jry_wb_include_once_script('jry_wb_nd_fresh_share_list.js');
 jry_wb_include_once_script('jry_wb_nd_fresh.js');
 jry_wb_include_once_script('jry_wb_nd_show_files.js');
 jry_wb_include_once_script('http://gosspublic.alicdn.com/aliyun-oss-sdk-6.1.0.min.js');
