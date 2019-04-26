@@ -101,6 +101,7 @@
 							'delete'=>$data[$i]['delete'],
 							'isdir'=>$data[$i]['isdir'],
 							'share'=>$data[$i]['share'],
+							'sharelist'=>json_decode($data[$i]['sharelist']),
 							'lasttime'=>$data[$i]['lasttime']);
 		echo json_encode($ans);		
 		exit();
@@ -112,20 +113,29 @@
 		$st->bindValue(2,$_POST['file_id']);
 		$st->execute();
 		$ans=[];
-		$data=$st->fetchAll();
-		$n=count($data);
-		if($n==0)
-		{
-			echo json_encode(null);		
-			exit();
-		}
-		for($i=0;$i<$n;$i++)
-			$ans[$i]=array(	'file_id'=>$data[$i]['file_id'],
-							'share_id'=>$data[$i]['share_id'],
-							'key'=>$data[$i]['key'],
-							'fastdownload'=>$data[$i]['fastdownload'],
-							'requesturl'=>$data[$i]['requesturl'],
-							'lasttime'=>$data[$i]['lasttime']);
+		foreach($st->fetchAll() as $data)
+			$ans[]=array(	'file_id'=>$data['file_id'],
+							'share_id'=>$data['share_id'],
+							'key'=>$data['key'],
+							'fastdownload'=>$data['fastdownload'],
+							'requesturl'=>$data['requesturl'],
+							'lasttime'=>$data['lasttime']);
+		echo json_encode($ans);		
+		exit();
+	}
+	if($action=='share_list')
+	{
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'share WHERE id=?;');
+		$st->bindValue(1,$jry_wb_login_user['id']);
+		$st->execute();
+		$ans=[];
+		foreach($st->fetchAll() as $data)
+			$ans[]=array(	'file_id'=>$data['file_id'],
+							'share_id'=>$data['share_id'],
+							'key'=>$data['key'],
+							'fastdownload'=>$data['fastdownload'],
+							'requesturl'=>$data['requesturl'],
+							'lasttime'=>$data['lasttime']);
 		echo json_encode($ans);		
 		exit();
 	}	

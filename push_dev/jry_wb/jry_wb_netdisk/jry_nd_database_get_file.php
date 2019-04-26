@@ -30,7 +30,7 @@
 	{
 		if($father['isdir']==0)
 			return null;		
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE father=? AND id=? AND `delete`=0 LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE father=? AND id=? AND `delete`=0');
 		$st->bindValue(1,$father['file_id']);
 		$st->bindValue(2,$user['id']);
 		$st->execute();

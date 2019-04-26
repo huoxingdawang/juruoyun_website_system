@@ -34,4 +34,6 @@ function jry_wb_nd_fresh(qiangzhi)
 		jry_nd_load_count--,jry_nd_area=jry_wb_cache.get('nd_area');
 	if(!jry_nd_share_mode_flag)
 		jry_wb_nd_fresh_file_list(qiangzhi);
+	if(!jry_nd_share_mode_flag)
+		jry_wb_nd_fresh_share_list(qiangzhi);	
 }
