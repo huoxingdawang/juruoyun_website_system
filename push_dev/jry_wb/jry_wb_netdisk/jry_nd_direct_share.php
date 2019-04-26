@@ -76,13 +76,4 @@
 		$st->execute();
 		jry_nd_database_operate_user_used_uploading($conn,$user,0,0);
 	}
-	//UPDATE netdisk_file_list SET share_list=JSON_ARRAY_APPEND(share_list,'$',2) WHERE JSON_CONTAINS(share_list, '1');
-	//UPDATE netdisk_file_list SET share_list=JSON_REMOVE(share_list,JSON_UNQUOTE(JSON_SEARCH(share_list,'one','1'))) WHERE JSON_CONTAINS(share_list, '["1"]');
-	//UPDATE netdisk_file_list SET share_list=JSON_MERGE_PRESERVE(JSON_REMOVE(share_list,JSON_UNQUOTE(JSON_SEARCH(share_list,'one','1'))),'["5","6"]') WHERE JSON_CONTAINS(share_list, '["1"]');
-/*
-TRUNCATE `netdisk_share`;
-UPDATE `juruoyun_dev`.`netdisk_file_list` SET `share_list`=NULL,share=0,self_share=0,lasttime=NOW() WHERE  `file_id`=60;
-UPDATE `juruoyun_dev`.`netdisk_file_list` SET `share_list`=NULL,share=0,self_share=0,lasttime=NOW()  WHERE  `file_id` >=62 AND `file_id` <=84;
-UPDATE `juruoyun_dev`.`netdisk_file_list` SET `share_list`=NULL,share=0,self_share=0,lasttime=NOW()  WHERE  `file_id` >=97 AND `file_id` <=98;
-*/
 ?>
