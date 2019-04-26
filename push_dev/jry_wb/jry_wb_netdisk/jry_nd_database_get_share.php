@@ -18,11 +18,11 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
 		if(!$file['trust'])
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230001,'file'=>__FILE__,'line'=>__LINE__)));
-		if(is_string($file['sharelist']))
-			$file['sharelist']=json_decode($file['sharelist']);					
-		if($file['sharelist']===NULL)
-			$file['sharelist']=[];
-		if(array_search((string)$share['share_id'],$file['sharelist'])===false)
+		if(is_string($file['share_list']))
+			$file['share_list']=json_decode($file['share_list']);					
+		if($file['share_list']===NULL)
+			$file['share_list']=[];
+		if(array_search((string)$share['share_id'],$file['share_list'])===false)
 			return false;
 		if(!jry_nd_database_check_type($user,$file))
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));

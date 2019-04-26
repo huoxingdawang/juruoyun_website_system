@@ -102,7 +102,7 @@
 							'isdir'=>$data[$i]['isdir'],
 							'share'=>$data[$i]['share'],
 							'self_share'=>$data[$i]['self_share'],
-							'sharelist'=>json_decode($data[$i]['sharelist']),
+							'share_list'=>json_decode($data[$i]['share_list']),
 							'lasttime'=>$data[$i]['lasttime']);
 		echo json_encode($ans);		
 		exit();

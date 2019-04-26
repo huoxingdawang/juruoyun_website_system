@@ -320,8 +320,8 @@ function jry_wb_nd_show_files(checker)
 						share_attribute.onclick=function()
 						{
 							var data=[];
-							for(var j=0;j<jry_nd_file_list[i].sharelist.length;j++)
-								data[data.length]=jry_nd_share_list.find(function(a){return a.share_id==jry_nd_file_list[i].sharelist[j]});
+							for(var j=0;j<jry_nd_file_list[i].share_list.length;j++)
+								data[data.length]=jry_nd_share_list.find(function(a){return a.share_id==jry_nd_file_list[i].share_list[j]});
 							var attribute_alert=new jry_wb_beautiful_alert_function;
 							var title=attribute_alert.frame("分享属性",document.body.clientWidth*0.50,document.body.clientHeight*0.75,document.body.clientWidth*1/4,document.body.clientHeight*3/32);
 							var Confirm = document.createElement("button"); title.appendChild(Confirm);
