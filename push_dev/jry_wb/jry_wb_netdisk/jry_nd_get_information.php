@@ -101,6 +101,7 @@
 							'delete'=>$data[$i]['delete'],
 							'isdir'=>$data[$i]['isdir'],
 							'share'=>$data[$i]['share'],
+							'self_share'=>$data[$i]['self_share'],
 							'sharelist'=>json_decode($data[$i]['sharelist']),
 							'lasttime'=>$data[$i]['lasttime']);
 		echo json_encode($ans);		

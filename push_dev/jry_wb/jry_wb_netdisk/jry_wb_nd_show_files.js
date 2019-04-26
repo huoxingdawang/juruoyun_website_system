@@ -62,7 +62,7 @@ function jry_wb_nd_show_files(checker)
 				let share=document.createElement('span');one.appendChild(share);
 				share.classList.add('share','jry_wb_icon','jry_wb_icon_fenxiang','jry_wb_color_ok_font');
 				share.name='jry_nd_file_memeber';			
-			}			
+			}
 			let name=document.createElement("div");one.appendChild(name);
 			name.name='jry_nd_file_memeber';
 			name.innerHTML=(jry_nd_file_list[i].name+(jry_nd_file_list[i].isdir?'':('.'+jry_nd_file_list[i].type)));
@@ -291,13 +291,13 @@ function jry_wb_nd_show_files(checker)
 				{
 					var share=document.createElement("div");jry_wb_right_meau.appendChild(share);
 					share.classList.add('jry_wb_netdisk_right_menu_text');
-					if(!jry_nd_file_list[i].share)
-						share.innerHTML='分享';
-					else
+					if(jry_nd_file_list[i].self_share)
 						share.innerHTML='取消分享';
+					else
+						share.innerHTML='分享';
 					share.onclick=function()
 					{
-						jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action='+(jry_nd_file_list[i].share?'unshare':'share'),function(data)
+						jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action='+(jry_nd_file_list[i].self_share?'unshare':'share'),function(data)
 						{
 							jry_wb_loading_off();
 							data=JSON.parse(data);
@@ -309,6 +309,7 @@ function jry_wb_nd_show_files(checker)
 							}
 							jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 							jry_wb_nd_fresh_file_list();
+							jry_wb_nd_fresh_share_list();
 						},[{'name':'file_id','value':file_id}]);
 					};
 					if(jry_nd_file_list[i].share)

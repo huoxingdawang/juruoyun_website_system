@@ -63,6 +63,10 @@
 			$st->bindValue(3,json_encode(array((string)$one['share_id'])));
 			$st->execute();
 		}
+		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET self_share=0 WHERE `file_id`=? AND id=?');
+		$st->bindValue(1,$file['file_id']);
+		$st->bindValue(2,$user['id']);			
+		$st->execute();
 		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `share`=0 , self_share=0 ,sharelist=NULL WHERE JSON_LENGTH(sharelist)=0');
 		$st->execute();
 		$file['share']=0;
