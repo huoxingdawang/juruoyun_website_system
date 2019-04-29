@@ -1,6 +1,17 @@
 <?php
 	include_once('jry_nd_database_include.php');
-	function jry_nd_database_get_share($conn,$share_id,$key,$file_id)
+	function jry_nd_database_get_share($conn,$share_id,$user)
+	{
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'share WHERE share_id=? AND id=? LIMIT 1;');
+		$st->bindValue(1,$share_id);
+		$st->bindValue(2,$user['id']);
+		$st->execute();
+		$share=$st->fetchAll();
+		if(count($share)==0)
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));
+		return $share[0];
+	}
+	function jry_nd_database_get_share_strict($conn,$share_id,$key,$file_id)
 	{
 		if($share_id=='')
 			return null;

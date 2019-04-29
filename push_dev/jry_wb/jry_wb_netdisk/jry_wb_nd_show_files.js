@@ -23,7 +23,7 @@ function jry_wb_nd_show_files(checker)
 			let one=document.createElement('div');document_list.appendChild(one);
 			one.classList.add('jry_wb_netdisk_file');
 			one.name='jry_nd_file_memeber';
-			
+			jry_nd_file_list[i].body=one;
 			let button=document.createElement('div');one.appendChild(button);
 			button.classList.add('jry_wb_netdisk_file_type','jry_wb_icon',jry_wb_nd_get_class(jry_nd_file_list[i])[0],jry_wb_nd_get_class(jry_nd_file_list[i])[1]);
 			button.name='jry_nd_file_memeber';
@@ -317,20 +317,42 @@ function jry_wb_nd_show_files(checker)
 						var share_attribute=document.createElement("div");jry_wb_right_meau.appendChild(share_attribute);
 						share_attribute.classList.add('jry_wb_netdisk_right_menu_text');
 						share_attribute.innerHTML='分享属性';
-						share_attribute.onclick=function()
+						jry_nd_file_list[i].share_attribute=share_attribute;
+						share_attribute.onclick=function(open_share,file_id)
 						{
 							var data=[];
 							for(var j=0;j<jry_nd_file_list[i].share_list.length;j++)
 								data[data.length]=jry_nd_share_list.find(function(a){return a.share_id==jry_nd_file_list[i].share_list[j]});
+							if(typeof open_share=='number')
+								if(data.find(function(a){return a.share_id==open_share&&a.file_id==jry_nd_file_list[i].file_id})!=undefined)
+									open_share=open_share;
+								else
+									open_share=0;
+							else
+								open_share=0;
+							if(file_id==undefined)
+								file_id=0;
 							var attribute_alert=new jry_wb_beautiful_alert_function;
 							var title=attribute_alert.frame("分享属性",document.body.clientWidth*0.50,document.body.clientHeight*0.75,document.body.clientWidth*1/4,document.body.clientHeight*3/32);
 							var Confirm = document.createElement("button"); title.appendChild(Confirm);
 							Confirm.type="button"; 
-							Confirm.innerHTML="关闭"; 
+							if(file_id!=0)
+								Confirm.innerHTML="返回"; 
+							else
+								Confirm.innerHTML="关闭"; 
 							Confirm.style='float:right;margin-right:20px;';
 							Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");
 							Confirm.onclick=function()
 							{
+								if(file_id!=0)
+								{
+									var child=jry_nd_file_list.find(function(a){return a.file_id==file_id});
+									jry_wb_nd_show_files_by_dir(child.dir);
+									child.body.oncontextmenu();
+									child.share_attribute.onclick();
+									document.body.removeChild(jry_wb_right_meau);
+									jry_wb_right_meau=null;
+								}
 								attribute_alert.close();
 							};
 							jry_wb_beautiful_scroll(attribute_alert.msgObj);
@@ -344,10 +366,10 @@ function jry_wb_nd_show_files(checker)
 								let span=document.createElement("span"); td.appendChild(span);
 								span.classList.add('jry_wb_icon_xiajiantou','jry_wb_icon');								
 								let table = document.createElement("table"); td.appendChild(table);
-								if(j!=0)
-									table.style.display='none';
-								else
+								if((open_share==0&&j==0)||(open_share==data[j].share_id))
 									span.classList.add('jry_wb_icon_shangjiantou'),span.classList.remove('jry_wb_icon_xiajiantou');									
+								else
+									table.style.display='none';
 								table.border=1;
 								table.cellspacing=0;
 								var tr=document.createElement("tr"); table.appendChild(tr);
@@ -365,7 +387,53 @@ function jry_wb_nd_show_files(checker)
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=data[j].requesturl;
 								var tr=document.createElement("tr"); table.appendChild(tr);
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='高速下载';
-								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=data[j].fastdownload;									
+								var td=document.createElement("td"); tr.appendChild(td);
+								var spann=document.createElement("span"); td.appendChild(spann);spann.innerHTML=(data[j].fastdownload==1)?'允许':'不允许';
+								spann.classList.add((data[j].fastdownload==1)?'jry_wb_color_ok_font':'jry_wb_color_warn_font');
+								if(data[j].file_id!=jry_nd_file_list[i].file_id)
+								{
+									var father=jry_nd_file_list.find(function(a){return a.file_id==data[j].file_id});
+									var spann=document.createElement("span"); td.appendChild(spann);spann.innerHTML='请返回主目录"'+father.dir+father.name+'"以修改';
+									spann.classList.add('jry_wb_color_error_font');
+									spann.onclick=function()
+									{
+										jry_wb_nd_show_files_by_dir('/');
+										father.body.oncontextmenu();
+										father.share_attribute.onclick(data[j].share_id,jry_nd_file_list[i].file_id);
+										attribute_alert.close();
+										document.body.removeChild(jry_wb_right_meau);
+										jry_wb_right_meau=null;
+									}
+								}
+								else
+								{
+									var button=document.createElement("button"); td.appendChild(button);button.innerHTML=(data[j].fastdownload==1)?'禁用高速下载':'启用高速下载';
+									button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_warn');
+									button.onclick=function()
+									{
+										jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action='+(data[j].fastdownload?'disallow_share_fast':'allow_share_fast'),function(dataa)
+										{
+											jry_wb_loading_off();
+											dataa=JSON.parse(dataa);
+											if(!dataa.code)
+											{
+												if(dataa.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+												else if(dataa.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+dataa.extern,"window.location.href=''");
+												else if(dataa.reason==230000)	jry_wb_beautiful_alert.alert("操作失败","不存在的分享");
+												return;
+											}
+											jry_wb_login_user.nd_ei.lasttime=dataa.lasttime;
+											jry_wb_nd_fresh_share_list(undefined,function()
+											{
+												attribute_alert.close();
+												jry_nd_file_list[i].body.oncontextmenu();
+												jry_nd_file_list[i].share_attribute.onclick(data[j].share_id);
+												document.body.removeChild(jry_wb_right_meau);
+												jry_wb_right_meau=null;					
+											});
+										},[{'name':'share_id','value':data[j].share_id}]);
+									}
+								}
 								var tr=document.createElement("tr"); table.appendChild(tr);
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后修改时间';
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=data[j].lasttime;
@@ -430,6 +498,10 @@ function jry_wb_nd_show_files(checker)
 				return false;		
 			};
 			jry_wb_add_oncontextmenu(one);
+		}
+		else
+		{
+			jry_nd_file_list[i].body=null;
 		}
 	}
 	if(!flag)

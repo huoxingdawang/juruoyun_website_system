@@ -1,5 +1,6 @@
 <?php
 	include_once("jry_nd_includes.php");
+	include_once("jry_nd_database_allow_share_fast.php");
 	include_once("jry_nd_database_operate_area.php");
 	include_once("jry_nd_database_operate_fast_save.php");
 	include_once("jry_nd_database_get_father.php");

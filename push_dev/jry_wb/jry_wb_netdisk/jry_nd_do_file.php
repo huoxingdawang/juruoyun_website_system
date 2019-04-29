@@ -12,7 +12,7 @@
 		try
 		{
 			$share_mode=false;
-			if(($share=jry_nd_database_get_share($conn,$_GET['share_id'],$_GET['key']==''?'':$_GET['key'],$_GET['file_id']))!=false)
+			if(($share=jry_nd_database_get_share_strict($conn,$_GET['share_id'],$_GET['key']==''?'':$_GET['key'],$_GET['file_id']))!=false)
 			{
 				$share_mode=true;
 				$file=$share['file'];
@@ -408,8 +408,18 @@
 			jry_nd_database_operate_user_fast($conn,$jry_wb_login_user,$size);
 		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'fast_size'=>$jry_wb_login_user['nd_ei']['fast_size'],'green_money'=>$jry_wb_login_user['green_money']));		
 	}	
+	else if($action=='allow_share_fast')
+	{
+		jry_nd_database_allow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+	}
+	else if($action=='disallow_share_fast')
+	{
+		jry_nd_database_disallow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+	}	
 	else
 	{
-		echo json_encode(array('login'=>true,'code'=>false,'reason'=>000000));
+		echo json_encode(array('code'=>false,'reason'=>000000));
 	}
 ?>

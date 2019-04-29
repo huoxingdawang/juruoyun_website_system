@@ -1,4 +1,4 @@
-function jry_wb_nd_fresh_share_list(qiangzhi)
+function jry_wb_nd_fresh_share_list(qiangzhi,callback)
 {
 	if(jry_nd_share_mode_flag)
 		return;
@@ -33,10 +33,16 @@ function jry_wb_nd_fresh_share_list(qiangzhi)
 					jry_wb_nd_show_files_by_dir(decodeURI(document.location.hash)!=''?decodeURI(document.location.hash).split('#')[1]:'/');
 			}
 			jry_wb_beautiful_right_alert.alert('文件数据已同步',2000,'auto','ok');
+			if(typeof callback=='function')
+				callback();			
 		});
 	else
+	{
 		jry_nd_load_count--,share_list=jry_wb_cache.get('nd_share_list');
-	if(!jry_nd_share_mode_flag)
-		jry_nd_share_list=share_list;
+		if(!jry_nd_share_mode_flag)
+			jry_nd_share_list=share_list;
+		if(typeof callback=='function')
+			callback();			
+	}
 	return share_list;
 }
