@@ -422,7 +422,7 @@ function jry_wb_nd_show_files(checker)
 												{
 													attribute_alert.close();
 													jry_nd_file_list[i].body.oncontextmenu();
-													jry_nd_file_list[i].share_attribute.onclick(data[j].share_id);
+													jry_nd_file_list[i].share_attribute.onclick(data[j].share_id,file_id);
 													document.body.removeChild(jry_wb_right_meau);
 													jry_wb_right_meau=null;					
 												});
@@ -449,7 +449,7 @@ function jry_wb_nd_show_files(checker)
 											{
 												attribute_alert.close();
 												jry_nd_file_list[i].body.oncontextmenu();
-												jry_nd_file_list[i].share_attribute.onclick(data[j].share_id);
+												jry_nd_file_list[i].share_attribute.onclick(data[j].share_id,file_id);
 												document.body.removeChild(jry_wb_right_meau);
 												jry_wb_right_meau=null;					
 											});
@@ -501,7 +501,7 @@ function jry_wb_nd_show_files(checker)
 											{
 												attribute_alert.close();
 												jry_nd_file_list[i].body.oncontextmenu();
-												jry_nd_file_list[i].share_attribute.onclick(data[j].share_id);
+												jry_nd_file_list[i].share_attribute.onclick(data[j].share_id,file_id);
 												document.body.removeChild(jry_wb_right_meau);
 												jry_wb_right_meau=null;					
 											});
@@ -511,10 +511,14 @@ function jry_wb_nd_show_files(checker)
 								var tr=document.createElement("tr"); table.appendChild(tr);
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后修改时间';
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=data[j].lasttime;
-								let down=data[j].shareurl=jry_wb_message.jry_wb_host+'jry_wb_netdisk/index_share.php?action=download&share_id='+data[j].share_id+(data[j].key!=''?'&key='+data[j].key:'');
-								let open=data[j].shareurl=jry_wb_message.jry_wb_host+'jry_wb_netdisk/index_share.php?action=open&share_id='+data[j].share_id+(data[j].key!=''?'&key='+data[j].key:'');
+								let down=data[j].shareurl=jry_wb_message.jry_wb_host+'jry_wb_netdisk/'+((jry_nd_file_list[i].isdir)?'index_share':'jry_nd_do_file')+'.php?action=download&share_id='+data[j].share_id+(data[j].key!=''?'&key='+data[j].key:'')+'&file_id='+jry_nd_file_list[i].file_id;
+								let open=data[j].shareurl=jry_wb_message.jry_wb_host+'jry_wb_netdisk/'+((jry_nd_file_list[i].isdir)?'index_share':'jry_nd_do_file')+'.php?action=open&share_id='+data[j].share_id+(data[j].key!=''?'&key='+data[j].key:'')+'&file_id='+jry_nd_file_list[i].file_id;
 								var tr=document.createElement("tr"); table.appendChild(tr);
-								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='分享链接(蒟蒻云打开)(点击复制)';
+								var td=document.createElement("td"); tr.appendChild(td);
+								if(jry_nd_file_list[i].isdir)
+									td.innerHTML='分享链接(蒟蒻云打开)(点击复制)';
+								else
+									td.innerHTML='分享链接(下载)(点击复制)';
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=down;				td.style="word-break:break-all;";
 								tr.onclick=function()
 								{
@@ -531,6 +535,25 @@ function jry_wb_nd_show_files(checker)
 										jry_wb_copy_to_clipboard(open);
 										jry_wb_beautiful_right_alert.alert('已复制');
 									};
+									if(data[j].fastdownload==1)
+									{
+										var tr=document.createElement("tr"); table.appendChild(tr);
+										var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='分享链接(高速下载)(点击复制)';
+										var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=open+'&fast=1';			td.style="word-break:break-all;";
+										tr.onclick=function()
+										{
+											jry_wb_copy_to_clipboard(open+'&fast=1');
+											jry_wb_beautiful_right_alert.alert('已复制');
+										};	
+										var tr=document.createElement("tr"); table.appendChild(tr);
+										var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='分享链接(高速输出)(点击复制)';
+										var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=open+'&fast=1';			td.style="word-break:break-all;";
+										tr.onclick=function()
+										{
+											jry_wb_copy_to_clipboard(open+'&fast=1');
+											jry_wb_beautiful_right_alert.alert('已复制');
+										};
+									}									
 								}
 								span.onclick=function()
 								{
