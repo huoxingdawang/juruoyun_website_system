@@ -417,6 +417,16 @@
 	{
 		jry_nd_database_disallow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
 		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+	}
+	else if($action=='delete_share_key')
+	{
+		jry_nd_database_delete_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+	}
+	else if($action=='chenge_share_key')
+	{
+		jry_nd_database_chenge_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 	}	
 	else
 	{

@@ -382,6 +382,80 @@ function jry_wb_nd_show_files(checker)
 								var tr=document.createElement("tr"); table.appendChild(tr);
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='分享秘钥';
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=data[j].key;
+								if(data[j].file_id!=jry_nd_file_list[i].file_id)
+								{
+									var father=jry_nd_file_list.find(function(a){return a.file_id==data[j].file_id});
+									var spann=document.createElement("span"); td.appendChild(spann);spann.innerHTML='请返回主目录"'+father.dir+father.name+'"以修改';
+									spann.classList.add('jry_wb_color_error_font');
+									spann.onclick=function()
+									{
+										jry_wb_nd_show_files_by_dir('/');
+										father.body.oncontextmenu();
+										father.share_attribute.onclick(data[j].share_id,jry_nd_file_list[i].file_id);
+										attribute_alert.close();
+										document.body.removeChild(jry_wb_right_meau);
+										jry_wb_right_meau=null;
+									}
+								}
+								else
+								{								
+									if(data[j].key!='')
+									{
+										var button=document.createElement("button"); td.appendChild(button);button.innerHTML='删除密钥(启动图床模式)';
+										button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_warn');
+										button.style.marginRight='50px';
+										button.onclick=function()
+										{
+											jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action=delete_share_key',function(dataa)
+											{
+												jry_wb_loading_off();
+												dataa=JSON.parse(dataa);
+												if(!dataa.code)
+												{
+													if(dataa.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+													else if(dataa.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+dataa.extern,"window.location.href=''");
+													else if(dataa.reason==230000)	jry_wb_beautiful_alert.alert("操作失败","不存在的分享");
+													return;
+												}
+												jry_wb_login_user.nd_ei.lasttime=dataa.lasttime;
+												jry_wb_nd_fresh_share_list(undefined,function()
+												{
+													attribute_alert.close();
+													jry_nd_file_list[i].body.oncontextmenu();
+													jry_nd_file_list[i].share_attribute.onclick(data[j].share_id);
+													document.body.removeChild(jry_wb_right_meau);
+													jry_wb_right_meau=null;					
+												});
+											},[{'name':'share_id','value':data[j].share_id}]);
+										};
+									}
+									var button=document.createElement("button"); td.appendChild(button);button.innerHTML='更改/添加密钥';
+									button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
+									button.onclick=function()
+									{
+										jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action=chenge_share_key',function(dataa)
+										{
+											jry_wb_loading_off();
+											dataa=JSON.parse(dataa);
+											if(!dataa.code)
+											{
+												if(dataa.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+												else if(dataa.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+dataa.extern,"window.location.href=''");
+												else if(dataa.reason==230000)	jry_wb_beautiful_alert.alert("操作失败","不存在的分享");
+												return;
+											}
+											jry_wb_login_user.nd_ei.lasttime=dataa.lasttime;
+											jry_wb_nd_fresh_share_list(undefined,function()
+											{
+												attribute_alert.close();
+												jry_nd_file_list[i].body.oncontextmenu();
+												jry_nd_file_list[i].share_attribute.onclick(data[j].share_id);
+												document.body.removeChild(jry_wb_right_meau);
+												jry_wb_right_meau=null;					
+											});
+										},[{'name':'share_id','value':data[j].share_id}]);
+									};
+								}
 								var tr=document.createElement("tr"); table.appendChild(tr);
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='防盗链请求URL';
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=data[j].requesturl;
@@ -432,7 +506,7 @@ function jry_wb_nd_show_files(checker)
 												jry_wb_right_meau=null;					
 											});
 										},[{'name':'share_id','value':data[j].share_id}]);
-									}
+									};
 								}
 								var tr=document.createElement("tr"); table.appendChild(tr);
 								var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后修改时间';
@@ -458,7 +532,6 @@ function jry_wb_nd_show_files(checker)
 										jry_wb_beautiful_right_alert.alert('已复制');
 									};
 								}
-								
 								span.onclick=function()
 								{
 									if(table.style.display=='')

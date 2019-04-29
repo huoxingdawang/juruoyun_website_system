@@ -15,5 +15,6 @@
 	include_once("jry_nd_database_get_share.php");
 	include_once("jry_nd_database_check_fast.php");
 	include_once("jry_nd_database_set_file_extern.php");
+	include_once("jry_nd_database_operate_share_key.php");
 
 ?>
