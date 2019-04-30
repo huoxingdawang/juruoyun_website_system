@@ -47,7 +47,13 @@ jry_wb_manage_user.showall=function()
 		for(var i=0,n=jry_wb_manage_user.reload.length;i<n;i++)
 			jry_wb_manage_user.reload[i]=true;
 	};
-	one=null;
+	var one=document.createElement('div');list.appendChild(one);
+	one.classList.add('jry_wb_left_toolbar_left_list_default');
+	one.innerHTML='下载信息';
+	one.onclick=function(event)
+	{
+		window.open(jry_wb_message.jry_wb_host+'jry_wb_manage_system/jry_wb_manage_user_do.php?action=print')
+	};
 	for(var i=0,n=this.all.length;i<n;i++)
 	{
 		var one=document.createElement('div');list.appendChild(one);

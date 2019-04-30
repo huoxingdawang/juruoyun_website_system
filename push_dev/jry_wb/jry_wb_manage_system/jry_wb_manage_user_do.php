@@ -1,5 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 	try
 	{
 		jry_wb_print_head("控制系统",true,false,false,array('use','manage','manageusers'),false);
@@ -89,5 +90,90 @@
 			echo json_encode(array('code'=>true));
 		else
 			echo json_encode(array('code'=>false,'reason'=>300001));
-	}	
+	}
+	else if($_GET['action']=='print')
+	{
+		header("Content-Type: application/vnd.ms-excel");
+		Header("Accept-Ranges:bytes");
+		Header("Content-Disposition:attachment;filename=".constant('jry_wb_name')."用户列表".jry_wb_get_time().".xls");
+		header("Pragma: no-cache");
+		header("Expires: 0");		
+		echo '
+			<html xmlns:o="urn:schemas-microsoft-com:office:office"
+			xmlns:x="urn:schemas-microsoft-com:office:excel"
+			xmlns="http://www.w3.org/TR/REC-html40">
+			<head>
+			<meta http-equiv="expires" content="Mon, 06 Jan 1999 00:00:01 GMT">
+			<meta http-equiv=Content-Type content="text/html; charset=gb2312">
+			<!--[if gte mso 9]><xml>
+			<x:ExcelWorkbook>
+			<x:ExcelWorksheets>
+			<x:ExcelWorksheet>
+			<x:Name></x:Name>
+			<x:WorksheetOptions>
+			<x:DisplayGridlines/>
+			</x:WorksheetOptions>
+			</x:ExcelWorksheet>
+			</x:ExcelWorksheets>
+			</x:ExcelWorkbook>
+			</xml><![endif]-->
+			</head>';
+
+		echo "<table>";
+		$keys=['id','tel','mail','name','sex','enroldate'];
+		$extern_keys=['school','qq','china_id','parent_china_id','parent_tel','parent_name','guanxi','zhiyuan1','zhiyuan2','zhiyuan3','chifan','zhusu'];
+		echo '<tr>';
+		foreach($keys as $key)
+			echo '<td>'.iconv('utf-8','gbk',$jry_wb_config_user_name[$key]).'</td>';
+		foreach($jry_wb_config_user_extern_message as $one)
+			foreach($extern_keys as $key)
+				if($key==$one['key'])
+					echo '<td>'.iconv('utf-8','gbk',$one['name']).'</td>';
+		echo '</tr>';
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE `type`=?');
+		$st->bindValue(1,4);
+		$st->execute();			
+		foreach($st->fetchAll() as $user)
+		{
+			$user['extern']=json_decode($user['extern'],true);
+			echo '<tr>';
+			foreach($keys as $key)
+				if($key=='sex')
+					echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',($user['sex']==0)?'女':($user['sex']==1?'男':'女装大佬')).'</td>';
+				else if($key=='lasttime'||$key=='enroldate'||$key=='logdate'||$key=='greendate')
+					echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',$user[$key]).'</td>';
+				else if($key=='use')
+					echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',($user['use']==0)?'禁止':'允许').'</td>';
+				else if(is_string($user[$key]))
+					echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',$user[$key]).'</td>';
+				else
+					echo '<td style="vnd.ms-excel.numberformat:@">'.$user[$key].'</td>';
+			foreach($jry_wb_config_user_extern_message as $one)
+				foreach($extern_keys as $key)
+					if($key==$one['key'])
+					{
+						if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id')
+							echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',$user['extern'][$key]).'</td>';
+						else if($one['type']=='check')
+							echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',($user['extern'][$key]==1?'是':'否')).'</td>';
+						else if($one['type']=='select')
+							foreach($one['select'] as $select)
+								if(is_array($select))
+								{
+									if($user['extern'][$key]==$select['value'])
+										echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',$select['name']).'</td>';
+								}
+								else
+								{
+									if($user['extern'][$key]==$select)
+										echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',$select).'</td>';
+								}
+						else
+							echo '<td>undefined</td>';
+					}						
+			echo '</tr>';			
+		}
+		echo "</table>";
+		exit ();		
+	}
 ?>

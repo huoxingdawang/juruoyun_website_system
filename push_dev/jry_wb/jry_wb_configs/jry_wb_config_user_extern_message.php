@@ -2,5 +2,33 @@
 	$jry_wb_config_user_extern_message=array(
 	
 	);
-	
+	$jry_wb_config_user_name=array(	'id'=>'ID',
+									'type'=>'类型',
+									'tel'=>'电话',
+									'mail'=>'邮箱',
+									'lasttime'=>'最后修改时间',
+									'name'=>'昵称',
+									'password'=>'密码',
+									'enroldate'=>'注册时间',
+									'logdate'=>'最后登录时间',
+									'greendate'=>'最后绿币发放时间',
+									'language'=>'惯用语',
+									'use'=>'使用权',
+									'sex'=>'性别',
+									'zhushi'=>'签名',
+									'green_money'=>'绿币',
+									'head'=>'头',
+									'style_id'=>'主题ID',
+									'tel_show'=>'电话展示情况',
+									'ip_show'=>'登陆地址展示情况',
+									'mail_show'=>'邮箱展示情况',
+									'oauth_show'=>'第三方绑定展示情况',
+									'head_special'=>'头的特效',
+									'word_special_fact'=>'弹幕特效',
+									'follow_mouth'=>'鼠标跟踪特效',
+									'background_music_list'=>'背景音乐',
+									'oauth_qq'=>'QQ绑定',
+									'oauth_github'=>'github绑定',
+									'oauth_gitee'=>'gitee绑定',
+									'oauth_mi'=>'小米绑定');		
 ?>

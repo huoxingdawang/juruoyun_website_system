@@ -182,6 +182,7 @@
 			}
 		}			
 		jry_wb_echo_log(constant('jry_wb_log_type_add'),'');
+		$_SESSION['vcode']='';
 		echo json_encode(array('code'=>true,'id'=>$jry_wb_login_user['id'],'send'=>$send));
 	}
 	catch(jry_wb_exception $e)
