@@ -348,6 +348,7 @@ function jry_wb_nd_show_files(checker)
 								{
 									var child=jry_nd_file_list.find(function(a){return a.file_id==file_id});
 									jry_wb_nd_show_files_by_dir(child.dir);
+									dir_stack.pop();
 									child.body.oncontextmenu();
 									child.share_attribute.onclick();
 									document.body.removeChild(jry_wb_right_meau);
@@ -389,7 +390,8 @@ function jry_wb_nd_show_files(checker)
 									spann.classList.add('jry_wb_color_error_font');
 									spann.onclick=function()
 									{
-										jry_wb_nd_show_files_by_dir('/');
+										jry_wb_nd_show_files_by_dir(father.dir);
+										dir_stack.pop();
 										father.body.oncontextmenu();
 										father.share_attribute.onclick(data[j].share_id,jry_nd_file_list[i].file_id);
 										attribute_alert.close();
@@ -471,7 +473,8 @@ function jry_wb_nd_show_files(checker)
 									spann.classList.add('jry_wb_color_error_font');
 									spann.onclick=function()
 									{
-										jry_wb_nd_show_files_by_dir('/');
+										jry_wb_nd_show_files_by_dir(father.dir);
+										dir_stack.pop();
 										father.body.oncontextmenu();
 										father.share_attribute.onclick(data[j].share_id,jry_nd_file_list[i].file_id);
 										attribute_alert.close();
@@ -602,7 +605,7 @@ function jry_wb_nd_show_files(checker)
 	}
 	if(!flag)
 	{
-		jry_wb_beautiful_alert.alert("没有文件或不存在的目录","");
+		jry_wb_beautiful_alert.alert("不存在的目录","");
 	}
 	delete right_body_scroll;
 	right_body_scroll=new jry_wb_beautiful_scroll(document_list,true);
