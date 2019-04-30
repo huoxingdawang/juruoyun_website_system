@@ -8,7 +8,7 @@
 		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`,`isdir`) VALUES (?,?,?,?,?,?,?,?,?)');
 		$st->bindValue(1,$user['id']);
 		$st->bindValue(2,$father);
-		$st->bindValue(3,'新建文件夹'.jry_wb_get_time());
+		$st->bindValue(3,'新建文件夹'.jry_wb_get_time().jry_wb_get_random_string(10));
 		$st->bindValue(4,'');
 		$st->bindValue(5,1);
 		$st->bindValue(6,0);
