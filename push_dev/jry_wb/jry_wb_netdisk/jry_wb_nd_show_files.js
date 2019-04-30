@@ -603,10 +603,6 @@ function jry_wb_nd_show_files(checker)
 			jry_nd_file_list[i].body=null;
 		}
 	}
-	if(!flag)
-	{
-		jry_wb_beautiful_alert.alert("不存在的目录","");
-	}
 	delete right_body_scroll;
 	right_body_scroll=new jry_wb_beautiful_scroll(document_list,true);
 	return flag;
