@@ -98,6 +98,7 @@ function jry_wb_nd_show_files(checker)
 								if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
 								else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
 								else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert("文件不存在或已删除",3000,"auto","error");
+								else if(data.reason==200005)	jry_wb_beautiful_right_alert.alert("文件名重复",3000,"auto","error");
 								return;
 							}
 							jry_wb_login_user.nd_ei.lasttime=data.lasttime;

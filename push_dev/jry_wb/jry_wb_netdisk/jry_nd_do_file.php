@@ -320,20 +320,20 @@
 	{
 		try
 		{
-			jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father']);
+			$file_id=jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father']);
 		}
 		catch (jry_wb_exception $e)
 		{
 			echo $e->getMessage();
 			exit();
 		}			
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time(),'file_id'=>$file_id));
 	}
 	else if($action=='rename')
 	{
 		try
 		{
-			jry_nd_direct_rename_file_id($conn,$jry_wb_login_user,$_POST['file_id'],$_POST['name'],$_POST['type']);
+			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],$_POST['name'],$_POST['type']);
 		}
 		catch (jry_wb_exception $e)
 		{
