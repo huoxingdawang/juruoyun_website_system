@@ -320,7 +320,7 @@
 	{
 		try
 		{
-			$file_id=jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father']);
+			$file_id=jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father'],$_POST['name']);
 		}
 		catch (jry_wb_exception $e)
 		{
