@@ -1,9 +1,7 @@
 <?php
-	function jry_wb_get_browser($db=false)
+	function jry_wb_get_browser($db=false,$user_agent=NULL)
 	{
-		global $jry_wb_socket_mode;
-		global $user_agent;
-		if($jry_wb_socket_mode===false)
+		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];
 		if(strpos($user_agent,"MSIE 6.0")!==false)
 			$type=3;
@@ -90,11 +88,9 @@
 			return 'unknow';		
 	}
 	
-	function jry_wb_get_device($db=false)
+	function jry_wb_get_device($db=false,$user_agent=NULL)
 	{
-		global $jry_wb_socket_mode;
-		global $user_agent;
-		if($jry_wb_socket_mode===false)
+		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];		
 		if($db)
 		{

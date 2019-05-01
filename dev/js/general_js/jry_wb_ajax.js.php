@@ -3,7 +3,10 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 {
 	jry_wb_loading_on();
 <?php if(constant('jry_wb_debug_mode')){ ?>
-	console.time('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
+	if(url.includes(jry_wb_message.jry_wb_host))
+		console.time('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
+	else
+		console.time('ajax:'+url);
 <?php } ?>
 	if(tong==null)
 		tong = true;
@@ -37,7 +40,10 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 				jry_wb_loading_off();		
 			}
 <?php if(constant('jry_wb_debug_mode')){ ?>
-			console.timeEnd('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
+			if(url.includes(jry_wb_message.jry_wb_host))
+				console.timeEnd('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
+			else
+				console.timeEnd('ajax:'+url);
 <?php } ?>
 		}
 	};

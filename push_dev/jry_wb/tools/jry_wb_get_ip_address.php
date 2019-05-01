@@ -45,6 +45,11 @@
 		$st->execute();		
 		return json_decode($json);*/
 	}
+	function jry_wb_get_ip_address_string($ip)
+	{
+		$json=jry_wb_get_ip_address($ip);
+		return $json->data->country.$json->data->region.$json->data->city.$json->data->isp;
+	}
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 		echo json_encode(jry_wb_get_ip_address($_GET['ip']));
 ?>

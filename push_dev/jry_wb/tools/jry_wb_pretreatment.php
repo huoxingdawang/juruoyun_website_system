@@ -12,62 +12,81 @@
 	$jry_wb_keywords='';
 	$jry_wb_description='';
 	$conn=jry_wb_connect_database();
-	function jry_wb_pretreatment(&$user,$cookie,$ip)
+	function jry_wb_pretreatment(&$user,$cookie,$ip,$user_agent=NULL)
 	{
 		global $jry_wb_socket_mode;
 		global $conn;
+		if($user_agent===NULL)
+			$user_agent=$_SERVER["HTTP_USER_AGENT"];		
 		$q ="DELETE FROM ".constant('jry_wb_database_general')."login where time<? AND trust=0";
 		$st = $conn->prepare($q);
-		$st->bindParam(1,date("Y-m-d H;i:s",time()-constant('logintime')));
+		$st->bindValue(1,date("Y-m-d H;i:s",time()-constant('logintime')));
 		$st->execute();
+		$user=NULL;
 		if($cookie['code']!=NULL&&$cookie['id']!=NULL)
 		{
-			$q='SELECT * FROM '.constant('jry_wb_database_manage_system').'competence 
-				INNER JOIN '.constant('jry_wb_database_general').'users  ON ('.constant('jry_wb_database_general_prefix').'users.type = '.constant('jry_wb_database_manage_system_prefix').'competence.type) 
-				LEFT JOIN '.constant('jry_wb_database_general').'login  ON ('.constant('jry_wb_database_general_prefix').'users.id = '.constant('jry_wb_database_general_prefix')."login.id)
-				where ".constant('jry_wb_database_general_prefix')."users.id =? AND device=? AND code=? AND browser=? LIMIT 1";
-			$st = $conn->prepare($q);
-			$st->bindParam(1,intval((($cookie['id']!='') ? $cookie['id'] : -1)));
-			$st->bindParam(2,jry_wb_get_device(true));
-			$st->bindParam(3,$cookie['code']);
-			$st->bindParam(4,jry_wb_get_browser(true));
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login WHERE id=? AND code=? AND device=? AND browser=? LIMIT 1');
+			$st->bindValue(1,intval((($cookie['id']!='') ? $cookie['id'] : -1)));
+			$st->bindValue(2,$cookie['code']);
+			$st->bindValue(3,jry_wb_get_device(true,$user_agent));
+			$st->bindValue(4,jry_wb_get_browser(true,$user_agent));
 			$st->execute();
 			foreach($st->fetchAll()as $one)
 			{
-				if($one['trust']||$ip==$one['ip'])
-					$user=$one;
 				if($one['trust']&&$ip!=$one['ip'])
 				{
 					$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'login SET ip=? WHERE id=? AND device=? AND browser=? AND code=?');
-					$st->bindParam(1,$ip);
-					$st->bindParam(2,intval((($cookie['id']!='') ? $cookie['id'] : -1)));
-					$st->bindParam(3,jry_wb_get_device(true));
-					$st->bindParam(4,jry_wb_get_browser(true));
-					$st->bindParam(5,$cookie['code']);				
+					$st->bindValue(1,$ip);
+					$st->bindValue(2,intval((($cookie['id']!='') ? $cookie['id'] : -1)));
+					$st->bindValue(3,jry_wb_get_device(true,$user_agent));
+					$st->bindValue(4,jry_wb_get_browser(true,$user_agent));
+					$st->bindValue(5,$cookie['code']);				
 					$st->execute();				
+				}		
+				if($one['trust']||$ip==$one['ip'])
+				{
+					$user=$one;
+					break;
 				}
 			}
 			if($user==NULL)
-			{
-				$user['id']=-1;
-				$_SESSION['language']=$user['language']=constant('jry_wb_default_language');
-				setcookie('id',-1,time()-1,'/',constant('jry_wb_domin'),NULL,false);
-				setcookie('code','',time()-1,'/',constant('jry_wb_domin'),NULL,true);
-			}
+				$user=NULL;
 			else
 			{
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
-				$st->bindParam(1,$user['id']);
-				$st->execute();
-				$user['ips']=$st->fetchAll();	
-				$_SESSION['language']=$user['language'];
+				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE id=? LIMIT 1');
+				$st->bindValue(1,$user['id']);
+				$st->execute();				
+				$datas=$st->fetchAll();
+				if(count($datas)==0)
+					$user=NULL;				
+				else
+				{
+					$user=array_merge($user,$datas[0]);
+					$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_manage_system').'competence WHERE type=? LIMIT 1');
+					$st->bindValue(1,$user['type']);
+					$st->execute();
+					$datas=$st->fetchAll();
+					if(count($datas)==0)
+						$user=NULL;				
+					else
+						$user=array_merge($user,$datas[0]);
+				}
 			}
+		}
+		if($user==NULL)
+		{
+			$user['id']=-1;
+			$_SESSION['language']=$user['language']=constant('jry_wb_default_language');
+			setcookie('id',-1,time()-1,'/',constant('jry_wb_domin'),NULL,false);
+			setcookie('code','',time()-1,'/',constant('jry_wb_domin'),NULL,true);
 		}
 		else
 		{
-			$user=NULL;
-			$user['id']=-1;
-			$_SESSION['language']=$user['language']=constant('jry_wb_default_language');	
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
+			$st->bindValue(1,$user['id']);
+			$st->execute();
+			$user['ips']=$st->fetchAll();	
+			$_SESSION['language']=$user['language'];
 		}
 		if(jry_wb_test_is_mobile())
 			$user['jry_wb_test_is_mobile']='mobile';
