@@ -27,8 +27,8 @@ using namespace std;
 void listfiles(const char * dir,void(*callback)(char*),const char * type);
 void parsecode(char *dir1);
 char s[1024*1024];
-char dir[200]={"H:\\mydocument\\science\\PHP\\jry_webserve_dev\\dev\\js\\general_js"};
-char out_dir[200]={"H:\\mydocument\\science\\PHP\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
+char dir[200]={"D:\\mydocument\\science\\PHP\\jry_webserve_dev\\dev\\js\\general_js"};
+char out_dir[200]={"D:\\mydocument\\science\\PHP\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
 char cmd[200];
 U LL yuan_total,xin_total;
 int main()
@@ -66,13 +66,21 @@ int main()
 			string line;
 			getline(f,line);
 			f.close();
-			cout<<'\t'<<"<?php if(false){ ?><script><?php } ?>"<<endl;
-			long long pos=0;
-			while ((pos=line.find("<?php if(false){ ?><script><?php } ?>"))!=-1)
-				line.erase(pos,37),xin_total-=37;
-			cout<<'\t'<<"<?php if(false){ ?></script><?php } ?>"<<endl;
-			while ((pos=line.find("<?php if(false){ ?></script><?php } ?>"))!=-1)
-				line.erase(pos,38),xin_total-=38;
+			int pos=0;
+			try
+			{
+				cout<<'\t'<<"<?php if(false){ ?><script><?php } ?>"<<endl;
+				while ((pos=line.find("<?php if(false){ ?><script><?php } ?>"))!=-1)
+					line.erase(pos,37),xin_total-=37;
+				cout<<'\t'<<"<?php if(false){ ?></script><?php } ?>"<<endl;
+				while ((pos=line.find("<?php if(false){ ?></script><?php } ?>"))!=-1)
+					line.erase(pos,38),xin_total-=38;
+			}
+			catch (std::out_of_range & exc)
+			{
+				std::cerr<<exc.what()<<endl<<pos<<'\t'<<line.length()<<endl;
+				return 0;
+			}
 			ofstream f2(out_dir);
 			f2<<line;
 			f2.close();			
