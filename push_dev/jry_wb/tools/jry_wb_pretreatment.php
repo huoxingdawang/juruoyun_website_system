@@ -1,6 +1,6 @@
 <?php
 	include_once("jry_wb_includes.php");
-	if($_SERVER['HTTP_HOST']!=constant('jry_wb_domin').(constant('jry_wb_port')==''?'':':').constant('jry_wb_port'))
+	if(($_SERVER['HTTP_HOST']!=constant('jry_wb_domin').(constant('jry_wb_port')==''?'':':').constant('jry_wb_port'))&&$jry_wb_socket_mode!==true)
 	{
 		header("Location:".constant('jry_wb_host'));
 		exit();

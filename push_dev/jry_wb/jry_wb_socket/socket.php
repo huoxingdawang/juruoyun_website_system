@@ -1,15 +1,5 @@
 <?php
 	include_once("jry_wb_cli_include.php");
-// 1 登录	
-$host = '127.0.0.1';
-$port = 2222;
-$maxClient = 1000;
-const MSG_TYPE_HANDSHAKE = 0;//握住信息
-const MSG_TYPE_MESSAGE = 1;//正常聊天信息
-const MSG_TYPE_DISCONNECT = -1;//退出信息
-const MSG_TYPE_JOIN = 2;//请求加入信息，给特定用户
-const MSG_TYPE_LOGIN = 3;//加入聊天信息，给全体发
- 
 	ob_implicit_flush();
 	$master=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
 	if($master===FALSE)
