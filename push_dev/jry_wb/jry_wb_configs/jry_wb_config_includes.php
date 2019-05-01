@@ -1,4 +1,5 @@
 <?php
+	error_reporting(E_ALL^E_NOTICE^E_WARNING);
 	include_once("jry_wb_config_database_user.php");
 	include_once("jry_wb_config_database_system.php");
 	include_once("jry_wb_config_default_user.php");

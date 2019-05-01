@@ -1,5 +1,10 @@
 <?php
 	include_once("jry_wb_cli_include.php");
+	if(constant('jry_wb_socket_switch')!==true)
+	{
+		echo jry_wb_php_cli_color('Failed!','light_red').' Please set '.jry_wb_php_cli_color('jry_wb_socket_switch','cyan').' to '.jry_wb_php_cli_color('true','green')."\n";
+		exit();
+	}
 	ob_implicit_flush();
 	$master=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
 	if($master===FALSE)

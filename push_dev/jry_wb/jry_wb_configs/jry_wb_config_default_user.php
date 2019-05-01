@@ -27,9 +27,9 @@
 	define('jry_wb_upload_file_address','/var/www/dev_html_upload_data/');
 
 	date_default_timezone_set('Asia/Shanghai');
-	error_reporting(E_ALL^E_NOTICE^E_WARNING^E_STRICT);
 	
 	define('jry_wb_debug_mode'			,true);
+	define('jry_wb_socket_switch'		,true);
 
 	if(constant('jry_wb_background_music_switch'))
 		define('jry_wb_background_music_default_list',
