@@ -1,6 +1,10 @@
+<?php if(false){ ?><script><?php } ?>
 function jry_wb_ajax_load_data(url,func,array,tong)
 {
 	jry_wb_loading_on();
+<?php if(constant('jry_wb_debug_mode')){ ?>
+	console.time('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
+<?php } ?>
 	if(tong==null)
 		tong = true;
 	var xmlhttp;
@@ -32,6 +36,9 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 				xmlhttp.abort();
 				jry_wb_loading_off();		
 			}
+<?php if(constant('jry_wb_debug_mode')){ ?>
+			console.timeEnd('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
+<?php } ?>
 		}
 	};
 	xmlhttp.open("POST",url,tong);
@@ -51,3 +58,4 @@ function jry_wb_ajax_get_text(data)
 {
 	return data.replace(/\/37/g,"&").replace(/\/43/g,"+")
 }
+<?php if(false){ ?></script><?php } ?>

@@ -28,6 +28,8 @@
 
 	date_default_timezone_set('Asia/Shanghai');
 	error_reporting(E_ALL^E_NOTICE^E_WARNING^E_STRICT);
+	
+	define('jry_wb_debug_mode'			,true);
 
 	if(constant('jry_wb_background_music_switch'))
 		define('jry_wb_background_music_default_list',
