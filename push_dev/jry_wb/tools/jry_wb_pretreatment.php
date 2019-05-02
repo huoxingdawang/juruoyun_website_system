@@ -116,9 +116,13 @@
 				if($isthis=($cookie['code']==$ips['code']))
 				{
 					$user['logdate']=$ips['time'];
-					setcookie('id',$user['id'],time()+constant('logintime'),'/',jry_wb_get_domain(),NULL,false);
-					setcookie('id',$user['id'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,false);			
-					setcookie('code',$ips['code'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,true);			
+					if($ips['trust'])
+						$time=time()+60*60*24*365*1000;
+					else
+						$time=time()+constant('logintime');
+					setcookie('id',$user['id'],$time,'/',jry_wb_get_domain(),NULL,false);
+					setcookie('id',$user['id'],$time,'/',constant('jry_wb_domin'),NULL,false);			
+					setcookie('code',$ips['code'],$time,'/',constant('jry_wb_domin'),NULL,true);			
 				}
 				$user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'code'=>$ips['code']);
 			}
