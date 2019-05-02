@@ -56,14 +56,15 @@ var jry_wb_midia_control_all  =  new function()
 					{
 						jry_wb_js_session.send(1,'get');
 						this.start();						
-					},(Math.random()*20)+20);
+					},(Math.random()*1000)+1000);
 				}
-			},Math.random()*20);
+			},Math.random()*1000);
 		}
 	});
 	jry_wb_add_onbeforeunload(()=>
 	{
-		jry_wb_js_session.send(1,'close');
+		if(document.visibilityState!='hidden') 
+			jry_wb_js_session.send(1,'close');
 	});	
 	document.addEventListener('visibilitychange',()=> 
 	{
