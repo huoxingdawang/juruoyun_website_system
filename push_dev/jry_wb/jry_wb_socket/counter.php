@@ -1,5 +1,5 @@
 <?php
-	include_once("jry_wb_cli_include.php");
+	include_once("jry_wb_cli_includes.php");
 	$timeer=0;
 	$sleep=$argv[1]==''?10*60:((int)$argv[1]);
 	$sleep=max(0,$sleep-3);

@@ -12,7 +12,9 @@
 	define('jry_wb_database_netdisk_prefix',constant('jry_wb_database_all_prefix').'netdisk_');
 	define('jry_wb_database_netdisk',constant('jry_wb_database_name').'.'.constant('jry_wb_database_netdisk_prefix'));	
 	define('jry_wb_database_log_prefix',constant('jry_wb_database_all_prefix').'log_');
-	define('jry_wb_database_log',constant('jry_wb_database_name').'.'.constant('jry_wb_database_log_prefix'));		
+	define('jry_wb_database_log',constant('jry_wb_database_name').'.'.constant('jry_wb_database_log_prefix'));
+	define('JRY_WB_DATABASE_CHEAT_PREFIX',constant('jry_wb_database_all_prefix').'cheat_');
+	define('JRY_WB_DATABASE_CHEAT',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_CHEAT_PREFIX);			
 	define('competitionpro',constant('jry_wb_database_all_prefix').'competition_');
 	define('competitiondb',constant('jry_wb_database_name').'.'.constant('competitionpro'));
 	define('ojpro',constant('jry_wb_database_all_prefix').'oj_');

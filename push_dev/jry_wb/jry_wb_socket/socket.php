@@ -1,5 +1,7 @@
 <?php
-	include_once("jry_wb_cli_include.php");
+	$jry_wb_socket_mode=true;	
+	include_once("jry_wb_cli_includes.php");
+	include_once("../jry_wb_cheat/jry_wb_cheat_includes.php");	
 	if(constant('jry_wb_socket_switch')!==true)
 	{
 		echo jry_wb_php_cli_color('Failed!','light_red').' Please set '.jry_wb_php_cli_color('jry_wb_socket_switch','cyan').' to '.jry_wb_php_cli_color('true','green')."\n";
@@ -140,7 +142,16 @@
 						}
 						else if($data->type==200000)
 						{
-							jry_wb_socket_send_to_user($user,$data->data->to,200000,$data->data->message);
+							try
+							{
+								jry_wb_cheat_send_call_back($conn,$user,$data->data->room,$data->data->message);
+							}
+							catch (jry_wb_exception $e)
+							{
+								$error=json_decode($e->getMessage());
+								jry_wb_socket_send($socket,$error);
+								echo jry_wb_php_cli_color('Failed!','light_red').' On '.jry_wb_php_cli_color('jry_wb_cheat_send_call_back()','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.jry_wb_php_cli_color($error->reason,'magenta')."\n";
+							}
 						}
 					}
 	 
@@ -148,66 +159,4 @@
 			}
 		}
 	 
-	}
-	function jry_wb_socket_send($client,$message)
-	{
-		$message=json_encode($message);
-		$b1=0x80|(0x1&0x0f);
-		$length=strlen($message);
-		if($length<=125)
-		{
-			$header=pack('CC',$b1,$length);
-		}
-		elseif($length>125&&$length<65536)
-		{
-			$header=pack('CCn',$b1,126,$length);
-		}
-		elseif($length>=65536)
-		{
-			$header=pack('CCNN',$b1,127,$length);
-		}
-		$message=$header.$message;
-		socket_write($client,$message,strlen($message));
-		return $length;
-	}
-	function jry_wb_socket_decode($text)
-	{
-		$length=ord($text[1])&127;
-		if($length==126) 
-		{
-			$masks=substr($text,4,4);
-			$data=substr($text,8);
-		}
-		else if($length==127) 
-		{
-			$masks=substr($text,10,4);
-			$data=substr($text,14);
-		}
-		else
-		{
-			$masks=substr($text,2,4);
-			$data=substr($text, 6);
-		}
-		$text = "";
-		for ($i=0;$i<strlen($data);$i++)
-			$text .= $data[$i]^$masks[$i%4];
-		return $text;
-	}
-	function jry_wb_socket_send_to_user($from,$to_id,$type,$data)
-	{
-		global $users_id;
-		global $users;
-		global $c_to_u;
-		global $clients;
-		$to_index=array_search($to_id,$users_id);		
-		$to=$users[$to_index];
-		$cnt=0;
-		$length=0;
-		foreach ($c_to_u as $i=>$id)
-			if($id==$to['id'])
-			{
-				$length+=jry_wb_socket_send($clients[$i],array('code'=>true,'type'=>$type,'from'=>$from['id'],'data'=>$data));
-				$cnt++;
-			}
-		echo jry_wb_php_cli_color($from['id'].'-'.$from['name'],'light_blue')."\t".jry_wb_php_cli_color('send ','green').' to '.jry_wb_php_cli_color($to['id'].'-'.$to['name'],'light_blue').' cnt:'.jry_wb_php_cli_color($cnt,'magenta').' total:'.jry_wb_php_cli_color($length,'magenta').'/B'."\n";
 	}

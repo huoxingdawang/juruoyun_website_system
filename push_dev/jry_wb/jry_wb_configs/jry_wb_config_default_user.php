@@ -29,7 +29,7 @@
 	date_default_timezone_set('Asia/Shanghai');
 	
 	define('jry_wb_debug_mode'			,true);
-	define('jry_wb_socket_switch'		,true);
+	define('jry_wb_socket_switch'		,false);
 
 	if(constant('jry_wb_background_music_switch'))
 		define('jry_wb_background_music_default_list',

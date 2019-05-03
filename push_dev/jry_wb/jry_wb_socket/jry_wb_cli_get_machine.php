@@ -1,5 +1,5 @@
 <?php
-	include_once("jry_wb_cli_include.php");
+	include_once("jry_wb_cli_includes.php");
 	function jry_wb_cli_get_machine()
 	{
 		$information=array();
