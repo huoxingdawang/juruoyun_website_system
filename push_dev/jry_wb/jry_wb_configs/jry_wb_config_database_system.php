@@ -9,6 +9,10 @@
 	define('jry_wb_database_small_app',constant('jry_wb_database_name').'.'.constant('jry_wb_database_small_app_prefix'));
 	define('jry_wb_database_game_prefix',constant('jry_wb_database_all_prefix').'game_');
 	define('jry_wb_database_game',constant('jry_wb_database_name').'.'.constant('jry_wb_database_game_prefix'));
+	define('jry_wb_database_netdisk_prefix',constant('jry_wb_database_all_prefix').'netdisk_');
+	define('jry_wb_database_netdisk',constant('jry_wb_database_name').'.'.constant('jry_wb_database_netdisk_prefix'));	
+	define('jry_wb_database_log_prefix',constant('jry_wb_database_all_prefix').'log_');
+	define('jry_wb_database_log',constant('jry_wb_database_name').'.'.constant('jry_wb_database_log_prefix'));		
 	define('competitionpro',constant('jry_wb_database_all_prefix').'competition_');
 	define('competitiondb',constant('jry_wb_database_name').'.'.constant('competitionpro'));
 	define('ojpro',constant('jry_wb_database_all_prefix').'oj_');
@@ -21,10 +25,6 @@
 	define('picturebeddb',constant('jry_wb_database_name').'.'.constant('picturebedpro'));	
 	define('spiderpro',constant('jry_wb_database_all_prefix').'spider_');
 	define('spiderdb',constant('jry_wb_database_name').'.'.constant('spiderpro'));
-	define('jry_wb_database_netdisk_prefix',constant('jry_wb_database_all_prefix').'netdisk_');
-	define('jry_wb_netdisk',constant('jry_wb_database_name').'.'.constant('jry_wb_database_netdisk_prefix'));	
-	define('jry_wb_database_log_prefix',constant('jry_wb_database_all_prefix').'log_');
-	define('jry_wb_database_log',constant('jry_wb_database_name').'.'.constant('jry_wb_database_log_prefix'));		
 	if(!constant('jry_wb_host_switch'))
 	{
 		define('jry_wb_host_database_general_prefix',constant('jry_wb_host_database_all_prefix').'general_');
