@@ -23,6 +23,7 @@
 	include_once('jry_wb_test_device.php');
 	include_once('jry_wb_test_domain_is_ip.php');
 	include_once('jry_wb_test_china_id_card.php');
+	include_once('jry_wb_test_is_cli_mode.php');
 
 	include_once('jry_wb_aes.php');
 	
