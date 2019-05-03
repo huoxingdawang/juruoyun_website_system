@@ -6,7 +6,7 @@
 			$method=0;
 		else
 			$method=1;
-		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE  type=? AND `use`=1 AND `upload`=1');
+		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_database_netdisk').'area WHERE  type=? AND `use`=1 AND `upload`=1');
 		$st->bindParam(1,$method);
 		$st->execute();
 		if(count($areas=$st->fetchAll())==0)
@@ -32,7 +32,7 @@
 	function jry_nd_get_area_by_area_id($area_id)
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE area_id=? AND `use`=1 LIMIT 1');
+		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_database_netdisk').'area WHERE area_id=? AND `use`=1 LIMIT 1');
 		$st->bindParam(1,$area_id);
 		$st->execute();
 		if(count($data=$st->fetchAll())==0)
@@ -43,7 +43,7 @@
 	function jry_nd_get_area_by_type($type)
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_netdisk').'area WHERE  type=? AND `use`=1');
+		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_database_netdisk').'area WHERE  type=? AND `use`=1');
 		$st->bindParam(1,$type);
 		$st->execute();
 		return $st->fetchAll();		

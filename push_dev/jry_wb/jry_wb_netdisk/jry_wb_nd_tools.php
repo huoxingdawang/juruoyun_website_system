@@ -5,9 +5,9 @@
 	{
 		global $jry_wb_login_user;
 		$conn=jry_wb_connect_database();
-		$q='SELECT *,'.constant('jry_wb_netdisk_prefix').'users.lasttime as lasttime FROM '.constant('jry_wb_netdisk').'users 
-		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.group_id = '.constant('jry_wb_netdisk_prefix')."group.group_id)
-		where ".constant('jry_wb_netdisk_prefix')."users.id =? LIMIT 1";
+		$q='SELECT *,'.constant('jry_wb_database_netdisk_prefix').'users.lasttime as lasttime FROM '.constant('jry_wb_database_netdisk').'users 
+		LEFT JOIN '.constant('jry_wb_database_netdisk').'group  ON ('.constant('jry_wb_database_netdisk_prefix').'users.group_id = '.constant('jry_wb_database_netdisk_prefix')."group.group_id)
+		where ".constant('jry_wb_database_netdisk_prefix')."users.id =? LIMIT 1";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->execute();
@@ -24,9 +24,9 @@
 	function jry_wb_get_netdisk_information_by_id($id)
 	{
 		$conn=jry_wb_connect_database();
-		$q='SELECT *,'.constant('jry_wb_netdisk_prefix').'users.lasttime as lasttime  FROM '.constant('jry_wb_netdisk').'users 
-		LEFT JOIN '.constant('jry_wb_netdisk').'group  ON ('.constant('jry_wb_netdisk_prefix').'users.group_id = '.constant('jry_wb_netdisk_prefix')."group.group_id)
-		where ".constant('jry_wb_netdisk_prefix')."users.id =? LIMIT 1";
+		$q='SELECT *,'.constant('jry_wb_database_netdisk_prefix').'users.lasttime as lasttime  FROM '.constant('jry_wb_database_netdisk').'users 
+		LEFT JOIN '.constant('jry_wb_database_netdisk').'group  ON ('.constant('jry_wb_database_netdisk_prefix').'users.group_id = '.constant('jry_wb_database_netdisk_prefix')."group.group_id)
+		where ".constant('jry_wb_database_netdisk_prefix')."users.id =? LIMIT 1";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$id);
 		$st->execute();
@@ -39,7 +39,7 @@
 	{
 		global $jry_wb_login_user;
 		$conn=jry_wb_connect_database();
-		$q='INSERT INTO '.constant('jry_wb_netdisk').'users (`id`,`lasttime`) VALUES (?,?)';
+		$q='INSERT INTO '.constant('jry_wb_database_netdisk').'users (`id`,`lasttime`) VALUES (?,?)';
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,jry_wb_get_time());

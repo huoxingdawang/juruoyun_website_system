@@ -2,7 +2,7 @@
 	include_once('jry_nd_database_include.php');
 	function jry_nd_database_operate_area_size($conn,$area,$size)
 	{
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=used+? , lasttime=? WHERE `area_id`=?;');
+		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'area SET used=used+? , lasttime=? WHERE `area_id`=?;');
 		$st->bindValue(1,$size);
 		$st->bindValue(2,$time=jry_wb_get_time());
 		$st->bindValue(3,$area['area_id']);	
@@ -13,7 +13,7 @@
 	{
 		if($size<0)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230001,'file'=>__FILE__,'line'=>__LINE__)));
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'area SET used=? , lasttime=? WHERE `area_id`=?;');
+		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'area SET used=? , lasttime=? WHERE `area_id`=?;');
 		$st->bindValue(1,$size);
 		$st->bindValue(2,$time=jry_wb_get_time());
 		$st->bindValue(3,$area['area_id']);	

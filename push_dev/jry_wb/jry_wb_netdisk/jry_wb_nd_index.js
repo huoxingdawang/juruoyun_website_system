@@ -20,8 +20,6 @@ jry_wb_include_once_css('jry_wb_nd.css');
 jry_wb_include_once_css('jry_wb_nd_file.css');
 jry_wb_add_load(function()
 {
-	document.getElementsByClassName('jry_wb_top_toolbar')[0].style.display='none';
-	document.getElementById('buttom_message').style.display='none';
 	var body=document.getElementById('body');
 	if(jry_wb_netdisk_first_time_use)
 	{
@@ -474,6 +472,16 @@ jry_wb_add_load(function()
 			{
 				if(input.files.length==0)
 					return ;
+				var dir=dir_input.value;
+				var father=dir=='/'?{'file_id':0}:jry_nd_file_list.find(function(a){return a.dir+a.name+'/'==dir});
+				if(father==undefined)
+				{
+					input.value='';
+					upload_check.close();
+					jry_wb_beautiful_alert.alert("上传失败","不存在的目录")
+					return;
+				}
+				father=father.file_id;
 				var total_size=0;
 				for(var i=0,n=input.files.length;i<n;i++)
 					total_size+=Math.ceil(input.files[i].size/1024);
@@ -503,7 +511,6 @@ jry_wb_add_load(function()
 				Confirm.onclick=function()
 				{
 					jry_nd_upload_count+=input.files.length;
-					father=dir_input.value=='/'?0:jry_nd_file_list.find(function(a){return a.dir+a.name+'/'==dir_input.value}).file_id;
 					for(var i=0,n=input.files.length;i<n;i++)
 						jry_nd_upload_list.push(new jry_wb_netdisk_upload_file(input.files[i],father,function(data)
 						{
@@ -528,19 +535,17 @@ jry_wb_add_load(function()
 				var div = document.createElement("div"); upload_check.msgObj.appendChild(div);
 				div.style="width:100%;margin:0;padding:0;overflow:hidden;";
 				div.align='center';
-				div.innerHTML="即将上传共计"+input.files.length+"个文件到"+dir_input.value+',预计消耗'+jry_wb_nd_get_size(total_size)+'空间,剩余'+jry_wb_nd_get_size(rest)+'空间<br>';
+				div.innerHTML="即将上传共计"+input.files.length+"个文件到"+dir+',预计消耗'+jry_wb_nd_get_size(total_size)+'空间,剩余'+jry_wb_nd_get_size(rest)+'空间<br>';
 				div.innerHTML+="详细如下:<br>";
 				var table=document.createElement('table');div.appendChild(table);
 				var tr=document.createElement('tr');table.appendChild(tr);
 				var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件名';	
 				var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='大小/KB';	
-				var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='修改日期';
 				for(var i=0,n=input.files.length;i<n;i++)
 				{
 					var tr=document.createElement('tr');table.appendChild(tr);
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=input.files[i].name;	
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(input.files[i].size/1024);	
-					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=input.files[i].lastModifiedDate;				
 				}
 			}
 			var fresh=document.createElement("div");mid_lan.appendChild(fresh);
@@ -574,6 +579,7 @@ jry_wb_add_load(function()
 						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
 						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
 						else if(data.reason==200006)	jry_wb_beautiful_right_alert.alert("父目录不存在",3000,"auto","error");
+						else if(data.reason==200005)	jry_wb_beautiful_right_alert.alert("文件名重复",3000,"auto","error");						
 						return;
 					}
 					jry_wb_login_user.nd_ei.lasttime=data.lasttime;
@@ -652,6 +658,7 @@ jry_wb_add_load(function()
 						jry_wb_nd_fresh_file_list();							
 						jry_wb_login_user.nd_ei.size_total=data.size_total;
 						jry_wb_login_user.nd_ei.size_used=data.size_used;
+						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
 						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
 					},[{'name':'file_id','value':JSON.stringify(list)}]);					
 					delete_check.close();
@@ -781,7 +788,6 @@ jry_wb_add_load(function()
 	document_list.ondragenter=function(e)
 	{
 		e.preventDefault();
-		console.log(e);
 		if(typeof follow_mouth!='undefined')
 			follow_mouth.close();
 	};
@@ -792,30 +798,162 @@ jry_wb_add_load(function()
 	document_list.ondragleave=function(e)
 	{
 		e.preventDefault();
-		console.log(e);
 		if(typeof follow_mouth!='undefined')
 			follow_mouth.reinit();		
 	};
 	document_list.ondrop=function(e)
 	{
 		e.preventDefault();
-		console.log(e);
+		var file_list=[];
+		var loading_count=0;
+		function callback(file_list)
+		{
+			console.log(file_list);
+			window.file_list=file_list;
+			var dir=dir_input.value;
+			var father=dir=='/'?{'file_id':0}:jry_nd_file_list.find(function(a){return a.dir+a.name+'/'==dir});
+			if(father==undefined)
+			{
+				input.value='';
+				upload_check.close();
+				jry_wb_beautiful_alert.alert("上传失败","不存在的目录")
+				return;
+			}
+			father=father.file_id;
+			if(file_list.length==0)
+				return ;
+			var total_size=0;
+			for(var i=0,n=file_list.length;i<n;i++)
+				if(file_list[i].isFile)
+					total_size+=Math.ceil(file_list[i].file.length/1024);
+			var rest=jry_wb_login_user.nd_ei.size_total-jry_wb_login_user.nd_ei.size_used-total_size;
+			if(rest<0)
+			{
+				jry_wb_beautiful_alert.alert("空间不够","请联系开发组");
+				return;
+			}
+			var upload_check=  new jry_wb_beautiful_alert_function;
+			var title=upload_check.frame("确认上传",document.body.clientWidth*0.75,document.body.clientHeight*0.75,document.body.clientWidth*3/32,document.body.clientHeight*3/32);
+			var Confirm = document.createElement("button"); title.appendChild(Confirm);
+			Confirm.type="button"; 
+			Confirm.innerHTML="取消"; 
+			Confirm.style='float:right;margin-right:20px;';
+			Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");
+			Confirm.onclick=function()
+			{
+				upload_check.close();
+			};
+			var Confirm = document.createElement("button"); title.appendChild(Confirm);
+			Confirm.type="button"; 
+			Confirm.innerHTML="开始上传"; 
+			Confirm.style='float:right;margin-right:20px;';
+			Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+			Confirm.onclick=function()
+			{
+				jry_nd_upload_count+=file_list.length;
+				for(var i=0,n=file_list.length;i<n;i++)
+					jry_nd_upload_list.push(new jry_wb_netdisk_upload_file(file_list[i],father,function(data)
+					{
+						jry_nd_upload_count--;
+						jry_nd_upload_count=Math.max(0,jry_nd_upload_count);
+						jry_wb_login_user.nd_ei.lasttime=data.lasttime;
+						if(jry_nd_upload_count==0)
+							jry_wb_nd_fresh_file_list();
+						jry_wb_login_user.nd_ei.size_total=data.size_total;
+						jry_wb_login_user.nd_ei.size_used=data.size_used;
+						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));					
+					},function()
+					{
+						jry_nd_upload_count--;
+						jry_nd_upload_count=Math.max(0,jry_nd_upload_count);
+					}));
+				upload_check.close();
+				upload_mesage_button.onclick();
+			};
+			jry_wb_beautiful_scroll(upload_check.msgObj);
+			var div = document.createElement("div"); upload_check.msgObj.appendChild(div);
+			div.style="width:100%;margin:0;padding:0;overflow:hidden;";
+			div.align='center';
+			div.innerHTML="即将上传共计"+file_list.length+"个文件到"+dir+',预计消耗'+jry_wb_nd_get_size(total_size)+'空间,剩余'+jry_wb_nd_get_size(rest)+'空间<br>';
+			div.innerHTML+="详细如下:<br>";
+			var table=document.createElement('table');div.appendChild(table);
+			var tr=document.createElement('tr');table.appendChild(tr);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='文件名';	
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='大小/KB';	
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='位置';	
+			for(var i=0,n=file_list.length;i<n;i++)
+			{
+				var buf=file_list[i].fullPath.substr(1);
+				if(file_list[i].isFile)
+				{
+					var tr=document.createElement('tr');table.appendChild(tr);
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=file_list[i].name;	
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(file_list[i].file.length/1024);
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=dir+buf.substring(0,buf.lastIndexOf('/'));	
+				}
+				else if(file_list[i].isDirectory)
+				{
+					var tr=document.createElement('tr');table.appendChild(tr);
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='<span style="color:red;">新建文件夹</span>'+file_list[i].name;	
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='0B';	
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=dir+buf.substring(0,buf.lastIndexOf('/'));						
+				}
+			}
+		}
 		for (var i=0;i<e.dataTransfer.items.length;i++)
 		{
-			var entry = e.dataTransfer.items[i].webkitGetAsEntry();
-			if(entry.isFile)
+			function read_dir(entry)
 			{
-				console.log(entry);
+				loading_count++;
+				if(entry.fullPath.substr(1).includes('/')==false)
+				{
+					var dir=dir_input.value+entry.fullPath.substr(1);
+					if(jry_nd_file_list.find(function(a){return a.dir+a.name==dir})!=undefined)
+					{
+						jry_wb_beautiful_alert.alert("上传失败","文件名重复")
+						return false;
+					}
+				}
+				if(entry.isFile)
+				{
+					entry.file(function(file)
+					{
+						var fileReader = new FileReader();
+						fileReader.readAsBinaryString(file);
+						fileReader.addEventListener('load', function()
+						{
+							loading_count--;
+							var j=file_list.length;
+							file_list[j]=entry;
+							file_list[j].file=this.result;
+							file_list[j].file.size=file_list[j].file.length;
+							if(loading_count==0)
+								callback(file_list);
+						});
+					});
+				}
+				else if(entry.isDirectory)
+				{
+					file_list[file_list.length]=entry;
+					var reader=entry.createReader();
+					reader.readEntries(function(a)
+					{
+						for(var i=0;i<a.length;i++)
+							if(read_dir(a[i])==false)
+								return false;
+						loading_count--;
+						if(loading_count==0)
+							callback(file_list);						
+					});
+				}
+				return true;
 			}
-			else if(entry.isDirectory)
-			{
-				console.log(entry);
-			}
+			read_dir(e.dataTransfer.items[i].webkitGetAsEntry());
 		}
 		return false;
 	};
 	if(jry_nd_load_count==0)
-		jry_wb_nd_show_files_by_dir(decodeURI(document.location.hash)!=''?decodeURI(document.location.hash).split('#')[1]:'/');
+		jry_wb_nd_show_files_by_dir(decodeURI(document.location.hash)!=''?(decodeURI(document.location.hash).substr(1)):'/');
 	jry_wb_add_onresize(function()
 	{
 		document_list.style.height=document.body.clientHeight-document_list.offsetTop;
@@ -840,8 +978,10 @@ function jry_wb_nd_show_files_by_dir(dir)
 {
 	dir=dir==undefined?'/':dir;
 	dir=dir==''?'/':dir;
-	dir_input.value=document.location.hash=dir;
 	jry_wb_nd_show_files(function(file){return file.dir==dir});
+	if(dir!='/'&&jry_nd_file_list.find(function(a){return ((a.dir+a.name+'/')==dir);})==undefined)
+		return jry_wb_beautiful_alert.alert('不存在的目录','',function(){dir_input.blur();if(dir_stack.length!=0)jry_wb_nd_show_files_by_dir(dir_input.value=document.location.hash=dir_stack[dir_stack.length-1]);else jry_wb_nd_show_files_by_dir(dir_input.value=document.location.hash='/');});
+	dir_input.value=document.location.hash=dir;
 	dir_stack.push(dir);
 }
 function select_delete()

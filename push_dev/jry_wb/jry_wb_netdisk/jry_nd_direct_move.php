@@ -8,7 +8,7 @@
 			return;		
 		$father=jry_nd_database_get_father($conn,$user,$file);
 		jry_nd_database_operate_user_used_uploading($conn,$user,0,0);
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `father`=? , lasttime=? WHERE `file_id`=? AND id=?');
+		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'file_list SET `father`=? , lasttime=? WHERE `file_id`=? AND id=?');
 		$st->bindValue(1,$to['file_id']);
 		$st->bindValue(2,jry_wb_get_time());
 		$st->bindValue(3,$file['file_id']);
@@ -45,7 +45,7 @@
 				foreach($delete as $one)
 					array_splice($file['share_list'],array_search($one,$file['share_list']),1);
 				$file['share_list']=array_merge($file['share_list'],$add);
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `lasttime`=?,`share_list`=? WHERE `file_id`=? AND id=? LIMIT 1');
+				$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'file_list SET `lasttime`=?,`share_list`=? WHERE `file_id`=? AND id=? LIMIT 1');
 				$st->bindValue(1,jry_wb_get_time());
 				$st->bindValue(2,json_encode($file['share_list']));
 				$st->bindValue(3,$file['file_id']);
@@ -56,9 +56,9 @@
 						update($conn,$user,$child,$file['share_list'],$delete);
 			}
 			update($conn,$user,$file,$add,$delete);
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `share`=0 , self_share=0 ,share_list=NULL WHERE JSON_LENGTH(share_list)=0');
+			$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'file_list SET `share`=0 , self_share=0 ,share_list=NULL WHERE JSON_LENGTH(share_list)=0');
 			$st->execute();
-			$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'file_list SET `share`=1 WHERE JSON_LENGTH(share_list)!=0');
+			$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'file_list SET `share`=1 WHERE JSON_LENGTH(share_list)!=0');
 			$st->execute();
 		}
 	}

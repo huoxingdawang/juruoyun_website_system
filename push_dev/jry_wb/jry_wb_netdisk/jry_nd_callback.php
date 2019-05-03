@@ -10,12 +10,12 @@
 		$receive_data=json_decode(base64_decode(file_get_contents("php://input")));
 		$conn=jry_wb_connect_database();
 		
-		/*$st = $conn->prepare('INSERT INTO '.constant('jry_wb_netdisk').'test (`data`,`lasttime`) VALUES (?,?)');
+		/*$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_netdisk').'test (`data`,`lasttime`) VALUES (?,?)');
 		$st->bindValue(1,json_encode($receive_data));
 		$st->bindValue(2,jry_wb_get_time());
 		$st->execute();
 		
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'area WHERE `type`=1 AND config_message->"$.bucket"=? AND `use`=1');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'area WHERE `type`=1 AND config_message->"$.bucket"=? AND `use`=1');
 		$st->bindValue(1,$receive_data->events[0]->oss->bucket->name);
 		$st->execute();
 		$data=$st->fetchAll();
@@ -35,7 +35,7 @@
 		$b=mb_strpos($dir,$qianzhui)+mb_strlen($qianzhui);
 		$e=mb_strpos($dir,"_jryupload")-$b;
 		$file_id=mb_substr($dir,$b,$e);
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE `area`=? AND file_id=? AND use=1');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE `area`=? AND file_id=? AND use=1');
 		$st->bindValue(1,$data[0]['area_id']);
 		$st->bindValue(2,$file_id);
 		$st->execute();
@@ -43,7 +43,7 @@
 		if(count($data2)==0)	
 			exit();
 		
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_netdisk').'users SET fast_size=fast_size-? , lasttime=? WHERE `id`=?;');
+		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'users SET fast_size=fast_size-? , lasttime=? WHERE `id`=?;');
 		$st->bindValue(1,$data2[0]['size']);
 		$st->bindValue(2,jry_wb_get_time());
 		$st->bindValue(3,$data2[0]['id']);	

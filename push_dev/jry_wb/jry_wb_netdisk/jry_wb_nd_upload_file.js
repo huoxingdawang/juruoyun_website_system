@@ -165,6 +165,8 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 		this.extern_message=data.extern_message;
 		if(this.method==0)
 		{
+			if(file.size==0)
+				this.merge_file();
 			while(start<file.size) 
 			{
 				end=Math.min(start+jry_wb_netdisk_uploader_max_size_pre_chunk,file.size);

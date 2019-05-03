@@ -17,8 +17,8 @@
 	$conn=jry_wb_connect_database();
 	if(($file=fopen('jry_nd.fast_save_message','r'))==false)
 	{
-		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['area']=$st->fetchAll()[0]['lasttime'];
-		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
+		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['area']=$st->fetchAll()[0]['lasttime'];
+		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
 		$file=fopen('jry_nd.fast_save_message','w');
 		fwrite($file,json_encode($data));
 		fclose($file);

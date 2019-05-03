@@ -8,14 +8,14 @@
 			$data=array();
 			if($mode=='group')
 			{
-				$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');
+				$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');
 				$st->execute();	
 				$data['area']=$st->fetchAll()[0]['lasttime'];
 				$data['group']=$time;
 			}
 			else if($mode=='area')
 			{
-				$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');
+				$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');
 				$st->execute();	
 				$data['group']=$st->fetchAll()[0]['lasttime'];
 				$data['area']=$time;

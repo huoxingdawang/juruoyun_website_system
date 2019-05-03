@@ -2,7 +2,7 @@
 	include_once('jry_nd_database_include.php');
 	function jry_nd_database_new_file($conn,$user,$father,$name,$type,$area,$size)
 	{
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`) VALUES (?,?,?,?,?,?,?,?)');
+		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`) VALUES (?,?,?,?,?,?,?,?)');
 		$st->bindValue(1,$user['id']);
 		$st->bindValue(2,$father);
 		$st->bindValue(3,str_replace("&","/37",$name));

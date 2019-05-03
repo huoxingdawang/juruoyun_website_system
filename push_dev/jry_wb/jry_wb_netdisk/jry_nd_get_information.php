@@ -7,8 +7,8 @@
 	$conn=jry_wb_connect_database();
 	if(($file=fopen('jry_nd.fast_save_message','r'))==false)
 	{
-		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['area']=$st->fetchAll()[0]['lasttime'];
-		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
+		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['area']=$st->fetchAll()[0]['lasttime'];
+		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
 		$file=fopen('jry_nd.fast_save_message','w');
 		fwrite($file,json_encode($data));
 		fclose($file);
@@ -25,7 +25,7 @@
 			echo json_encode(null);
 		else
 		{
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'area WHERE lasttime>?;');
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'area WHERE lasttime>?;');
 			$st->bindParam(1,urldecode($_GET['lasttime']));
 			$st->execute();
 			$ans=[];
@@ -48,7 +48,7 @@
 			echo json_encode(null);
 		else
 		{
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'group WHERE lasttime>?;');
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'group WHERE lasttime>?;');
 			$st->bindParam(1,urldecode($_GET['lasttime']));
 			$st->execute();
 			$ans=[];
@@ -74,7 +74,7 @@
 	}	
 	if($action=='file_list')
 	{
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'file_list WHERE lasttime>? AND id=?;');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE lasttime>? AND id=?;');
 		$st->bindValue(1,date('Y-m-d H:i:s',strtotime(urldecode($_GET['lasttime']))));
 		$st->bindValue(2,$jry_wb_login_user['id']);
 		$st->execute();
@@ -109,7 +109,7 @@
 	}
 	if($action=='share')
 	{
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'share WHERE id=? AND file_id=?;');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'share WHERE id=? AND file_id=?;');
 		$st->bindValue(1,$jry_wb_login_user['id']);
 		$st->bindValue(2,$_POST['file_id']);
 		$st->execute();
@@ -126,7 +126,7 @@
 	}
 	if($action=='share_list')
 	{
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_netdisk').'share WHERE id=?;');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'share WHERE id=?;');
 		$st->bindValue(1,$jry_wb_login_user['id']);
 		$st->execute();
 		$ans=[];
