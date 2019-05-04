@@ -1,5 +1,6 @@
 <?php
 	include_once("jry_wb_cli_includes.php");
+	if((!jry_wb_test_is_cli_mode())){header('HTTP/1.1 404 Not Found');header("status: 404 Not Found");include('../../404.php');exit();}	
 	function jry_wb_cli_get_machine()
 	{
 		$information=array();

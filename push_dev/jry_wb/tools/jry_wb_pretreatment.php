@@ -1,14 +1,12 @@
 <?php
 	include_once("jry_wb_includes.php");
-	if(($_SERVER['HTTP_HOST']!=constant('jry_wb_domin').(constant('jry_wb_port')==''?'':':').constant('jry_wb_port'))&&$jry_wb_socket_mode!==true)
+	if(($_SERVER['HTTP_HOST']!=constant('jry_wb_domin').(constant('jry_wb_port')==''?'':':').constant('jry_wb_port'))&&(!jry_wb_test_is_cli_mode()))
 	{
 		header("Location:".constant('jry_wb_host'));
 		exit();
-	}	
-	global $jry_wb_login_user;
+	}
 	session_start();
 	//预处理
-	$jry_wb_socket_mode=false;	
 	$jry_wb_keywords='';
 	$jry_wb_description='';
 	$conn=jry_wb_connect_database();
@@ -102,7 +100,7 @@
 			$user['style_id']=1;
 			$user['head_special']='{"mouse_out":{"speed":2,"direction":1,"times":-1},"mouse_on":{"speed":2,"direction":1,"times":-1}}';
 		}
-		if($jry_wb_socket_mode===false)
+		if(!jry_wb_test_is_cli_mode())
 		{
 			foreach($user['ips']as $ips)
 			{
