@@ -73,18 +73,18 @@
 		}
 		else if($_GET['action']=='untrust')
 		{
-			$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=0 where id=? AND code=?");
+			$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=0 where id=? AND login_id=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);
-			$st->bindParam(2,$_POST['code']);
+			$st->bindParam(2,$_POST['login_id']);
 			$st->execute();			
 			echo json_encode(array('code'=>true));
 			exit();		
 		}
 		else if($_GET['action']=='logout')
 		{
-			$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=? AND code=?");
+			$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=? AND login_id=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);
-			$st->bindParam(2,$_POST['code']);
+			$st->bindParam(2,$_POST['login_id']);
 			$st->execute();			
 			echo json_encode(array('code'=>true));
 			exit();		

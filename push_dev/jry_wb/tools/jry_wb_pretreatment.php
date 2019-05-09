@@ -122,7 +122,7 @@
 					setcookie('id',$user['id'],$time,'/',constant('jry_wb_domin'),NULL,false);			
 					setcookie('code',$ips['code'],$time,'/',constant('jry_wb_domin'),NULL,true);			
 				}
-				$user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust']);
+				$user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'login_id'=>$ips['login_id']);
 			}
 			$user['head_special']=json_decode($user['head_special']);
 			if($user['head_special']->mouse_on->times!=-1&&($user['head_special']->mouse_out->times==0||$user['head_special']->mouse_out->speed==0))

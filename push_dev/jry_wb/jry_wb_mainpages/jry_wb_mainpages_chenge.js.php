@@ -421,7 +421,7 @@ function show_ip()
 							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 						return ;
 					}
-				},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
+				},[{'name':'login_id','value':jry_wb_login_user.login_addr[i].login_id}]);
 			},function(){});
 		};
 		let trust=document.createElement("span");div.appendChild(trust);
@@ -458,7 +458,7 @@ function show_ip()
 								jry_wb_beautiful_right_alert.alert('信任失败',2000,'auto','error');
 							return ;
 						}						
-					},[{'name':'code','value':jry_wb_login_user.login_addr[i].code}]);
+					},[{'name':'login_id','value':jry_wb_login_user.login_addr[i].login_id}]);
 				},function(){});
 			}
 			else
