@@ -22,8 +22,9 @@
 		$st->bindParam(1,urldecode($_GET['lasttime']));
 		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->execute();
-		$data=$st->fetchAll();
+		$data=$st->fetchAll();	
 		$total=count($data);
+		$json=array();		
 		for($i=0;$i<$total;$i++)
 		{
 			$json[$i]=	array(	'ojerrorid'=>$data[$i]['ojerrorid'],
@@ -95,6 +96,7 @@
 		$st->execute();
 		$data=$st->fetchAll();
 		$total=count($data);
+		$json=array();		
 		for($i=0;$i<$total;$i++)
 		{
 			$json[$i]=	array(	'ojlogid'=>$data[$i]['ojlogid'],
@@ -122,8 +124,9 @@
 		$st = $conn2->prepare($q);
 		$st->bindParam(1,urldecode($_GET['lasttime']));
 		$st->execute();
-		$data=$st->fetchAll();
+		$data=$st->fetchAll();	
 		$total=count($data);
+		$json=array();		
 		for($i=0;$i<$total;$i++)
 		{
 			$json[$i]=array(	'ojquestionid'=>$data[$i]['ojquestionid'],
@@ -151,8 +154,9 @@
 		$st = $conn2->prepare($q);
 		$st->bindParam(1,urldecode($_GET['lasttime']));
 		$st->execute();
-		$data=$st->fetchAll();
+		$data=$st->fetchAll();	
 		$total=count($data);
+		$json=array();		
 		for($i=0;$i<$total;$i++)
 		{
 			$json[$i]=array(	'ojquestionid'=>$data[$i]['ojquestionid'],
@@ -180,8 +184,9 @@
 		$st->bindParam(1,urldecode($_GET['lasttime']));
 		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->execute();
-		$data=$st->fetchAll();	
+		$data=$st->fetchAll();
 		$total=count($data);
+		$json=array();		
 		for($i=0;$i<$total;$i++)
 		{
 			$json[$i]=array(	'id'=>$data[$i]['id'],
