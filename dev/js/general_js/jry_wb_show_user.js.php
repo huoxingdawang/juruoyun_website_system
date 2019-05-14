@@ -23,9 +23,9 @@ function jry_wb_set_user_head_special(user,img)
 	img.style.MozAnimationTimingFunction	=img.style.animationTimingFunction	="linear";
 	img.style.MozAnimationPlayState			=img.style.animationPlayState		="initial";
 	if(img.tagName=='IMG')
-		img.src=user.head;
+		img.src=jry_wb_get_user_head(user);
 	else
-		img.style.backgroundImage='url('+user.head+')',img.style.backgroundRepeat='no-repeat',img.style.backgroundSize="100% 100%";
+		img.style.backgroundImage='url('+jry_wb_get_user_head(user)+')',img.style.backgroundRepeat='no-repeat',img.style.backgroundSize="100% 100%";
 	img.onmouseover=function()
 	{
 		img.style.MozAnimationDuration			=img.style.animationDuration		=user.head_special.mouse_on.speed+'s';
@@ -296,5 +296,40 @@ function jry_wb_get_and_show_user_full(id,width,height)
 		}
 		);
 	}		
+}
+function jry_wb_update_user(user,mode)
+{
+	if(mode==undefined||mode=='head')
+		for(var all=document.getElementsByName('jry_wb_user_head_'+user.id),i=0,n=all.length,head=jry_wb_get_user_head(user);i<n;i++)
+			all[i].src=head;
+		
+}
+function jry_wb_get_user_head(user)
+{
+	if(user.head.type=='default')
+		if(user.sex==0)
+			user.head.type='default_head_woman';
+		else
+			user.head.type='default_head_man';
+	if(user.head.type=='default_head_man')
+		return '<?php echo constant('jry_wb_defult_man_picture'); ?>';
+	else if(user.head.type=='default_head_woman')
+		return '<?php echo constant('jry_wb_defult_woman_picture'); ?>';
+	else if(user.head.type=='gravatar')
+		return "http://www.gravatar.com/avatar/"+hex_md5(user.mail)+"?size=80&d=404&r=g";
+	else if(user.head.type=='qq'&&user.oauth_qq!=null)
+		return user.oauth_qq.figureurl_qq_2;
+	else if(user.head.type=='github'&&user.oauth_github!=null)
+		return user.oauth_github.avatar_url;
+	else if(user.head.type=='qq')
+		return "https://q2.qlogo.cn/headimg_dl?dst_uin="+user.mail.split('@')[0]+"&spec=100";
+	else if(user.head.type=='gitee')
+		return user.oauth_gitee.avatar_url;	
+	else if(user.head.type=='mi')
+		return user.oauth_mi.miliaoIcon_orig;	
+	else if(user.head.type=='url')
+		return user.head.url;
+	else if(user.head.type=='netdisk')
+		return '<?php echo constant('jry_wb_host'); ?>jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+user.head.share_id+'&file_id='+user.head.file_id;
 }
 <?php if(false){ ?></script><?php } ?>

@@ -15,7 +15,7 @@
 					'head_special'=>$jry_wb_login_user['head_special'],
 					'color'=>$jry_wb_login_user['color'],		
 					'use'=>$jry_wb_login_user['use'],
-					'head'=>jry_wb_get_user_head($jry_wb_login_user),
+					'head'=>$jry_wb_login_user['head'],
 					'green_money'=>$jry_wb_login_user['green_money'],
 					'enroldate'=>$jry_wb_login_user['enroldate'],
 					'logdate'=>$jry_wb_login_user['logdate'],

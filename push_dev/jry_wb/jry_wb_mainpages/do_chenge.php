@@ -95,7 +95,7 @@
 			{
 				if($jry_wb_login_user['sex']==0&&$jry_wb_login_user['head']!='default_head_woman')
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='default_head_woman',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"default_head_woman"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -103,7 +103,7 @@
 				}
 				else if(($jry_wb_login_user['sex']==1||$jry_wb_login_user['sex']==2)&&$jry_wb_login_user['head']!='default_head_man')
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='default_head_man',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"default_head_man"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -117,7 +117,7 @@
 				$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404');
 				if (preg_match("|200|", $headers[0])) 
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='gravatar',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"gravatar"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -132,7 +132,7 @@
 			{
 				if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth_qq']!='')
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='qq',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"qq"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -145,7 +145,7 @@
 			{
 				if($jry_wb_login_user['oauth_github']!='')
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='github',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"github"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -158,7 +158,7 @@
 			{
 				if($jry_wb_login_user['oauth_mi']!='')
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='mi',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"mi"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -171,7 +171,7 @@
 			{
 				if($jry_wb_login_user['oauth_gitee']!='')
 				{
-					$q ="update ".constant('jry_wb_database_general')."users set head='gitee',lasttime=? where id=?";
+					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"gitee"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -180,18 +180,64 @@
 					return;
 				}			
 			}		
+			else if($_GET['type']=='url')
+			{
+				$headers=@get_headers(urldecode($_POST['url']));
+				if (preg_match("|200|", $headers[0])) 
+				{
+					$q ='update '.constant('jry_wb_database_general').'users set head=?,lasttime=? where id=?';
+					$st = $conn->prepare($q);
+					$st->bindParam(1,json_encode(array('type'=>'url','url'=>urldecode($_POST['url']))));
+					$st->bindParam(2,jry_wb_get_time());
+					$st->bindParam(3,$jry_wb_login_user['id']);
+					$st->execute();
+					echo json_encode(array('code'=>true));
+					return;
+				}
+				else
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>300003,'file'=>__FILE__,'line'=>__LINE__)));
+				return;
+			}
+			else if($_GET['type']=='netdisk')
+			{
+				
+				$headers=@get_headers(constant('jry_wb_host').'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$_POST['share_id'].'&file_id='.$_POST['file_id']);
+				if (preg_match("|200|", $headers[0])) 
+				{
+					$q ='update '.constant('jry_wb_database_general').'users set head=?,lasttime=? where id=?';
+					$st = $conn->prepare($q);
+					$st->bindParam(1,json_encode(array('type'=>'netdisk','share_id'=>(int)$_POST['share_id'],'file_id'=>(int)$_POST['file_id'])));
+					$st->bindParam(2,jry_wb_get_time());
+					$st->bindParam(3,$jry_wb_login_user['id']);
+					$st->execute();
+					echo json_encode(array('code'=>true));
+					return;
+				}
+				else
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>300003,'file'=>__FILE__,'line'=>__LINE__)));
+				return;
+			}			
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
 		}	
 		else if($_GET['action']=='untpin')
-		{
+		{		
+			if($jry_wb_login_user['head']['type']==$_GET['type'])
+			{
+				if($jry_wb_login_user['sex']==0)
+					$set_head=' ,head=\'{"type":"default_head_woman"}\' ';					
+				else
+					$set_head=' ,head=\'{"type":"default_head_man"}\' ';					
+			}
+			else
+				$set_head='';
 			if($_GET['type']=='qq')
-				$q ="update ".constant('jry_wb_database_general')."users set oauth_qq=NULL,lasttime=? where id=?";
+				$q ='update '.constant('jry_wb_database_general').'users set oauth_qq=NULL,lasttime=?'.$set_head.' where id=?';
 			else if($_GET['type']=='github')
-				$q ="update ".constant('jry_wb_database_general')."users set oauth_github=NULL,lasttime=? where id=?";		
+				$q ='update '.constant('jry_wb_database_general').'users set oauth_github=NULL,lasttime=?'.$set_head.' where id=?';
 			else if($_GET['type']=='mi')
-				$q ="update ".constant('jry_wb_database_general')."users set oauth_mi=NULL,lasttime=? where id=?";
+				$q ='update '.constant('jry_wb_database_general').'users set oauth_mi=NULL,lasttime=?'.$set_head.' where id=?';
 			else if($_GET['type']=='gitee')
-				$q ="update ".constant('jry_wb_database_general')."users set oauth_gitee=NULL,lasttime=? where id=?";
+				$q ='update '.constant('jry_wb_database_general').'users set oauth_gitee=NULL,lasttime=?'.$set_head.' where id=?';
 			$st = $conn->prepare($q);
 			$st->bindParam(1,jry_wb_get_time());
 			$st->bindParam(2,$jry_wb_login_user['id']);
@@ -275,9 +321,9 @@
 				else
 				{
 					if($jry_wb_login_user['sex']==0)
-						$set_head=' ,head=\'default_head_woman\' ';					
+						$set_head=' ,head=\'{"type":"default_head_woman"}\' ';					
 					else
-						$set_head=' ,head=\'default_head_man\' ';
+						$set_head=' ,head=\'{"type":"default_head_man"}\' ';					
 					$jry_wb_gravatar_user_head=$uri;
 				}
 			}

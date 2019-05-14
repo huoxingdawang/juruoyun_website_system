@@ -57,7 +57,6 @@
 		$user['oauth_mi']=json_decode($user['oauth_mi']);	
 	if($user['oauth_gitee']!='')
 		$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
-	$head=jry_wb_get_user_head($user);
 	$ip=array();
 	if($user['ip_show']||($admin_mode))
 	{
@@ -115,7 +114,7 @@
 	$user['head_special']->mouse_out->result=jry_wb_get_user_head_style_out($user);
 	$user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($user);
 	$data=array('id'=>(int)$id,
-				'head'=>$head,
+				'head'=>json_decode($user['head'],true),
 				'head_special'=>$user['head_special'],
 				'green_money'=>$user['green_money'],
 				'enroldate'=>$user['enroldate'],

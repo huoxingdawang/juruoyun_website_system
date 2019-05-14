@@ -81,7 +81,7 @@ function show()
 	jry_wb_set_user_head_special(jry_wb_login_user,img);
 	img.height=80;
 	img.width=80;
-	img.onclick=function()
+	tr.onclick=function()
 	{
 		var head_alert=new jry_wb_beautiful_alert_function;
 		var title=head_alert.frame("换头",document.body.clientWidth*0.50,document.body.clientHeight*0.75,document.body.clientWidth*1/4,document.body.clientHeight*3/32);
@@ -105,9 +105,9 @@ function show()
 		var td=document.createElement("td"); tr.appendChild(td);
 		var img2=document.createElement("img");td.appendChild(img2);
 		jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-		img2.src=jry_wb_default_user_head;
+		img2.src=jry_wb_get_user_head({'head':{'type':'default'},'sex':jry_wb_login_user.sex});
 		var td=document.createElement("td"); tr.appendChild(td);
-		if(jry_wb_default_user_head==jry_wb_login_user.head)
+		if(jry_wb_login_user.head.type=='default_head_man'||jry_wb_login_user.head.type=='default_head_woman')
 			td.innerHTML='正在使用';
 		else
 		{
@@ -116,15 +116,16 @@ function show()
 			button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 			button.onclick=function()
 			{
-				for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-					all[i].src=jry_wb_default_user_head;
-				jry_wb_login_user.head=jry_wb_default_user_head;
 				jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=default',function(data)
 				{
 					jry_wb_loading_off();
 					var data=JSON.parse(data);
 					if(data.code)
+					{
+						jry_wb_login_user.head.type='default';
+						jry_wb_update_user(jry_wb_login_user,'head');
 						jry_wb_beautiful_alert.alert("换头成功","使用默认的头");
+					}
 					else
 					{
 						if(data.reason==100000)
@@ -137,7 +138,6 @@ function show()
 				});
 			};
 		}
-
 		if(jry_wb_gravatar_user_head!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -147,7 +147,7 @@ function show()
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 			img2.src=jry_wb_gravatar_user_head;
 			var td=document.createElement("td"); tr.appendChild(td);
-			if(jry_wb_gravatar_user_head.split('?')[0]==jry_wb_login_user.head.split('?')[0])
+			if(jry_wb_login_user.head.type=='gravatar')
 				td.innerHTML='正在使用';
 			else
 			{
@@ -156,15 +156,16 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-						all[i].src=jry_wb_gravatar_user_head;
-					jry_wb_login_user.head=jry_wb_gravatar_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gravatar',function(data)
 					{
 						jry_wb_loading_off();
 						var data=JSON.parse(data);
 						if(data.code)
+						{
+							jry_wb_login_user.head.type='gravatar';
+							jry_wb_update_user(jry_wb_login_user,'head');
 							jry_wb_beautiful_alert.alert("换头成功","使用gravatar的头");
+						}
 						else
 						{
 							if(data.reason==100000)
@@ -181,16 +182,19 @@ function show()
 			}
 		}
 		<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>		
-		if(jry_wb_qq_user_head!=null)
+		if(jry_wb_login_user.oauth_qq!=null||jry_wb_login_user.mail.includes('@qq.com'))
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_qq_user_head;
+			if(jry_wb_login_user.oauth_qq!=null)
+				img2.src=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+			else
+				img2.src="https://q2.qlogo.cn/headimg_dl?dst_uin="+jry_wb_login_user.mail.split('@')[0]+"&spec=100";
 			var td=document.createElement("td"); tr.appendChild(td);
-			if(jry_wb_qq_user_head==jry_wb_login_user.head)
+			if(jry_wb_login_user.head.type=='qq')
 				td.innerHTML='正在使用';
 			else
 			{
@@ -199,15 +203,16 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-						all[i].src=jry_wb_qq_user_head;
-					jry_wb_login_user.head=jry_wb_qq_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=qq',function(data)
 					{
 						jry_wb_loading_off();
 						var data=JSON.parse(data);
 						if(data.code)
+						{
+							jry_wb_login_user.head.type='qq';
+							jry_wb_update_user(jry_wb_login_user,'head');
 							jry_wb_beautiful_alert.alert("换头成功","使用QQ的头");
+						}
 						else
 						{
 							if(data.reason==100000)
@@ -223,16 +228,16 @@ function show()
 		}
 		<?php } ?>
 		<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){ ?>
-		if(jry_wb_github_user_head!='')
+		if(jry_wb_login_user.oauth_gitee!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_github_user_head;
+			img2.src=jry_wb_login_user.oauth_gitee.avatar_url;
 			var td=document.createElement("td"); tr.appendChild(td);
-			if(jry_wb_github_user_head==jry_wb_login_user.head)
+			if(jry_wb_login_user.head.type=='github')
 				td.innerHTML='正在使用';
 			else
 			{
@@ -241,15 +246,16 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-						all[i].src=jry_wb_github_user_head;
-					jry_wb_login_user.head=jry_wb_github_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=github',function(data)
 					{
 						jry_wb_loading_off();
 						var data=JSON.parse(data);
 						if(data.code)
+						{
+							jry_wb_login_user.head.type='github';
+							jry_wb_update_user(jry_wb_login_user,'head');
 							jry_wb_beautiful_alert.alert("换头成功","使用gayhub的头");
+						}
 						else
 						{
 							if(data.reason==100000)
@@ -265,16 +271,16 @@ function show()
 		}
 		<?php } ?>
 		<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
-		if(jry_wb_gitee_user_head!='')
+		if(jry_wb_login_user.oauth_gitee!=null!='')
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_gitee_user_head;
+			img2.src=jry_wb_login_user.oauth_gitee.avatar_url;
 			var td=document.createElement("td"); tr.appendChild(td);
-			if(jry_wb_gitee_user_head==jry_wb_login_user.head)
+			if(jry_wb_login_user.head.type=='gitee')
 				td.innerHTML='正在使用';
 			else
 			{
@@ -283,15 +289,16 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-						all[i].src=jry_wb_gitee_user_head;
-					jry_wb_login_user.head=jry_wb_gitee_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=gitee',function(data)
 					{
 						jry_wb_loading_off();
 						var data=JSON.parse(data);
 						if(data.code)
+						{
+							jry_wb_login_user.head.type='gitee';
+							jry_wb_update_user(jry_wb_login_user,'head');
 							jry_wb_beautiful_alert.alert("换头成功","使用码云的头");
+						}
 						else
 						{
 							if(data.reason==100000)
@@ -307,16 +314,16 @@ function show()
 		}
 		<?php } ?>
 		<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
-		if(jry_wb_mi_user_head!='')
+		if(jry_wb_login_user.oauth_mi!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_mi_user_head;
+			img2.src=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
 			var td=document.createElement("td"); tr.appendChild(td);
-			if(jry_wb_mi_user_head==jry_wb_login_user.head)
+			if(jry_wb_login_user.head.type=='mi')
 				td.innerHTML='正在使用';
 			else
 			{
@@ -325,15 +332,16 @@ function show()
 				button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 				button.onclick=function()
 				{
-					for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-						all[i].src=jry_wb_default_user_head;
-					jry_wb_login_user.head=jry_wb_default_user_head;
 					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=mi',function(data)
 					{
 						jry_wb_loading_off();
 						var data=JSON.parse(data);
 						if(data.code)
+						{
+							jry_wb_login_user.head.type='mi';
+							jry_wb_update_user(jry_wb_login_user,'head');
 							jry_wb_beautiful_alert.alert("换头成功","使用小米的头<br>小米智能头<br>年轻人的第一个头");
+						}
 						else
 						{
 							if(data.reason==100000)
@@ -348,6 +356,159 @@ function show()
 			}
 		}		
 		<?php } ?>
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='外部URL<br>请注意防盗链设置';
+		var td=document.createElement("td"); tr.appendChild(td);
+		var img2=document.createElement("img");td.appendChild(img2);
+		jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+		img2.src='';
+		var input=document.createElement("input");td.appendChild(input);
+		input.classList.add('h56');
+		input.onkeyup=function()
+		{
+			img2.src=input.value;			
+		}
+		var __url_onerror=false;
+		var td=document.createElement("td"); tr.appendChild(td);
+		if(jry_wb_login_user.head.type=='url')
+		{
+			input.value=img2.src=jry_wb_login_user.head.url;
+			td.innerHTML='正在使用';
+		}
+		else
+		{
+			var button=document.createElement("button");td.appendChild(button);
+			button.innerHTML="使用"; 
+			button.style.display='none';
+			button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+			button.onclick=function()
+			{
+				if(__url_onerror==false)
+				{
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=url',function(data)
+					{
+						jry_wb_loading_off();
+						var data=JSON.parse(data);
+						if(data.code)
+						{
+							jry_wb_login_user.head.type='url';
+							jry_wb_login_user.head.url=input.value;
+							jry_wb_update_user(jry_wb_login_user,'head');							
+							jry_wb_beautiful_alert.alert("换头成功","使用外部的头");
+						}
+						else
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							else if(data.reason==300003)
+								jry_wb_beautiful_alert.alert("换头失败",'外部头像地址不可用');
+							return ;
+						}
+						head_alert.close();
+					},[{'name':'url','value':encodeURIComponent(input.value)}]);
+				}
+				else
+					jry_wb_beautiful_alert.alert('换头失败','外部头像地址不可用');
+			};
+		}	
+		img2.onreadystatechange=img2.onload=function()
+		{
+			if(img2.readystate=="complete"||img2.readystate=="loaded"||img2.complete==true)
+			{
+				if(jry_wb_login_user.head.type!='url')
+					button.style.display='';
+				__url_onerror=false;
+			}
+		}		
+		img2.onerror=function()
+		{
+			if(jry_wb_login_user.head.type!='url')
+				button.style.display='none';
+			__url_onerror=true;		
+		}
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='网盘<br>请开启图床模式';
+		var td=document.createElement("td"); tr.appendChild(td);
+		var img2=document.createElement("img");td.appendChild(img2);
+		jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
+		img2.src='';
+		var span=document.createElement("span");td.appendChild(span);span.classList.add('h56');span.innerHTML='分享ID:'
+		var input_share_id=document.createElement("input");td.appendChild(input_share_id);
+		input_share_id.classList.add('h56');
+		input_share_id.style.width='100px'
+		var span=document.createElement("span");td.appendChild(span);span.classList.add('h56');span.innerHTML='文件ID:'
+		var input_file_id=document.createElement("input");td.appendChild(input_file_id);
+		input_file_id.classList.add('h56');
+		input_file_id.style.width='100px'
+		input_share_id.onkeyup=input_file_id.onkeyup=function()
+		{
+			img2.src=jry_wb_get_user_head({'head':{'type':'netdisk','share_id':input_share_id.value,'file_id':input_file_id.value}});
+		}
+		var __netdisk_onerror=false;
+		var td=document.createElement("td"); tr.appendChild(td);
+		if(jry_wb_login_user.head.type=='netdisk')
+		{
+			img2.src=jry_wb_get_user_head(jry_wb_login_user);
+			input_share_id.value=jry_wb_login_user.head.share_id;
+			input_file_id.value=jry_wb_login_user.head.file_id;
+			td.innerHTML='正在使用';
+		}
+		else
+		{
+			var button=document.createElement("button");td.appendChild(button);
+			button.innerHTML="使用"; 
+			button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+			button.style.display='none';
+			button.onclick=function()
+			{
+				if(__netdisk_onerror==false)
+				{
+					jry_wb_ajax_load_data('do_chenge.php?action=chengehead&type=netdisk',function(data)
+					{
+						jry_wb_loading_off();
+						var data=JSON.parse(data);
+						if(data.code)
+						{
+							jry_wb_login_user.head.type='netdisk';
+							jry_wb_login_user.head.file_id=input_file_id.value;
+							jry_wb_login_user.head.share_id=input_share_id.value;
+							jry_wb_update_user(jry_wb_login_user,'head');							
+							jry_wb_beautiful_alert.alert("换头成功","使用网盘的头");
+						}
+						else
+						{
+							if(data.reason==100000)
+								jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)
+								jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							else if(data.reason==300003)
+								jry_wb_beautiful_alert.alert("换头失败",'网盘头像地址不可用');
+							return ;
+						}
+						head_alert.close();
+					},[{'name':'share_id','value':input_share_id.value},{'name':'file_id','value':input_file_id.value}]);
+				}
+				else
+					jry_wb_beautiful_alert.alert('换头失败','网盘头像地址不可用');
+			};
+		}	
+		img2.onreadystatechange=img2.onload=function()
+		{
+			if(img2.readystate=="complete"||img2.readystate=="loaded"||img2.complete==true)
+			{
+				if(jry_wb_login_user.head.type!='netdisk')
+					button.style.display='';
+				__netdisk_onerror=false;
+			}
+		}		
+		img2.onerror=function()
+		{
+			if(jry_wb_login_user.head.type!='netdisk')
+				button.style.display='none';
+			__netdisk_onerror=true;		
+		}		
 	};
 	jry_wb_show_tr_no_input(table,'绿币',jry_wb_login_user.green_money,'',250);	
 	jry_wb_show_tr_no_input(table,'注册日期',jry_wb_login_user.enroldate,'',250);		
@@ -943,61 +1104,54 @@ function showmail()
 <?php }else{ ?>
 	button.innerHTML='提交';
 <?php } ?>
-button.onclick=function()
-{
-	if(mail.value==jry_wb_login_user.mail)
-	return jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
-	if(!jry_wb_test_mail(mail.value))
-	return jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
-	jry_wb_ajax_load_data('do_chenge.php?action=<?php if(constant('jry_wb_mail_switch')!=''){?>send_mail<?php }else{ ?>mail<?php } ?>',function (data)
+	button.onclick=function()
 	{
-		data=JSON.parse(data);
-		jry_wb_loading_off();
-		if(data.code)	
-		jry_wb_beautiful_alert.alert('<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>成功',mail.value,function()
+		if(mail.value==jry_wb_login_user.mail)
+		return jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+		if(!jry_wb_test_mail(mail.value))
+		return jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+		jry_wb_ajax_load_data('do_chenge.php?action=<?php if(constant('jry_wb_mail_switch')!=''){?>send_mail<?php }else{ ?>mail<?php } ?>',function (data)
 		{
-<?php if(constant('jry_wb_mail_switch')!=''){?>
-				if(mail.value.includes("@163.com"))
-				window.open("https://mail.163.com/");
-				else if(mail.value.includes("@qq.com"))
-				{
-					window.open("https://mail.qq.com/");
-					if(jry_wb_qq_user_head=='')
-						jry_wb_qq_user_head="https://q2.qlogo.cn/headimg_dl?dst_uin="+mail.value+"&spec=100"+"'";
-				}
-<?php }else{ ?>
-				jry_wb_login_user.mail=mail.value;
-				jry_wb_gravatar_user_head=data.jry_wb_gravatar_user_head;
-				jry_wb_login_user.head=data.head==''?jry_wb_login_user.head:data.head;
-				for(var all=document.getElementsByName('jry_wb_user_head_1'),i=0,n=all.length;i<n;i++)
-					all[i].src=jry_wb_login_user.head;				
-<?php } ?>
-			});
-			else
+			data=JSON.parse(data);
+			jry_wb_loading_off();
+			if(data.code)	
+			jry_wb_beautiful_alert.alert('<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>成功',mail.value,function()
 			{
-				if(data.reason==100000)
-					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-				else if(data.reason==100001)
-					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-				if(data.reason==100005)
-					jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
-				else if(data.reason==100002)
-					jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
-				else if(data.reason==100004)
-					jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
-				else if(data.reason==100014)
-					jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
-				else if(data.reason==100015)
-					jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","别人绑定过了",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
-				else if(data.reason==100016)
-					jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","配置错误，请联系开发组");				
+<?php if(constant('jry_wb_mail_switch')!=''){?>
+					if(mail.value.includes("@163.com"))
+						window.open("https://mail.163.com/");
+					else if(mail.value.includes("@qq.com"))
+						window.open("https://mail.qq.com/");
+<?php }else{ ?>
+					jry_wb_login_user.mail=mail.value;
+					jry_wb_gravatar_user_head=data.jry_wb_gravatar_user_head;
+<?php } ?>
+				});
 				else
-					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-				return ;
-			}
-		},[{'name':'vcode','value':vcode.value},{'name':'mail','value':mail.value}],true);
-	};
-}
+				{
+					if(data.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(data.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+					if(data.reason==100005)
+						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+					else if(data.reason==100002)
+						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+					else if(data.reason==100004)
+						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+					else if(data.reason==100014)
+						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+					else if(data.reason==100015)
+						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","别人绑定过了",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+					else if(data.reason==100016)
+						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","配置错误，请联系开发组");				
+					else
+						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+					return ;
+				}
+			},[{'name':'vcode','value':vcode.value},{'name':'mail','value':mail.value}],true);
+		};
+	}
 function showpas()
 {
 	window.location.hash='showpas';	
@@ -1606,7 +1760,6 @@ function tp_in()
 					clearInterval(timer);
 					jry_wb_login_user.oauth_qq=JSON.parse(jry_wb_cache.get('oauth_qq'));
 					jry_wb_cache.delete('oauth_qq');
-					jry_wb_qq_user_head=jry_wb_login_user.oauth_qq.figureurl_qq_2;
 					tp_in();
 				}
 			},500);
@@ -1632,6 +1785,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_qq=null;
+					jry_wb_login_user.head.type='default';
+					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
 				}
@@ -1668,7 +1823,6 @@ function tp_in()
 					clearInterval(timer);
 					jry_wb_login_user.oauth_github=JSON.parse(jry_wb_cache.get('oauth_github'));
 					jry_wb_cache.delete('oauth_github');
-					jry_wb_github_user_head=jry_wb_login_user.oauth_github.avatar_url;
 					tp_in();
 				}
 			},1000);
@@ -1694,6 +1848,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_github=null;
+					jry_wb_login_user.head.type='default';
+					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
 				}
@@ -1730,7 +1886,6 @@ function tp_in()
 					clearInterval(timer);
 					jry_wb_login_user.oauth_mi=JSON.parse(jry_wb_cache.get('oauth_mi'));
 					jry_wb_cache.delete('oauth_mi');
-					jry_wb_mi_user_head=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
 					tp_in();
 				}
 			},500);
@@ -1756,6 +1911,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_mi=null;
+					jry_wb_login_user.head.type='default';
+					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
 				}
@@ -1792,7 +1949,6 @@ function tp_in()
 					clearInterval(timer);
 					jry_wb_login_user.oauth_gitee=JSON.parse(jry_wb_cache.get('oauth_gitee').replace(/\n/g, "<br>"));
 					jry_wb_cache.delete('oauth_gitee');
-					jry_wb_github_user_head=jry_wb_login_user.oauth_gitee.avatar_url;
 					tp_in();
 				}
 			},1000);
@@ -1818,6 +1974,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_gitee=null;
+					jry_wb_login_user.head.type='default';
+					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
 				}

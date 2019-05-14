@@ -153,9 +153,9 @@
 		$conn=jry_wb_connect_database();
 		$now=jry_wb_get_time();//时间
 		if($sex==0)
-			$q = "INSERT INTO ".constant('jry_wb_database_general')."users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,'default_head_woman',?,?,?)";
+			$q = 'INSERT INTO '.constant('jry_wb_database_general').'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?)';
 		else
-			$q = "INSERT INTO ".constant('jry_wb_database_general')."users (name,password,sex,enroldate,tel,lasttime,extern) VALUES (?,?,?,?,?,?,?)";
+			$q = 'INSERT INTO '.constant('jry_wb_database_general').'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?)';
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$name);
 		$st->bindParam(2,$psw1);

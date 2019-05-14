@@ -20,6 +20,6 @@
 		$st->bindParam(2,date("Y-m-d H;i:s",time()));
 		$st->bindParam(3,$type);
 		$st->bindParam(4,$data);
-		$st->execute();	
+		$st->execute();
 	}
 ?>

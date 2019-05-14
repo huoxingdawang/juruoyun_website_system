@@ -171,8 +171,7 @@ jry_wb_manage_user.showall=function()
 								break;
 							}
 					}
-					td.innerHTML+='<h56>('+user.type+')</h56>'
-					//
+					td.innerHTML+='<h56>('+user.type+')</h56>';
 					var tr=document.createElement("tr");table.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	
 					td.width="400";			

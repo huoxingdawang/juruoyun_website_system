@@ -98,7 +98,7 @@
 		if($user['id']==-1)
 		{
 			$user['style_id']=1;
-			$user['head_special']='{"mouse_out":{"speed":2,"direction":1,"times":-1},"mouse_on":{"speed":2,"direction":1,"times":-1}}';
+			$user['head_special']='NULL';
 		}
 		if(!jry_wb_test_is_cli_mode())
 		{
@@ -144,7 +144,8 @@
 			if($user['oauth_gitee']!='')
 				$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
 			if($user['extern']!='')
-				$user['extern']=json_decode($user['extern']);					
+				$user['extern']=json_decode($user['extern']);
+			$user['head']=json_decode($user['head'],true);
 		}
 		else
 		{

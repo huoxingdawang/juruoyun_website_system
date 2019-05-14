@@ -24,10 +24,9 @@
 		$ans.=';';
 		return $ans;
 	}
-	function jry_wb_show_user($row,$active=false)
+	function jry_wb_show_user(&$row,$active=false)
 	{
-		global $jry_wb_login_user;
-		if($row[name]=='')
+		if($row['name']=='')
 		{
 			$show="该用户消失了";
 			$add=jry_wb_print_href('jry_wb_host','','',true);
@@ -57,25 +56,31 @@
 		}
 		echo "<a href=".$add." target='_parent' class=".($active?'active':'')." jry_wb_top_toolbar_right>".$show."</a>";
 	}
-	function jry_wb_get_user_head($user)
+	function jry_wb_get_user_head(&$user)
 	{
-		if($user['head']=='default_head_man')
+		if(is_string($user['head']))
+			$user['head']=json_decode($user['head'],true);
+		if($user['head']['type']=='default_head_man')
 			return constant('jry_wb_defult_man_picture');
-		else if($user['head']=='default_head_woman')
+		else if($user['head']['type']=='default_head_woman')
 			return constant('jry_wb_defult_woman_picture');
-		else if($user['head']=='gravatar')
+		else if($user['head']['type']=='gravatar')
 			return "http://www.gravatar.com/avatar/".md5($user['mail'])."?size=80&d=404&r=g";
-		else if($user['head']=='qq'&&$user['oauth_qq']!='')
+		else if($user['head']['type']=='qq'&&$user['oauth_qq']!='')
 			return $user['oauth_qq']->message->figureurl_qq_2;
-		else if($user['head']=='github'&&$user['oauth_github']!=null)
+		else if($user['head']['type']=='github'&&$user['oauth_github']!=null)
 			return $user['oauth_github']->message->avatar_url;
-		else if($user['head']=='qq')
+		else if($user['head']['type']=='qq')
 			return "https://q2.qlogo.cn/headimg_dl?dst_uin=".(explode("@",$user['mail'])[0])."&spec=100";
-		else if($user['head']=='gitee')
-			return $user['oauth_github']->message->avatar_url;	
-		else if($user['head']=='mi')
-			return $user['oauth_mi']->message->miliaoIcon_orig;	
-		else if($user['head']!='')
-			return "http://juruoyun.top/mywork/picturebed/get_picturebed.php?size=80&pictureid=".$user[head];						
+		else if($user['head']['type']=='gitee')
+			return $user['oauth_gitee']->message->avatar_url;	
+		else if($user['head']['type']=='mi')
+			return $user['oauth_mi']->message->miliaoIcon_orig;
+		else if($user['head']['type']=='url')
+			return $user['head']['url'];
+		else if($user['head']['type']=='netdisk')
+			return constant('jry_wb_host').'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$user['head']['share_id'].'&file_id='.$user['head']['file_id'];
+		else
+			return '';
 	}
 ?>
