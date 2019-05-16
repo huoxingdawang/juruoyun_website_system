@@ -38,14 +38,14 @@ var jry_wb_cache=
 	get_last_time:function(name,qiangzhi)
 	{
 		if(qiangzhi)
-			return '1926-08-17 01:01:01';
+			return '1926-08-17 00:00:00';
 		var buf = JSON.parse(localStorage.getItem(name));
 		if(buf==null)
 			buf = JSON.parse(sessionStorage.getItem(name));
 		if(buf==null)
-			return '1926-08-17 01:01:01';
+			return '1926-08-17 00:00:00';
 		if(buf.data==null||( typeof buf.data=="object"&&buf.data.length==0))
-			return '1926-08-17 01:01:01';
+			return '1926-08-17 00:00:00';
 		return buf.lasttime;
 	},
 	delete:function(name)
