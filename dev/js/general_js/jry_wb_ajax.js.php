@@ -1,5 +1,5 @@
 <?php if(false){ ?><script><?php } ?>
-function jry_wb_ajax_load_data(url,func,array,tong)
+function jry_wb_ajax_load_data(url,func,array,yibu)
 {
 	jry_wb_loading_on();
 <?php if(constant('jry_wb_debug_mode')){ ?>
@@ -8,8 +8,8 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 	else
 		console.time('ajax:'+url);
 <?php } ?>
-	if(tong==null)
-		tong = true;
+	if(yibu==null)
+		yibu = true;
 	var xmlhttp;
 	if(window.XMLHttpRequest)
 		xmlhttp =  new XMLHttpRequest();
@@ -47,8 +47,8 @@ function jry_wb_ajax_load_data(url,func,array,tong)
 <?php } ?>
 		}
 	};
-	xmlhttp.open("POST",url,tong);
-	if(tong)
+	xmlhttp.open("POST",url,yibu);
+	if(yibu)
 		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
 	var data='';
 	if( typeof array=='object'&&array!=null)
