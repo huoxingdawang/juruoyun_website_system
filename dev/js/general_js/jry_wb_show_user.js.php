@@ -94,6 +94,8 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 						data.splice(now,1,buf);
 				}
 		}
+		else
+			buf=data.find(function (a){return a.id==id});
 		jry_wb_cache.set(cache_name,data);
 		if( typeof callback=='function')
 			callback(buf);
