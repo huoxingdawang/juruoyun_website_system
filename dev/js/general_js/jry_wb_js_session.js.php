@@ -14,14 +14,14 @@ var jry_wb_js_session=new function()
 		worker.port.onmessage=function(data)
 		{
 			data=data.data;
-<?php if(constant('jry_wb_debug_mode')){ ?>			
-		console.log('JS session receive message: ',data);
-<?php } ?>			
 			if(keys.indexOf(data.key)!=-1)
 			{
 				keys.splice(keys.indexOf(data.key),1);
 				return;
 			}
+<?php if(constant('jry_wb_debug_mode')){ ?>			
+		console.log('JS session receive message: ',data);
+<?php } ?>			
 			var func=map.get(data.to);
 			if(typeof func=='function')
 				func(data.data);
@@ -30,9 +30,13 @@ var jry_wb_js_session=new function()
 	}
 	this.send=function(to,data)
 	{
+		var data;
 		if(this.close)
 			return;
-		worker.port.postMessage({'to':to,'data':data,'key':(keys[keys.length]=Math.random())});
+		worker.port.postMessage(data={'to':to,'data':data,'key':(keys[keys.length]=Math.random())});
+<?php if(constant('jry_wb_debug_mode')){ ?>			
+		console.log('JS session send message: ',data);
+<?php } ?>		
 	};
 	this.add_listener=function(id,func)
 	{
