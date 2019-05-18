@@ -10,7 +10,7 @@ var jry_wb_js_session=new function()
 		this.close=true;
 	else
 	{
-		var worker=new SharedWorker(jry_wb_message.jry_wb_host+'jry_wb_js/sharedworker.js');
+		var worker=new SharedWorker(jry_wb_message.jry_wb_host+'jry_wb_js/jry_wb_js_session_worker.js');
 		worker.port.onmessage=function(data)
 		{
 			data=data.data;
