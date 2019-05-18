@@ -37,8 +37,7 @@
 			<?php if($jry_wb_config_user_extern_message!=NULL){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showextern();window.onresize();">扩展信息</div><?php } ?>
 			<?php if(!$jry_wb_login_user['use']){ ?><div class="leftlist_default" onClick="unlock()">申请解封</div><?php } ?>
 	  </td>
-		<td id="show"  valign="top">
-		</td>
+		<td id="show"  valign="top"></td>
 	</tr>
 </table>
 <script language="javascript">

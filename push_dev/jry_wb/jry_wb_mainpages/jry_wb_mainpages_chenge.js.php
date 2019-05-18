@@ -9,58 +9,13 @@ function unlock()
 {
 	jry_wb_ajax_load_data('do_chenge.php?action=unlock&id='+id,function (data){jry_wb_loading_off();data=JSON.parse(data);if(data.login==false){jry_wb_beautiful_right_alert.alert('无法操作，因为'+data.reasion,2000,'auto','error');return;}if(data.data=='OK'){jry_wb_beautiful_right_alert.alert('申请成功，请耐心等待',2000,'auto','ok');return;}if(data.data=='mail'){jry_wb_beautiful_right_alert.alert('Mail Error',2000,'auto','error');return;}jry_wb_beautiful_right_alert.alert('Unknow error',2000,'auto','alert');});
 }
-stoplogin=false;
-function showlogin() 
-{
-	var intime=jry_wb_login_user.logdate;
-	var addre="login";
-	var date1 =jry_wb_get_server_time();
-	var date2 = new Date(intime.replace(/\-/g, "/"));
-	var ms = (date1.getTime() - date2.getTime());
-	var day=parseInt(ms/(24*60*60*1000));
-	var hour=parseInt(ms/(60*60*1000))-day*24;
-	var minute=parseInt(ms/(60*1000))-hour*60-day*24*60;
-	var s=parseInt(ms/(1000))-minute*60-hour*60*60-day*24*60*60;
-	if(!stopnext)
-		document.getElementById(addre).innerHTML=day+"天"+hour+"时"+minute+"分"+s+"秒";
-	if(!stoplogin)
-		timerid = setTimeout("showlogin()",1000);
-	timerRunning = true;
-}
-stopnext=false;
-function shownext() 
-{
-	var intime=jry_wb_login_user.greendate;
-	var addre="next";
-	var date1 =jry_wb_get_server_time();
-	var date2 = new Date(intime.replace(/\-/g, "/"));
-	var ms = (date1.getTime() - date2.getTime());
-	ms=24*60*60*1000-ms;
-	if(!stopnext)
-	{
-		if(ms>0)
-		{
-			var day=0;
-			var hour=parseInt(ms/(60*60*1000))-day*24;
-			var minute=parseInt(ms/(60*1000))-hour*60-day*24*60;
-			var s=parseInt(ms/(1000))-minute*60-hour*60*60-day*24*60*60;
-			document.getElementById(addre).innerHTML=hour+"时"+minute+"分"+s+"秒";
-			timerRunning = true;
-			if(!stopnext)
-				timerid = setTimeout("shownext()",1000);
-		}
-		else
-		{
-			document.getElementById(addre).innerHTML="时间到，退出重登即可";
-		}
-	}
-}
+login_timer=next_green_timer=null;
 function show()
 {
+	if(window.location.hash=='#show'&&showdiv.innerHTML!='')
+		return;
 	window.location.hash='show';
 	showdiv.innerHTML='';
-	stoplogin=false;
-	stopnext=false;
 	var table=document.createElement("table");
 	table.border=1;
 	table.width="100%";
@@ -513,11 +468,34 @@ function show()
 	jry_wb_show_tr_no_input(table,'绿币',jry_wb_login_user.green_money,'',250);	
 	jry_wb_show_tr_no_input(table,'注册日期',jry_wb_login_user.enroldate,'',250);		
 	jry_wb_show_tr_no_input(table,'登录日期',jry_wb_login_user.logdate,'',250);		
-	jry_wb_show_tr_no_input(table,'已登录时间',0,'login','',250);
-	showlogin();
-	jry_wb_show_tr_no_input(table,'上次绿币奖励时间',jry_wb_login_user.greendate,'',250);		
-	jry_wb_show_tr_no_input(table,'距下次获得',0,'next',250);
-	shownext();
+	var login_time=jry_wb_show_tr_no_input(table,'已登录时间',0,'login','',250).children[0];
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	login_timer=setInterval(function()
+	{
+		var ms=jry_wb_compare_time(jry_wb_get_server_time(),jry_wb_login_user.logdate);
+		var day=parseInt(ms/(24*60*60*1000));
+		var hour=parseInt(ms/(60*60*1000))-day*24;
+		var minute=parseInt(ms/(60*1000))-hour*60-day*24*60;
+		var s=parseInt(ms/(1000))-minute*60-hour*60*60-day*24*60*60;
+			login_time.innerHTML=day+"天"+hour+"时"+minute+"分"+s+"秒";			
+	},1000);
+	jry_wb_show_tr_no_input(table,'上次绿币奖励时间',jry_wb_login_user.greendate,'',250);
+	var next_green_time=jry_wb_show_tr_no_input(table,'距下次获得',0,'next',250).children[0];
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
+	next_green_timer=setInterval(function()
+	{
+		var ms=24*60*60*1000-jry_wb_compare_time(jry_wb_get_server_time(),jry_wb_login_user.greendate);
+		if(ms>0)
+		{
+			var day=0;
+			var hour=parseInt(ms/(60*60*1000))-day*24;
+			var minute=parseInt(ms/(60*1000))-hour*60-day*24*60;
+			var s=parseInt(ms/(1000))-minute*60-hour*60*60-day*24*60*60;
+			next_green_time.innerHTML=hour+"时"+minute+"分"+s+"秒";
+		}
+		else
+			next_green_time.innerHTML="时间到，退出重登即可";
+	},1000);
 	jry_wb_show_tr_no_input(table,'类型',jry_wb_login_user.competencename,'',250);	
 	var td=jry_wb_show_tr_no_input(table,'显示状态演示','','',250);
 	td.innerHTML='';
@@ -529,8 +507,8 @@ function show_ip()
 {
 	window.location.hash='show_ip';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var table=document.createElement("table");
 	table.border=1;
 	table.width="100%";
@@ -687,8 +665,8 @@ function showchenge()
 {
 	window.location.hash='showchenge';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;
 	table.width="100%";
@@ -882,8 +860,8 @@ function showtel()
 {
 	window.location.hash='showtel';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;
@@ -1043,8 +1021,8 @@ function showmail()
 {
 	window.location.hash='showmail';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	
 	var table=document.createElement("table");
 	table.border=1;
@@ -1156,8 +1134,8 @@ function showpas()
 {
 	window.location.hash='showpas';	
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	
 	var table=document.createElement("table");showdiv.appendChild(table);	
 	table.border=1;
@@ -1264,8 +1242,8 @@ function showshow()
 {
 	window.location.hash='showshow';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var options=[{id:0,name:'正常'},{id:1,name:'全码'},{id:2,name:'不码'}];
 	var table=document.createElement("table");showdiv.appendChild(table);	
 	table.border=1;
@@ -1381,8 +1359,8 @@ function showspecialfact()
 {
 	window.location.hash='showspecialfact';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var options=[{id:0,name:'关闭'},{id:1,name:'打开'}];
 	var table=document.createElement("table");showdiv.appendChild(table);	
 	table.border=1;
@@ -1543,8 +1521,8 @@ function showcache(loaded)
 	window.location.hash='showcache';	
 	loaded=loaded==null?false:loaded;
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;table.width='100%';
 	var tr=document.createElement("tr");table.appendChild(tr);
@@ -1618,8 +1596,8 @@ function showmusiclist()
 {
 	window.location.hash='showmusiclist';	
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var background_music_list=jry_wb_login_user.background_music_list.slice();
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;table.width='100%';
@@ -1737,8 +1715,8 @@ function tp_in()
 {
 	window.location.hash='tpin';	
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;table.width='100%';
 	<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>
@@ -2000,8 +1978,8 @@ function showextern()
 {
 	window.location.hash='extern';
 	showdiv.innerHTML='';
-	stoplogin=true;
-	stopnext=true;	
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;	
 <?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){ ?>
 	var time_<?php echo $one['key']; ?>=0;
 <?php } ?>	
