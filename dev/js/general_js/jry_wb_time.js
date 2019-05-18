@@ -1,20 +1,16 @@
 function jry_wb_get_time() 
 {
-    var date  =  new Date();
-    var seperator1  =  "-";
-    var seperator2  =  ":";
-    var month  =  date.getMonth() + 1;
-    var strDate  =  date.getDate();
-    if (month >= 1 && month <= 9) {
-        month  =  "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate  =  "0" + strDate;
-    }
-    var currentdate  =  date.getFullYear() + seperator1 + month + seperator1 + strDate
-            + " " + date.getHours() + seperator2 + date.getMinutes()
-            + seperator2 + date.getSeconds();
-    return currentdate;
+	var date=new Date();
+	var seperator1="-";
+	var seperator2=":";
+	var month=date.getMonth() + 1;
+	var strdate=date.getDate();
+	if (month>=1&&month<=9)
+		month="0" + month;
+	if(strdate>=0&&strdate<=9)
+		strdate="0" + strdate;
+	var currentdate=date.getFullYear()+seperator1+month+seperator1+strdate+" "+date.getHours() +seperator2+date.getMinutes()+seperator2+date.getSeconds();
+	return currentdate;
 }
 function jry_wb_get_server_time()
 {
@@ -33,10 +29,11 @@ function jry_wb_math_time(intime)
 }
 function jry_wb_show_time(intime,addre)
 {
-	 var date=jry_wb_math_time(intime),_date=date.split("-"),day=_date[0],hour=_date[1],minute=_date[2], s=_date[3];
-	 document.getElementById(addre).innerHTML=day+"天"+hour+"时"+minute+"分"+s+"秒";
-	 timerid=setTimeout(function(){jry_wb_show_time(intime,addre)},1000);
-	 timerRunning=true;
+	timerid=setInterval(function()
+	{
+		var date=jry_wb_math_time(intime),_date=date.split("-"),day=_date[0],hour=_date[1],minute=_date[2], s=_date[3];
+		document.getElementById(addre).innerHTML=day+"天"+hour+"时"+minute+"分"+s+"秒";
+	},1000);
 }
 String.prototype.to_time=function()
 {
