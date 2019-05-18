@@ -54,3 +54,15 @@ function jry_wb_compare_time(d1,d2)
 		d2=d2.to_time();	
 	return d1-d2;
 }
+function jry_wb_compare_time(d1,d2)
+{
+	if(d1==undefined)
+		d1=new Date('1926-08-17 00:00:00');
+	if(d2==undefined)
+		d2=new Date('1926-08-17:00:00:00');
+	if(typeof d1.to_time=='function')
+		d1=d1.to_time();
+	if(typeof d2.to_time=='function')
+		d2=d2.to_time();
+	return d1-d2;
+}
