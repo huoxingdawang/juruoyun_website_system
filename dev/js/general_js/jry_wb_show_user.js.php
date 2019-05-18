@@ -77,29 +77,27 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 	{
 		var buf = JSON.parse(data_);
 		var data = jry_wb_cache.get(cache_name); 
-		if(buf.id!=-1)
+		if(buf.id==-1)
 		{
-			if(data==null)
-			{
-				data = new Array();
-				data.push(buf);
-			}
-			else
-				if(buf!=null)
-				{
-					var now = data.find(function(a){ return a.id==buf.id});
-					if(now==null)
-						data.push(buf);
-					else
-						data.splice(now,1,buf);
-				}
-		}
-		else
 			buf=data.find(function (a){return a.id==id});
+			buf.lasttime_sync=new Date();
+		}
+		if(data==null)
+		{
+			data = new Array();
+			data.push(buf);
+		}
+		else if(buf!=null)
+		{
+			var now = data.find(function(a){return a.id==buf.id});
+			if(now==null)
+				data.push(buf);
+			else
+				data.splice(now,1,buf);
+		}
 		jry_wb_cache.set(cache_name,data);
 		if( typeof callback=='function')
 			callback(buf);
-		jry_wb_loading_off();		
 		var aaa=jry_wb_getting_user.indexOf(id);
 		if(aaa!=-1)
 		{
@@ -108,6 +106,7 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 				jry_wb_getting_user_call_back[aaa][i](buf);
 			jry_wb_getting_user_call_back.splice(aaa,1);
 		}
+		jry_wb_loading_off();		
 	},null,yibu);
 }
 function jry_wb_show_user(addr,user,width,float,inline,after)
