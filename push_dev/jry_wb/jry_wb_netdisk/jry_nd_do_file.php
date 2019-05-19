@@ -164,13 +164,13 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
 			if(!jry_nd_database_check_size($jry_wb_login_user,$_POST['size']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200002,'file'=>__FILE__,'line'=>__LINE__)));	
-			if(jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['father'])===null)
+			if(($father=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['father']))===null)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));
 			if(jry_nd_database_get_file_by_father_name_type($conn,$jry_wb_login_user,$_POST['father'],$_POST['name'],$_POST['type'])!=null)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200005,'file'=>__FILE__,'line'=>__LINE__)));
 			if((($area=jry_nd_direct_chose_area($conn,$jry_wb_login_user,$_POST['size']))===null))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200003,'file'=>__FILE__,'line'=>__LINE__)));
-			$file_id=jry_nd_database_new_file($conn,$jry_wb_login_user,$_POST['father'],$_POST['name'],$_POST['type'],$area,$_POST['size']);
+			$file_id=jry_nd_database_new_file($conn,$jry_wb_login_user,$father,$_POST['name'],$_POST['type'],$area,$_POST['size']);
 			if($area['type']==0)
 				$extern_message=[];
 			else if($area['type']==1)//阿里云STS签名
