@@ -130,7 +130,7 @@
 				if($key==$one['key'])
 					echo '<td>'.iconv('utf-8','gbk',$one['name']).'</td>';
 		echo '</tr>';
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE `type`=?');
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE `type`=? ORDER BY id');
 		$st->bindValue(1,4);
 		$st->execute();			
 		foreach($st->fetchAll() as $user)
