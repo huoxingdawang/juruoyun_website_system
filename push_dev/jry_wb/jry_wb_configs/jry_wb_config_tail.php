@@ -12,6 +12,7 @@
 	<a target="_blank" href="http://juruoyun.top/mywork/blog/show.php?blog_id=00009"><b class="jry_wb_font_buttom">蒟蒻云美化计划</b></a><b class="jry_wb_font_buttom">|</b>
 	<a target="_blank" href="https://promotion.aliyun.com/ntms/act/campus2018.html?spm=5176.8112568.520614.1.3f229ed57AzNMU&userCode=e05zvjms"><b class="jry_wb_font_buttom">阿里爸爸一折买服务姬</b></a><b class="jry_wb_font_buttom">|</b>
 	<a target="_blank" href="http://himun.info:2019"><b class="jry_wb_font_buttom">HIMUN 模联</b></a><b class="jry_wb_font_buttom">|</b>
+	<a target="_blank" href="http://ezoj.org.cn"><b class="jry_wb_font_buttom">EZOJ</b></a><b class="jry_wb_font_buttom">|</b>
 	<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1176402460&site=qq&menu=yes"><b class="jry_wb_font_buttom">在QQ上嘲笑我的菜</b></a><br>
 	<a target="_blank" href="http://www.juruoyun.top"><b class="jry_wb_font_buttom">您当前在开发版，点此返回稳定版本</b></a><br>
 <script language="javascript">
@@ -29,4 +30,5 @@
 	jry_wb_set_shortcut([jry_wb_keycode_q],function(){jry_wb_beautiful_right_alert.alert("已打开七牛云",3000,'auto','ok');window.open('https://www.qiniu.com/');});
 	jry_wb_set_shortcut([jry_wb_keycode_r],function(){jry_wb_beautiful_right_alert.alert("已打开RT-thread",3000,'auto','ok');window.open('https://www.rt-thread.org/');});
 	jry_wb_set_shortcut([jry_wb_keycode_t],function(){jry_wb_beautiful_right_alert.alert("已打开teencode",3000,'auto','ok');window.open('http://106.12.116.155');});
+	jry_wb_set_shortcut([jry_wb_keycode_e],function(){jry_wb_beautiful_right_alert.alert("已打开EZOJ",3000,'auto','ok');window.open('http://ezoj.org.cn');});
 </script>
