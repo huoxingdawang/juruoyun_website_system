@@ -29,7 +29,7 @@
 	date_default_timezone_set('Asia/Shanghai');
 	
 	define('jry_wb_debug_mode'			,true);
-	define('jry_wb_socket_switch'		,false);
+	define('jry_wb_socket_switch'		,true);
 
 	if(constant('jry_wb_background_music_switch'))
 		define('jry_wb_background_music_default_list',
@@ -39,11 +39,7 @@
 			array('mid'=>'003O7cLi18hkBm','type'=>'qq'),
 			array('mid'=>'000idahy2pT761','type'=>'qq'),
 			array('mid'=>'004L3vFm0vErA3','type'=>'qq'),
-			array('mid'=>'0038pLAN0JFpaU','type'=>'qq'),
-			array('mid'=>'002WDzh20GpMWQ','type'=>'qq'),
 			array('mid'=>'002o9DKP3d9XIH','type'=>'qq'),
-			array('mid'=>'003StCNV01trk2','type'=>'qq'),
-			array('mid'=>'000oxiWq0t7aZ2','type'=>'qq'),
-			array('mid'=>'004TRcLI4IguSE','type'=>'qq')
+			array('mid'=>'003StCNV01trk2','type'=>'qq')
 			]);
 ?>
