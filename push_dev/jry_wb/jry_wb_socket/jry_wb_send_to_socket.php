@@ -1,18 +1,48 @@
 <?php
 	include_once("../jry_wb_configs/jry_wb_config_socket.php");	
 	include_once("../tools/jry_wb_includes.php");
-	function jry_wb_send_to_socket($user,$type,$data)
+	function jry_wb_send_to_socket($from,$to_id,$type,$data,$c_index=-1)
 	{
-		if(jry_wb_test_is_cli_mode())
+		if(constant('jry_wb_socket_switch')!=true)
 			return;
-		if(($socket=socket_create(AF_INET,SOCK_STREAM,SOL_TCP))===FALSE)
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500001,'file'=>__FILE__,'line'=>__LINE__)));
-		if(socket_connect($socket,'127.0.0.1',constant('jry_wb_socket_port').'')===FALSE)
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500002,'file'=>__FILE__,'line'=>__LINE__)));
-		$data=array('data'=>array('code'=>true,'type'=>$type,'data'=>$data),'user'=>array('id'=>$user['id'],'code'=>$user['code']));
-		$data=json_encode($data);
-		if(!socket_write($socket,$data,strlen($data)))
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500003,'file'=>__FILE__,'line'=>__LINE__)));
+		$jry_wb_message_queue=msg_get_queue(ftok(dirname(__FILE__),'m'));
+		if(is_array($to_id)&&$to_id['id']!==NULL)
+			$to_id=$to_id['id'];
+		else if(is_array($to_id))
+			$to_id=$to_id;
+		else if(is_object($to_id))
+			$to_id=$to_id->id;
+		else if(is_string($to_id))
+			$to_id=(int)$to_id;
+		unset($from['background_music_list']);
+		unset($from['head_special']);
+		unset($from['oauth_qq']);
+		unset($from['oauth_github']);
+		unset($from['oauth_mi']);
+		unset($from['oauth_gitee']);
+		unset($from['ips']);
+		unset($from['zhushi']);
+		unset($from['head']);
+		unset($from['jry_wb_test_is_mobile']);
+		unset($from['trust']);
+		unset($from['browser']);
+		unset($from['device']);
+		unset($from['time']);
+		unset($from['follow_mouth']);
+		unset($from['word_special_fact']);
+		unset($from['style_id']);
+		unset($from['tel_show']);
+		unset($from['mail_show']);
+		unset($from['ip_show']);
+		unset($from['greendate']);
+		unset($from['logdate']);
+		unset($from['enroldate']);
+		unset($from['password']);
+		unset($from['lasttime']);
+		unset($from['color']);
+		$redis = new Redis;
+		$redis->connect('127.0.0.1');
+		$redis->rpush('post',json_encode(array('from'=>$from,'to_id'=>$to_id,'type'=>$type,'data'=>$data,'c_index'=>$c_index)));				
+		msg_send($jry_wb_message_queue,4,'1');		
 	}
-//	jry_wb_send_to_socket($jry_wb_login_user,200000,array('room'=>1,'message'=>'哈哈'));
 ?>

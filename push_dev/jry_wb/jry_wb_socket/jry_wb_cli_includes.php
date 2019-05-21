@@ -8,3 +8,5 @@
 	include_once('jry_wb_socket_send_to_user.php');
 	include_once('jry_wb_socket_decode.php');
 	include_once('jry_wb_socket_send.php');
+	include_once('jry_wb_cli_echo_log.php');
+	include_once('jry_wb_cli_add_task.php');
