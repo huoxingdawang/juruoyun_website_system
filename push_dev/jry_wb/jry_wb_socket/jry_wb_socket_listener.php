@@ -148,9 +148,9 @@
 				$u_index=array_search($id,$users_id);
 				$user=$users[$u_index];
 				socket_getpeername($socket,$ip);
-				$bytes=socket_recv($socket,$data,1024*1024*10,0);
+				$bytes=socket_recv($socket,$data,1024*1024*1024,0);
 				$data=jry_wb_socket_decode($data);
-				if ($bytes === FALSE)
+				if ($bytes===FALSE)
 					jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').jry_wb_php_cli_color($user['id'].'-'.$user['name'],'light_blue').' On '.jry_wb_php_cli_color('socket_recv()','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.socket_strerror(socket_last_error()));
 				else if($bytes<=1||empty($data)||!is_object(json_decode($data)))
 				{					
