@@ -13,10 +13,20 @@
 	echo ("\n".jry_wb_php_cli_color('Watcher OK','green')."\nby ".jry_wb_php_cli_color('juruoyun web system '.constant('jry_wb_version'),'light_green')."\n");
 	$redis=new Redis;
 	$redis->connect('127.0.0.1',6379);	
+	$conn=jry_wb_connect_database();
+	$st =$conn->prepare("SELECT * FROM ".constant('jry_wb_database_log')."socket ORDER BY log_socket_id LIMIT 50");
+	$st->execute();			
+	foreach($st->fetchAll() as $one)
+		echo $one['data']."\n";
 	while(1)
 	{
 		if($message=$redis->lpop('log'))
+		{
+			$st =$conn->prepare("INSERT INTO ".constant('jry_wb_database_log')."socket (`data`) VALUES(?)");
+			$st->bindParam(1,$message);
+			$st->execute();			
 			echo $message."\n";
+		}
 		else
 			sleep(1);
 	}
