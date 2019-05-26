@@ -55,7 +55,8 @@ function jry_wb_beautiful_video(video)
 				buttom_bar.style.width=video_body.clientWidth;
 				video_body.style.height=video_body.clientWidth*ratio;
 				buttom_bar.style.top=video_body.clientHeight-buttom_bar.clientHeight;
-				
+				if(typeof window.onresize=='function')
+					window.onresize();
 			}
 		},400);
 		
