@@ -14,6 +14,7 @@
 	$child_list=array();
 	$jry_wb_message_queue = msg_get_queue(ftok(dirname(__FILE__),'m'));
 	$pid=getmypid();
+	jry_wb_cli_echo_log("\n\n\n\n\n\n\n\n\n\n\n");
 	jry_wb_cli_echo_log('JRY CLI Core '.jry_wb_php_cli_color('OK','green')."\nBy ".jry_wb_php_cli_color('juruoyun web system '.constant('jry_wb_version'),'light_green'));
 	function creat_child($callback)
 	{
@@ -49,30 +50,52 @@
 		global $users;
 		global $c_to_u;
 		global $clients;		
+		jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').'JRY CLI Core Start Listener '.jry_wb_php_cli_color('OK','green'));
 		include_once("jry_wb_socket_listener.php");	
 	}
 	function start_socket_do()
 	{
 		global $pid;
 		global $jry_wb_message_queue;		
+		jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').'JRY CLI Core Start Do '.jry_wb_php_cli_color('OK','green'));
 		include_once("jry_wb_socket_do.php");	
 	}
 	function start_socket_poster()
 	{
 		global $pid;
 		global $jry_wb_message_queue;
+		jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').'JRY CLI Core Start Poster '.jry_wb_php_cli_color('OK','green'));
 		include_once("jry_wb_socket_poster.php");
 	}	
-
-	creat_child('start_socket_listener');
-	creat_child('start_socket_do');
-	creat_child('start_socket_do');
-	creat_child('start_socket_do');
-	creat_child('start_socket_poster');
+	$listeners=[];
+	$dos=[];
+	$posters=[];
+	$listeners[creat_child('start_socket_listener')]=true;
+	$dos[creat_child('start_socket_do')]=true;
+	$dos[creat_child('start_socket_do')]=true;
+	$dos[creat_child('start_socket_do')]=true;
+	$posters[creat_child('start_socket_poster')]=true;
 /*	for($i=0,$n=count($child_list);$i<$n;$i++)
 		msg_send($jry_wb_message_queue,2,'exit');*/
 		
 	while(!empty($child_list))
 		if (($child_pid=pcntl_wait($status))>0)
+		{
 			unset($child_list[$child_pid]);
+			if($listeners[$child_pid])
+			{
+				$listeners[creat_child('start_socket_listener')]=true;
+				unset($listeners[$child_pid]);
+			}
+			else if($dos[$child_pid])
+			{
+				$dos[creat_child('start_socket_do')]=true;
+				unset($dos[$child_pid]);
+			}
+			else if($posters[$child_pid])
+			{
+				$posters[creat_child('start_socket_poster')]=true;
+				unset($posters[$child_pid]);
+			}
+		}
 	jry_wb_cli_echo_log(jry_wb_php_cli_color('Stop OK','green'));
