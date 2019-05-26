@@ -65,7 +65,8 @@ input[type=""],input[type="submit"],input[type="reset"]{-moz-appearance: none;-w
 	max-height:300px;
 	min-height:40px;
 }
-.md_normal strong{color:white;}
+.md_normal {color:white;word-break:break-all;}
+.md_normal strong{color:white;word-break:break-all;}
 .md_normal em{color:white;}
 .md_normal .line_m{text-decoration:line-through}
 .md_cite{font-size:20px;color:white;}
