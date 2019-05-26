@@ -100,7 +100,7 @@ function convert()
 		if(xuanran)
 		{
 			var date=jry_wb_get_server_time(),month=date.getMonth()+1,strDate=date.getDate();
-			return_data=markdown(document.getElementById("result"),jry_wb_login_user.id,date.getFullYear()+"-"+((month>=1&&month<=9)?"0":"")+month+"-"+((strDate>=0&&strDate<=9)?"0":"")+strDate+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(),do_text());
+			return_data=new jry_wb_markdown(document.getElementById("result"),jry_wb_login_user.id,date.getFullYear()+"-"+((month>=1&&month<=9)?"0":"")+month+"-"+((strDate>=0&&strDate<=9)?"0":"")+strDate+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(),do_text());
 		}
 	}
 	else

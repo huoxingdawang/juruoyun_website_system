@@ -1,5 +1,6 @@
-function markdown(area,id,time,text,notitle)
+function jry_wb_markdown(area,id,time,text,notitle)
 {
+	console.time('jry_wb_markdown');
 	if(notitle==null)
 		notitle=false;
 	this.area=area;
@@ -512,5 +513,6 @@ function markdown(area,id,time,text,notitle)
 	for(var a=area.getElementsByTagName("video"),n=a.length,i=0;i<n;i++)new jry_wb_beautiful_video(a[i]);
 	for(var a=area.getElementsByTagName("audio"),n=a.length,i=0;i<n;i++){var a=new jry_wb_beautiful_music(a[i],null,false,true);a.set_background_picture('','')};
 //	for(var all=area.getElementsByTagName("script"),i=0,n=all.length;i<n;i++){if(all[i].className=="jry_blog_auto_run_script"){window.eval(all[i].innerHTML);console.log("run js")}}; 
+	console.timeEnd('jry_wb_markdown');
 	return {'title':md_title};
 }

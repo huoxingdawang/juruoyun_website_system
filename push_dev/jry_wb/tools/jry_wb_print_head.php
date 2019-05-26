@@ -44,7 +44,6 @@
 		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/jry_wb_core_js.js.php"></script>
 		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/md5.js"></script>
 		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/colorpicker.js"></script>
-		<script language="javascript" src="<?php echo constant('jry_wb_host')?>jry_wb_js/jry_wb_markdown.js"></script>
 		<script language="javascript" src="<?php echo constant('jry_wb_character_drawing_logo_address')?>"></script>
 	</head>
 	<body ontouchstart="" onmouseover="">

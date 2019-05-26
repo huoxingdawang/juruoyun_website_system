@@ -228,7 +228,7 @@ jry_wb_manage_user.showall=function()
 					else
 						jry_wb_show_tr_no_input(table,'邮箱',user.mail);
 					if(user.zhushi!=''&&user.zhushi!=null)
-						markdown(jry_wb_show_tr_no_input(table,'签名',''),user.id,'',user.zhushi);
+						jry_wb_markdown(jry_wb_show_tr_no_input(table,'签名',''),user.id,'',user.zhushi);
 					
 					var tr=document.createElement("tr");table.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	

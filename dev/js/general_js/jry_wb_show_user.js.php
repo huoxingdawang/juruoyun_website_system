@@ -118,10 +118,10 @@ function jry_wb_show_user(addr,user,width,float,inline,after)
 	else
 		float='float:'+float+';';
 	var flag = false;
-	if(!user.use)
-		{user={color:666666,show:'[禁止使用]'};flag = true;}
-	else if((user==null)||(user.show==null&&user.name==null&&user.head==null))
+	if((user==null)||(user.show==null&&user.name==null&&user.head==null))
 		{user={color:666666,show:'用户已消失'};flag = true;}
+	if(user!=null&&!user.use)
+		{user={color:666666,show:'[禁止使用]'};flag = true;}
 	if(inline)
 	{
 		var adder = document.createElement("span");
@@ -156,6 +156,10 @@ function jry_wb_show_user(addr,user,width,float,inline,after)
 }			
 function jry_wb_show_user_full(user,width,height)
 {
+	if((user==null)||(user.show==null&&user.name==null&&user.head==null))
+		return jry_wb_beautiful_alert.alert('这个用户不见了','可能去火星了');
+	if(user!=null&&!user.use)
+		return jry_wb_beautiful_alert.alert('这个用户被送到'+decodeURI('%E5%B9%BB%E6%83%B3%E4%B9%A1')+'了',atob('Qm95IG5leHQgY29tcHV0ZXIh'));
 	var title = jry_wb_beautiful_alert.frame('用户查看',width,height,(document.body.clientWidth-width)/2,(document.body.clientHeight-height)/2);	
 	var Confirm = document.createElement("button"); title.appendChild(Confirm);    
 	Confirm.type="button"; 

@@ -801,10 +801,10 @@ function showchenge()
 	var result=document.createElement("div");
 	result.style="height: 500px;width:49%;overflow:hidden;position:relative;";
 	td.appendChild(result);
-	markdown(result,0,0,(jry_wb_login_user.zhushi),false);
+	var md=new jry_wb_markdown(result,0,0,(jry_wb_login_user.zhushi),false);
 	zhushi.onkeyup=function()
 	{
-		markdown(result,0,0,(zhushi.value),false);		
+		md.fresh(new Date(),zhushi.value);		
 	}
 	new jry_wb_beautiful_scroll(result);
 	var tr=document.createElement("tr");table.appendChild(tr);	

@@ -24,7 +24,7 @@ jry_wb_add_load(function(){
 			jry_wb_ajax_load_data("http://<?php echo $_SERVER['HTTP_HOST'];?>/404.php?url=http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']?>",function(data){document.write(data);});
 			return;
 		}
-		return_data=markdown(document.getElementById("result"),data.id,data.lasttime,(data.data));
+		return_data=new jry_wb_markdown(document.getElementById("result"),data.id,data.lasttime,(data.data));
 		document.title+='|'+return_data.title;
 		window.onresize();
 	});
