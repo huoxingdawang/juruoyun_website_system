@@ -61,6 +61,7 @@
 	font-size:24px;
 	top:24px;
 	left:40px;
+	word-break:break-all;	
 }
 .jry_wb_chat_body .jry_wb_chat_right .jry_wb_cheat_one .user
 {
