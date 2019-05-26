@@ -1,4 +1,4 @@
-function markdown(area,id,time,text,notitle)
+function jry_wb_markdown(area,id,time,text,notitle)
 {
 	if(notitle==null)
 		notitle=false;
