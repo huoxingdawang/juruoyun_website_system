@@ -58,7 +58,7 @@ var jry_wb_chat_room=new function()
 		loading_count++;
 		jry_wb_socket.send({'code':true,'type':200007,'data':{'room':data.data,'lasttime':jry_wb_cache.get_last_time('chat_rooms')}});
 		if(loading_count==0)
-			this.show_chat_rooms();		
+			this.show_chat_rooms(true);		
 	});
 	jry_wb_socket.add_listener(200006,(data)=>
 	{
@@ -72,7 +72,7 @@ var jry_wb_chat_room=new function()
 		console.log('消息',messages);
 <?php } ?>		
 		if(loading_count==0)
-			this.show_chat_rooms();
+			this.show_chat_rooms(true);
 	});
 	jry_wb_socket.add_listener(200007,(data)=>
 	{
@@ -91,7 +91,7 @@ var jry_wb_chat_room=new function()
 		loading_count++;
 		jry_wb_socket.send({'code':true,'type':200006,'data':{'room':buf,'lasttime':jry_wb_cache.get_last_time('chat_messages')}});
 		if(loading_count==0)
-			this.show_chat_rooms();
+			this.show_chat_rooms(true);
 	});
 	jry_wb_socket.add_listener(200008,(data)=>
 	{
@@ -129,6 +129,7 @@ var jry_wb_chat_room=new function()
 	this.sync=()=>
 	{
 		loading_count++;
+		console.time('chat_sync');
 <?php if(constant('jry_wb_socket_switch')){ ?>
 		if(jry_wb_socket.send({'code':true,'type':200005},false)==false)
 		{
@@ -157,7 +158,7 @@ var jry_wb_chat_room=new function()
 <?php } ?>
 					loading_count--;
 					if(loading_count==0)
-						this.show_chat_rooms();
+						this.show_chat_rooms(true);
 				},function(a,b){return b.lasttime.to_time()-a.lasttime.to_time();});
 				loading_count++;
 				jry_wb_sync_data_with_server('chat_messages',jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=get_message',[{'name':'room','value':JSON.stringify(data.data)},{'name':'lasttime','value':jry_wb_cache.get_last_time('chat_messages')}],
@@ -174,7 +175,7 @@ var jry_wb_chat_room=new function()
 <?php } ?>
 					loading_count--;
 					if(loading_count==0)
-						this.show_chat_rooms();
+						this.show_chat_rooms(true);
 				},function(a,b){return b.send_time.to_time()-a.send_time.to_time();});			
 			});			
 <?php if(constant('jry_wb_socket_switch')){ ?>
@@ -224,10 +225,11 @@ var jry_wb_chat_room=new function()
 	{
 		if(room==undefined||room=='')
 			return false;
+		jry_wb_cache.delete('jry_wb_chat_input_buf');		
 		if((typeof message!='string')||message.length<=0)
 			return false;
 <?php if(constant('jry_wb_socket_switch')){ ?>			
-		if(jry_wb_socket.send({'code':true,'type':200000,'data':{'room':room,'message':message}},false)==false)
+		if(message.length>1500||jry_wb_socket.send({'code':true,'type':200000,'data':{'room':room,'message':message}},false)==false)
 <?php } ?>
 			jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=send',(data)=>
 			{
@@ -266,15 +268,16 @@ var jry_wb_chat_room=new function()
 		let msg=document.createElement('span');one.appendChild(msg);
 		msg.classList.add('message');
 		msg.style.width=one.clientWidth-head.clientWidth-40;
-		var md=new markdown(msg,message.id,message.send_time,message.message,true);
-		msg.children[0].style=one.clientWidth-head.clientWidth-40;
+		var md=new jry_wb_markdown(msg,message.id,message.send_time,message.message,true);
 		jry_wb_add_onresize(function(){
 			one.style.height=user.clientHeight+msg.clientHeight;
 		});
 		one.style.height=user.clientHeight+msg.clientHeight;		
 	}
-	this.show_chat_rooms=()=>
+	this.show_chat_rooms=(stop)=>
 	{
+		if(stop==true)
+			console.timeEnd('chat_sync');
 		if(typeof this.left=='undefined')
 			return;
 		if(typeof this.right=='undefined')
@@ -331,7 +334,7 @@ var jry_wb_chat_room=new function()
 				rooms[i].name_dom.style.width=one.clientWidth-head_width;
 				rooms[i].lastsay_dom.style.width=one.clientWidth-head_width;				
 			});
-			var last=messages.find(function(a){return a.chat_room_id==rooms[i].chat_room_id});
+			let last=messages.find(function(a){return a.chat_room_id==rooms[i].chat_room_id});
 			if(last!=undefined)
 			{
 				jry_wb_get_user(last.id,false,function(data)
@@ -344,9 +347,11 @@ var jry_wb_chat_room=new function()
 				window.location.hash=now_show=rooms[i].chat_room_id;
 				this.right.innerHTML='';
 				var message_box=rooms[i].message_box=document.createElement('div');this.right.appendChild(message_box);
+				console.time('message');
 				for(var j=messages.length-1;j>=0;j--)
 					if(messages[j].chat_room_id==rooms[i].chat_room_id)
 						show_one_chat_message(message_box,messages[j]);
+				console.timeEnd('message');
 				var input_area=document.createElement('div');this.right.appendChild(input_area);
 				input_area.classList.add('jry_wb_cheat_input_area');
 				var input=document.createElement('textarea');input_area.appendChild(input);
