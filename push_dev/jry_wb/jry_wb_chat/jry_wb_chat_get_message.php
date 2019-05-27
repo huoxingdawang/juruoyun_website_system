@@ -19,7 +19,7 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600002,'extern'=>array('chat_room_id'=>$room['chat_room_id']),'file'=>__FILE__,'line'=>__LINE__)));
 		if($lasttime==NULL||$lasttime=='')
 			$lasttime='1926-08-17 00:00:00';
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_CHEAT.'message WHERE chat_room_id=? AND send_time>?');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_CHAT.'message WHERE chat_room_id=? AND send_time>?');
 		$st->bindValue(1,$room['chat_room_id']);
 		$st->bindValue(2,$lasttime);
 		$st->execute();

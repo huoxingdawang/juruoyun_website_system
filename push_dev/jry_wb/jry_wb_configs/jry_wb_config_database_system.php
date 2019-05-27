@@ -13,10 +13,12 @@
 	define('jry_wb_database_netdisk',constant('jry_wb_database_name').'.'.constant('jry_wb_database_netdisk_prefix'));	
 	define('jry_wb_database_log_prefix',constant('jry_wb_database_all_prefix').'log_');
 	define('jry_wb_database_log',constant('jry_wb_database_name').'.'.constant('jry_wb_database_log_prefix'));
-	define('JRY_WB_DATABASE_CHEAT_PREFIX',constant('jry_wb_database_all_prefix').'cheat_');
-	define('JRY_WB_DATABASE_CHEAT',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_CHEAT_PREFIX);			
+	define('JRY_WB_DATABASE_CHAT_PREFIX',constant('jry_wb_database_all_prefix').'chat_');
+	define('JRY_WB_DATABASE_CHAT',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_CHAT_PREFIX);			
 	define('competitionpro',constant('jry_wb_database_all_prefix').'competition_');
 	define('competitiondb',constant('jry_wb_database_name').'.'.constant('competitionpro'));
+	define('JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX',constant('jry_wb_database_all_prefix').'oj_');
+	define('JRY_WB_DATABASE_ONLINE_JUDGE',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX);
 	define('ojpro',constant('jry_wb_database_all_prefix').'oj_');
 	define('ojdb',constant('jry_wb_database_name').'.'.constant('ojpro'));
 	define('blogpro',constant('jry_wb_database_all_prefix').'blog_');

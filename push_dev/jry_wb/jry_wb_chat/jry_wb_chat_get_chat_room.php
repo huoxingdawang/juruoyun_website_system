@@ -4,7 +4,7 @@
 	{
 		if($lasttime=='')
 			$lasttime='1926-08-17 00:00:00';
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_CHEAT.'rooms WHERE chat_room_id=? AND lasttime>? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_CHAT.'rooms WHERE chat_room_id=? AND lasttime>? LIMIT 1');
 		$st->bindValue(1,$room_id,PDO::PARAM_INT);
 		$st->bindValue(2,$lasttime);
 		$st->execute();

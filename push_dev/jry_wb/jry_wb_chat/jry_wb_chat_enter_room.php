@@ -18,7 +18,7 @@
 		if(array_search($user['id'],$room['users'])!==false)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600002,'extern'=>array('chat_room_id'=>$room['chat_room_id']),'file'=>__FILE__,'line'=>__LINE__)));
 		$room['users'][]=$user['id'];
-		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_CHEAT.'rooms SET  users=?, last_add_time=?,lasttime=? WHERE chat_room_id=?');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_CHAT.'rooms SET  users=?, last_add_time=?,lasttime=? WHERE chat_room_id=?');
 		$st->bindValue(1,json_encode($room['users']));
 		$st->bindValue(2,jry_wb_get_time());
 		$st->bindValue(3,jry_wb_get_time());
@@ -27,7 +27,7 @@
 		if(($i=array_search((string)$room['chat_room_id'],$user['ch_ei']['chat_rooms']))!==false)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600002,'extern'=>array('chat_room_id'=>$room['chat_room_id']),'file'=>__FILE__,'line'=>__LINE__)));		
 		$user['ch_ei']['chat_rooms'][]=(string)$room['chat_room_id'];
-		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_CHEAT.'users SET  chat_rooms=?, lasttime=? WHERE id=?');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_CHAT.'users SET  chat_rooms=?, lasttime=? WHERE id=?');
 		$st->bindValue(1,json_encode($user['ch_ei']['chat_rooms']));
 		$st->bindValue(2,jry_wb_get_time());
 		$st->bindValue(3,$user['id']);

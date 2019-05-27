@@ -246,7 +246,7 @@ var jry_wb_chat_room=new function()
 	function show_one_chat_message(message_box,message)
 	{
 		let one=document.createElement('div');message_box.appendChild(one);
-		one.classList.add('jry_wb_cheat_one');	
+		one.classList.add('jry_wb_chat_one');	
 		let user=document.createElement('div');one.appendChild(user);
 		user.classList.add('user');
 		user.onclick=function()
@@ -353,7 +353,7 @@ var jry_wb_chat_room=new function()
 						show_one_chat_message(message_box,messages[j]);
 				console.timeEnd('message');
 				var input_area=document.createElement('div');this.right.appendChild(input_area);
-				input_area.classList.add('jry_wb_cheat_input_area');
+				input_area.classList.add('jry_wb_chat_input_area');
 				var input=document.createElement('textarea');input_area.appendChild(input);
 				input.classList.add('input');
 				var button=document.createElement('span');input_area.appendChild(button);

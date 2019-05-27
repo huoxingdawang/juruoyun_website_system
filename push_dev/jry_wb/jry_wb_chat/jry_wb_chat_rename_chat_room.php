@@ -21,7 +21,7 @@
 			$room['users']=json_decode($room['users']);
 		if($user['id']!=$room['id'])
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'renamechatroom')));	
-		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_CHEAT.'rooms SET  name=?, lasttime=? WHERE chat_room_id=?');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_CHAT.'rooms SET  name=?, lasttime=? WHERE chat_room_id=?');
 		$st->bindValue(1,$to_name);
 		$st->bindValue(2,jry_wb_get_time());
 		$st->bindValue(3,$room['chat_room_id']);
