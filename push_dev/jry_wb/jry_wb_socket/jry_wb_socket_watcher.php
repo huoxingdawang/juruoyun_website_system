@@ -14,9 +14,11 @@
 	$redis=new Redis;
 	$redis->connect('127.0.0.1',6379);	
 	$conn=jry_wb_connect_database();
-	$st =$conn->prepare("SELECT * FROM ".constant('jry_wb_database_log')."socket ORDER BY log_socket_id LIMIT 50");
+	$st =$conn->prepare("SELECT * FROM ".constant('jry_wb_database_log')."socket ORDER BY log_socket_id DESC LIMIT ".($argv[1]==''?50:((int)$argv[1])));
 	$st->execute();			
-	foreach($st->fetchAll() as $one)
+	$data=$st->fetchAll();
+	$data=array_reverse($data);
+	foreach($data as $one)
 		echo $one['data']."\n";
 	while(1)
 	{
