@@ -1077,7 +1077,7 @@ function showmail()
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='获取验证码';
-<?php if(constant('jry_wb_mail_switch')!=''){?>
+<?php if(constant('jry_wb_mail_switch')!=''&&constant('jry_wb_mail_switch')!=''){?>
 	button.innerHTML='获取验证码';
 <?php }else{ ?>
 	button.innerHTML='提交';
@@ -1095,7 +1095,7 @@ function showmail()
 			if(data.code)	
 			jry_wb_beautiful_alert.alert('<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>成功',mail.value,function()
 			{
-<?php if(constant('jry_wb_mail_switch')!=''){?>
+<?php if(constant('jry_wb_mail_switch')!=''&&constant('jry_wb_mail_switch')!=''){?>
 					if(mail.value.includes("@163.com"))
 						window.open("https://mail.163.com/");
 					else if(mail.value.includes("@qq.com"))
