@@ -46,4 +46,16 @@
 		$st->execute();	
 		return jry_wb_send_mail($mail,constant('jry_wb_name').'邮箱验证','点击以下链接完成邮箱验证<a href="'.constant('jry_wb_host').$url.'code='.$code.'">'.constant('jry_wb_host').$url.'code='.$code.'</a>');
 	}
+	function jry_wb_send_mail_code6($mail)
+	{
+		$code=jry_wb_get_random_string(6);
+		$conn=jry_wb_connect_database();
+		$q = "INSERT INTO ".constant('jry_wb_database_general')."mail_code (mail,code,time) VALUES (?,?,?)";
+		$st = $conn->prepare($q);
+		$st->bindParam(1,$mail);
+		$st->bindParam(2,$code);
+		$st->bindParam(3,jry_wb_get_time());
+		$st->execute();	
+		return jry_wb_send_mail($mail,constant('jry_wb_name').'邮箱验证','这是您的验证码:<br>'.$code.'<br>注意区分大小写');
+	}	
 ?>
