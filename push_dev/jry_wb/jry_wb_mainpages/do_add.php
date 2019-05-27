@@ -81,8 +81,9 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));
 			if(constant('jry_wb_short_message_switch')!='')
 			{		
-				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where tel=? and code=?');
 				$st->bindParam(1,$tel);
+				$st->bindParam(2,$_POST['phonecode']);
 				$st->execute();
 			}			
 		}
