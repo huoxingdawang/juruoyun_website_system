@@ -41,6 +41,14 @@
 	left:70px;
 	font-size:20px;	
 	overflow:hidden;
+    display: inline-block;
+    *display:inline;
+    *zoom:1;
+    overflow:hidden;
+    -ms-text-overflow:ellipsis;
+    text-overflow:ellipsis;
+    white-space:nowrap;	
+	word-break: break-all;
 }
 .jry_wb_chat_body .jry_wb_chat_right
 {

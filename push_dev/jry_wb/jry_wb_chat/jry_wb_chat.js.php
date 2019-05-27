@@ -32,7 +32,7 @@ var jry_wb_chat_room=new function()
 		}
 		jry_wb_get_user(data.from,false,function(data)
 		{
-			one.lastsay_dom.innerHTML=data.name+':'+buf.message;
+			one.lastsay_dom.innerHTML=data.name+':'+buf.message.slice(0,50);
 			var parentNode=one.dom.parentNode;
 			if(parentNode.children[0]!=one.dom)
 			{
@@ -328,7 +328,7 @@ var jry_wb_chat_room=new function()
 			rooms[i].name_dom.innerHTML=rooms[i].name;
 			rooms[i].name_dom.style.width=one.clientWidth-head_width;
 			rooms[i].lastsay_dom=document.createElement('span');one.appendChild(rooms[i].lastsay_dom);
-			rooms[i].lastsay_dom.classList.add('jry_wb_chat_lastsay','jry_wb_word_cut');
+			rooms[i].lastsay_dom.classList.add('jry_wb_chat_lastsay');
 			rooms[i].lastsay_dom.style.width=one.clientWidth-head_width;
 			jry_wb_add_onresize(function(){
 				rooms[i].name_dom.style.width=one.clientWidth-head_width;
@@ -339,7 +339,7 @@ var jry_wb_chat_room=new function()
 			{
 				jry_wb_get_user(last.id,false,function(data)
 				{
-					rooms[i].lastsay_dom.innerHTML=data.name+':'+last.message;
+					rooms[i].lastsay_dom.innerHTML=data.name+':'+last.message.slice(0,50);
 				});
 			}
 			one.onclick=()=>
