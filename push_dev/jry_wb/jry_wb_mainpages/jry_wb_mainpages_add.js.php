@@ -378,7 +378,7 @@ tel.onfocus=tel.onkeyup=function(e)
 		if(tel.value!="")
 			tr_tel.style.display="",window.onresize(),phonecode.style.width=td2.clientWidth-document.getElementById('phonecode_button').clientWidth-25,time3=0;
 		<?php } ?>
-	}			
+	}
 	return true;
 };
 <?php } ?>

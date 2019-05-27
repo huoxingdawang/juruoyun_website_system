@@ -2,115 +2,153 @@
 	include_once("../tools/jry_wb_includes.php");
 	$action=$_GET['action'];
 	$conn=jry_wb_connect_database();
-	if($action=='serchid')
+	try
 	{
-		$id=$_GET['id'];
-		$q='SELECT mail,mail_show
-		FROM '.constant('jry_wb_database_general').'users
-		WHERE id = ?';
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$id);
-		$st->execute();	
-		$user=$st->fetchAll()[0];
-		if($user['mail']!=''&&$user['mail_show']==0)
+		if($action=='send_tel')
 		{
-			$buf=explode('@',$user['mail']);
-			$user['mail']=substr_replace($buf[0],'****',3,count($buf[0])-3).'@'.$buf[1];
+			if(constant('jry_wb_short_message_switch')=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
+			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+			{
+				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100005,'file'=>__FILE__,'line'=>__LINE__)));		
+				else
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100002,'file'=>__FILE__,'line'=>__LINE__)));		
+			}
+			if(!jry_wb_test_phone_number($_POST['tel']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+			$st->bindParam(1,$_POST['tel']);
+			$st->execute();
+			$all=$st->fetchAll();
+			if(count($all)==0)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100018,'file'=>__FILE__,'line'=>__LINE__)));		
+			require_once "../tools/jry_wb_short_message.php";
+			if(($code=jry_wb_get_short_message_code($_POST['tel']))==-1)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100003,'file'=>__FILE__,'line'=>__LINE__)));
+			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_forget'));	
+			echo json_encode(array('code'=>true));
+			exit();			
 		}
-		jry_wb_echo_log(constant('jry_wb_log_type_forget'),'serchid',$id);
-		echo json_encode($user['mail']);
-	}else if($action=='sendemail')
-	{
-		$id=$_GET['id'];
-		$q='SELECT mail,mail_show
-		FROM '.constant('jry_wb_database_general').'users
-		WHERE id = ?';
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$id);
-		$st->execute();	
-		$user=$st->fetchAll()[0];
-		if($user==null)
-			exit();
-		jry_wb_send_mail_code($user['mail'],"jry_wb_mainpages/do_forget.php?action=checkmail&");
-		jry_wb_echo_log(constant('jry_wb_log_type_forget'),'sendemail',$id);
-	}
-	else if($action=='checkmail')
-	{
-		jry_wb_print_head("",false,false,false,array(),true,false);	
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where code=?');
-		$st->bindParam(1,$_GET['code']);
-		$st->execute();		
-		foreach($st->fetchAll()as $code);
-		if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码',''					,'window.location.href="forget.php"');</script>		<?php	exit();}
-		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'mail_code where code=?');
-		$st->bindParam(1,$_GET['code']);
-		$st->execute();	
-		$srcstr = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-		mt_srand();
-		$password='';
-		$n=strlen($srcstr);
-		for ($i = 0; $i < 16; $i++) 
-			$password.=$srcstr[mt_rand(0, $n)];
-		$q='UPDATE '.constant('jry_wb_database_general').'users SET  password=? WHERE mail=?';
-		$st = $conn->prepare($q);
-		$st->bindParam(1,md5($password));
-		$st->bindParam(2,$code['mail']);		
-		$st->execute();
-		?> <script language=javascript>jry_wb_beautiful_alert.alert("修改成功","您的密码为: <?php echo $password; ?>请牢记","window.location.href='login.php'");</script><?php
-//		jry_wb_echo_log(constant('jry_wb_log_type_forget'),'checkmail',$id);
-	}else if($action=='checktel') 
-	{
-		$q='SELECT name FROM '.constant('jry_wb_database_general').'users WHERE tel = ?';
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$_POST['tel']);
-		$_SESSION['tel']=$_POST['tel'];
-		$st->execute();	
-		$user=$st->fetchAll();
-		if(count($user)==0)
-			echo json_encode(null);
+		else if($action=='send_mail')
+		{
+			if(constant('jry_wb_mail_switch')=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));	
+			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+			{
+				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100005,'file'=>__FILE__,'line'=>__LINE__)));		
+				else
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100002,'file'=>__FILE__,'line'=>__LINE__)));		
+			}
+			if(!jry_wb_test_mail($_POST['mail']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));		
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+			$st->bindParam(1,$_POST['mail']);
+			$st->execute();
+			if(count($st->fetchAll())==0)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100018,'file'=>__FILE__,'line'=>__LINE__)));
+			jry_wb_send_mail_code6($_POST['mail']);	
+			echo json_encode(array('code'=>true));
+			exit();					
+		}
+		else if($action=='chenge_password'&&$_GET['type']=='tel')
+		{
+			if(constant('jry_wb_short_message_switch')=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
+			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+			{
+				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100005,'file'=>__FILE__,'line'=>__LINE__)));		
+				else
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100002,'file'=>__FILE__,'line'=>__LINE__)));		
+			}
+			if(!jry_wb_test_phone_number($_POST['tel']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));			
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+			$st->bindParam(1,$_POST['tel']);
+			$st->execute();
+			$all=$st->fetchAll();
+			if(count($all)==0)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100018,'file'=>__FILE__,'line'=>__LINE__)));
+			if(strlen($_POST['password1'])<8)	
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100012,'file'=>__FILE__,'line'=>__LINE__)));				
+			if($_POST['password1']!=$_POST['password2'])
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100011,'file'=>__FILE__,'line'=>__LINE__)));
+			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
+			$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
+			$st->execute();
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+			$st->bindParam(1,$_POST['tel']);
+			$st->execute();	
+			foreach($st->fetchAll()as $tels);	
+			if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));
+			$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET password=? where tel=?');
+			$st->bindParam(1,md5($_POST['password1']));
+			$st->bindParam(2,$_POST['tel']);
+			$st->execute();
+			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where tel=? and code=?');
+			$st->bindParam(1,$_POST['tel']);
+			$st->bindParam(2,$_POST['phonecode']);
+			$st->execute();
+			$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=?");
+			$st->bindParam(1,$jry_wb_login_user['id']);
+			$st->execute();				
+			echo json_encode(array('code'=>true));
+			exit();			
+		}
+		else if($action=='chenge_password'&&$_GET['type']=='mail')
+		{
+			if(constant('jry_wb_mail_switch')=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
+			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+			{
+				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100005,'file'=>__FILE__,'line'=>__LINE__)));		
+				else
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100002,'file'=>__FILE__,'line'=>__LINE__)));		
+			}
+			if(!jry_wb_test_mail($_POST['mail']))
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+			$st->bindParam(1,$_POST['mail']);
+			$st->execute();
+			if(count($st->fetchAll())==0)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100018,'file'=>__FILE__,'line'=>__LINE__)));			
+			if(strlen($_POST['password1'])<8)	
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100012,'file'=>__FILE__,'line'=>__LINE__)));				
+			if($_POST['password1']!=$_POST['password2'])
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100011,'file'=>__FILE__,'line'=>__LINE__)));
+			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'mail_code where time<?');
+			$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
+			$st->execute();
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where mail=?');
+			$st->bindParam(1,$_POST['mail']);
+			$st->execute();	
+			foreach($st->fetchAll()as $mail);	
+			if($_POST['mailcode']!=$mail['code']||$_POST['mailcode']=='')
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100016,'file'=>__FILE__,'line'=>__LINE__)));
+			$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET password=? where mail=?');
+			$st->bindParam(1,md5($_POST['password1']));
+			$st->bindParam(2,$_POST['mail']);
+			$st->execute();
+			$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'mail_code where mail=? and code=?');
+			$st->bindParam(1,$_POST['mail']);
+			$st->bindParam(2,$_POST['mailcode']);
+			$st->execute();
+			$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=?");
+			$st->bindParam(1,$jry_wb_login_user['id']);
+			$st->execute();				
+			echo json_encode(array('code'=>true));
+			exit();			
+		}		
 		else
-			echo json_encode($user[0]['name']);
-//		jry_wb_echo_log(constant('jry_wb_log_type_forget'),'checktel',$id);
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));			
 	}
-	else if($action=='sendtelcode')
+	catch(jry_wb_exception $e)
 	{
-		if($_SESSION['tel']=='')
-			return;
-		require_once "../tools/jry_wb_short_message.php";
-		if(($code=jry_wb_get_short_message_code($_SESSION['tel']))==-1)
-		{
-			echo json_encode("toofast");
-			exit();
-		}
-		jry_wb_send_short_message($_SESSION['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_forget')); 	
-		echo json_encode('OK');
+		echo $e->getMessage();
 		exit();
-	}else if($action=='checkcode')
-	{
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
-		$st->bindParam(1,$_SESSION['tel']);
-		$st->execute();		
-		foreach($st->fetchAll()as $tels);
-		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where code=?');
-		$st->bindParam(1,$_GET['code']);
-		$st->execute();			
-		if($tels['code']!=$_GET['code'])
-			echo -1;
-		else
-		{
-			$srcstr = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-			mt_srand();
-			$password='';
-			$n=strlen($srcstr);
-			for ($i = 0; $i < 16; $i++) 
-				$password.=$srcstr[mt_rand(0, $n)];
-			$q='UPDATE '.constant('jry_wb_database_general').'users SET password=? WHERE tel=?';
-			$st = $conn->prepare($q);
-			$st->bindParam(1,md5($password));
-			$st->bindParam(2,$_SESSION['tel']);
-			$st->execute();						
-			echo $password;
-		}
 	}
-	
 ?>
