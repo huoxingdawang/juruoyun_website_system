@@ -59,6 +59,7 @@ function jry_wb_progress_bar(area,width,progress,word,mouthclick,mouthmove,addcl
 	this.text.classList.add('jry_wb_progress_bar_progress_text');
 	this.text.style.fontSize='16px';
 	this.text.style.wordBreak='initial';
+	this.text.style.whiteSpace='nowrap';
 	this.span = document.createElement("span");this.progress_bar.appendChild(this.span);
 	if(mouthmove!=null)
 		this.span.classList.add("jry_wb_progress_mouth_move");
