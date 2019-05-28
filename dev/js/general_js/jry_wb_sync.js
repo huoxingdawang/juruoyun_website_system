@@ -4,6 +4,9 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,cmp,after,sort_cmp)
 	{
 		jry_wb_loading_off();	
 		var data = JSON.parse(data);
+		var newdata=false;
+		if(((data==null||typeof data.length=='number')&&data.length>0)||(typeof data.length=='undefined'&&data.data.length>0))
+			newdata=true;
 		if(data!=null)
 			if(typeof data.code!='undefined'&&data.code==false)
 			{
@@ -16,9 +19,9 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,cmp,after,sort_cmp)
 				return ;	
 			}
 		if(data==null||typeof data.length=='number')
-			after(jry_wb_sync_data_with_array(syncname,data,cmp,sort_cmp));
+			after(jry_wb_sync_data_with_array(syncname,data,cmp,sort_cmp),newdata);
 		else if(typeof data.length=='undefined')
-			after(jry_wb_sync_data_with_array(syncname,data.data,cmp,sort_cmp));
+			after(jry_wb_sync_data_with_array(syncname,data.data,cmp,sort_cmp),newdata);
 	},array);
 }
 function jry_wb_sync_data_with_array(syncname,data,cmp,sort_cmp)
