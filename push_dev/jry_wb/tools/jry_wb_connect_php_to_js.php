@@ -40,6 +40,7 @@
 					'oauth_github'=>$jry_wb_login_user['oauth_github']->message,
 					'oauth_gitee'=>$jry_wb_login_user['oauth_gitee']->message,
 					'oauth_mi'=>$jry_wb_login_user['oauth_mi']->message,
+					'addchatroom'=>$jry_wb_login_user['addchatroom'],
 					'extern'=>$jry_wb_login_user['extern']
 					);
 		echo (json_encode($data));?>'));
