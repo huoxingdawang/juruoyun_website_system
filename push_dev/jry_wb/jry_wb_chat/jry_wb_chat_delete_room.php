@@ -28,5 +28,5 @@
 		$st->bindValue(2,(string)$room['chat_room_id']);
 		$st->bindValue(3,json_encode(array((string)$room['chat_room_id'])));
 		$st->execute();
-		jry_wb_send_to_socket($user,$room['users'],200004,array('room'=>$room['chat_room_id']));
+		jry_wb_send_to_socket($user,$room['users'],200004,array('room'=>$room['chat_room_id'],'lasttime'=>jry_wb_get_time()));
 	}

@@ -32,5 +32,5 @@
 		$st->bindValue(3,$user['id']);		
 		$st->execute();
 		jry_wb_send_to_socket($user,$room['users'],200002,array('room'=>$room['chat_room_id']));		
-		jry_wb_send_to_socket($user,$user['id'],200002,array('room'=>$room['chat_room_id']));		
+		jry_wb_send_to_socket($user,$user['id'],200002,array('room'=>$room['chat_room_id'],'lasttime'=>jry_wb_get_time()));		
 	}

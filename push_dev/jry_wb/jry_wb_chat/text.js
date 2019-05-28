@@ -118,3 +118,17 @@ worker.port.onmessage=function(data)
 };
 worker.port.start();
 worker.port.postMessage({'type':100000,'data':jry_wb_login_user});
+
+
+<span style="
+    font-size: 16px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: #ff000066;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color: white;
+">99</span>

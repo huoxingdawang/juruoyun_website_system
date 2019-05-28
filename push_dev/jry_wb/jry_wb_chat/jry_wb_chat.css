@@ -8,6 +8,29 @@
 	height:100%;
 	float:left;
 }
+.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top
+{
+	position:relative;
+    background: #ccc;	
+}
+.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top .input
+{
+	width:0px;
+	font-size:20px;
+}
+.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top .button
+{
+	font-size:20px;
+	width:20px;
+	height:20px;
+	
+}
+.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top .result
+{
+    transition-duration: 0.5s;
+    overflow-y: hidden;
+	
+}
 .jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_one
 {
 	position:relative;
