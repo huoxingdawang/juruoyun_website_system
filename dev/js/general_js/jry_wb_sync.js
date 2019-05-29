@@ -5,7 +5,7 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,cmp,after,sort_cmp)
 		jry_wb_loading_off();	
 		var data = JSON.parse(data);
 		var newdata=false;
-		if(((data==null||typeof data.length=='number')&&data.length>0)||(typeof data.length=='undefined'&&data.data.length>0))
+		if(((data==null||typeof data.length=='number')&&data.length>0)||(typeof data.length=='undefined'&&typeof data.data!='undefined'&&data.data.length>0))
 			newdata=true;
 		if(data!=null)
 			if(typeof data.code!='undefined'&&data.code==false)
