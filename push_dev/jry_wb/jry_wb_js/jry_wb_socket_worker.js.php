@@ -74,9 +74,14 @@ onconnect=function(e)
 		
 		
 	};
+	e.ports[0].onmessage.onerror=function()
+	{
+		console.log(error);
+	};
 };
 function send_to_port(index,data)
 {
+	console.log(index,data);
 	pool[index].port.postMessage(data);	
 }
 function send_to_all(data)
@@ -89,7 +94,6 @@ function send_to_listener(listener,data)
 	for(var i=0;i<pool.length;i++)
 		if(pool[i].listener.find(function(a){return a==listener})!==undefined)
 			send_to_port(i,data);
-			
 }
 var jry_wb_login_user=undefined;
 var readyState=0;
