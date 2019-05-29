@@ -7,7 +7,7 @@
 		if(!$user['deletechatroom'])
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'deletechatroom')));
 		if(is_string($roomm)||is_int($roomm))
-			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm);
+			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$user);
 		else
 			$room=$roomm;
 		if($room==null)

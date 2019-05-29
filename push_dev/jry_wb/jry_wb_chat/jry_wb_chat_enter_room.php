@@ -6,7 +6,7 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));
 		jry_wb_chat_get_user($conn,$user,true);
 		if(is_string($roomm)||is_int($roomm))
-			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm);
+			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$user);
 		else
 			$room=$roomm;
 		if($room==null)
@@ -15,6 +15,8 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600001,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__)));
 		if(is_string($room['users']))
 			$room['users']=json_decode($room['users']);
+		if($room['big']==0&&count($room['users'])>=2)
+			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));
 		if(array_search($user['id'],$room['users'])!==false)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600002,'extern'=>array('chat_room_id'=>$room['chat_room_id']),'file'=>__FILE__,'line'=>__LINE__)));
 		$room['users'][]=$user['id'];

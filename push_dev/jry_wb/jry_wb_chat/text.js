@@ -23,6 +23,8 @@ jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php
 jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=rename_room',function(data){jry_wb_loading_off();console.log(JSON.parse(data))},[{'name':'room','value':1},{'name':'to_name','value':'test'}]);
 //重设置房间头
 jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=reset_room_head',function(data){jry_wb_loading_off();console.log(JSON.parse(data))},[{'name':'room','value':1},{'name':'to_head','value':JSON.stringify({'type':'default'})}]);
+//私聊
+jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=start_between',function(data){jry_wb_loading_off();console.log(JSON.parse(data))},[{'name':'id','value':45}]);
 //socket
 //获取监听器
 jry_wb_socket.send({'code':true,'type':100003});
@@ -49,6 +51,8 @@ jry_wb_socket.send({'code':true,'type':200007,'data':{'room':[1,2],'lasttime':'1
 jry_wb_socket.send({'code':true,'type':200008,'data':{'room':1,'to_name':'1231231231'}});
 //重设置房间头
 jry_wb_socket.send({'code':true,'type':200009,'data':{'room':1,'to_head':{'type':'default'}}});
+//私聊
+jry_wb_socket.send({'code':true,'type':200010,'data':1});
 //加入监听
 jry_wb_socket.add_listener(200000,function(data){console.log('来自'+data.from+'在'+data.data.room+'的新信息'+data.data.message);})
 jry_wb_socket.add_listener(200001,function(data){console.log(data.from+'加入聊天室'+data.data.room);})

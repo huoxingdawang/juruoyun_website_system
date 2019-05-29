@@ -12,4 +12,5 @@
 	include_once("jry_wb_chat_get_message.php");
 	include_once("jry_wb_chat_rename_chat_room.php");
 	include_once("jry_wb_chat_set_chat_room_head.php");
+	include_once("jry_wb_chat_start_between.php");
 

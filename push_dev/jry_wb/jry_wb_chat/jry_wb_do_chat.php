@@ -39,18 +39,20 @@
 			$rooms=json_decode($_POST['room']);
 			if(is_int($rooms))
 			{
-				if(($buf=jry_wb_chat_get_chat_room($conn,$rooms,$_POST['lasttime']))!==null)
+				if(($buf=jry_wb_chat_get_chat_room($conn,$rooms,$jry_wb_login_user,$_POST['lasttime']))!==null)
 					$data[]=$buf;
 			}
 			else
 				foreach($rooms as $room)
-					if(($buf=jry_wb_chat_get_chat_room($conn,$room,$_POST['lasttime']))!==null)
+					if(($buf=jry_wb_chat_get_chat_room($conn,$room,$jry_wb_login_user,$_POST['lasttime']))!==null)
 						$data[]=$buf;
 		}
 		else if($action=='rename_room'||$action==200008)
 			jry_wb_chat_rename_chat_room($conn,$jry_wb_login_user,$_POST['room'],$_POST['to_name']);		
 		else if($action=='reset_room_head'||$action==200009)
 			jry_wb_chat_set_chat_room_head($conn,$jry_wb_login_user,$_POST['room'],$_POST['to_head']);		
+		else if($action=='start_between'||$action==200010)
+			$data=jry_wb_chat_start_between($conn,$jry_wb_login_user,jry_wb_get_user($conn,$_POST['id']));
 		else
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 		echo json_encode(array('code'=>true,'data'=>$data));
