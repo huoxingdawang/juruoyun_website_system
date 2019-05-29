@@ -14,12 +14,14 @@
 	$jry_wb_message_queue=msg_get_queue(ftok(dirname(__FILE__),'m'));	
 	while(1)
 	{
-		$rel=msg_receive($jry_wb_message_queue,2,$msgtype,1024,$buf);		
+		$rel=msg_receive($jry_wb_message_queue,2,$msgtype,1024,$buf);
 		if($task=json_decode($redis->lpop('task')))
 		{
 			$task->user=json_decode(json_encode($task->user),true);
 			try
 			{
+				if(!jry_wb_connect_database_test($conn))
+					$conn=jry_wb_connect_database();
 				if($task->type==200000)
 					jry_wb_chat_send($conn,$task->user,$task->data->room,$task->data->message);
 				else if($task->type==200001)
@@ -47,12 +49,12 @@
 					$data=[];
 					if(is_int($task->data->room))
 					{
-						if(($buf=jry_wb_chat_get_chat_room($conn,$task->data->room,$task->data->lasttime))!==null)
+						if(($buf=jry_wb_chat_get_chat_room($conn,$task->data->room,$task->user,$task->data->lasttime))!==null)
 							$data[]=$buf;
 					}
 					else
 						foreach($task->data->room as $room)
-							if(($buf=jry_wb_chat_get_chat_room($conn,$room,$task->data->lasttime))!==null)
+							if(($buf=jry_wb_chat_get_chat_room($conn,$room,$task->user,$task->data->lasttime))!==null)
 								$data[]=$buf;
 					jry_wb_send_to_socket($task->user,$task->user['id'],200007,$data,$task->c_index);
 				}
@@ -60,6 +62,8 @@
 					jry_wb_chat_rename_chat_room($conn,$task->user,$task->data->room,$task->data->to_name);
 				else if($task->type==200009)
 					jry_wb_chat_set_chat_room_head($conn,$task->user,$task->data->room,$task->data->to_head);
+				else if($task->type==200010)
+					$data=jry_wb_chat_start_between($conn,$task->user,jry_wb_get_user($conn,$task->data));
 				else
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			}
@@ -69,6 +73,10 @@
 				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' At FILE:'.jry_wb_php_cli_color($error->file,'yellow').' LINE:'.jry_wb_php_cli_color($error->line,'yellow').' Because '.jry_wb_php_cli_color($error->reason,'blue'));			
 				jry_wb_send_to_socket(array('id'=>-2,'name'=>'ES'),$task->user['id'],100004,$error);
 			}
+			catch(PDOException $e)
+			{
+				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.jry_wb_php_cli_color($e->getMessage(),'blue'));			
+			}		
 		}
 		else
 			sleep(1);

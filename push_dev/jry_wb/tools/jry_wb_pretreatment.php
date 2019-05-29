@@ -14,6 +14,8 @@
 	{
 		global $jry_wb_socket_mode;
 		global $conn;
+		if(!jry_wb_connect_database_test($conn))
+			$conn=jry_wb_connect_database();
 		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];		
 		$q ="DELETE FROM ".constant('jry_wb_database_general')."login where time<? AND trust=0";

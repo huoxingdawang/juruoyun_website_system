@@ -1,5 +1,27 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
+	function jry_wb_get_user($conn,$id)
+	{
+		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE id=? LIMIT 1');
+		$st->bindValue(1,$id);
+		$st->execute();				
+		$datas=$st->fetchAll();
+		if(count($datas)==0)
+			$user=NULL;				
+		else
+		{
+			$user=$datas[0];
+			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_manage_system').'competence WHERE type=? LIMIT 1');
+			$st->bindValue(1,$user['type']);
+			$st->execute();
+			$datas=$st->fetchAll();
+			if(count($datas)==0)
+				$user=NULL;				
+			else
+				$user=array_merge($user,$datas[0]);
+		}
+		return $user;
+	}
 	function jry_wb_get_user_head_style_out($user)
 	{
 		if($user['head_special']->mouse_out->direction)

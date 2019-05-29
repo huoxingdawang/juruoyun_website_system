@@ -9,6 +9,18 @@
 		$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		return $dbh;
 	}
+	function jry_wb_connect_database_test($conn)
+	{
+		try
+		{
+			$conn->getAttribute(PDO::ATTR_SERVER_INFO);
+		}
+		catch(PDOException $e)
+		{
+			return false;
+		}
+		return true;
+	}
 	if(!constant('jry_wb_host_switch'))
 	{
 		function jry_wb_connect_host_database()

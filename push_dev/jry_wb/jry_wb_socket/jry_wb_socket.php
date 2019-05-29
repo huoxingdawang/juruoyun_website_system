@@ -71,9 +71,8 @@
 	$dos=[];
 	$posters=[];
 	$listeners[creat_child('start_socket_listener')]=true;
-	$dos[creat_child('start_socket_do')]=true;
-	$dos[creat_child('start_socket_do')]=true;
-	$dos[creat_child('start_socket_do')]=true;
+	for($i=0;$i<($argv[1]==''?2:((int)$argv[1]));$i++)
+		$dos[creat_child('start_socket_do')]=true;
 	$posters[creat_child('start_socket_poster')]=true;
 /*	for($i=0,$n=count($child_list);$i<$n;$i++)
 		msg_send($jry_wb_message_queue,2,'exit');*/

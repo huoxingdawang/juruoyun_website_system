@@ -16,24 +16,34 @@
 	$redis->connect('127.0.0.1');		
 	while(1)
 	{
-		$rel=msg_receive($jry_wb_message_queue,4,$msgtype,1024,$buf);		
-		if($data=json_decode($redis->lpop('post'),true))
+		try
 		{
-			if($data['from']==null||$data['from']['id']==null||$data['from']['name']==null)
+			$rel=msg_receive($jry_wb_message_queue,4,$msgtype,1024,$buf);	
+			if($data=json_decode($redis->lpop('post'),true))
 			{
-				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' On '.jry_wb_php_cli_color('transport','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because no from data');			
-				continue;
-			}		
-			jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color($data['from']['id'].'-'.$data['from']['name'],'light_blue')."\t".jry_wb_php_cli_color('transport ','green').jry_wb_php_cli_color(strlen(json_encode($data['data'])),'magenta').'/B data '.substr(json_encode($data['data']),0,100)."\tto ".json_encode($data['to_id']));
-			if(($socket=socket_create(AF_INET,SOCK_STREAM,SOL_TCP))==false)
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500001,'file'=>__FILE__,'line'=>__LINE__)));
-			if(socket_connect($socket,'127.0.0.1',constant('jry_wb_socket_port'))==false)
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500002,'file'=>__FILE__,'line'=>__LINE__)));
-			$data=json_encode($data);
-			if(!socket_write($socket,$data,strlen($data)))
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500003,'file'=>__FILE__,'line'=>__LINE__)));
-			socket_close($socket);
+				if($data['from']==null||$data['from']['id']==null||$data['from']['name']==null)
+				{
+					jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' On '.jry_wb_php_cli_color('transport','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because no from data');			
+					continue;
+				}		
+				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color($data['from']['id'].'-'.$data['from']['name'],'light_blue')."\t".jry_wb_php_cli_color('transport ','green').jry_wb_php_cli_color(strlen(json_encode($data['data'])),'magenta').'/B data '.substr(json_encode($data['data']),0,100)."\tto ".json_encode($data['to_id']));
+				if(($socket=socket_create(AF_INET,SOCK_STREAM,SOL_TCP))==false)
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500001,'file'=>__FILE__,'line'=>__LINE__)));
+				if(socket_connect($socket,'127.0.0.1',constant('jry_wb_socket_port'))==false)
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500002,'file'=>__FILE__,'line'=>__LINE__)));
+				$data=json_encode($data);
+				if(!socket_write($socket,$data,strlen($data)))
+					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500003,'file'=>__FILE__,'line'=>__LINE__)));
+				socket_close($socket);
+			}
 		}
-		else
-			sleep(1);
+		catch (jry_wb_exception $e)
+		{
+			$error=json_decode($e->getMessage());
+			jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' At FILE:'.jry_wb_php_cli_color($error->file,'yellow').' LINE:'.jry_wb_php_cli_color($error->line,'yellow').' Because '.jry_wb_php_cli_color($error->reason,'blue'));			
+		}		
+		catch(PDOException $e)
+		{
+			jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.jry_wb_php_cli_color($e->getMessage(),'blue'));			
+		}		
 	}
