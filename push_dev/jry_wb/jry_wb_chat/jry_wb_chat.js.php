@@ -14,6 +14,7 @@ var jry_wb_chat_room=new function()
 	var loading_count=0;
 	var messages=[];
 	var now_show=null;
+	var last_show_dom;
 	var need_ctrl=true;
 	if(jry_wb_cache.get('jry_wb_chat_need_ctrl')==false)
 		need_ctrl=false;
@@ -539,6 +540,8 @@ var jry_wb_chat_room=new function()
 						result.style.height=parseInt(result.style.height)+img.clientWidth;
 						one.onclick=()=>
 						{
+							if(rooms.find(function(a){return a.big==false&&(a.users[0]==parseInt(input.value)||a.users[1]==parseInt(input.value))})!=undefined)
+								return jry_wb_beautiful_right_alert.alert('您已经和这个人有聊天室了呀！',3000,'auto','ok');
 <?php if(constant('jry_wb_socket_switch')){ ?>	
 							if(jry_wb_socket.send({'code':true,'type':200010,'data':parseInt(input.value)},false)==false)
 <?php } ?>
@@ -714,6 +717,24 @@ var jry_wb_chat_room=new function()
 			{
 				window.location.hash=now_show=rooms[i].chat_room_id;
 				this.right.innerHTML='';
+				if(last_show_dom!=null)
+					last_show_dom.classList.remove('active');
+				one.classList.add('active');
+				last_show_dom=one;
+				var chat_top=document.createElement('div');this.right.appendChild(chat_top);
+				chat_top.classList.add('jry_wb_chat_top');
+				if(rooms[i].big)
+					chat_top.innerHTML='聊天室'+rooms[i].name;
+				else
+				{
+					var id=rooms[i].users[0];
+					if(id==jry_wb_login_user.id)
+						id=rooms[i].users[1];
+					jry_wb_get_user(id,undefined,(data)=>
+					{
+						chat_top.innerHTML='和'+data.name+'的私聊';				
+					});
+				}				
 				var message_box=rooms[i].message_box=document.createElement('div');this.right.appendChild(message_box);
 				console.time('message');
 				for(var j=messages.length-1;j>=0;j--)
@@ -733,11 +754,11 @@ var jry_wb_chat_room=new function()
 					else
 						input.value='';
 				};
-				message_box.style.height=this.right.clientHeight-input_area.clientHeight;
+				message_box.style.height=this.right.clientHeight-input_area.clientHeight-chat_top.clientHeight;
 				input.style.width=message_box.clientWidth-button.clientWidth;
 				jry_wb_add_onresize(()=>
 				{
-					message_box.style.height=this.right.clientHeight-input_area.clientHeight;
+					message_box.style.height=this.right.clientHeight-input_area.clientHeight-chat_top.clientHeight;
 					input.style.width=message_box.clientWidth-button.clientWidth;					
 				});
 				input.focus();

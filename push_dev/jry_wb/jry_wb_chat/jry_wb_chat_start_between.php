@@ -6,9 +6,11 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));	
 		if($user1['id']==$user2['id'])
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600002,'file'=>__FILE__,'line'=>__LINE__)));
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_CHAT.'rooms WHERE users=JSON_ARRAY(?,?) AND big =0 AND `delete`=0 LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_CHAT.'rooms WHERE users=JSON_ARRAY(?,?) OR users=JSON_ARRAY(?,?) AND big =0 AND `delete`=0 LIMIT 1');
 		$st->bindValue(1,$user1['id'],PDO::PARAM_INT);
 		$st->bindValue(2,$user2['id'],PDO::PARAM_INT);
+		$st->bindValue(3,$user2['id'],PDO::PARAM_INT);
+		$st->bindValue(4,$user1['id'],PDO::PARAM_INT);
 		$st->execute();
 		$all=$st->fetchAll();
 		if(count($all)===0)
