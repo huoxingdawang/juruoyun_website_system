@@ -1,14 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	try
-	{
-		jry_wb_print_head("",true,true,false,array('use','manage','managebigdeal'),false);	
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}
+	try{jry_wb_check_compentence(NULL,array('use','manage','managebigdeal'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	if($_GET['action']=='list')
 	{
 		$conn=jry_wb_connect_database();

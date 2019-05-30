@@ -1,13 +1,8 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	$login=jry_wb_print_head("",true,true,false,array('use','manage','managetanmu'),false);	
+	try{jry_wb_check_compentence(NULL,array('use','manage','managetanmu'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	$action=$_GET['action'];
 	$id=$_POST['id'];
-	if($login!='ok')
-	{
-		echo json_encode(array('login'=>false,'reasion'=>$login,'code'=>0));
-		exit();	
-	}	
 	if($action=='chenge'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();

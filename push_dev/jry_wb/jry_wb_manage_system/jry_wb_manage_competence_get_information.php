@@ -1,14 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	try
-	{
-		jry_wb_print_head("",true,true,false,array('use','manage','managecompentence'),false);	
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}
+	try{jry_wb_check_compentence(NULL,array('use','manage','managecompentence'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	$conn2=jry_wb_connect_database();
 	$st = $conn2->prepare("SHOW FULL COLUMNS FROM ".constant('jry_wb_database_manage_system')."competence");
 	$st->execute();

@@ -10,7 +10,7 @@
 	$st->execute();
 	try
 	{
-		jry_wb_print_head("",true,false,false,array(),false,false);
+		jry_wb_check_compentence(NULL,array());
 		if($_GET['action']=='unlock')
 		{
 			if(jry_wb_send_mail('lijunyandeyouxiang@163.com',

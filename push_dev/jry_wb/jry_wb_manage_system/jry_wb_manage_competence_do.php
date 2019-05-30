@@ -1,15 +1,7 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	$method=$_GET['method'];
-	try
-	{
-		jry_wb_print_head('',true,false,false,array('use','manage','managecompentence'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}	
+	try{jry_wb_check_compentence(NULL,array('use','manage','managecompentence'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	if($method=='chenge')
 	{
 		$name=preg_replace('/[^a-zA-Z]/','',urldecode($_GET['name']));

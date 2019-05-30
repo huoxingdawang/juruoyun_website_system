@@ -3,15 +3,7 @@
 	use Sts\Request\V20150401 as Sts;	
 	use OSS\OssClient;
 	use OSS\Core\OssException;
-	try
-	{
-		jry_wb_print_head("",true,true,true,array('use','usenetdisk','manage','managenetdisk'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}
+	try{jry_wb_check_compentence(NULL,array('use','manage','usenetdisk','manage','managenetdisk'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	
 	jry_wb_get_netdisk_information();
 	$action=$_GET['action'];
 	if($action=='delete_buf')

@@ -1,14 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	try
-	{
-		jry_wb_print_head("",true,true,true,array('use','useschool'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}	
+	try{jry_wb_check_compentence();}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	$action=$_GET['action'];
 	if($action=='join')
 	{

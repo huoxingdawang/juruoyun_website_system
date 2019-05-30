@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	jry_wb_print_head("Ð£Ô°¹ÜÀí",true,true,true);
+	try{jry_wb_check_compentence();}catch(jry_wb_exception $e){echo $e->getMessage();exit();}		
 	if($_GET['action']=='add')
 	{
 	

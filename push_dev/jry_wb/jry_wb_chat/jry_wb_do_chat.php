@@ -1,14 +1,6 @@
 <?php
 	include_once("jry_wb_chat_includes.php");
-	try
-	{
-		jry_wb_print_head("",true,true,true,array('use','usechat'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}
+	try{jry_wb_check_compentence(NULL,array('use','usechat'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	$action=$_GET['action'];
 	try
 	{

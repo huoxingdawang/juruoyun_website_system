@@ -1,15 +1,7 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
-	try
-	{
-		jry_wb_print_head("控制系统",true,false,false,array('use','manage','manageusers'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}
+	try{jry_wb_check_compentence(NULL,array('use','manage','manageusers'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	if($_GET['action']=='')
 	{
 		$id=(int)$_GET['id'];

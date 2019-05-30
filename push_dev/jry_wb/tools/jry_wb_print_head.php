@@ -11,13 +11,7 @@
 		if($out==false)
 		{
 			if($checklogin)
-			{
-				if(((isset($_COOKIE['code']) ? $_COOKIE['code'] : '')!=$jry_wb_login_user['code']||$jry_wb_login_user['code']==''))
-					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100000,'file'=>__FILE__,'line'=>__LINE__)));
-				foreach($compentence as $compentence_)
-					if($jry_wb_login_user[$compentence_]==0)
-						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>$compentence_)));
-			}
+				jry_wb_check_compentence(NULL,$compentence);
 			return true;
 		}
 	?>	
@@ -63,19 +57,16 @@
 	<?php ob_flush();
 		if($checklogin)
 		{
-			if(((isset($_COOKIE['code']) ? $_COOKIE['code'] : '')!=$jry_wb_login_user['code']||$jry_wb_login_user['code']==''))
+			try{jry_wb_check_compentence(NULL,$compentence);}
+			catch(jry_wb_exception $e)
 			{
-	?><script language=javascript>jry_wb_beautiful_alert.alert("没有登录","","window.location.href='<?php echo jry_wb_print_href("login",0,"",1)?>'");</script> <?php			
+				$er=json_decode($e->getMessage());
+				if($er->reason==100000)
+				{?><script language=javascript>jry_wb_beautiful_alert.alert("没有登录","","window.location.href='<?php echo jry_wb_print_href("login",0,"",1)?>'");</script> <?php }
+				else
+				{?><script language=javascript>jry_wb_beautiful_alert.alert("权限不够","缺少<?php echo $er->extern?>","window.location.href='<?php echo jry_wb_print_href("home",0,"",1)?>'");</script> <?php }		
 				exit();
-			}
-			foreach($compentence as $compentence_)
-			{
-				if($jry_wb_login_user[$compentence_]==0)
-				{
-	?><script language=javascript>jry_wb_beautiful_alert.alert("权限不够","缺少<?php echo $compentence_?>","window.location.href='<?php echo jry_wb_print_href("home",0,"",1)?>'");</script> <?php			
-						exit();
-				}
-			}
+			}			
 		}
 		if($jry_wb_login_user['id']!=-1&&constant('jry_wb_check_tel_switch')&&$mt&&(($jry_wb_login_user['tel']==null||$jry_wb_login_user['tel']=='')))
 		{

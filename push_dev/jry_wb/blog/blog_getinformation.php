@@ -70,15 +70,7 @@
 			echo json_encode(array('blog_id'=>$data['blog_id'],'ifshow'=>$data['ifshow']));
 		exit();
 	}
-	try
-	{
-		jry_wb_print_head("",true,true,false,array('use'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}
+	try{jry_wb_check_compentence();}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	if($action=='get_draft_list')
 	{
 		$conn=jry_wb_connect_database();

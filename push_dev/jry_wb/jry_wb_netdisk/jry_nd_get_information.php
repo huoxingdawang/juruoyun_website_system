@@ -63,15 +63,7 @@
 		}
 		exit();
 	}
-	try
-	{
-		jry_wb_print_head("",true,true,true,array('use','usenetdisk'),false);
-	}
-	catch(jry_wb_exception $e)
-	{
-		echo $e->getMessage();
-		exit();
-	}	
+	try{jry_wb_check_compentence(NULL,array('use','manage','usenetdisk'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	
 	if($action=='file_list')
 	{
 		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE lasttime>? AND id=?;');
