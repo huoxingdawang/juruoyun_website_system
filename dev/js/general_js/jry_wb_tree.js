@@ -1,4 +1,4 @@
-function jry_wb_tree(area,text,check)
+function jry_wb_tree(area,text,check,callback)
 {
 	this.check=check==undefined?true:check;
 	if(jry_wb_cache.get('jry_wb_tree_note')!=true)
@@ -45,7 +45,7 @@ function jry_wb_tree(area,text,check)
 		var child = document.createElement('li');one.appendChild(child);
 		child.classList.add('jry_wb_tree_one_body_children');
 		child.style.display='none';
-		function update(input,from_child)
+		var update=(input,from_child)=>
 		{
 			if(!from_child)
 			{
@@ -72,12 +72,12 @@ function jry_wb_tree(area,text,check)
 			}
 			else
 			{
-				if(father.parentNode.parentNode.children[0]==null||father.parentNode.parentNode.children[0].children[1]==null)
+				if(father==this.root||father.parentNode==this.root||father.parentNode.parentNode==this.root||father.parentNode.parentNode.children[0]==null||father.parentNode.parentNode.children[0].children[1]==null)
 					return;	
 				father.parentNode.parentNode.children[0].children[1].checked = false;
 				update(father.parentNode.parentNode.children[0].children[1],true);
 			}
-		}
+		};
 		one.children[0].children[0].onclick = (e)=>
 		{
 			if(!e)
@@ -93,6 +93,8 @@ function jry_wb_tree(area,text,check)
 		one.children[0].children[1].onclick = function()
 		{
 			update(this,false);	
+			if(typeof callback=='function')
+				callback();
 		};
 		return one;
 	};
