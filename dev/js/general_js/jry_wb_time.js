@@ -35,14 +35,6 @@ function jry_wb_show_time(intime,addre)
 		document.getElementById(addre).innerHTML=day+"天"+hour+"时"+minute+"分"+s+"秒";
 	},1000);
 }
-String.prototype.to_time=function()
-{
-	var dd1=new Date(this);
-	if(isNaN(dd1.getTime()))
-		dd1=new Date(this.replace(/\-/g, "/"));
-	return dd1;
-};
-
 function jry_wb_compare_time(d1,d2)
 {
 	if(typeof d1.to_time=='function')
