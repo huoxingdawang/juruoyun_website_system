@@ -2,7 +2,9 @@
 	include_once("jry_wb_includes.php");
 	function jry_wb_print_tail()
 	{
-		global $jry_wb_login_user; ?>
+		global $jry_wb_login_user; 
+		global $jry_wb_start_time;; 
+?>
 		<a name="buttom"></a>
 		<div id='__zhanwei'></div>
 		<?php
@@ -27,7 +29,7 @@
 			<?php if(constant('jry_wb_show_video_switch')){?>if(jry_wb_cache.get('showed')<2.0){jry_wb_beautiful_alert.check("有新版本的的宣传视频是否观看",function(){jry_wb_beautiful_alert.openvideo("宣传视频V2.0",(document.body.clientWidth)*0.75,(document.body.clientHeight)*0.75,"http://juruoyun.oss-cn-beijing.aliyuncs.com/video/1080P.mp4",function(){jry_wb_cache.set('showed',2.0);},function(video){return (video.duration-video.currentTime)<=60});jry_wb_beautiful_alert.alert("请观看宣传视频","由于服务器略菜,加载速度会比较慢,请耐心等待<br>在距离结束还有60秒时,关闭按钮会自己弹出");},function(){},"现在就看","等会再看")};<?php } ?>	
 			<?php if(constant('jry_wb_word_special_fact_switch')){?>jry_wb_word_special_fact.word=JSON.parse('<?php echo json_encode($json);?>'.replace(/`/g,"'"));<?php } ?>
 			follow_mouth=null;
-			<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='disktop'&&constant('jry_wb_follow_mouth_special_fact_switch')){ ?>follow_mouth=new jry_wb_follow_mouth(document.body,{'size':4,'speed':10,'dou':1});<?php }?>
+			<?php if($jry_wb_login_user['device']=='pc'&&constant('jry_wb_follow_mouth_special_fact_switch')){ ?>follow_mouth=new jry_wb_follow_mouth(document.body,{'size':4,'speed':10,'dou':1});follow_mouth.close();<?php }?>
 			jry_wb_add_load(function ()
 			{
 				jry_wb_set_shortcut([jry_wb_keycode_up],function(){window.scrollTo(window.scrollX,0);window.onmousewheel();});
@@ -36,7 +38,7 @@
 				setInterval(jry_wb_add_onresize(function(){if(document.getElementById('__zhanwei')==null)return;document.getElementById('__zhanwei').style.height=Math.max(0,(Math.floor(window.innerHeight))-(document.getElementById('__zhanwei').getBoundingClientRect().top)-(document.body.scrollTop==0?document.documentElement.scrollTop:document.body.scrollTop)-(document.getElementById('buttom_message').getBoundingClientRect().height));}),2000);
 				jry_wb_loading_off();
 				<?php if($jry_wb_login_user['id']!=-1){if(!$jry_wb_login_user['word_special_fact']){ ?> jry_wb_word_special_fact.switch=false;<?php }?>
-				<?php if(!$jry_wb_login_user['follow_mouth']||$jry_wb_login_user['device']!='pc'){ ?> if(follow_mouth!=null)follow_mouth.close();<?php }}?>
+				<?php if($jry_wb_login_user['follow_mouth']){ ?> if(follow_mouth!=null)follow_mouth.reinit();<?php }}?>
 				if(typeof window.onresize =='function')
 					window.onresize();
 				jry_wb_set_delate_special();
@@ -56,14 +58,15 @@
 			<?php } ?>
 				window.onmousewheel();
 			});
-		var timer=setInterval(function()
-		{
-			if(jry_wb_include_once_script_cnt==0)
+			var timer=setInterval(function()
 			{
-				jry_wb_onload_function_data();
-				clearInterval(timer);
-			}
-		},100);
+				if(jry_wb_include_once_script_cnt==0)
+				{
+					jry_wb_onload_function_data();
+					clearInterval(timer);
+				}
+			},100);
+			console.log('PHP CODE RUN <?php echo microtime(true)-$jry_wb_start_time; ?> MS');
 		</script>			
 		</body>
 		</html>
