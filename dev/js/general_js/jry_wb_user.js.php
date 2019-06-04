@@ -120,7 +120,7 @@ function jry_wb_show_user(addr,user,width,float,inline,after)
 	var flag = false;
 	if((user==null)||(user.show==null&&user.name==null&&user.head==null))
 		{user={color:666666,show:'用户已消失'};flag = true;}
-	if(user!=null&&!user.use)
+	else if(user!=null&&!user.use)
 		{user={color:666666,show:'[禁止使用]'};flag = true;}
 	if(inline)
 	{
@@ -210,7 +210,7 @@ function jry_wb_show_user_full(user,width,height)
 	{
 		var td = jry_wb_show_tr_no_input(table,'签名','');
 		td.innerHTML='';
-		markdown(td,0,0,(user.zhushi),false);
+		new jry_wb_markdown(td,user.id,0,(user.zhushi),false);
 	}
 	if(user.login_addr==-1)
 		jry_wb_show_tr_no_input(table,'登录信息','该用户的隐私策略不允许展示');
