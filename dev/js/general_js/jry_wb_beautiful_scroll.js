@@ -320,6 +320,7 @@ jry_wb_add_load(function()
 	jry_wb_scroll_body.style.top=Math.max(0,document.getElementsByClassName('jry_wb_top_toolbar')[0]==undefined?0:document.getElementsByClassName('jry_wb_top_toolbar')[0].clientHeight-window.scrollY);;
 	jry_wb_scroll_body.style.height=document.body.clientHeight-Math.max(0,document.getElementsByClassName('jry_wb_top_toolbar')[0]==undefined?0:document.getElementsByClassName('jry_wb_top_toolbar')[0].clientHeight-window.scrollY);
 	jry_wb_scroll_body.style.opacity='0';
+	jry_wb_scroll_body.style.zIndex='9999';
 	jry_wb_scroll_body.classList.add('jry_wb_beautiful_scroll_body');
 	var jry_wb_scroll_kuai=document.createElement("div");jry_wb_scroll_body.appendChild(jry_wb_scroll_kuai);
 	jry_wb_scroll_kuai.style.height=document.body.clientHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
@@ -534,5 +535,6 @@ jry_wb_add_load(function()
 			timer=null;
 		},1000);
 	};
+	document.addEventListener('DOMMouseScroll',window.onmousewheel,false);
 	window.scrollTo(x,y);
 });
