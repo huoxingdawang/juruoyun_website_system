@@ -87,7 +87,7 @@ var jry_wb_shortcut_keycode_buf  =  new Array();
 var jry_wb_shortcut_keycode_buf_count = 0;
 var jry_wb_shortcut_debug = false;
 var jry_wb_shortcut_set_flag = false;
-document.onkeydown  =  function (e) 
+window.onkeyup=function (e) 
 {
 	if (!e) 
 		e  =  window.event;
@@ -99,13 +99,14 @@ document.onkeydown  =  function (e)
 	jry_wb_shortcut_keycode_buf[jry_wb_shortcut_keycode_buf_count++]=keycode;
 	if(!jry_wb_shortcut_set_flag)
 	{
-		jry_wb_shortcut_set_flag = true;
-		setTimeout(function(){
+		jry_wb_shortcut_set_flag=true;
+		setTimeout(function()
+		{
 			var now = jry_wb_shortcut_tree;
 			var n = jry_wb_shortcut_keycode_buf_count;
 			jry_wb_shortcut_set_flag = false;
 			jry_wb_shortcut_keycode_buf_count = 0;
-			for( var i = 0;i<n;i++)
+			for(var i=0;i<n;i++)
 			{
 				if(now==null)
 					return true;
@@ -113,14 +114,16 @@ document.onkeydown  =  function (e)
 			}
 			if(now==null||now.func==null)
 				return ;
-			if( typeof now.func=="function")
+			if(typeof now.func=='function')
 				now.func(e);
-		},500);
+		},250);
 	}
 	return ((e.target.tagName=="TEXTAREA"||e.target.tagName=="INPUT")&&(!e.ctrlKey))||(keycode==jry_wb_keycode_f12||keycode==jry_wb_keycode_f5||keycode==jry_wb_keycode_f11||(keycode==jry_wb_keycode_c&&e.ctrlKey));
 };
 function jry_wb_set_shortcut(code,func)
 {
+	if(typeof code!='function')
+		code=[code];
 	var now = jry_wb_shortcut_tree.next;
 	for( var i = 0,n = code.length;i<n;i++)
 	{
