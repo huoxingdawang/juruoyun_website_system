@@ -12,9 +12,9 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,cmp,after,sort_cmp)
 		if(typeof data.code!='undefined'&&data.code==false)
 		{
 			if(data.reason==100000)
-				jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+				jry_wb_beautiful_alert.alert("没有登录","","window.location.href='"+jry_wb_message.jry_wb_host+'jry_wb_mainpages/login.php'+"'");
 			else if(data.reason==100001)
-				jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+				jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href='"+jry_wb_message.jry_wb_host+'jry_wb_mainpages/index.php'+"'");
 			else
 				jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 			return ;	
