@@ -1,6 +1,7 @@
 function  jry_wb_beautiful_alert_function() 
 {
 	var buff=function(){};
+	var old_onkeyup;
 	this.frame = function(msgtitle,width,height,x,y,important)
 	{
 		buff=window.onmousewheel;
@@ -40,6 +41,7 @@ function  jry_wb_beautiful_alert_function()
 		document.body.removeChild(this.bgObj); 	
 		document.body.removeChild(this.msgObj);
 		window.onmousewheel=buff;
+		window.onkeyup=old_onkeyup;
 		if(document.addEventListener)
 			document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
 		jry_wb_beautiful_scroll_run_flag=false;
@@ -134,8 +136,8 @@ function  jry_wb_beautiful_alert_function()
 		Confirm.setAttribute("type","button"); 
 		Confirm.setAttribute("value","确认"); 
 		Confirm.style.bottom = 0;
-		var old_onkeydown=document.onkeydown;
-		document.onkeydown=function(e)
+		old_onkeyup=window.onkeyup;
+		window.onkeyup=function(e)
 		{
 			if (!e) 
 				e  =  window.event;
@@ -155,7 +157,7 @@ function  jry_wb_beautiful_alert_function()
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
 				jry_wb_beautiful_scroll_run_flag=false;
 				func();
-				document.onkeydown=old_onkeydown;
+				window.onkeyup=old_onkeyup;
 			};
 		}
 		else
@@ -169,7 +171,7 @@ function  jry_wb_beautiful_alert_function()
 				jry_wb_beautiful_scroll_run_flag=false;
 				if(typeof func!="undefined")
 					eval(func);
-				document.onkeydown=old_onkeydown;
+				window.onkeyup=old_onkeyup;
 			};		
 		}
 		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");

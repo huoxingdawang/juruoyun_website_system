@@ -92,7 +92,7 @@ window.onkeyup=function (e)
 	if (!e) 
 		e  =  window.event;
 	if((e.target.tagName=="TEXTAREA"||e.target.tagName=="INPUT"))
-		return;
+		return true;
 	var keycode=(e.keyCode||e.which);
 	if(keycode>=jry_wb_keycode_0_&&keycode<=jry_wb_keycode_9_)
 		keycode = keycode-jry_wb_keycode_0_+jry_wb_keycode_0;
