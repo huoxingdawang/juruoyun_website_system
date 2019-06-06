@@ -10,12 +10,9 @@
 	$jry_wb_keywords='';
 	$jry_wb_description='';
 	$conn=jry_wb_connect_database();
-	function jry_wb_pretreatment(&$user,$cookie,$ip,$user_agent=NULL)
+	function jry_wb_pretreatment($conn,&$user,$cookie,$ip,$user_agent=NULL)
 	{
 		global $jry_wb_socket_mode;
-		global $conn;
-		if(!jry_wb_connect_database_test($conn))
-			$conn=jry_wb_connect_database();
 		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];		
 		$q ="DELETE FROM ".constant('jry_wb_database_general')."login where time<? AND trust=0";
@@ -182,4 +179,4 @@
 		for($i=0;$i<$n;$i++)
 			unset($user[$i]);		
 	}
-	jry_wb_pretreatment($jry_wb_login_user,$_COOKIE,$_SERVER['REMOTE_ADDR']);
+	jry_wb_pretreatment($conn,$jry_wb_login_user,$_COOKIE,$_SERVER['REMOTE_ADDR']);

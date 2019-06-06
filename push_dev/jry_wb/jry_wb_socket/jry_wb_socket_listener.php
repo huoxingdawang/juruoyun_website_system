@@ -1,6 +1,7 @@
 <?php
 	cli_set_process_title('jry_wb_socket_listener');
 	include_once("jry_wb_cli_includes.php");
+	$conn=jry_wb_connect_database();	
 	if((!jry_wb_test_is_cli_mode())){header('HTTP/1.1 404 Not Found');header("status: 404 Not Found");include('../../404.php');exit();}
 	if(constant('jry_wb_socket_switch')!==true)
 	{
@@ -42,6 +43,8 @@
 	{
 		try
 		{
+			if(!jry_wb_connect_database_test($conn))
+				$conn=jry_wb_connect_database();
 			$sockets=$clients;
 			$sockets[]=$master;
 			$write=NULL;
@@ -96,7 +99,7 @@
 								$buf2=explode("=",$onecookie);
 								$cookie[str_replace(' ','',$buf2[0])]=str_replace(' ','',$buf2[1]);
 							}
-							jry_wb_pretreatment($user,$cookie,$ip,$user_agent);
+							jry_wb_pretreatment($conn,$user,$cookie,$ip,$user_agent);
 							if(preg_match("/Sec-WebSocket-Key: (.*)\r\n/", $header, $match))
 							{
 								$secKey = $match[1];
