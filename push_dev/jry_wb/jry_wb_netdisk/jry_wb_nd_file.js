@@ -1,4 +1,5 @@
-const jry_wb_netdisk_do_file=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php';
+if(typeof jry_wb_netdisk_do_file=='undefined')
+	jry_wb_netdisk_do_file=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php';
 function jry_wb_nd_get_class(file)
 {
 	file.type=file.type.toLowerCase();

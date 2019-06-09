@@ -4,7 +4,7 @@
 	use OSS\OssClient;
 	use OSS\Core\OssException;
 	try{jry_wb_check_compentence(NULL,array('use','manage','usenetdisk','manage','managenetdisk'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	
-	jry_wb_get_netdisk_information();
+	jry_wb_get_netdisk_information($conn);
 	$action=$_GET['action'];
 	if($action=='delete_buf')
 	{

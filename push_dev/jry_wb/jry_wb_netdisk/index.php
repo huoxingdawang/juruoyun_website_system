@@ -3,7 +3,7 @@
 	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");
 	include_once("jry_wb_nd_tools.php");
 	jry_wb_print_head("网盘",true,true,true,array('use','usenetdisk'));
-	if(!jry_wb_get_netdisk_information())
+	if(!jry_wb_get_netdisk_information($conn))
 	{
 		?><script>var jry_wb_netdisk_first_time_use=true;</script><?php
 	}

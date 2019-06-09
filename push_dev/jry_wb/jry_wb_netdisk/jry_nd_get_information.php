@@ -3,8 +3,7 @@
 	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");
 	include_once("jry_wb_nd_tools.php");
 	$action=$_GET['action'];
-	jry_wb_get_netdisk_information();
-	$conn=jry_wb_connect_database();
+	jry_wb_get_netdisk_information($conn);
 	if(($file=fopen('jry_nd.fast_save_message','r'))==false)
 	{
 		$st = $conn->prepare('SELECT lasttime FROM '.JRY_WB_DATABASE_NETDISK.'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['area']=$st->fetchAll()[0]['lasttime'];

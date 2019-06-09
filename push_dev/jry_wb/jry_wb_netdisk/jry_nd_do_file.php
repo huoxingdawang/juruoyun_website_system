@@ -4,7 +4,7 @@
 	use OSS\OssClient;
 	use OSS\Core\OssException;
 	if($jry_wb_login_user['id']!=-1)
-		jry_wb_get_netdisk_information();
+		jry_wb_get_netdisk_information($conn);
 	$action=$_GET['action'];
 	$conn=jry_wb_connect_database();
 	if($action=='open'||$action=='download')
@@ -296,7 +296,7 @@
 				jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,ceil($size/1024),-$file['size']);
 				jry_nd_database_set_file_ok($conn,$jry_wb_login_user,$file['file_id'],ceil($size/1024));
 				jry_nd_database_operate_fast_save('area',jry_wb_get_time());
-				jry_wb_get_netdisk_information();
+				jry_wb_get_netdisk_information($conn);
 			}
 			else
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));

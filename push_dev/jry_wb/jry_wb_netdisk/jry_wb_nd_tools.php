@@ -1,10 +1,9 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");	
-	function jry_wb_get_netdisk_information()
+	function jry_wb_get_netdisk_information($conn)
 	{
 		global $jry_wb_login_user;
-		$conn=jry_wb_connect_database();
 		$q='SELECT *,'.JRY_WB_DATABASE_NETDISK_PREFIX.'users.lasttime as lasttime FROM '.JRY_WB_DATABASE_NETDISK.'users 
 		LEFT JOIN '.JRY_WB_DATABASE_NETDISK.'group  ON ('.JRY_WB_DATABASE_NETDISK_PREFIX.'users.group_id = '.JRY_WB_DATABASE_NETDISK_PREFIX."group.group_id)
 		where ".JRY_WB_DATABASE_NETDISK_PREFIX."users.id =? LIMIT 1";
@@ -13,8 +12,9 @@
 		$st->execute();
 		if(count($data=$st->fetchAll())==0)
 		{
-			jry_wb_create_netdisk_account();
-			jry_wb_get_netdisk_information();
+			if(jry_wb_create_netdisk_account($conn)===false)
+				return false;
+			jry_wb_get_netdisk_information($conn);
 			return false;
 		}
 		$jry_wb_login_user['nd_ei']=$data[0];
@@ -35,15 +35,16 @@
 		$data[0]['allow_type']=json_decode($data[0]['allow_type']);
 		return $data[0];	
 	}
-	function jry_wb_create_netdisk_account()
+	function jry_wb_create_netdisk_account($conn)
 	{
 		global $jry_wb_login_user;
-		$conn=jry_wb_connect_database();
-		$q='INSERT INTO '.JRY_WB_DATABASE_NETDISK.'users (`id`,`lasttime`) VALUES (?,?)';
-		$st = $conn->prepare($q);
+		if($jry_wb_login_user['id']==-1)
+			return false;
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_NETDISK.'users (`id`,`lasttime`) VALUES (?,?)');
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,jry_wb_get_time());
 		$st->execute();
+		return true;
 	}
 	function jry_wb_netdisk_connect_to_javascript()
 	{
