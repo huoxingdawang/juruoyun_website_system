@@ -103,7 +103,7 @@
 					<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=null){?><span class="jry_wb_icon jry_wb_icon_qq" onclick='qqlogin()' style='color:#36AAE8;font-size:30px;' ></span><?php  }?>
 					<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){?><span class="jry_wb_icon jry_wb_icon_mayun" onclick='giteelogin()' style='color:rgb(216, 30, 6);font-size:30px;' ></span><?php  }?>
 					<?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){?><span class="jry_wb_icon jry_wb_icon_git" onclick='gayhublogin()' style='color:#00ff00;font-size:30px;' ></span><?php  }?>
-					<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){?><span class="jry_wb_icon jry_wb_icon_xiaomi" onclick='milogin()' style='color:rgb(253, 88, 62);font-size:30px;' ></span><?php  }?>
+					<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){?><span class="jry_wb_icon jry_wb_icon_xiaomi" onclick='milogin()' style='color:rgb(253, 88, 62);font-size:30px;' ></span><?php  }?>
                 </div>
 			</td>
 		</tr><?php } ?>

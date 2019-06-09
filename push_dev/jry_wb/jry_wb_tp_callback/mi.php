@@ -9,7 +9,7 @@
 	$code=$_GET["code"];
 	if($code)
 	{
-		$oauthClient=new XMOAuthClient(constant('jry_wb_tp_mi_oauth_config_client_id'),constant('jry_wb_tp_mi_oauth_config_client_secret'));
+		$oauthClient=new XMOAuthClient(JRY_WB_TP_MI_OAUTH_CLIENT_ID,JRY_WB_TP_MI_OAUTH_CLIENT_SECRET);
 		$oauthClient->setRedirectUri(JRY_WB_HOST.'/jry_wb_tp_callback/mi.php');	
 		$token=$oauthClient->getAccessTokenByAuthorizationCode($code);
 		if($token)
@@ -25,11 +25,11 @@
 			{
 				$tokenId=$token->getAccessTokenId();
 				$refreshtoken=$token->getRefreshToken();
-				$xmApiClient=new XMApiClient(constant('jry_wb_tp_mi_oauth_config_client_id'),$tokenId);
+				$xmApiClient=new XMApiClient(JRY_WB_TP_MI_OAUTH_CLIENT_ID,$tokenId);
 				$nonce=XMUtil::getNonce();
 				$path='/user/profile';
 				$method="GET";
-				$params=array('token'=>$tokenId,"clientId"=>constant('jry_wb_tp_mi_oauth_config_client_id'));
+				$params=array('token'=>$tokenId,"clientId"=>JRY_WB_TP_MI_OAUTH_CLIENT_ID);
 				$sign=XMUtil::buildSignature($nonce,$method,$xmApiClient->getApiHost(),$path,$params,$token->getMacKey());
 				$head=XMUtil::buildMacRequestHead($tokenId,$nonce,$sign);
 				$data=$xmApiClient->callApi($path,$params,false,$head)['data'];

@@ -248,7 +248,7 @@ function jry_wb_show_user_full(user,width,height)
 	else
 		td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';
 <?php } ?>
-<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
+<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='MI:';
 	if(user.oauth_mi==null)
 		td.innerHTML+='无<br>';

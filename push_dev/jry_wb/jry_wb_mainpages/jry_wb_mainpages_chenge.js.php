@@ -268,7 +268,7 @@ function show()
 			}
 		}
 		<?php } ?>
-		<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
+		<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
 		if(jry_wb_login_user.oauth_mi!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -1847,7 +1847,7 @@ function tp_in()
 		};		
 	}	
 	<?php } ?>
-	<?php if(constant('jry_wb_tp_mi_oauth_config_client_id')!=''){ ?>
+	<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
