@@ -7,7 +7,7 @@
 	include_once("jry_wb_config_mail_user.php");
 
 	include_once("jry_wb_config_short_message_user.php");
-	if(constant('jry_wb_short_message_switch')=='aly')
+	if(JRY_WB_SHORT_MESSAGE_SWITCH=='aly')
 		include_once("jry_wb_config_short_message_aly.php");
 	if(JRY_WB_MAIL_SWITCH=='phpmailer')
 		include_once("jry_wb_config_mail_phpmailer.php");

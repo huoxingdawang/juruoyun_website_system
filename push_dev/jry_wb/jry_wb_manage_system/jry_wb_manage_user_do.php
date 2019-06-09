@@ -60,7 +60,7 @@
 		$st->execute();	
 		$user=$st->fetchAll()[0];
 		require_once "../tools/jry_wb_short_message.php";
-		jry_wb_send_short_message($user['tel'],Array ("name"=>$user['name']),constant('jry_wb_short_message_aly_connect_mail')); 	
+		jry_wb_send_short_message($user['tel'],Array ("name"=>$user['name']),JRY_WB_SHORT_MESSAGE_ALY_CONNECT_MAIL); 	
 		echo json_encode(array('code'=>true));
 		exit();
 	}

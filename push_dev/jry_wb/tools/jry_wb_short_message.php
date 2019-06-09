@@ -28,8 +28,8 @@ function jry_wb_get_short_message_code($number)
 function jry_wb_send_short_message($number,$codes,$muban) 
 {
 	$params = array ();
-	$accessKeyId = constant('jry_wb_short_message_aly_accesskeyid');
-	$accessKeySecret = constant('jry_wb_short_message_aly_accesskeysecret');
+	$accessKeyId = JRY_WB_SHORT_MESSAGE_ALY_ACCESS_KEY_ID;
+	$accessKeySecret = JRY_WB_SHORT_MESSAGE_ALY_ACCESS_KEY_SECRET;
 	$params["PhoneNumbers"] = $number;
 	$params["SignName"] = "蒟蒻云";
 	$params["TemplateCode"] = $muban;

@@ -127,7 +127,7 @@
 				<img id="vcodesrc" src="" onload="window.onresize()"/>
 			</td>
 		</tr>
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>
 		<tr id="tr_tel">
 			<td>
 				<h55>电话验证码</h55>

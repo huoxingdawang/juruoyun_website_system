@@ -12,7 +12,7 @@
 		{
 			if(!JRY_WB_CHECK_TEL_SWITCH)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
-			if(constant('jry_wb_short_message_switch')=='')
+			if(JRY_WB_SHORT_MESSAGE_SWITCH=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{
@@ -32,7 +32,7 @@
 			require_once "../tools/jry_wb_short_message.php";
 			if(($code=jry_wb_get_short_message_code($_POST['tel']))==-1)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100003,'file'=>__FILE__,'line'=>__LINE__)));
-			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_add_user'));	
+			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),JRY_WB_SHORT_MESSAGE_ALY_ADD_USER);	
 			echo json_encode(array('code'=>true));
 			exit();		
 		}
@@ -61,7 +61,7 @@
 		{
 			if(!jry_wb_test_phone_number($tel))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
-			if(constant('jry_wb_short_message_switch')!='')
+			if(JRY_WB_SHORT_MESSAGE_SWITCH!='')
 			{
 				$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where time<?');
 				$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
@@ -79,7 +79,7 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));
-			if(constant('jry_wb_short_message_switch')!='')
+			if(JRY_WB_SHORT_MESSAGE_SWITCH!='')
 			{		
 				$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=? and code=?');
 				$st->bindParam(1,$tel);

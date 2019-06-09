@@ -31,7 +31,7 @@
 	
 	if(JRY_WB_MAIL_SWITCH!='')
 		include_once('jry_wb_mail.php');
-//	if(constant('jry_wb_short_message_switch'))
+//	if(JRY_WB_SHORT_MESSAGE_SWITCH)
 //		include_once('');
 	include_once('SignatureHelper.php');
 	

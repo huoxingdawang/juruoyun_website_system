@@ -30,7 +30,7 @@ password1=document.getElementById('password1');
 password2=document.getElementById('password2');
 vcode=document.getElementById('vcode');
 vcode.style.width=0;
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>
 phonecode=document.getElementById('phonecode');
 tr_tel=document.getElementById('tr_tel');
 <?php } ?>
@@ -53,7 +53,7 @@ if(get!=null)
 	password1.value=get.password1;
 	password2.value=get.password2;
 	<?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>mail.value=get.mail;<?php } ?>
-	<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
+	<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 	phonecode.value=get.phonecode;
 	<?php } ?>
 	for(var i=0,n=sexs.length;i<n;i++)
@@ -78,7 +78,7 @@ function clear_all()
 	password2.value='';
 	<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>tel.value='';<?php } ?>
 	<?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>mail.value='';<?php } ?>
-	<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>phonecode.value='';<?php } ?>
+	<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>phonecode.value='';<?php } ?>
 	sexs[0].click();
 <?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){ 
 	if($one['type']=='check')
@@ -89,7 +89,7 @@ function clear_all()
 <?php }} ?>
 	jry_wb_cache.delete('add');
 }
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>if(tel.value=="")
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>if(tel.value=="")
 	tr_tel.style.display="none";
 else
 	phonecode.style.width=td2.clientWidth-document.getElementById('phonecode_button').clientWidth-25;
@@ -112,7 +112,7 @@ else if(<?php  echo $one['key']; ?>.value=="")
 <?php } ?>
 else if(vcode.value=="")
 	vcode.focus();
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>else if(phonecode.value=="")
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>else if(phonecode.value=="")
 	phonecode.focus();	
 <?php } ?>
 function check()
@@ -176,7 +176,7 @@ function check()
 				jry_wb_beautiful_alert.alert("注册失败","手机号格式错误",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
 			else if(data.reason==100009)
 				jry_wb_beautiful_alert.alert("注册失败","手机号重复",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
-			<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
+			<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 			else if(data.reason==100003)
 				jry_wb_beautiful_alert.alert("注册失败","电话验证码发送频繁");
 			else if(data.reason==100010)
@@ -199,10 +199,10 @@ function check()
 				jry_wb_beautiful_alert.alert("注册失败",data.extern.name+"为空或错误",function(){eval(data.extern.key).focus();eval(data.extern.key).style.border="5px solid #ff0000",eval(data.extern.key).style.margin="0px 0px";});
 			<?php } ?>
 			}
-	},[{'name':'name','value':namee.value},<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>{'name':'tel','value':tel.value},<?php } ?><?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>{'name':'mail','value':mail.value},<?php } ?>{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>{'name':'phonecode','value':phonecode.value},<?php } ?>{'name':'extern','value':extern}],true);
+	},[{'name':'name','value':namee.value},<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>{'name':'tel','value':tel.value},<?php } ?><?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>{'name':'mail','value':mail.value},<?php } ?>{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>{'name':'phonecode','value':phonecode.value},<?php } ?>{'name':'extern','value':extern}],true);
 	return true;
 }
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 function check_tel()
 { 
 	if(vcode.value=='')
@@ -260,7 +260,7 @@ for(var i=0,n=<?php echo $one['key']; ?>s.length;i<n;i++)
 	if(<?php echo $one['key']; ?>s[i].checked)
 		<?php echo $one['key']; ?>=<?php echo $one['key']; ?>s[i].value;
 <?php }} ?>	
-	jry_wb_cache.set('add',JSON.stringify({'name':namee.value,<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>'tel':tel.value,<?php } ?><?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>'mail':mail.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>'phonecode':phonecode.value,<?php } ?>
+	jry_wb_cache.set('add',JSON.stringify({'name':namee.value,<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>'tel':tel.value,<?php } ?><?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>'mail':mail.value,<?php } ?>'sex':sex,'password1':password1.value,'password2':password2.value,<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>'phonecode':phonecode.value,<?php } ?>
 		<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']!='cutter'){ ?>'<?php echo $one['key']; ?>':<?php echo $one['key']; ?><?php if($one['type']!='check'){ ?>.value<?php } ?>,<?php } ?>	
 	}));
 }
@@ -283,7 +283,7 @@ namee.onfocus=namee.onkeyup=function(e)
 		namee.style.border="",namee.style.margin="",time5=0;
 	return true;
 };
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 phonecode.onkeyup=function(){check_all();};
 <?php } ?>
 for(var i=0,n=sexs.length;i<n;i++)
@@ -374,7 +374,7 @@ tel.onfocus=tel.onkeyup=function(e)
 	else
 	{
 		tel.style.border="",tel.style.margin="";
-		<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
+		<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 		if(tel.value!="")
 			tr_tel.style.display="",window.onresize(),phonecode.style.width=td2.clientWidth-document.getElementById('phonecode_button').clientWidth-25,time3=0;
 		<?php } ?>
@@ -507,7 +507,7 @@ function check_all(e)
 	if(e.target!=<?php echo $one['key']; ?>)if(!<?php echo $one['key']; ?>.onkeyup(e))return false;
 <?php } ?>
 	if(e.target!=vcode)if(!vcode.onkeyup(e))return false;
-<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 	if(e.target==tijiao_button&&phonecode.value=='')return jry_wb_beautiful_alert.alert("请填写完整信息","电话验证码为空",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";}),false;
 <?php } ?>
 	

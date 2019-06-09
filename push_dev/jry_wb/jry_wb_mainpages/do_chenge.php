@@ -26,7 +26,7 @@
 		}
 		else if($_GET['action']=='send_tel')
 		{
-			if(constant('jry_wb_short_message_switch')=='')
+			if(JRY_WB_SHORT_MESSAGE_SWITCH=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{
@@ -47,7 +47,7 @@
 			require_once "../tools/jry_wb_short_message.php";
 			if(($code=jry_wb_get_short_message_code($_POST['tel']))==-1)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100003,'file'=>__FILE__,'line'=>__LINE__)));	
-			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),constant('jry_wb_short_message_aly_chenge'));
+			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),JRY_WB_SHORT_MESSAGE_ALY_CHANGE);
 			echo json_encode(array('code'=>true));
 			exit();
 		}
@@ -371,7 +371,7 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));	
-			if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!='')
+			if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!='')
 			{
 				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=?');
 				$st->bindParam(1,$_POST['tel']);

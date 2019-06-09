@@ -1,9 +1,14 @@
 <?php
-	define('jry_wb_short_message_aly_accesskeyid'		,'');//您的阿里云短信accesskeyid
-	define('jry_wb_short_message_aly_accesskeysecret'	,'');//您的阿里云短信accesskeysecret
-	define('jry_wb_short_message_aly_up'				,'');//您的阿里云短信上传队列
-	define('jry_wb_short_message_aly_add_user'			,'');//您的阿里云短信注册时的模板
-	define('jry_wb_short_message_aly_forget'			,'');//您的阿里云短信找回密码时的模板
-	define('jry_wb_short_message_aly_chenge'			,'');//您的阿里云短信更改手机时的模板
-	define('jry_wb_short_message_aly_connect_mail'		,'');//您的阿里云短信绑定邮箱时的模板
+//阿里云短信api ak id
+	define('JRY_WB_SHORT_MESSAGE_ALY_ACCESS_KEY_ID'		,'');
+//阿里云短信api ak secret
+	define('JRY_WB_SHORT_MESSAGE_ALY_ACCESS_KEY_SECRET'	,'');
+//阿里云短信注册模板
+	define('JRY_WB_SHORT_MESSAGE_ALY_ADD_USER'			,'');
+//阿里云短信找回密码模板
+	define('JRY_WB_SHORT_MESSAGE_ALY_FORGET'			,'');
+//阿里云短信更改手机模板
+	define('JRY_WB_SHORT_MESSAGE_ALY_CHANGE'			,'');
+//阿里云短信提醒用户绑定邮箱模板
+	define('JRY_WB_SHORT_MESSAGE_ALY_CONNECT_MAIL'		,'');
 ?>
