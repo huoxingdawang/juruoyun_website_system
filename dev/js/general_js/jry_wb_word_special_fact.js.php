@@ -1,4 +1,6 @@
-var jry_wb_word_special_fact  =  new function()
+<?php if(JRY_WB_WORD_SPECIAL_FACT_SWITCH){ ?>
+<?php if(false){ ?><script><?php } ?>
+var jry_wb_word_special_fact=new function()
 {
 	this.switch = true;
 	this.word=[];
@@ -35,3 +37,5 @@ var jry_wb_word_special_fact  =  new function()
 		},1000*(event.clientY-35+16)/200);
 	};
 };
+<?php if(false){ ?></script><?php } ?>
+<?php } ?>
