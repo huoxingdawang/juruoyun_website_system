@@ -15,8 +15,8 @@ class Recorder{
     public function __construct(){
         $this->error = new ErrorCase();
         //-------读取配置文件
-		global $jry_wb_tp_qq_oauth_config;
-        $this->inc = $jry_wb_tp_qq_oauth_config;
+		global $JRY_WB_TP_QQ_OAUTH_CONFIG;
+        $this->inc = $JRY_WB_TP_QQ_OAUTH_CONFIG;
         if(empty($this->inc)){
             $this->error->showError("20001");
         }

@@ -241,7 +241,7 @@ function jry_wb_show_user_full(user,width,height)
 	td.innerHTML='第三方接入';
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.classList.add('h56');
-<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>
+<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>
 	td.innerHTML+='QQ:';
 	if(user.oauth_qq==null)
 		td.innerHTML+='无<br>';

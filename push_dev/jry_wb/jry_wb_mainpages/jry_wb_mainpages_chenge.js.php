@@ -136,7 +136,7 @@ function show()
 				};
 			}
 		}
-		<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>		
+		<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>		
 		if(jry_wb_login_user.oauth_qq!=null||jry_wb_login_user.mail.includes('@qq.com'))
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
@@ -1719,7 +1719,7 @@ function tp_in()
 	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
 	var table=document.createElement("table");showdiv.appendChild(table);
 	table.border=1;table.width='100%';
-	<?php if($jry_wb_tp_qq_oauth_config!=NULL){ ?>
+	<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');

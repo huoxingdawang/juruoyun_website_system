@@ -1,9 +1,9 @@
 <?php
 	include_once('jry_wb_config_default_system.php');
-	$jry_wb_tp_qq_oauth_config=(object)array(									//qq oAuth 配置
+	$JRY_WB_TP_QQ_OAUTH_CONFIG=(object)array(
 		'appid'=>'',
 		'appkey'=>'',
-		'callback'=>constant('jry_wb_host').'jry_wb_tp_callback/tencent.php',
+		'callback'=>JRY_WB_HOST.'jry_wb_tp_callback/tencent.php',
 		'scope'=>'get_user_info',
 		'errorReport'=>true,
 		'storageType'=>'file',
