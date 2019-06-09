@@ -1,6 +1,10 @@
 <?php
 	include_once('jry_wb_config_default_system.php');
-	define('jry_wb_socket_host','0.0.0.0');
-	define('jry_wb_socket_port',1217);
-	define('jry_wb_socket_max_client',10000);
-	define('jry_wb_socket_max_client_per_user',10);
+//socket服务器绑定IP
+	define('JRY_WB_SOCKET_HOST','0.0.0.0');
+//socket服务器绑定端口
+	define('JRY_WB_SOCKET_PORT',1217);
+//socket服务器最大连接数
+	define('JRY_WB_SOCKET_MAX_CLIENT',10000);
+//socket服务器最大单用户连接数
+	define('JRY_WB_SOCKET_MAX_CLIENT_PER_USER',10);

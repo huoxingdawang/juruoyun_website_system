@@ -16,12 +16,12 @@
 		exit();
 	}
 	socket_set_option($master, SOL_SOCKET, SO_REUSEADDR, 1);
-	if(socket_bind($master,constant('jry_wb_socket_host'),constant('jry_wb_socket_port'))===FALSE)
+	if(socket_bind($master,JRY_WB_SOCKET_HOST,JRY_WB_SOCKET_PORT)===FALSE)
 	{
 		jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' On '.jry_wb_php_cli_color('socket_bind()','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.socket_strerror(socket_last_error()));
 		exit();
 	}
-	$listen=socket_listen($master,constant('jry_wb_socket_max_client'));
+	$listen=socket_listen($master,JRY_WB_SOCKET_MAX_CLIENT);
 	if($listen===FALSE)
 	{
 		jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' On '.jry_wb_php_cli_color('socket_listen()','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.socket_strerror(socket_last_error()));
@@ -37,7 +37,7 @@
 	$clients_listener=array();
 	$c_to_u=array();
 	$users_id=array_column($users,'id');
-	jry_wb_cli_echo_log('JRY Socket Listener '.jry_wb_php_cli_color('OK','green')."\nat ".jry_wb_php_cli_color(constant('jry_wb_socket_host').':'.constant('jry_wb_socket_port'),'cyan'));
+	jry_wb_cli_echo_log('JRY Socket Listener '.jry_wb_php_cli_color('OK','green')."\nat ".jry_wb_php_cli_color(JRY_WB_SOCKET_HOST.':'.JRY_WB_SOCKET_PORT,'cyan'));
 	global $jry_wb_message_queue;
 	while(1)
 	{
@@ -118,7 +118,7 @@
 								continue;
 							}
 							$result=array_search($user['id'],$users_id);
-							if($result!==false&&($users[$result]['count']>(constant('jry_wb_socket_max_client_per_user')-1)))
+							if($result!==false&&($users[$result]['count']>(JRY_WB_SOCKET_MAX_CLIENT_PER_USER-1)))
 							{
 								jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color($user['id'].'-'.$user['name'],'light_blue')."\t".jry_wb_php_cli_color('to much','red').' at '.jry_wb_php_cli_color($ip."\t".jry_wb_get_ip_address_string($ip),'cyan')."\t".' Total user:'.jry_wb_php_cli_color(count($users),'magenta').' Total clients:'.jry_wb_php_cli_color(count($clients),'magenta').' Total c_to_u:'.jry_wb_php_cli_color(count($c_to_u),'magenta'));
 								jry_wb_socket_send($client,(array('code'=>false,'reason'=>500000)));

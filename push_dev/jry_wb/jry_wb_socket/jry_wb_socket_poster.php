@@ -29,7 +29,7 @@
 				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color($data['from']['id'].'-'.$data['from']['name'],'light_blue')."\t".jry_wb_php_cli_color('transport ','green').jry_wb_php_cli_color(strlen(json_encode($data['data'])),'magenta').'/B data '.substr(json_encode($data['data']),0,100)."\tto ".json_encode($data['to_id']));
 				if(($socket=socket_create(AF_INET,SOCK_STREAM,SOL_TCP))==false)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500001,'file'=>__FILE__,'line'=>__LINE__)));
-				if(socket_connect($socket,'127.0.0.1',constant('jry_wb_socket_port'))==false)
+				if(socket_connect($socket,'127.0.0.1',JRY_WB_SOCKET_PORT)==false)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>500002,'file'=>__FILE__,'line'=>__LINE__)));
 				$data=json_encode($data);
 				if(!socket_write($socket,$data,strlen($data)))

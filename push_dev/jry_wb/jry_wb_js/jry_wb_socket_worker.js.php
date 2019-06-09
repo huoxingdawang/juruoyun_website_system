@@ -112,7 +112,7 @@ var jry_wb_socket = new function()
 		if(socket!==null)
 			if(socket.readyState!=3)
 				return ;
-		socket=new WebSocket('ws://<?php echo JRY_WB_DOMIN; ?>:<?php echo constant('jry_wb_socket_port'); ?>/jry_wb/jry_wb_socket/socket.php');
+		socket=new WebSocket('ws://<?php echo JRY_WB_DOMIN; ?>:<?php echo JRY_WB_SOCKET_PORT; ?>/jry_wb/jry_wb_socket/socket.php');
 		socket.onopen=(evt)=>
 		{
 			this.send({'code':true,'type':100001,'data':{'add':listener_type}});
