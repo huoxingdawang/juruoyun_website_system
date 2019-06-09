@@ -29,7 +29,7 @@ jry_wb_add_load(function()
 	});
 	var data=JSON.parse('<?php
 	
-		$st = jry_wb_connect_database()->prepare("SELECT * FROM ".constant("jry_wb_database_small_app")."list ORDER BY name ASC");
+		$st = jry_wb_connect_database()->prepare("SELECT * FROM ".JRY_WB_DATABASE_SMALL_APPLICATION."list ORDER BY name ASC");
 		$st->execute();
 		echo json_encode($st->fetchAll());
 	?>');
@@ -56,7 +56,7 @@ jry_wb_add_load(function()
 				{
 					data[i].inited=true;
 					one_function.innerHTML='';
-					jry_wb_include_once_script(jry_wb_message.jry_wb_host+data[i].url,function(){eval(data[i].init_script+'(one_function)');window.onresize();})
+					jry_wb_include_once_script(jry_wb_message.jry_wb_host+'jry_wb_small_application/'+data[i].url,function(){eval(data[i].init_script+'(one_function)');window.onresize();})
 				}
 				else
 					eval(data[i].run_script+'(one_function)');
@@ -78,7 +78,7 @@ jry_wb_add_load(function()
 				if(data[i].url.includes('http'))
 					one_function.src=data[i].url;
 				else
-					one_function.src=jry_wb_message.jry_wb_host+data[i].url;
+					one_function.src=jry_wb_message.jry_wb_host+'jry_wb_small_application/'+data[i].url;
 				one_function.style.border=0;
 				one_function.style.height=Math.max(0,window.innerHeight-document.getElementById('_top').getBoundingClientRect().top-document.getElementById('buttom_message').clientHeight);
 				jry_wb_beautiful_right_alert.alert('加载内联页面中，请稍等',1000,'auto','warn');jry_wb_loading_on();

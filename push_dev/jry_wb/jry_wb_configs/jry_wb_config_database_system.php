@@ -5,8 +5,8 @@
 	define('jry_wb_database_mainpage',constant('jry_wb_database_name').'.'.constant('jry_wb_database_mainpage_prefix'));
 	define('jry_wb_database_manage_system_prefix',constant('jry_wb_database_all_prefix').'manage_');
 	define('jry_wb_database_manage_system',constant('jry_wb_database_name').'.'.constant('jry_wb_database_manage_system_prefix'));
-	define('jry_wb_database_small_app_prefix',constant('jry_wb_database_all_prefix').'smallapp_');
-	define('jry_wb_database_small_app',constant('jry_wb_database_name').'.'.constant('jry_wb_database_small_app_prefix'));
+	define('JRY_WB_DATABASE_SMALL_APPLICATION_PREFIX',constant('jry_wb_database_all_prefix').'smallapp_');
+	define('JRY_WB_DATABASE_SMALL_APPLICATION',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_SMALL_APPLICATION_PREFIX);
 	define('jry_wb_database_game_prefix',constant('jry_wb_database_all_prefix').'game_');
 	define('jry_wb_database_game',constant('jry_wb_database_name').'.'.constant('jry_wb_database_game_prefix'));
 	define('jry_wb_database_netdisk_prefix',constant('jry_wb_database_all_prefix').'netdisk_');
@@ -17,7 +17,7 @@
 	define('JRY_WB_DATABASE_CHAT',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_CHAT_PREFIX);			
 	define('competitionpro',constant('jry_wb_database_all_prefix').'competition_');
 	define('competitiondb',constant('jry_wb_database_name').'.'.constant('competitionpro'));
-	define('JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX',constant('jry_wb_database_all_prefix').'oj_');
+	define('JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX',constant('jry_wb_database_all_prefix').'online_judge_');
 	define('JRY_WB_DATABASE_ONLINE_JUDGE',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX);
 	define('ojpro',constant('jry_wb_database_all_prefix').'oj_');
 	define('ojdb',constant('jry_wb_database_name').'.'.constant('ojpro'));
