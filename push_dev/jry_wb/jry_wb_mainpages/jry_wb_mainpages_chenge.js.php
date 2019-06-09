@@ -1384,6 +1384,7 @@ function showspecialfact()
 		option.innerHTML=options[i].name;
 	}	
 <?php } ?>
+<?php if(JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="250";
@@ -1401,6 +1402,7 @@ function showspecialfact()
 			option.setAttribute("selected","selected");
 		option.innerHTML=options[i].name;
 	}
+<?php } ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="250";
@@ -1495,11 +1497,13 @@ function showspecialfact()
 <?php if(JRY_WB_WORD_SPECIAL_FACT_SWITCH){ ?>
 				jry_wb_word_special_fact.switch=jry_wb_login_user.word_special_fact=(word_special_fact.value=='0'?false:true);
 <?php } ?>
+<?php if(JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH){ ?>
 				jry_wb_login_user.follow_mouth=(follow_mouth.value=='0'?false:true);
 				if(jry_wb_login_user.follow_mouth)
 					window.follow_mouth.reinit();
 				else
 					window.follow_mouth.close();
+<?php } ?>
 				for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)
 					if(all[i].src==jry_wb_login_user.head)
 						jry_wb_set_user_head_special(jry_wb_login_user,all[i]);
@@ -1515,7 +1519,7 @@ function showspecialfact()
 					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 				return ;
 			}
-		},[{'name':'word_special_fact','value':<?php if(JRY_WB_WORD_SPECIAL_FACT_SWITCH){ ?>word_special_fact.value<?php }else{ ?>jry_wb_login_user.word_special_fact<?php } ?>},{'name':'follow_mouth','value':follow_mouth.value},{'name':'mouse_on_speed','value':mouse_on_speed.value},{'name':'mouse_on_direction','value':mouse_on_direction.value},{'name':'mouse_on_times','value':mouse_on_times.value},{'name':'mouse_out_speed','value':mouse_out_speed.value},{'name':'mouse_out_direction','value':mouse_out_direction.value},{'name':'mouse_out_times','value':mouse_out_times.value}],true);
+		},[{'name':'word_special_fact','value':<?php if(JRY_WB_WORD_SPECIAL_FACT_SWITCH){ ?>word_special_fact.value<?php }else{ ?>jry_wb_login_user.word_special_fact<?php } ?>},{'name':'follow_mouth','value':<?php if(JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH){ ?>follow_mouth.value<?php }else{ ?>jry_wb_login_user.follow_mouth<?php } ?>},{'name':'mouse_on_speed','value':mouse_on_speed.value},{'name':'mouse_on_direction','value':mouse_on_direction.value},{'name':'mouse_on_times','value':mouse_on_times.value},{'name':'mouse_out_speed','value':mouse_out_speed.value},{'name':'mouse_out_direction','value':mouse_out_direction.value},{'name':'mouse_out_times','value':mouse_out_times.value}],true);
 	};	
 }
 function showcache(loaded)

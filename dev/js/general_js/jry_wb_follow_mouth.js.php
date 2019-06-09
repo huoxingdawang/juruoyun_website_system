@@ -1,3 +1,5 @@
+<?php if(JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH){ ?>
+<?php if(false){ ?><script><?php } ?>
 function jry_wb_follow_mouth(div,config)
 {
 	var config = config;
@@ -60,3 +62,5 @@ function jry_wb_follow_mouth(div,config)
 	this.reinit();
 	this.switch = true;
 }
+<?php if(false){ ?></script><?php } ?>
+<?php } ?>
