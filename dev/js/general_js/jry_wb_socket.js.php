@@ -1,4 +1,4 @@
-<?php if(constant('jry_wb_socket_switch')){ ?>
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>
 <?php include_once('../jry_wb_configs/jry_wb_config_socket.php'); ?>
 <?php if(false){ ?><script><?php } ?>
 var jry_wb_socket = new function()
@@ -28,7 +28,7 @@ var jry_wb_socket = new function()
 			};
 			socket.onmessage=(evt)=>
 			{
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 				console.log( "Received Message: " + evt.data);
 <?php } ?>
 				callback(JSON.parse(evt.data));			
@@ -165,13 +165,13 @@ var jry_wb_socket = new function()
 			}
 			return false;
 		}
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 		console.log('Send Message: ',data);
 <?php } ?>
 	};
 	this.add_listener=(type,func)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 		console.log('Socket add listener at '+type+':',func);
 <?php } ?>
 		type=parseInt(type);
@@ -182,7 +182,7 @@ var jry_wb_socket = new function()
 	this.delete_listener=(type)=>
 	{
 		type=parseInt(type);
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 		console.log('Socket delete listener at '+type+':');
 <?php } ?>
 		this.send({'code':true,'type':100002,'data':{'del':type}});
@@ -190,7 +190,7 @@ var jry_wb_socket = new function()
 	};	
 	this.add_error=(reason,func)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 		console.log('Socket add error at '+reason+':',func);
 <?php } ?>
 		error[reason]=func;

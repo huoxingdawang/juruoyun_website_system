@@ -1,7 +1,7 @@
 <?php 
 	include_once("../tools/jry_wb_includes.php");
 	$st =jry_wb_connect_database()->prepare("DELETE FROM ".constant('blogdb')."text where lasttime<? AND `delete` =1");
-	$st->bindParam(1,date("Y-m-d H;i:s",time()-constant('logintime')));
+	$st->bindParam(1,date("Y-m-d H;i:s",time()-JRY_WB_LOGIN_TIME));
 	$st->execute();	
 	try{jry_wb_check_compentence(NULL,array('use','editorblog'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	$action=$_GET['action'];

@@ -19,10 +19,10 @@
 		$ans['id']				=$buf['id'];
 		$ans['name']			=$buf['name'];
 		$ans['note']			=$buf['note'];
-		$ans['data']['desktop_css_address']			=($ans['data']['desktop_css_type']=$buf['data']->desktop_css_type)?$buf['data']->desktop_css_address:constant('jry_wb_host').'jry_wb_css/'.$buf['data']->desktop_css_address;
-		$ans['data']['general_css_address']			=($ans['data']['general_css_type']=$buf['data']->general_css_type)?$buf['data']->general_css_address:constant('jry_wb_host').'jry_wb_css/'.$buf['data']->general_css_address;
-		$ans['data']['mobile_css_address']			=($ans['data']['mobile_css_type']=$buf['data']->mobile_css_type)?$buf['data']->mobile_css_address:constant('jry_wb_host').'jry_wb_css/'.$buf['data']->mobile_css_address;
-		$ans['data']['mainpages_index_css_address']	=($ans['data']['mainpages_index_css_type']=$buf['data']->mainpages_index_css_type)?$buf['data']->mainpages_index_css_address:constant('jry_wb_host').'jry_wb_css/'.$buf['data']->mainpages_index_css_address;
+		$ans['data']['desktop_css_address']			=($ans['data']['desktop_css_type']=$buf['data']->desktop_css_type)?$buf['data']->desktop_css_address:JRY_WB_HOST.'jry_wb_css/'.$buf['data']->desktop_css_address;
+		$ans['data']['general_css_address']			=($ans['data']['general_css_type']=$buf['data']->general_css_type)?$buf['data']->general_css_address:JRY_WB_HOST.'jry_wb_css/'.$buf['data']->general_css_address;
+		$ans['data']['mobile_css_address']			=($ans['data']['mobile_css_type']=$buf['data']->mobile_css_type)?$buf['data']->mobile_css_address:JRY_WB_HOST.'jry_wb_css/'.$buf['data']->mobile_css_address;
+		$ans['data']['mainpages_index_css_address']	=($ans['data']['mainpages_index_css_type']=$buf['data']->mainpages_index_css_type)?$buf['data']->mainpages_index_css_address:JRY_WB_HOST.'jry_wb_css/'.$buf['data']->mainpages_index_css_address;
 		$i=0;
 		foreach($buf['update'] as $one)
 		{

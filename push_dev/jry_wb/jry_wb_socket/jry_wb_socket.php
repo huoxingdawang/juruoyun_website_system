@@ -6,7 +6,7 @@
 	//3:log输出
 	cli_set_process_title('jry_wb_socket_core');	
 	if((!jry_wb_test_is_cli_mode())){header('HTTP/1.1 404 Not Found');header("status: 404 Not Found");include('../../404.php');exit();}
-	if(constant('jry_wb_socket_switch')!==true)
+	if(JRY_WB_SOCKET_SWITCH!==true)
 	{
 		jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' Please set '.jry_wb_php_cli_color('jry_wb_socket_switch','cyan').' to '.jry_wb_php_cli_color('true','green'));
 		exit();
@@ -15,7 +15,7 @@
 	$jry_wb_message_queue = msg_get_queue(ftok(dirname(__FILE__),'m'));
 	$pid=getmypid();
 	jry_wb_cli_echo_log("\n\n\n\n\n\n\n\n\n\n\n");
-	jry_wb_cli_echo_log('JRY CLI Core '.jry_wb_php_cli_color('OK','green')."\nBy ".jry_wb_php_cli_color('juruoyun web system '.constant('jry_wb_version'),'light_green'));
+	jry_wb_cli_echo_log('JRY CLI Core '.jry_wb_php_cli_color('OK','green')."\nBy ".jry_wb_php_cli_color('juruoyun web system '.JRY_WB_VERSION,'light_green'));
 	function creat_child($callback)
 	{
 		global $child_list;

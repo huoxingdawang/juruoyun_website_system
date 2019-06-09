@@ -4,7 +4,7 @@
 	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
 	include_once("../jry_wb_configs/jry_wb_tp_qq_oauth_config.php");
-	if((!constant('jry_wb_host_switch'))&&$_COOKIE['password']!=NULL&&$_COOKIE['id']!=NULL&&(!$_GET['debug']))
+	if((!JRY_WB_HOST_SWITCH)&&$_COOKIE['password']!=NULL&&$_COOKIE['id']!=NULL&&(!$_GET['debug']))
 	{
 		$conn=jry_wb_connect_database();
 		$host_conn=jry_wb_connect_host_database();
@@ -97,7 +97,7 @@
                 </div>
 			</td>
 		</tr>
-		<?php if(constant('jry_wb_oauth_switch')){ ?><tr>
+		<?php if(JRY_WB_OAUTH_SWITCH){ ?><tr>
 			<td colspan="2">
                 <div align="center">
 					<?php if($jry_wb_tp_qq_oauth_config!=null){?><span class="jry_wb_icon jry_wb_icon_qq" onclick='qqlogin()' style='color:#36AAE8;font-size:30px;' ></span><?php  }?>

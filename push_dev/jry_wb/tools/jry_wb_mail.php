@@ -21,7 +21,7 @@
 			'allow_self_signed' => true
 			)
 		);		
-		$mailer->setFrom(constant('jry_wb_mail_phpmailer_user'),constant('jry_wb_name'));
+		$mailer->setFrom(constant('jry_wb_mail_phpmailer_user'),JRY_WB_NAME);
 		$mailer->addAddress($to,constant('jry_wb_mail_phpmailer_to'));
 		$mailer->addReplyTo(constant('jry_wb_mail_phpmailer_replay'),constant('jry_wb_mail_phpmailer_replay_name'));
 
@@ -44,7 +44,7 @@
 		$st->bindParam(2,$code);
 		$st->bindParam(3,jry_wb_get_time());
 		$st->execute();	
-		return jry_wb_send_mail($mail,constant('jry_wb_name').'邮箱验证','点击以下链接完成邮箱验证<a href="'.constant('jry_wb_host').$url.'code='.$code.'">'.constant('jry_wb_host').$url.'code='.$code.'</a>');
+		return jry_wb_send_mail($mail,JRY_WB_NAME.'邮箱验证','点击以下链接完成邮箱验证<a href="'.JRY_WB_HOST.$url.'code='.$code.'">'.JRY_WB_HOST.$url.'code='.$code.'</a>');
 	}
 	function jry_wb_send_mail_code6($mail)
 	{
@@ -56,6 +56,6 @@
 		$st->bindParam(2,$code);
 		$st->bindParam(3,jry_wb_get_time());
 		$st->execute();	
-		return jry_wb_send_mail($mail,constant('jry_wb_name').'邮箱验证','这是您的验证码:<br>'.$code.'<br>注意区分大小写');
+		return jry_wb_send_mail($mail,JRY_WB_NAME.'邮箱验证','这是您的验证码:<br>'.$code.'<br>注意区分大小写');
 	}	
 ?>

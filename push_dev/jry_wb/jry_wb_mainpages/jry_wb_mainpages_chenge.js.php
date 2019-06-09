@@ -906,7 +906,7 @@ function showtel()
 		img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
 	};
 	img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
 	var td=jry_wb_show_tr_with_input(table,'短信验证码','phonecode','','text',function (){},250);
 		var phonecode=td.children[0];
 		var input=document.createElement("button");td.appendChild(input);
@@ -973,7 +973,7 @@ function showtel()
 			return jry_wb_beautiful_alert.alert("修改失败","并没有修改",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
 		if(!jry_wb_test_phone_number(tel.value))
 			return jry_wb_beautiful_alert.alert("修改失败","错误的格式",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>
 		if(phonecode.value=='')
 			return jry_wb_beautiful_alert.alert("修改失败","手机验证码为空",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});	
 <?php } ?>
@@ -998,7 +998,7 @@ function showtel()
 				jry_wb_beautiful_alert.alert("修改失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
 				else if(data.reason==100004)
 				jry_wb_beautiful_alert.alert("修改失败","并没有修改",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>
 					else if(data.reason==100003)
 					jry_wb_beautiful_alert.alert("发送过于频繁","开发组穷啊<br>一个5分钱",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
 <?php } ?>
@@ -1006,7 +1006,7 @@ function showtel()
 					jry_wb_beautiful_alert.alert("手机号格式错误","",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
 					else if(data.reason==100009)
 					jry_wb_beautiful_alert.alert("手机号重复","",function(){tel.focus();tel.style.border="5px solid #ff0000",tel.style.margin="0px 0px";});
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>
 				else if(data.reason==100010)
 					jry_wb_beautiful_alert.alert("修改失败","手机验证码错误",function(){phonecode.focus();phonecode.style.border="5px solid #ff0000",phonecode.style.margin="0px 0px";});	
 <?php } ?>
@@ -1014,7 +1014,7 @@ function showtel()
 					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 				return ;
 			}
-		},[{'name':'vcode','value':vcode.value},{'name':'tel','value':tel.value},<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>{'name':'phonecode','value':phonecode.value},<?php } ?>],true);		
+		},[{'name':'vcode','value':vcode.value},{'name':'tel','value':tel.value},<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>{'name':'phonecode','value':phonecode.value},<?php } ?>],true);		
 	};
 }
 function showmail()
@@ -1302,7 +1302,7 @@ function showshow()
 			option.setAttribute("selected","selected");
 		option.innerHTML=options[i].name;
 	}
-	<?php if(constant('jry_wb_oauth_switch')){ ?>
+	<?php if(JRY_WB_OAUTH_SWITCH){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="250";
@@ -1352,7 +1352,7 @@ function showshow()
 					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 				return ;
 			}
-		},[{'name':'tel_show','value':tel_show.value},{'name':'mail_show','value':mail_show.value},{'name':'ip_show','value':ip_show.value},{'name':'oauth_show','value':<?php if(constant('jry_wb_oauth_switch')){ ?>oauth_show.value<?php }else{?>0<?php }?>}],true);
+		},[{'name':'tel_show','value':tel_show.value},{'name':'mail_show','value':mail_show.value},{'name':'ip_show','value':ip_show.value},{'name':'oauth_show','value':<?php if(JRY_WB_OAUTH_SWITCH){ ?>oauth_show.value<?php }else{?>0<?php }?>}],true);
 	};
 }
 function showspecialfact()
@@ -1591,7 +1591,7 @@ function showcache(loaded)
 			td.innerHTML='系统信息';
 	}	
 }
-<?php if(constant('jry_wb_background_music_switch')){ ?>
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>
 function showmusiclist()
 {
 	window.location.hash='showmusiclist';	
@@ -1710,7 +1710,7 @@ function showmusiclist()
 	};	
 }
 <?php } ?>
-<?php if(constant('jry_wb_oauth_switch')){ ?>		
+<?php if(JRY_WB_OAUTH_SWITCH){ ?>		
 function tp_in()
 {
 	window.location.hash='tpin';	
@@ -2211,13 +2211,13 @@ switch(window.location.hash)
 		showcache();
 		window.onresize();
 		break;
-<?php if(constant('jry_wb_background_music_switch')){ ?>		
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>		
 	case '#showmusiclist':
 		showmusiclist();
 		window.onresize();
 		break;
 <?php } ?>
-<?php if(constant('jry_wb_oauth_switch')){ ?>		
+<?php if(JRY_WB_OAUTH_SWITCH){ ?>		
 	case '#tpin':
 		tp_in();
 		window.onresize();

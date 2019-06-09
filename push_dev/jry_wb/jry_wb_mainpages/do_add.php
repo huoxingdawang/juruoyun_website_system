@@ -1,16 +1,16 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
-	if(!constant('jry_wb_host_switch')&&$_GET['debug']!=1)
+	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)
 	{
-		?><script>window.location="<?php echo constant('jry_wb_host_addr')?>mainpages/add.php"</script><?php
+		?><script>window.location="<?php echo JRY_WB_HOST_ADDRESS?>mainpages/add.php"</script><?php
 		exit();
 	}
 	try
 	{
 		if($_GET['action']=='send_tel')
 		{
-			if(!constant('jry_wb_check_tel_switch'))
+			if(!JRY_WB_CHECK_TEL_SWITCH)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
 			if(constant('jry_wb_short_message_switch')=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
@@ -57,7 +57,7 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100012,'file'=>__FILE__,'line'=>__LINE__)));	
 		if($psw1!=$psw2)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100011,'file'=>__FILE__,'line'=>__LINE__)));
-		if(constant('jry_wb_check_tel_switch'))
+		if(JRY_WB_CHECK_TEL_SWITCH)
 		{
 			if(!jry_wb_test_phone_number($tel))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
@@ -88,7 +88,7 @@
 			}			
 		}
 		$send=false;
-		if(constant('jry_wb_check_mail_switch'))
+		if(JRY_WB_CHECK_MAIL_SWITCH)
 		{
 			if(!jry_wb_test_mail($_POST['mail']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));		
@@ -167,7 +167,7 @@
 		$st->bindParam(7,json_encode($extern));
 		$st->execute();
 		$jry_wb_login_user['id']=$conn->lastInsertId();
-		if(constant('jry_wb_check_mail_switch'))
+		if(JRY_WB_CHECK_MAIL_SWITCH)
 		{		
 			if(constant('jry_wb_mail_switch')!='')
 			{

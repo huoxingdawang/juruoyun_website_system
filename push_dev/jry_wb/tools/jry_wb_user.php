@@ -83,9 +83,9 @@
 		if(is_string($user['head']))
 			$user['head']=json_decode($user['head'],true);
 		if($user['head']['type']=='default_head_man')
-			return constant('jry_wb_defult_man_picture');
+			return JRY_WB_DEFULT_MAN_PICTURE;
 		else if($user['head']['type']=='default_head_woman')
-			return constant('jry_wb_defult_woman_picture');
+			return JRY_WB_DEFULT_WOMAN_PICTURE;
 		else if($user['head']['type']=='gravatar')
 			return "http://www.gravatar.com/avatar/".md5($user['mail'])."?size=80&d=404&r=g";
 		else if($user['head']['type']=='qq'&&$user['oauth_qq']!='')
@@ -101,7 +101,7 @@
 		else if($user['head']['type']=='url')
 			return $user['head']['url'];
 		else if($user['head']['type']=='netdisk')
-			return constant('jry_wb_host').'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$user['head']['share_id'].'&file_id='.$user['head']['file_id'];
+			return JRY_WB_HOST.'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$user['head']['share_id'].'&file_id='.$user['head']['file_id'];
 		else
 			return '';
 	}

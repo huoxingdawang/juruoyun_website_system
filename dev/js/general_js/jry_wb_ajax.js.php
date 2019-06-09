@@ -2,7 +2,7 @@
 function jry_wb_ajax_load_data(url,func,array,yibu)
 {
 	jry_wb_loading_on();
-<?php if(constant('jry_wb_debug_mode')){ ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>
 	if(url.includes(jry_wb_message.jry_wb_host))
 		console.time('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
 	else
@@ -39,7 +39,7 @@ function jry_wb_ajax_load_data(url,func,array,yibu)
 				xmlhttp.abort();
 				jry_wb_loading_off();		
 			}
-<?php if(constant('jry_wb_debug_mode')){ ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>
 			if(url.includes(jry_wb_message.jry_wb_host))
 				console.timeEnd('ajax:'+url.substring(url.indexOf(jry_wb_message.jry_wb_host)+jry_wb_message.jry_wb_host.length));
 			else

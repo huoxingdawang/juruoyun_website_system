@@ -21,14 +21,14 @@
 	}
 	add_one("http://dev.juruoyun.top/",1,date("Y-m-d H:i:s",time()));
 	add_one("http://dev.juruoyun.top/index.php",1,date("Y-m-d H:i:s",time()));
-	add_one(constant('jry_wb_host').'',1,date("Y-m-d H:i:s",time()));
-	add_one(constant('jry_wb_host').'index.php',1,date("Y-m-d H:i:s",time()));
+	add_one(JRY_WB_HOST.'',1,date("Y-m-d H:i:s",time()));
+	add_one(JRY_WB_HOST.'index.php',1,date("Y-m-d H:i:s",time()));
 	jry_wb_load_website_map();
 	foreach($jry_wb_website_map as $one)
 		if($one['type']==1)
 			add_one($one['url'],0.9,date("Y-m-d H:i:s",time()));
 		else if($one['type']==0)
-			add_one(constant('jry_wb_host').$one['url'],0.9,date("Y-m-d H:i:s",time()));
+			add_one(JRY_WB_HOST.$one['url'],0.9,date("Y-m-d H:i:s",time()));
 	//BOLG
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare("SELECT `blog_id`,`lasttime` FROM ".constant('blogdb')."text WHERE `delete`=0 AND `ifshow`=1");

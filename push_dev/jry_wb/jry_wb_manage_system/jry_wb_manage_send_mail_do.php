@@ -12,10 +12,10 @@
 		{
 			if(jry_wb_send_mail($data['mail'],
 			$_POST['title'],
-			'尊敬的'.constant('jry_wb_name').'用户'.$data['id'].'('.$data['name'].')，您好：<br>'.
+			'尊敬的'.JRY_WB_NAME.'用户'.$data['id'].'('.$data['name'].')，您好：<br>'.
 			$_POST['data'].'<br>'.
-			constant('jry_wb_name').'开发组，'.constant('jry_wb_name').'管理组 '.jry_wb_get_time().
-			'<br> powered by juruoyun web system '.constant('jry_wb_version')
+			JRY_WB_NAME.'开发组，'.JRY_WB_NAME.'管理组 '.jry_wb_get_time().
+			'<br> powered by juruoyun web system '.JRY_WB_VERSION
 			))
 				$ans[]=(array('id'=>$data['id'],'data'=>'OK'));
 			else

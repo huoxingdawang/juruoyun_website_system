@@ -6,7 +6,7 @@
 	$ans=array();
 	if($slid==0)
 	{
-		foreach(constant('jry_wb_background_music_default_list') as $one)
+		foreach(JRY_WB_BACKGROUND_MUSIC_DEFAULT_LIST as $one)
 		{
 			if($one['type']=='jry')
 			{

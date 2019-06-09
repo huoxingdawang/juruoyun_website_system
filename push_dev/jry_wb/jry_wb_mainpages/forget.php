@@ -16,7 +16,7 @@
 			</td>
 			<td width="400" class='h56'>
 <?php $flag=true; ?>
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
 				<input type="radio" name="type" value="1" onchange='by_tel()' <?php if($flag) echo 'checked'; ?>/>
 				手机号&nbsp;
 <?php $flag=false;} ?>
@@ -113,7 +113,7 @@ password2.onfocus=password2.onkeyup=function(e)
 	return true;
 };
 <?php $flag=true; ?>
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>	
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>	
 function by_tel()
 {
 	if(area.getAttribute('type')=='tel')

@@ -1,14 +1,14 @@
 <script language="javascript">
 	var jry_wb_message={
-		'jry_wb_name':'<?php echo constant("jry_wb_name")?>',
+		'jry_wb_name':'<?php echo JRY_WB_NAME?>',
 		'jry_wb_title':title='<?php echo $title?>',
-		'jry_wb_host':'<?php echo constant('jry_wb_host'); ?>',
-		'jry_wb_get_message':'<?php echo constant('jry_wb_host'); ?>jry_wb_for_front_message/',
-		'jry_wb_logo':'<?php echo constant('jry_wb_logo_picture_address'); ?>',
-		'jry_wb_data_host':'<?php echo constant('jry_wb_data_host'); ?>',
+		'jry_wb_host':'<?php echo JRY_WB_HOST; ?>',
+		'jry_wb_get_message':'<?php echo JRY_WB_HOST; ?>jry_wb_for_front_message/',
+		'jry_wb_logo':'<?php echo JRY_WB_LOGO_PICTURE_ADDRESS; ?>',
+		'jry_wb_data_host':'<?php echo JRY_WB_DATA_HOST; ?>',
 		'jry_wb_index_page':'<?php echo jry_wb_print_href("home","","",true) ?>',
 		'jry_wb_chenge_page':'<?php echo jry_wb_print_href("users","","",true) ?>',
-		'jry_wb_background_music_switch':parseInt('<?php echo constant('jry_wb_background_music_switch'); ?>')
+		'jry_wb_background_music_switch':parseInt('<?php echo JRY_WB_BACKGROUND_MUSIC_SWITCH; ?>')
 	};
 	var jry_wb_login_user=JSON.parse(decodeURI('<?php
 		$data=array('id'=>$jry_wb_login_user['id'],

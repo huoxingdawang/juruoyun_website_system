@@ -16,8 +16,8 @@
 			if(jry_wb_send_mail('lijunyandeyouxiang@163.com',
 			$_GET['id'].'申请解封',
 			$_GET['id'].'在'.jry_wb_get_time().'申请解封<br>'.'请及时处理<br>'.
-			'<a href="'.constant('jry_wb_host').'manage_system/index.php">点击进入管理员中心</a><br>'.
-			'<a href="'.constant('jry_wb_host').'manage_system/do_user.php?action=unlock&id='.$_GET['id'].'">点击发送解封通知</a>'
+			'<a href="'.JRY_WB_HOST.'manage_system/index.php">点击进入管理员中心</a><br>'.
+			'<a href="'.JRY_WB_HOST.'manage_system/do_user.php?action=unlock&id='.$_GET['id'].'">点击发送解封通知</a>'
 			))
 				echo json_encode(array('data'=>'OK'));
 			else
@@ -201,7 +201,7 @@
 			else if($_GET['type']=='netdisk')
 			{
 				
-				$headers=@get_headers(constant('jry_wb_host').'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$_POST['share_id'].'&file_id='.$_POST['file_id']);
+				$headers=@get_headers(JRY_WB_HOST.'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$_POST['share_id'].'&file_id='.$_POST['file_id']);
 				if (preg_match("|200|", $headers[0])) 
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=?,lasttime=? where id=?';
@@ -344,7 +344,7 @@
 			$st->execute();
 			if(constant('jry_wb_mail_switch')=='')
 			{
-				echo json_encode(array('code'=>true,'mail'=>$mail,'jry_wb_gravatar_user_head'=>$jry_wb_gravatar_user_head,'head'=>($set_head==''?'':($jry_wb_login_user['sex']==0?constant('jry_wb_defult_woman_picture'):constant('jry_wb_defult_man_picture')))));
+				echo json_encode(array('code'=>true,'mail'=>$mail,'jry_wb_gravatar_user_head'=>$jry_wb_gravatar_user_head,'head'=>($set_head==''?'':($jry_wb_login_user['sex']==0?JRY_WB_DEFULT_WOMAN_PICTURE:JRY_WB_DEFULT_MAN_PICTURE))));
 			}
 			else
 			{
@@ -371,7 +371,7 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));	
-			if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!='')
+			if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!='')
 			{
 				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=?');
 				$st->bindParam(1,$_POST['tel']);

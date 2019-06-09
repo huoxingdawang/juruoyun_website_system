@@ -233,7 +233,7 @@ function jry_wb_show_user_full(user,width,height)
 			}
 		}
 	}
-<?php if(constant('jry_wb_oauth_switch')){ ?>	
+<?php if(JRY_WB_OAUTH_SWITCH){ ?>	
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);	
 	td.width="400";

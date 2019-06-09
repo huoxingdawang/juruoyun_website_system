@@ -1,4 +1,4 @@
-<?php if(constant('jry_wb_background_music_switch')){ ?>
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>
 <?php if(false){ ?><script><?php } ?>
 var jry_wb_background_music = new function()
 {

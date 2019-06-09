@@ -75,13 +75,13 @@ var jry_wb_midia_control_all  =  new function()
 		else
 		{
 			jry_wb_js_session.send(1,'get');
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 			if(this.playing_buf==null&&!jry_wb_background_music.status())
 				this.start();
 <?php } ?>
 		}
 	});
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 	setInterval(()=>
 	{
 		if(document.visibilityState != 'hidden'&& !jry_wb_background_music.status())
@@ -95,7 +95,7 @@ var jry_wb_midia_control_all  =  new function()
 	{
 		if(this.playing_buf!=null)
 			this.playing_buf.pause();
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 		if(this.playing_buf==null)
 			jry_wb_background_music.break(),jry_wb_background_music.oncontrol=false;
 <?php } ?>
@@ -104,7 +104,7 @@ var jry_wb_midia_control_all  =  new function()
 	{
 		if(this.playing_buf==null)
 		{
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 			if((this.stop_background==false||typeof this.stop_background=='undefined'))
 				jry_wb_background_music.oncontrol=true,jry_wb_background_music.continue();	
 <?php } ?>
@@ -116,7 +116,7 @@ var jry_wb_midia_control_all  =  new function()
 	{
 		if(this.playing_buf!=null)
 			this.playing_buf.pause();
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 		if(audio.id=='jry_wb_background_music')
 			return this.stop_background=false;
 		if(this.playing_buf==null)
@@ -126,14 +126,14 @@ var jry_wb_midia_control_all  =  new function()
 	};
 	this.onpause = function(audio)
 	{
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 		if(audio.id=='jry_wb_background_music')
 			this.stop_background=true;
 		else
 		{
 <?php } ?>
 			this.playing_buf=null;
-<?php if(constant('jry_wb_background_music_switch')){ ?>			
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>			
 			setTimeout(function()
 			{
 				jry_wb_background_music.oncontrol=true,jry_wb_background_music.continue();

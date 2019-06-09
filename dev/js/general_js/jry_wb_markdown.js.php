@@ -36,7 +36,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 	}
 	this.fresh=(time,text)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.time('jry_wb_markdown');
 <?php } ?>
 		this.area.innerHTML='';
@@ -549,7 +549,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		}
 		for(var i=0;i<this.catalogdoc.length;i++)
 			this.catalogdoc[i].innerHTML=this.catalog.innerHTML;
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.timeEnd('jry_wb_markdown');
 <?php } ?>		
 	};

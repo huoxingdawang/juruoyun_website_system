@@ -2,9 +2,9 @@
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
 	jry_wb_print_head("注册",false,false,true);
-	if(!constant('jry_wb_host_switch')&&$_GET['debug']!=1)
+	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)
 	{
-		?><script>window.location="<?php echo constant('jry_wb_host_addr')?>mainpages/add.php"</script><?php
+		?><script>window.location="<?php echo JRY_WB_HOST_ADDRESS?>mainpages/add.php"</script><?php
 		exit();
 	}
 ?>
@@ -58,7 +58,7 @@
 			</td>
 		</tr>
 		
-<?php if(constant('jry_wb_check_tel_switch')){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>
 		<tr>
 			<td width="200">
 				<h55>电话</h55>
@@ -68,7 +68,7 @@
 			</td>
 		</tr>
 <?php } ?>
-<?php if(constant('jry_wb_check_mail_switch')){ ?>
+<?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>
 		<tr>
 			<td width="200">
 				<h55>邮箱</h55>
@@ -127,7 +127,7 @@
 				<img id="vcodesrc" src="" onload="window.onresize()"/>
 			</td>
 		</tr>
-<?php if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!=''){ ?>
+<?php if(JRY_WB_CHECK_TEL_SWITCH&&constant('jry_wb_short_message_switch')!=''){ ?>
 		<tr id="tr_tel">
 			<td>
 				<h55>电话验证码</h55>

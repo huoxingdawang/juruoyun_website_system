@@ -18,10 +18,10 @@ var jry_wb_chat_room=new function()
 	var need_ctrl=true;
 	if(jry_wb_cache.get('jry_wb_chat_need_ctrl')==false)
 		need_ctrl=false;
-<?php if(constant('jry_wb_socket_switch')){ ?>	
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>	
 	jry_wb_socket.add_listener(200000,(data)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.log('来自'+data.from+'在'+data.data.room+'的编号是'+data.data.chat_text_id+'的新信息'+data.data.message);
 <?php } ?>		
 		var buf={'chat_room_id':data.data.room,'chat_text_id':data.data.chat_text_id,'id':data.from,'message':data.data.message,'send_time':data.data.send_time};
@@ -46,7 +46,7 @@ var jry_wb_chat_room=new function()
 	});
 	jry_wb_socket.add_listener(200001,(data)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>
 		console.log(data.from+'加入聊天室'+data.data.room);
 <?php } ?>		
 		if(data.from!=jry_wb_login_user.id)
@@ -73,7 +73,7 @@ var jry_wb_chat_room=new function()
 	});
 	jry_wb_socket.add_listener(200002,(data)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>
 		console.log(data.from+'离开聊天室'+data.data.room);
 <?php } ?>		
 		if(data.from==jry_wb_login_user.id)
@@ -104,7 +104,7 @@ var jry_wb_chat_room=new function()
 	});
 	jry_wb_socket.add_listener(200004,(data)=>
 	{
-<?php if(constant('jry_wb_debug_mode')){ ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>
 		console.log(data.from+'删除聊天室'+data.data.room);
 <?php } ?>		
 		var one=rooms.find(function(a){return a.chat_room_id==data.data.room});
@@ -133,7 +133,7 @@ var jry_wb_chat_room=new function()
 			jry_wb_cache.set_last_time('chat_messages','1926-08-17 00:00:00');
 		else
 			jry_wb_cache.set_last_time('chat_messages',messages[0].send_time);
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.log('消息',messages);
 <?php } ?>		
 		if(loading_count==0)
@@ -155,7 +155,7 @@ var jry_wb_chat_room=new function()
 			jry_wb_cache.set_last_time('chat_rooms','1926-08-17 00:00:00');
 		else
 			jry_wb_cache.set_last_time('chat_rooms',rooms[0].lasttime);
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.log('房间',rooms);
 <?php } ?>
 		var buf=[];
@@ -224,7 +224,7 @@ var jry_wb_chat_room=new function()
 			return;
 		sync_cnt++;
 		console.time('chat_sync');
-<?php if(constant('jry_wb_socket_switch')){ ?>
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>
 		if(jry_wb_socket.send({'code':true,'type':200005},false)==false)
 		{
 <?php } ?>
@@ -249,7 +249,7 @@ var jry_wb_chat_room=new function()
 						jry_wb_cache.set_last_time('chat_rooms','1926-08-17 00:00:00');
 					else
 						jry_wb_cache.set_last_time('chat_rooms',rooms[0].lasttime);	
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 					console.log('房间',rooms);
 <?php } ?>
 					loading_count--;
@@ -268,7 +268,7 @@ var jry_wb_chat_room=new function()
 						jry_wb_cache.set_last_time('chat_messages','1926-08-17 00:00:00');
 					else
 						jry_wb_cache.set_last_time('chat_messages',messages[0].send_time);	
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 					console.log('信息',messages);
 <?php } ?>
 					loading_count--;
@@ -276,7 +276,7 @@ var jry_wb_chat_room=new function()
 						this.show_chat_rooms(true);
 				},function(a,b){return b.send_time.to_time()-a.send_time.to_time();});			
 			});			
-<?php if(constant('jry_wb_socket_switch')){ ?>
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>
 		}
 <?php } ?>
 	};
@@ -286,7 +286,7 @@ var jry_wb_chat_room=new function()
 		jry_wb_cache.delete('chat_rooms');
 		jry_wb_cache.delete('chat_messages');
 	};
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 	this.show_sync=function()
 	{
 		console.log('chat_rooms',jry_wb_cache.get('chat_rooms'));
@@ -326,7 +326,7 @@ var jry_wb_chat_room=new function()
 		jry_wb_cache.delete('jry_wb_chat_input_buf');		
 		if((typeof message!='string')||message.length<=0)
 			return false;
-<?php if(constant('jry_wb_socket_switch')){ ?>			
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 		if(message.length>1500||jry_wb_socket.send({'code':true,'type':200000,'data':{'room':room,'message':message}},false)==false)
 <?php } ?>
 			jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=send',(data)=>
@@ -395,7 +395,7 @@ var jry_wb_chat_room=new function()
 	var drawhead=(father,room,replace)=>
 	{
 		var head_width=0;
-<?php if(constant('jry_wb_debug_mode')){ ?>		
+<?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.log('drawhead',room);
 <?php } ?>
 		if(room.big)
@@ -509,7 +509,7 @@ var jry_wb_chat_room=new function()
 			{
 				result.innerHTML='';
 				result.style.height=0;
-<?php if(constant('jry_wb_socket_switch')){ ?>			
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 				if(jry_wb_socket.send({'code':true,'type':200007,'data':{'room':parseInt(input.value)}},false)==false)
 					jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=get_room',(data)=>
 					{
@@ -542,7 +542,7 @@ var jry_wb_chat_room=new function()
 						{
 							if(rooms.find(function(a){return a.big==false&&(a.users[0]==parseInt(input.value)||a.users[1]==parseInt(input.value))})!=undefined)
 								return jry_wb_beautiful_right_alert.alert('您已经和这个人有聊天室了呀！',3000,'auto','ok');
-<?php if(constant('jry_wb_socket_switch')){ ?>	
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>	
 							if(jry_wb_socket.send({'code':true,'type':200010,'data':parseInt(input.value)},false)==false)
 <?php } ?>
 							jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=start_between',(data)=>
@@ -566,7 +566,7 @@ var jry_wb_chat_room=new function()
 			add.style.transitionDuration='0s';		
 			add.onclick=()=>
 			{
-<?php if(constant('jry_wb_socket_switch')){ ?>			
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 				if(jry_wb_socket.send({'code':true,'type':200003},false)==false)
 <?php } ?>
 				jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=add_room',(data)=>
@@ -591,7 +591,7 @@ var jry_wb_chat_room=new function()
 		result.classList.add('result');
 		input.onkeyup=()=>
 		{
-<?php if(constant('jry_wb_socket_switch')){ ?>			
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 			if(timer!=null)
 				clearTimeout(timer);
 			timer=setTimeout(function()
@@ -630,7 +630,7 @@ var jry_wb_chat_room=new function()
 				jry_wb_beautiful_alert.check('您确定加入聊天室'+room.name+'吗',function()
 				{
 					input.blur();
-<?php if(constant('jry_wb_socket_switch')){ ?>			
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 					if(jry_wb_socket.send({'code':true,'type':200001,'data':{'room':room.chat_room_id}},false)==false)
 <?php } ?>
 					jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=enter_room',(data)=>
@@ -676,7 +676,7 @@ var jry_wb_chat_room=new function()
 					{
 						if(value=='')
 							return;
-<?php if(constant('jry_wb_socket_switch')){ ?>			
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 						if(jry_wb_socket.send({'code':true,'type':200008,'data':{'room':rooms[i].chat_room_id,'to_name':value}},false)==false)
 <?php } ?>
 						jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=rename_room',(data)=>

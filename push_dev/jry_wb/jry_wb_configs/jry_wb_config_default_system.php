@@ -1,12 +1,12 @@
 <?php
 	include_once("jry_wb_config_default_user.php");
-	define('jry_wb_local_dir',dirname(dirname(__FILE__)));
-	define('jry_wb_host','http://'.constant('jry_wb_domin').(constant('jry_wb_port')==''?'':(':'.constant('jry_wb_port'))).'/jry_wb/');
-	define('jry_wb_data_host','http://'.constant('jry_wb_domin').(constant('jry_wb_port')==''?'':(':'.constant('jry_wb_port'))).'/data/');
-	define('jry_wb_version','3.0dev');
-	include_once("jry_wb_tp_gitee_oauth_config.php");
-	include_once("jry_wb_tp_github_oauth_config.php");
-	include_once("jry_wb_tp_mi_oauth_config.php");
-	include_once("jry_wb_tp_qq_oauth_config.php");
-	define('jry_wb_oauth_switch',!(constant('jry_wb_tp_gitee_oauth_config_client_id')==''&&constant('jry_wb_tp_github_oauth_config_client_id')==''&&constant('jry_wb_tp_mi_oauth_config_client_id')==''&&$jry_wb_tp_qq_oauth_config==NULL));
+	define('JRY_WB_LOCAL_DIR'			,dirname(dirname(__FILE__)));
+	define('JRY_WB_HOST'				,'http://'.JRY_WB_DOMIN.(JRY_WB_PORT==''?'':(':'.JRY_WB_PORT)).'/jry_wb/');
+	define('JRY_WB_DATA_HOST'			,'http://'.JRY_WB_DOMIN.(JRY_WB_PORT==''?'':(':'.JRY_WB_PORT)).'/data/');
+	define('JRY_WB_VERSION'				,'3.0dev');
+	include_once('jry_wb_tp_gitee_oauth_config.php');
+	include_once('jry_wb_tp_github_oauth_config.php');
+	include_once('jry_wb_tp_mi_oauth_config.php');
+	include_once('jry_wb_tp_qq_oauth_config.php');
+	define('JRY_WB_OAUTH_SWITCH'		,!(constant('jry_wb_tp_gitee_oauth_config_client_id')==''&&constant('jry_wb_tp_github_oauth_config_client_id')==''&&constant('jry_wb_tp_mi_oauth_config_client_id')==''&&$jry_wb_tp_qq_oauth_config==NULL));
 ?>

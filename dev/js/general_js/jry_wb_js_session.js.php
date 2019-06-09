@@ -19,7 +19,7 @@ var jry_wb_js_session=new function()
 				keys.splice(keys.indexOf(data.key),1);
 				return;
 			}
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 		console.log('JS session receive message: ',data);
 <?php } ?>			
 			var func=map.get(data.to);
@@ -34,7 +34,7 @@ var jry_wb_js_session=new function()
 		if(this.close)
 			return;
 		worker.port.postMessage(data={'to':to,'data':data,'key':(keys[keys.length]=Math.random())});
-<?php if(constant('jry_wb_debug_mode')){ ?>			
+<?php if(JRY_WB_DEBUG_MODE){ ?>			
 		console.log('JS session send message: ',data);
 <?php } ?>		
 	};

@@ -1,8 +1,8 @@
 <?php
 	include_once("jry_wb_includes.php");
-	if(($_SERVER['HTTP_HOST']!=constant('jry_wb_domin').(constant('jry_wb_port')==''?'':':').constant('jry_wb_port'))&&(!jry_wb_test_is_cli_mode()))
+	if(($_SERVER['HTTP_HOST']!=JRY_WB_DOMIN.(JRY_WB_PORT==''?'':':').JRY_WB_PORT)&&(!jry_wb_test_is_cli_mode()))
 	{
-		header("Location:".constant('jry_wb_host'));
+		header("Location:".JRY_WB_HOST);
 		exit();
 	}
 	session_start();
@@ -17,7 +17,7 @@
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];		
 		$q ="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where time<? AND trust=0";
 		$st = $conn->prepare($q);
-		$st->bindValue(1,date("Y-m-d H;i:s",time()-constant('logintime')));
+		$st->bindValue(1,date("Y-m-d H;i:s",time()-JRY_WB_LOGIN_TIME));
 		$st->execute();
 		$user=NULL;
 		if($cookie['code']!=NULL&&$cookie['id']!=NULL)
@@ -73,9 +73,9 @@
 		if($user==NULL)
 		{
 			$user['id']=-1;
-			$_SESSION['language']=$user['language']=constant('jry_wb_default_language');
-			setcookie('id',-1,time()-1,'/',constant('jry_wb_domin'),NULL,false);
-			setcookie('code','',time()-1,'/',constant('jry_wb_domin'),NULL,true);
+			$_SESSION['language']=$user['language']=JRY_WB_DEFAULT_LANGUAGE;
+			setcookie('id',-1,time()-1,'/',JRY_WB_DOMIN,NULL,false);
+			setcookie('code','',time()-1,'/',JRY_WB_DOMIN,NULL,true);
 		}
 		else
 		{
@@ -116,10 +116,10 @@
 					if($ips['trust'])
 						$time=time()+60*60*24*365*1000;
 					else
-						$time=time()+constant('logintime');
+						$time=time()+JRY_WB_LOGIN_TIME;
 					setcookie('id',$user['id'],$time,'/',jry_wb_get_domain(),NULL,false);
-					setcookie('id',$user['id'],$time,'/',constant('jry_wb_domin'),NULL,false);			
-					setcookie('code',$ips['code'],$time,'/',constant('jry_wb_domin'),NULL,true);			
+					setcookie('id',$user['id'],$time,'/',JRY_WB_DOMIN,NULL,false);			
+					setcookie('code',$ips['code'],$time,'/',JRY_WB_DOMIN,NULL,true);			
 				}
 				$user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'login_id'=>$ips['login_id']);
 			}

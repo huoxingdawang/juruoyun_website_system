@@ -3,7 +3,7 @@
 	include_once("jry_wb_cli_includes.php");
 	include_once("../jry_wb_chat/jry_wb_chat_includes.php");
 	if((!jry_wb_test_is_cli_mode())){header('HTTP/1.1 404 Not Found');header("status: 404 Not Found");include('../../404.php');exit();}
-	if(constant('jry_wb_socket_switch')!==true)
+	if(JRY_WB_SOCKET_SWITCH!==true)
 	{
 		echo jry_wb_php_cli_color('Failed!','light_red').' Please set '.jry_wb_php_cli_color('jry_wb_socket_switch','cyan').' to '.jry_wb_php_cli_color('true','green')."\n";
 		exit();

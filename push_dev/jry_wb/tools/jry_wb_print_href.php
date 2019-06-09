@@ -21,7 +21,7 @@
 			}
 			if($website['type']==0)
 			{
-				$add=constant("jry_wb_host").$website[url].$zhuijia;
+				$add=JRY_WB_HOST.$website[url].$zhuijia;
 				echo '<a id="'.$id.'" href='.$add.' target="_parent" class='.$css.'>'.$website['show_name'].'</a>';
 			}
 		}
@@ -39,7 +39,7 @@
 			}
 			if($website['type']==0)
 			{
-				$add=constant("jry_wb_host").$website[url].$zhuijia;
+				$add=JRY_WB_HOST.$website[url].$zhuijia;
 				return $add; 			
 			}
 		}

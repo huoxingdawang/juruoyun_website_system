@@ -42,12 +42,12 @@
 		$data=$st->fetchAll()[0];
 		if(jry_wb_send_mail($data['mail'],
 		'昵称不合法被禁用通知',
-		'尊敬的'.constant('jry_wb_name').'用户'.$data['id'].'('.$data['name'].')，您好：<br>'.
+		'尊敬的'.JRY_WB_NAME.'用户'.$data['id'].'('.$data['name'].')，您好：<br>'.
 		'您的账号 '.$data['id'].' 的昵称 "'.$data['name'].'"在 '.jry_wb_get_time().' 被管理员认为不合法<br>'.
-		'可能的原因是违反了<a href="'.constant('jry_wb_host').'mainpages/xieyi.php">蒟蒻云用户协议</a>，或相关法律法规，当然不排除您的昵称使管理员恶心呕吐导致管理员电脑损坏的可能性<br>'.
-		'请您及时前往<a href="'.constant('jry_wb_host').'mainpages/chenge.php">蒟蒻云用户中心</a>进行修改<br>'.
+		'可能的原因是违反了<a href="'.JRY_WB_HOST.'mainpages/xieyi.php">蒟蒻云用户协议</a>，或相关法律法规，当然不排除您的昵称使管理员恶心呕吐导致管理员电脑损坏的可能性<br>'.
+		'请您及时前往<a href="'.JRY_WB_HOST.'mainpages/chenge.php">蒟蒻云用户中心</a>进行修改<br>'.
 		'蒟蒻云管理组感谢您的配合以及对国家相关法律法规的遵守<br>'.
-		constant('jry_wb_name').'开发组，'.constant('jry_wb_name').'管理组 '.jry_wb_get_time()
+		JRY_WB_NAME.'开发组，'.JRY_WB_NAME.'管理组 '.jry_wb_get_time()
 		))
 			echo json_encode(array('code'=>true));
 		else
@@ -87,7 +87,7 @@
 	{
 		header("Content-Type: application/vnd.ms-excel");
 		Header("Accept-Ranges:bytes");
-		Header("Content-Disposition:attachment;filename=".constant('jry_wb_name')."用户列表".jry_wb_get_time().".xls");
+		Header("Content-Disposition:attachment;filename=".JRY_WB_NAME."用户列表".jry_wb_get_time().".xls");
 		header("Pragma: no-cache");
 		header("Expires: 0");		
 		echo '

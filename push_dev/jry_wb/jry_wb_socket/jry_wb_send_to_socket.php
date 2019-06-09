@@ -3,7 +3,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	function jry_wb_send_to_socket($from,$to_id,$type,$data,$c_index=-1)
 	{
-		if(constant('jry_wb_socket_switch')!=true)
+		if(JRY_WB_SOCKET_SWITCH!=true)
 			return;
 		$jry_wb_message_queue=msg_get_queue(ftok(dirname(__FILE__),'m'));
 		if(is_array($to_id)&&$to_id['id']!==NULL)

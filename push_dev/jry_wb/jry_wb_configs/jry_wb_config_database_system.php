@@ -25,7 +25,7 @@
 	define('spiderdb'									,JRY_WB_DATABASE_NAME.'.'.constant('spiderpro'));
 	
 	
-	if(!constant('jry_wb_host_switch'))
+	if(!JRY_WB_HOST_SWITCH)
 	{
 		define('jry_wb_host_database_general_prefix'		,JRY_WB_HOST_DATABASE_ALL_PREFIX.'general_');
 		define('jry_wb_host_database_general'				,JRY_WB_HOST_DATABASE_NAME		.'.'.JRY_WB_DATABASE_GENERAL_PREFIX);		

@@ -3,7 +3,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 ?>
-<?php if(constant('jry_wb_socket_switch')){ ?>
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>
 <?php include_once('../jry_wb_configs/jry_wb_config_socket.php'); ?>
 <?php if(false){ ?><script><?php } ?>
 /*
@@ -112,7 +112,7 @@ var jry_wb_socket = new function()
 		if(socket!==null)
 			if(socket.readyState!=3)
 				return ;
-		socket=new WebSocket('ws://<?php echo constant('jry_wb_domin'); ?>:<?php echo constant('jry_wb_socket_port'); ?>/jry_wb/jry_wb_socket/socket.php');
+		socket=new WebSocket('ws://<?php echo JRY_WB_DOMIN; ?>:<?php echo constant('jry_wb_socket_port'); ?>/jry_wb/jry_wb_socket/socket.php');
 		socket.onopen=(evt)=>
 		{
 			this.send({'code':true,'type':100001,'data':{'add':listener_type}});
@@ -122,7 +122,7 @@ var jry_wb_socket = new function()
 		};
 		socket.onmessage=(evt)=>
 		{
-			<?php if(constant('jry_wb_debug_mode')){ ?>console.log( "Received Message: " + evt.data);<?php } ?>
+			<?php if(JRY_WB_DEBUG_MODE){ ?>console.log( "Received Message: " + evt.data);<?php } ?>
 			var data=JSON.parse(evt.data);
 			if(data.code)
 				send_to_listener(data.type,{'type':100002,'data':data});
@@ -169,12 +169,12 @@ var jry_wb_socket = new function()
 			}
 			return false;
 		}
-		<?php if(constant('jry_wb_debug_mode')){ ?>console.log('Send Message: ',data);<?php } ?>
+		<?php if(JRY_WB_DEBUG_MODE){ ?>console.log('Send Message: ',data);<?php } ?>
 	};
 	this.add_listener=(type)=>
 	{
 		type=parseInt(type);
-		<?php if(constant('jry_wb_debug_mode')){ ?>console.log('Socket add listener at '+type+':');<?php } ?>
+		<?php if(JRY_WB_DEBUG_MODE){ ?>console.log('Socket add listener at '+type+':');<?php } ?>
 		if(listener_type.find(function(a){return a==type})==undefined)
 		{
 			this.send({'code':true,'type':100001,'data':{'add':type}});
@@ -191,7 +191,7 @@ var jry_wb_socket = new function()
 		listener[type]--;
 		if(listener[type]==0)
 			this.send({'code':true,'type':100002,'data':{'del':type}});
-		<?php if(constant('jry_wb_debug_mode')){ ?>console.log('Socket delete listener at '+type+':');<?php } ?>
+		<?php if(JRY_WB_DEBUG_MODE){ ?>console.log('Socket delete listener at '+type+':');<?php } ?>
 	};	
 };
 <?php if(false){ ?></script><?php } ?>

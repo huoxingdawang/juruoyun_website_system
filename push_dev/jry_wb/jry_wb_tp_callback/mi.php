@@ -10,7 +10,7 @@
 	if($code)
 	{
 		$oauthClient=new XMOAuthClient(constant('jry_wb_tp_mi_oauth_config_client_id'),constant('jry_wb_tp_mi_oauth_config_client_secret'));
-		$oauthClient->setRedirectUri(constant('jry_wb_host').'/jry_wb_tp_callback/mi.php');	
+		$oauthClient->setRedirectUri(JRY_WB_HOST.'/jry_wb_tp_callback/mi.php');	
 		$token=$oauthClient->getAccessTokenByAuthorizationCode($code);
 		if($token)
 		{

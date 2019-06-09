@@ -21,7 +21,7 @@
 		}
 		return true;
 	}
-	if(!constant('jry_wb_host_switch'))
+	if(!JRY_WB_HOST_SWITCH)
 	{
 		function jry_wb_connect_host_database()
 		{
