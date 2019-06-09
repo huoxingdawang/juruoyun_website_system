@@ -8,5 +8,5 @@
 	include_once('jry_wb_tp_github_oauth_config.php');
 	include_once('jry_wb_tp_mi_oauth_config.php');
 	include_once('jry_wb_tp_qq_oauth_config.php');
-	define('JRY_WB_OAUTH_SWITCH'		,!(constant('jry_wb_tp_gitee_oauth_config_client_id')==''&&constant('jry_wb_tp_github_oauth_config_client_id')==''&&constant('jry_wb_tp_mi_oauth_config_client_id')==''&&$jry_wb_tp_qq_oauth_config==NULL));
+	define('JRY_WB_OAUTH_SWITCH'		,!(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID==''&&constant('jry_wb_tp_github_oauth_config_client_id')==''&&constant('jry_wb_tp_mi_oauth_config_client_id')==''&&$jry_wb_tp_qq_oauth_config==NULL));
 ?>

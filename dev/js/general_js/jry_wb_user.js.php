@@ -262,7 +262,7 @@ function jry_wb_show_user_full(user,width,height)
 	else
 		td.innerHTML+=user.oauth_github.name+','+user.oauth_github.login+'<img width="40px" src="'+user.oauth_github.avatar_url+'"><br>';						
 <?php } ?>
-<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
+<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='码云:';
 	if(user.oauth_gitee==null)
 		td.innerHTML+='无<br>';
