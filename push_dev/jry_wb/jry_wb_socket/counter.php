@@ -7,7 +7,7 @@
 	while(1)
 	{
 		$data=jry_wb_cli_get_machine();
-		$st = jry_wb_connect_database()->prepare("INSERT INTO ".constant('jry_wb_database_log')."machine (`data`) VALUES(?)");
+		$st = jry_wb_connect_database()->prepare("INSERT INTO ".JRY_WB_DATABASE_LOG."machine (`data`) VALUES(?)");
 		$st->bindParam(1,json_encode($data));
 		$st->execute();	
 		$timeer=time();

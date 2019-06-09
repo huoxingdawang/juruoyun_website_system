@@ -21,7 +21,7 @@
 			$user=$data[0];
 			if($user['password']==$_COOKIE['password'])
 			{
-				$q="SELECT * FROM ".constant('jry_wb_database_general')."users where id=?;";
+				$q="SELECT * FROM ".JRY_WB_DATABASE_GENERAL."users where id=?;";
 				$st = $conn->prepare($q);
 				$st->bindParam(1,$user['id']);
 				$st->execute();
@@ -38,7 +38,7 @@
 				}
 				$jry_wb_login_user=$jry_wb_login_user[0];
 				$type=8;
-				require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
+				require(JRY_WB_LOCAL_DIR."/jry_wb_mainpages/do_login.php");
 				exit();
 			}
 		}

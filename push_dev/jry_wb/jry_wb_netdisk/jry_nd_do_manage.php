@@ -53,10 +53,10 @@
 		$file_log=array();
 		$area_log=array();
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE `delete`=1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE `delete`=1');
 		$st->execute();
 		$files=$st->fetchAll();
-		$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_netdisk').'file_list WHERE `delete`=1');
+		$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE `delete`=1');
 		$st->execute();
 		foreach($files as $file)
 			$delete_log[]=array('file_id'=>$file['file_id'],
@@ -68,8 +68,8 @@
 								'uploading'=>$file['uploading'],
 								'isdir'=>$file['isdir'],
 								'lasttime'=>$file['lasttime']);
-		$q='SELECT * FROM '.constant('jry_wb_database_netdisk').'users 
-		LEFT JOIN '.constant('jry_wb_database_netdisk').'group  ON ('.constant('jry_wb_database_netdisk_prefix').'users.group_id = '.constant('jry_wb_database_netdisk_prefix')."group.group_id)";
+		$q='SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'users 
+		LEFT JOIN '.JRY_WB_DATABASE_NETDISK.'group  ON ('.JRY_WB_DATABASE_NETDISK_PREFIX.'users.group_id = '.JRY_WB_DATABASE_NETDISK_PREFIX."group.group_id)";
 		$st = $conn->prepare($q);
 		$st->execute();
 		$users=array();
@@ -79,7 +79,7 @@
 							'size_used'=>0
 			);
 		$users_id=array_column($users,'id');
-		$st = $conn->prepare('SELECT *FROM '.constant('jry_wb_database_netdisk').'area WHERE `use`=1');
+		$st = $conn->prepare('SELECT *FROM '.JRY_WB_DATABASE_NETDISK.'area WHERE `use`=1');
 		$st->execute();
 		$areas=$st->fetchAll();
 		
@@ -87,7 +87,7 @@
 		{
 			$area['config_message']=json_decode($area['config_message']);
 			$area_size=0;
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE area=? and `delete`=0');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE area=? and `delete`=0');
 			$st->bindValue(1,$area['area_id']);
 			$st->execute();
 			$files=$st->fetchAll();
@@ -122,7 +122,7 @@
 									'delete'=>$file['delete'],
 									'isdir'=>$file['isdir'],
 									'lasttime'=>$file['lasttime']);
-					$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_netdisk').'file_list WHERE file_id=?');
+					$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE file_id=?');
 					$st->bindValue(1,$file['file_id']);
 					$st->execute();
 					jry_nd_direct_delete($conn,$users[$result],$file);

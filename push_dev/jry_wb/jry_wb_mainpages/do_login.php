@@ -21,7 +21,7 @@
 	if($type=="1")
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=? LIMIT 1');
 		$st->bindValue(1,$id);
 		$st->execute();
 		$user=$st->fetchAll()[0];
@@ -29,7 +29,7 @@
 	else if($type=="2")
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=? LIMIT 1');
 		$st->bindValue(1,$id);
 		$st->execute();
 		$user=$st->fetchAll()[0];
@@ -37,7 +37,7 @@
 	else if($type=='4')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
 		$st->bindValue(1,$open_id);
 		$st->bindValue(2,$access_token);
 		$st->execute();
@@ -46,7 +46,7 @@
 	else if($type=='5')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
 		$st->bindValue(1,$github_id);
 		$st->execute();
 		$user=$st->fetchAll()[0];
@@ -54,7 +54,7 @@
 	else if($type=='6')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
 		$st->bindValue(1,$unionId);
 		$st->execute();
 		$user=$st->fetchAll()[0];
@@ -62,7 +62,7 @@
 	else if($type=='7')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_gitee->'$.message.id'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_gitee->'$.message.id'=? LIMIT 1");
 		$st->bindValue(1,$gitee_id,PDO::PARAM_INT);
 		$st->execute();
 		$user=$st->fetchAll()[0];		
@@ -74,7 +74,7 @@
 	else
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where id=? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where id=? LIMIT 1');
 		$st->bindParam(1,$id);
 		$st->execute();
 		$user=$st->fetchAll()[0];
@@ -106,14 +106,14 @@
 	}
 	$jry_wb_login_user=$user;
 	jry_wb_echo_log(constant('jry_wb_log_type_login'),array('type'=>$type,'device'=>jry_wb_get_device(true),'ip'=>$_SERVER['REMOTE_ADDR'],'browser'=>jry_wb_get_browser(true)));	
-	$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET logdate=? where id=? ');
+	$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET logdate=? where id=? ');
 	$st->bindParam(1,jry_wb_get_time());	
 	$st->bindParam(2,$jry_wb_login_user['id']);
 	$st->execute();
 	if(strtotime($jry_wb_login_user['greendate'].' +24 hours')<time())
 		jry_wb_set_green_money($conn,$jry_wb_login_user,$green_money=rand(1,10),constant('jry_wb_log_type_green_money_login_add'));
 	
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? AND device=? AND code=? AND ip=? AND browser=?');
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=? AND device=? AND code=? AND ip=? AND browser=?');
 	$st->bindParam(1,$jry_wb_login_user['id']);
 	$st->bindParam(2,jry_wb_get_device(true));
 	$st->bindParam(3,$_COOKIE['code']);
@@ -126,7 +126,7 @@
 	if(count($all)!=0)
 	{
 		setcookie('code',$all[0]['code'],time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,true);
-		$st = $conn->prepare("update ".constant('jry_wb_database_general')."login SET time=? where id=? AND ip=? AND device=? AND code=? AND browser=?");
+		$st = $conn->prepare("update ".JRY_WB_DATABASE_GENERAL."login SET time=? where id=? AND ip=? AND device=? AND code=? AND browser=?");
 		$st->bindParam(1,jry_wb_get_time());	
 		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->bindParam(3,$_SERVER['REMOTE_ADDR']);
@@ -140,7 +140,7 @@
 		$code=jry_wb_get_random_string(50);
 		$code.=md5(jry_wb_get_time()).md5($jry_wb_login_user['mail'].$jry_wb_login_user['id']);
 		setcookie('code',$code,time()+constant('logintime'),'/',constant('jry_wb_domin'),NULL,true);
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."login (id,ip,time,device,code,browser) VALUES(?,?,?,?,?,?)");
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_GENERAL."login (id,ip,time,device,code,browser) VALUES(?,?,?,?,?,?)");
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_SERVER['REMOTE_ADDR']);
 		$st->bindParam(3,jry_wb_get_time());	

@@ -4,22 +4,22 @@
 	$admin_mode=(($_GET['admin_mode']=='true')&&($jry_wb_login_user['id']!=-1)&&$jry_wb_login_user['manageusers']&&$jry_wb_login_user['manage']);	
 	if($_GET['action']=='new')
 	{
-		$q='SELECT *,'.constant('jry_wb_database_general_prefix').'users.id AS id
-			FROM '.constant('jry_wb_database_manage_system').'competence 
-			INNER JOIN '.constant('jry_wb_database_general').'users  ON ('.constant('jry_wb_database_general_prefix').'users.type = '.constant('jry_wb_database_manage_system_prefix').'competence.type) 
-			LEFT JOIN '.constant('jry_wb_database_general').'login  ON ('.constant('jry_wb_database_general_prefix').'users.id = '.constant('jry_wb_database_general_prefix')."login.id)
-			order by ".constant('jry_wb_database_general')."users.id desc limit 1";
+		$q='SELECT *,'.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id AS id
+			FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence 
+			INNER JOIN '.JRY_WB_DATABASE_GENERAL.'users  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.type = '.JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX.'competence.type) 
+			LEFT JOIN '.JRY_WB_DATABASE_GENERAL.'login  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id = '.JRY_WB_DATABASE_GENERAL_PREFIX."login.id)
+			order by ".JRY_WB_DATABASE_GENERAL."users.id desc limit 1";
 		$st = $conn->prepare($q);
 		$st->execute();
 		foreach($st->fetchAll()as $user);
 	}
 	else
 	{
-		$q='SELECT *,'.constant('jry_wb_database_general_prefix').'users.id AS id
-			FROM '.constant('jry_wb_database_manage_system').'competence 
-			INNER JOIN '.constant('jry_wb_database_general').'users  ON ('.constant('jry_wb_database_general_prefix').'users.type = '.constant('jry_wb_database_manage_system_prefix').'competence.type) 
-			LEFT JOIN '.constant('jry_wb_database_general').'login  ON ('.constant('jry_wb_database_general_prefix').'users.id = '.constant('jry_wb_database_general_prefix')."login.id)
-			where ".constant('jry_wb_database_general_prefix')."users.id =? LIMIT 1";
+		$q='SELECT *,'.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id AS id
+			FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence 
+			INNER JOIN '.JRY_WB_DATABASE_GENERAL.'users  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.type = '.JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX.'competence.type) 
+			LEFT JOIN '.JRY_WB_DATABASE_GENERAL.'login  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id = '.JRY_WB_DATABASE_GENERAL_PREFIX."login.id)
+			where ".JRY_WB_DATABASE_GENERAL_PREFIX."users.id =? LIMIT 1";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$_GET['id']);
 		$st->execute();
@@ -61,7 +61,7 @@
 	if($user['ip_show']||($admin_mode))
 	{
 		$i=0;
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=?');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=?');
 		$st->bindParam(1,$user['id']);
 		$st->execute();
 		$user['ips']=$st->fetchAll();

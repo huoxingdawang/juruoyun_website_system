@@ -2,7 +2,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	function jry_wb_get_user($conn,$id)
 	{
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE id=? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id=? LIMIT 1');
 		$st->bindValue(1,$id);
 		$st->execute();				
 		$datas=$st->fetchAll();
@@ -11,7 +11,7 @@
 		else
 		{
 			$user=$datas[0];
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_manage_system').'competence WHERE type=? LIMIT 1');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence WHERE type=? LIMIT 1');
 			$st->bindValue(1,$user['type']);
 			$st->execute();
 			$datas=$st->fetchAll();

@@ -4,7 +4,7 @@
 	if($_GET['action']=='list')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'bigdeal ORDER BY time');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MAINPAGE.'bigdeal ORDER BY time');
 		$st->execute();
 		$i=0;
 		$json=array();

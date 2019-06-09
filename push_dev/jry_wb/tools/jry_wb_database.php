@@ -3,7 +3,7 @@
 	include_once("../jry_wb_configs/jry_wb_config_database_system.php");
 	function jry_wb_connect_database()
 	{
-		try{ $dbh = new PDO("mysql:host=".constant('jry_wb_database_addr').";",constant('jry_wb_database_user_name'),constant('jry_wb_database_user_password')); } 
+		try{$dbh = new PDO("mysql:host=".JRY_WB_DATABASE_ADDR.";",JRY_WB_DATABASE_USER_NAME,JRY_WB_DATABASE_USER_PASSWORD);} 
 		catch (PDOException $e) {die ("Error!: " . $e->getMessage() . "<br/>"); }
 		$dbh->query("SET NAMES utf8");
 		$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -25,7 +25,7 @@
 	{
 		function jry_wb_connect_host_database()
 		{
-			try{ $dbh = new PDO("mysql:host=".constant('jry_wb_host_database_addr').";",constant('jry_wb_host_database_user_name'),constant('jry_wb_host_database_user_password')); } 
+			try{ $dbh = new PDO("mysql:host=".JRY_WB_HOST_DATABASE_ADDR.";",JRY_WB_HOST_DATABASE_USER_NAME,JRY_WB_HOST_DATABASE_USER_PASSWORD); } 
 			catch (PDOException $e) {die ("Error!: " . $e->getMessage() . "<br/>"); }
 			$dbh->query("SET NAMES utf8");
 			$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);

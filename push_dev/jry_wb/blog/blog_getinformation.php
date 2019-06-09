@@ -53,7 +53,7 @@
 									'delete'=>$data['delete'],
 									'id'=>$data['id']
 									));
-			$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_log').'blog_reading (`id`,`blog_id`,`time`,`ip`,`device`,`browser`) VALUES (?,?,?,?,?,?);');
+			$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_LOG.'blog_reading (`id`,`blog_id`,`time`,`ip`,`device`,`browser`) VALUES (?,?,?,?,?,?);');
 			$st->bindValue(1,$jry_wb_login_user['id']);
 			$st->bindValue(2,$_GET['blog_id']);
 			$st->bindValue(3,jry_wb_get_time());

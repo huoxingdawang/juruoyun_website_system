@@ -55,7 +55,7 @@
 			?><script language="javascript">jry_wb_beautiful_alert.alert("出现不能包含的关键词","",function(){history.go(-1);});</script><?php
 			exit();			
 		}
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general')."bug (id,url,bug,device,time,connect,ip,ua) VALUES(?,?,?,?,?,?,?,?)");
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_GENERAL."bug (id,url,bug,device,time,connect,ip,ua) VALUES(?,?,?,?,?,?,?,?)");
 		$st->bindParam(1,$jry_wb_login_user['id']); 
 		$st->bindParam(2,$_POST['url']);
 		$st->bindParam(3,$_POST['bugmeaasge']);	

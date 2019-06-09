@@ -2,7 +2,7 @@
 	include_once('jry_nd_database_include.php');
 	function jry_nd_database_get_share($conn,$share_id,$user)
 	{
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'share WHERE share_id=? AND id=? LIMIT 1;');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'share WHERE share_id=? AND id=? LIMIT 1;');
 		$st->bindValue(1,$share_id);
 		$st->bindValue(2,$user['id']);
 		$st->execute();
@@ -15,7 +15,7 @@
 	{
 		if($share_id=='')
 			return null;
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'share WHERE share_id=? AND `key`=? LIMIT 1;');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'share WHERE share_id=? AND `key`=? LIMIT 1;');
 		$st->bindValue(1,$share_id);
 		$st->bindValue(2,$key);
 		$st->execute();

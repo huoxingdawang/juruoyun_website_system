@@ -2,10 +2,10 @@
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");		
 	$conn=jry_wb_connect_database();
-	$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'mail_code where time<?');
+	$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where time<?');
 	$st->bindParam(1,date("Y-m-d H:i:s",time()-12*60*60));
 	$st->execute();	
-	$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
+	$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where time<?');
 	$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
 	$st->execute();
 	try
@@ -39,7 +39,7 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100004,'file'=>__FILE__,'line'=>__LINE__)));
 			if(!jry_wb_test_phone_number($_POST['tel']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=?');
 			$st->bindParam(1,$_POST['tel']);
 			$st->execute();
 			if(count($st->fetchAll())!=0)
@@ -53,7 +53,7 @@
 		}
 		else if($_GET['action']=='setsonglist')
 		{
-			$q ="update ".constant('jry_wb_database_general')."users set background_music_list=?,lasttime=? where id=? ";
+			$q ="update ".JRY_WB_DATABASE_GENERAL."users set background_music_list=?,lasttime=? where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,urldecode($_POST["data"]));	
 			$st->bindParam(2,jry_wb_get_time());
@@ -64,7 +64,7 @@
 		}
 		else if($_GET['action']=='trust')
 		{
-			$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=1 where id=? AND code=?");
+			$st = $conn->prepare("update ".JRY_WB_DATABASE_GENERAL."login set trust=1 where id=? AND code=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);
 			$st->bindParam(2,$_COOKIE['code']);
 			$st->execute();			
@@ -73,7 +73,7 @@
 		}
 		else if($_GET['action']=='untrust')
 		{
-			$st = $conn->prepare("update ".constant('jry_wb_database_general')."login set trust=0 where id=? AND login_id=?");
+			$st = $conn->prepare("update ".JRY_WB_DATABASE_GENERAL."login set trust=0 where id=? AND login_id=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);
 			$st->bindParam(2,$_POST['login_id']);
 			$st->execute();			
@@ -82,7 +82,7 @@
 		}
 		else if($_GET['action']=='logout')
 		{
-			$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=? AND login_id=?");
+			$st = $conn->prepare("DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where id=? AND login_id=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);
 			$st->bindParam(2,$_POST['login_id']);
 			$st->execute();			
@@ -95,7 +95,7 @@
 			{
 				if($jry_wb_login_user['sex']==0&&$jry_wb_login_user['head']!='default_head_woman')
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"default_head_woman"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"default_head_woman"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -103,7 +103,7 @@
 				}
 				else if(($jry_wb_login_user['sex']==1||$jry_wb_login_user['sex']==2)&&$jry_wb_login_user['head']!='default_head_man')
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"default_head_man"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"default_head_man"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -117,7 +117,7 @@
 				$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404');
 				if (preg_match("|200|", $headers[0])) 
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"gravatar"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"gravatar"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -132,7 +132,7 @@
 			{
 				if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth_qq']!='')
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"qq"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"qq"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -145,7 +145,7 @@
 			{
 				if($jry_wb_login_user['oauth_github']!='')
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"github"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"github"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -158,7 +158,7 @@
 			{
 				if($jry_wb_login_user['oauth_mi']!='')
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"mi"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"mi"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -171,7 +171,7 @@
 			{
 				if($jry_wb_login_user['oauth_gitee']!='')
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=\'{"type":"gitee"}\',lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"gitee"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,jry_wb_get_time());
 					$st->bindParam(2,$jry_wb_login_user['id']);
@@ -185,7 +185,7 @@
 				$headers=@get_headers(urldecode($_POST['url']));
 				if (preg_match("|200|", $headers[0])) 
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=?,lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=?,lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,json_encode(array('type'=>'url','url'=>urldecode($_POST['url']))));
 					$st->bindParam(2,jry_wb_get_time());
@@ -204,7 +204,7 @@
 				$headers=@get_headers(constant('jry_wb_host').'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='.$_POST['share_id'].'&file_id='.$_POST['file_id']);
 				if (preg_match("|200|", $headers[0])) 
 				{
-					$q ='update '.constant('jry_wb_database_general').'users set head=?,lasttime=? where id=?';
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=?,lasttime=? where id=?';
 					$st = $conn->prepare($q);
 					$st->bindParam(1,json_encode(array('type'=>'netdisk','share_id'=>(int)$_POST['share_id'],'file_id'=>(int)$_POST['file_id'])));
 					$st->bindParam(2,jry_wb_get_time());
@@ -231,13 +231,13 @@
 			else
 				$set_head='';
 			if($_GET['type']=='qq')
-				$q ='update '.constant('jry_wb_database_general').'users set oauth_qq=NULL,lasttime=?'.$set_head.' where id=?';
+				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_qq=NULL,lasttime=?'.$set_head.' where id=?';
 			else if($_GET['type']=='github')
-				$q ='update '.constant('jry_wb_database_general').'users set oauth_github=NULL,lasttime=?'.$set_head.' where id=?';
+				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_github=NULL,lasttime=?'.$set_head.' where id=?';
 			else if($_GET['type']=='mi')
-				$q ='update '.constant('jry_wb_database_general').'users set oauth_mi=NULL,lasttime=?'.$set_head.' where id=?';
+				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_mi=NULL,lasttime=?'.$set_head.' where id=?';
 			else if($_GET['type']=='gitee')
-				$q ='update '.constant('jry_wb_database_general').'users set oauth_gitee=NULL,lasttime=?'.$set_head.' where id=?';
+				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_gitee=NULL,lasttime=?'.$set_head.' where id=?';
 			$st = $conn->prepare($q);
 			$st->bindParam(1,jry_wb_get_time());
 			$st->bindParam(2,$jry_wb_login_user['id']);
@@ -260,7 +260,7 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100004,'file'=>__FILE__,'line'=>__LINE__)));		
 			if(!jry_wb_test_mail($_POST['mail']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));		
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=?');
 			$st->bindParam(1,$_POST['mail']);
 			$st->execute();
 			if(count($st->fetchAll())!=0)
@@ -285,7 +285,7 @@
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100004,'file'=>__FILE__,'line'=>__LINE__)));
 				if(!jry_wb_test_mail($_POST['mail']))
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));	
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=?');
 				$st->bindParam(1,$_POST['mail']);
 				$st->execute();
 				if(count($st->fetchAll())!=0)
@@ -295,14 +295,14 @@
 			{
 				jry_wb_print_head("用户管理|邮箱绑定",true,false,false,array(),true,false);	
 				$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'mail_code where code=?');
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where code=?');
 				$st->bindParam(1,$_GET['code']);
 				$st->execute();		
 				foreach($st->fetchAll()as $code);
 				if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码','','self.location=document.referrer;');</script><?php	exit();}
 				$mail=$code['mail'];
 				if(!jry_wb_test_mail($mail)){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误','self.location=document.referrer;');</script><?php	exit();}
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=?');
 				$st->bindParam(1,$mail);
 				$st->execute();
 				foreach($st->fetchAll()as $users)
@@ -336,7 +336,7 @@
 				else
 					$jry_wb_gravatar_user_head='';
 			}			
-			$q ="update ".constant('jry_wb_database_general')."users set mail=?,lasttime=?".$set_head." where id=? ";
+			$q ="update ".JRY_WB_DATABASE_GENERAL."users set mail=?,lasttime=?".$set_head." where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,($jry_wb_login_user['mail']=$mail));
 			$st->bindParam(2,jry_wb_get_time());
@@ -366,24 +366,24 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100004,'file'=>__FILE__,'line'=>__LINE__)));
 			if(!jry_wb_test_phone_number($_POST['tel']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=?');
 			$st->bindParam(1,$_POST['tel']);
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));	
 			if(constant('jry_wb_check_tel_switch')&&constant('jry_wb_short_message_switch')!='')
 			{
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=?');
 				$st->bindParam(1,$_POST['tel']);
 				$st->execute();	
 				foreach($st->fetchAll()as $tels);		
 				if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));		
-				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where code=?');
+				$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where code=?');
 				$st->bindParam(1,$_POST['phonecode']);
 				$st->execute();	
 			}
-			$q ="update ".constant('jry_wb_database_general')."users set tel=?,lasttime=? where id=? ";
+			$q ="update ".JRY_WB_DATABASE_GENERAL."users set tel=?,lasttime=? where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,$_POST['tel']);
 			$st->bindParam(2,jry_wb_get_time());
@@ -394,7 +394,7 @@
 		}	
 		else if($_GET['action']=='specialfact')
 		{
-			$q ="update ".constant('jry_wb_database_general')."users set word_special_fact=?,follow_mouth=?,head_special=?,lasttime=? where id=? ";
+			$q ="update ".JRY_WB_DATABASE_GENERAL."users set word_special_fact=?,follow_mouth=?,head_special=?,lasttime=? where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,urldecode($_POST["word_special_fact"]));	
 			$st->bindParam(2,urldecode($_POST["follow_mouth"]));	
@@ -414,7 +414,7 @@
 		}		
 		else if($_GET['action']=='show')
 		{
-			$q ="update ".constant('jry_wb_database_general')."users set tel_show=?,mail_show=?,ip_show=?,oauth_show=?,lasttime=? where id=? ";
+			$q ="update ".JRY_WB_DATABASE_GENERAL."users set tel_show=?,mail_show=?,ip_show=?,oauth_show=?,lasttime=? where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,urldecode($_POST["tel_show"]));	
 			$st->bindParam(2,urldecode($_POST["mail_show"]));			
@@ -437,10 +437,10 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100011,'file'=>__FILE__,'line'=>__LINE__)));		
 			if($jry_wb_login_user['password']!=$psw_yuan)	
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100006,'file'=>__FILE__,'line'=>__LINE__)));		
-			$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_general')."login where id=?");
+			$st = $conn->prepare("DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where id=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);
 			$st->execute();	
-			$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set password=?,lasttime=? where id=? ");
+			$st = $conn->prepare("update ".JRY_WB_DATABASE_GENERAL."users set password=?,lasttime=? where id=? ");
 			$st->bindParam(1,md5($psw1));	
 			$st->bindParam(2,jry_wb_get_time());
 			$st->bindParam(3,$jry_wb_login_user[id]);
@@ -457,7 +457,7 @@
 			$style_id=$_POST["style_id"];		
 			if($name=="")
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100013,'file'=>__FILE__,'line'=>__LINE__)));		
-			$q ="update ".constant('jry_wb_database_general')."users set name=? , sex=?,zhushi=?,language=?,style_id=?,lasttime=? where id=? ";
+			$q ="update ".JRY_WB_DATABASE_GENERAL."users set name=? , sex=?,zhushi=?,language=?,style_id=?,lasttime=? where id=? ";
 			$st = $conn->prepare($q);
 			$st->bindParam(1,$name);
 			$st->bindParam(2,($sex));
@@ -523,7 +523,7 @@
 					if($one['checker_php']($extern)!==true)
 						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100017,'extern'=>array('key'=>$one['key'],'name'=>$one['name']),'file'=>__FILE__,'line'=>__LINE__)));
 			}
-			$st = $conn->prepare("update ".constant('jry_wb_database_general')."users set extern=? , lasttime=? where id=? ");
+			$st = $conn->prepare("update ".JRY_WB_DATABASE_GENERAL."users set extern=? , lasttime=? where id=? ");
 			$st->bindParam(1,json_encode($extern));
 			$st->bindParam(2,jry_wb_get_time());
 			$st->bindParam(3,$jry_wb_login_user['id']);

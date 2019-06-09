@@ -3,13 +3,13 @@ include_once("jry_wb_includes.php");
 function jry_wb_get_short_message_code($number)
 {
 	$conn=jry_wb_connect_database();
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=?');
 	$st->bindParam(1,$number);
 	$st->execute();	
 	foreach($st->fetchAll()as $tels)
 		if(strtotime(date("Y-m-d H:i:s",time()))-strtotime($tels['time'])<5*60)
 			return -1;
-	$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
+	$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where time<?');
 	$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
 	$st->execute();	
 	mt_srand();
@@ -17,7 +17,7 @@ function jry_wb_get_short_message_code($number)
 	$code='';
 	for ($i = 0; $i < 6; $i++) 
 		$code.=$srcstr[mt_rand(0, 9)];		
-	$q = "INSERT INTO ".constant('jry_wb_database_general')."tel_code (tel,code,time) VALUES (?,?,?)";
+	$q = "INSERT INTO ".JRY_WB_DATABASE_GENERAL."tel_code (tel,code,time) VALUES (?,?,?)";
 	$st = $conn->prepare($q);
 	$st->bindParam(1,$number);
 	$st->bindParam(2,$code);

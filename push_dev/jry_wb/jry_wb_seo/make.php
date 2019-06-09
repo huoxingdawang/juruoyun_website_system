@@ -38,7 +38,7 @@
 	foreach($data as $one)
 		add_one($urlll.'?blog_id='.$one['blog_id'],0.6,$one['lasttime']);
 	//STYLE	
-	$st = $conn->prepare("SELECT `style_id`,`lasttime` FROM ".constant('jry_wb_database_general')."style");
+	$st = $conn->prepare("SELECT `style_id`,`lasttime` FROM ".JRY_WB_DATABASE_GENERAL."style");
 	$st->execute();				
 	$data=$st->fetchAll();
 	$urlll=jry_wb_print_href("jry_wb_style_control","","",true);

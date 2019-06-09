@@ -8,7 +8,7 @@
 		if(jry_nd_database_get_file_by_father_name_type($conn,$user,$father,$name,'',true)!=null)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200005,'file'=>__FILE__,'line'=>__LINE__)));		
 		jry_nd_database_operate_user_used_uploading($conn,$user,0,0);
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`,`isdir`) VALUES (?,?,?,?,?,?,?,?,?)');
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_NETDISK.'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`,`isdir`) VALUES (?,?,?,?,?,?,?,?,?)');
 		$st->bindValue(1,$user['id']);
 		$st->bindValue(2,$father);
 		$st->bindValue(3,$name);

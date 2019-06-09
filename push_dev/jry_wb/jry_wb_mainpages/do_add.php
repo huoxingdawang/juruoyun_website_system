@@ -23,7 +23,7 @@
 			}
 			if(!jry_wb_test_phone_number($_POST['tel']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=?');
 			$st->bindParam(1,$_POST['tel']);
 			$st->execute();
 			$all=$st->fetchAll();
@@ -63,10 +63,10 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100008,'file'=>__FILE__,'line'=>__LINE__)));
 			if(constant('jry_wb_short_message_switch')!='')
 			{
-				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where time<?');
+				$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where time<?');
 				$st->bindParam(1,date("Y-m-d H:i:s",time()-5*60));
 				$st->execute();
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'tel_code where tel=?');
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=?');
 				$st->bindParam(1,$_POST['tel']);
 				$st->execute();	
 				foreach($st->fetchAll()as $tels);	
@@ -74,14 +74,14 @@
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));
 			}
 			
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where tel=?');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=?');
 			$st->bindParam(1,$tel);
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));
 			if(constant('jry_wb_short_message_switch')!='')
 			{		
-				$st = $conn->prepare('DELETE FROM '.constant('jry_wb_database_general').'tel_code where tel=? and code=?');
+				$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=? and code=?');
 				$st->bindParam(1,$tel);
 				$st->bindParam(2,$_POST['phonecode']);
 				$st->execute();
@@ -92,7 +92,7 @@
 		{
 			if(!jry_wb_test_mail($_POST['mail']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100014,'file'=>__FILE__,'line'=>__LINE__)));		
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users where mail=?');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=?');
 			$st->bindParam(1,$_POST['mail']);
 			$st->execute();
 			if(count($st->fetchAll())!=0)
@@ -154,9 +154,9 @@
 		$conn=jry_wb_connect_database();
 		$now=jry_wb_get_time();//时间
 		if($sex==0)
-			$q = 'INSERT INTO '.constant('jry_wb_database_general').'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?)';
+			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?)';
 		else
-			$q = 'INSERT INTO '.constant('jry_wb_database_general').'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?)';
+			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?)';
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$name);
 		$st->bindParam(2,$psw1);
@@ -176,7 +176,7 @@
 			}
 			else
 			{
-				$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users SET mail=? WHERE id=? ');
+				$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET mail=? WHERE id=? ');
 				$st->bindParam(1,$_POST['mail']);
 				$st->bindParam(2,$jry_wb_login_user['id']);
 				$st->execute();					

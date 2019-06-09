@@ -1,37 +1,33 @@
 <?php
-	define('jry_wb_database_general_prefix',constant('jry_wb_database_all_prefix').'general_');
-	define('jry_wb_database_general',constant('jry_wb_database_name').'.'.constant('jry_wb_database_general_prefix'));
-	define("jry_wb_database_mainpage_prefix",constant('jry_wb_database_all_prefix').'mainpage_');
-	define('jry_wb_database_mainpage',constant('jry_wb_database_name').'.'.constant('jry_wb_database_mainpage_prefix'));
-	define('jry_wb_database_manage_system_prefix',constant('jry_wb_database_all_prefix').'manage_');
-	define('jry_wb_database_manage_system',constant('jry_wb_database_name').'.'.constant('jry_wb_database_manage_system_prefix'));
-	define('JRY_WB_DATABASE_SMALL_APPLICATION_PREFIX',constant('jry_wb_database_all_prefix').'smallapp_');
-	define('JRY_WB_DATABASE_SMALL_APPLICATION',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_SMALL_APPLICATION_PREFIX);
-	define('jry_wb_database_game_prefix',constant('jry_wb_database_all_prefix').'game_');
-	define('jry_wb_database_game',constant('jry_wb_database_name').'.'.constant('jry_wb_database_game_prefix'));
-	define('jry_wb_database_netdisk_prefix',constant('jry_wb_database_all_prefix').'netdisk_');
-	define('jry_wb_database_netdisk',constant('jry_wb_database_name').'.'.constant('jry_wb_database_netdisk_prefix'));	
-	define('jry_wb_database_log_prefix',constant('jry_wb_database_all_prefix').'log_');
-	define('jry_wb_database_log',constant('jry_wb_database_name').'.'.constant('jry_wb_database_log_prefix'));
-	define('JRY_WB_DATABASE_CHAT_PREFIX',constant('jry_wb_database_all_prefix').'chat_');
-	define('JRY_WB_DATABASE_CHAT',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_CHAT_PREFIX);			
-	define('competitionpro',constant('jry_wb_database_all_prefix').'competition_');
-	define('competitiondb',constant('jry_wb_database_name').'.'.constant('competitionpro'));
-	define('JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX',constant('jry_wb_database_all_prefix').'online_judge_');
-	define('JRY_WB_DATABASE_ONLINE_JUDGE',constant('jry_wb_database_name').'.'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX);
-	define('ojpro',constant('jry_wb_database_all_prefix').'oj_');
-	define('ojdb',constant('jry_wb_database_name').'.'.constant('ojpro'));
-	define('blogpro',constant('jry_wb_database_all_prefix').'blog_');
-	define('blogdb',constant('jry_wb_database_name').'.'.constant('blogpro'));	
-	define('jry_wb_school_prefix',constant('jry_wb_database_all_prefix').'school_');
-	define('jry_wb_school',constant('jry_wb_database_name').'.'.constant('jry_wb_school_prefix'));
-	define('picturebedpro',constant('jry_wb_database_all_prefix').'picturebed_');
-	define('picturebeddb',constant('jry_wb_database_name').'.'.constant('picturebedpro'));	
-	define('spiderpro',constant('jry_wb_database_all_prefix').'spider_');
-	define('spiderdb',constant('jry_wb_database_name').'.'.constant('spiderpro'));
+	define('JRY_WB_DATABASE_GENERAL_PREFIX'				,JRY_WB_DATABASE_ALL_PREFIX	.'general_'		);
+	define('JRY_WB_DATABASE_MAINPAGE_PREFIX'			,JRY_WB_DATABASE_ALL_PREFIX	.'mainpage_'	);
+	define('JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX'		,JRY_WB_DATABASE_ALL_PREFIX	.'manage_'		);
+	define('JRY_WB_DATABASE_SMALL_APPLICATION_PREFIX'	,JRY_WB_DATABASE_ALL_PREFIX	.'smallapp_'	);
+	define('JRY_WB_DATABASE_NETDISK_PREFIX'				,JRY_WB_DATABASE_ALL_PREFIX	.'netdisk_'		);
+	define('JRY_WB_DATABASE_LOG_PREFIX'					,JRY_WB_DATABASE_ALL_PREFIX	.'log_'			);
+	define('JRY_WB_DATABASE_CHAT_PREFIX'				,JRY_WB_DATABASE_ALL_PREFIX	.'chat_'		);
+	define('JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX'		,JRY_WB_DATABASE_ALL_PREFIX	.'online_judge_');
+	define('JRY_WB_DATABASE_SCHOOL_PREFIX'				,JRY_WB_DATABASE_ALL_PREFIX	.'school_'		);
+	define('JRY_WB_DATABASE_GENERAL'					,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_GENERAL_PREFIX				);
+	define('JRY_WB_DATABASE_MAINPAGE'					,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_MAINPAGE_PREFIX			);
+	define('JRY_WB_DATABASE_MANAGE_SYSTEM'				,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX		);
+	define('JRY_WB_DATABASE_SMALL_APPLICATION'			,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_SMALL_APPLICATION_PREFIX	);
+	define('JRY_WB_DATABASE_NETDISK'					,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_NETDISK_PREFIX				);	
+	define('JRY_WB_DATABASE_LOG'						,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_LOG_PREFIX					);
+	define('JRY_WB_DATABASE_CHAT'						,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_CHAT_PREFIX				);			
+	define('JRY_WB_DATABASE_ONLINE_JUDGE'				,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX		);
+	define('JRY_WB_DATABASE_SCHOOL'						,JRY_WB_DATABASE_NAME	.'.'.JRY_WB_DATABASE_SCHOOL_PREFIX				);
+	
+	
+	define('blogpro'									,JRY_WB_DATABASE_ALL_PREFIX.'blog_');
+	define('blogdb'										,JRY_WB_DATABASE_NAME.'.'.constant('blogpro'));	
+	define('spiderpro'									,JRY_WB_DATABASE_ALL_PREFIX.'spider_');
+	define('spiderdb'									,JRY_WB_DATABASE_NAME.'.'.constant('spiderpro'));
+	
+	
 	if(!constant('jry_wb_host_switch'))
 	{
-		define('jry_wb_host_database_general_prefix',constant('jry_wb_host_database_all_prefix').'general_');
-		define('jry_wb_host_database_general',constant('jry_wb_host_database_name').'.'.constant('jry_wb_database_general_prefix'));		
+		define('jry_wb_host_database_general_prefix'		,JRY_WB_HOST_DATABASE_ALL_PREFIX.'general_');
+		define('jry_wb_host_database_general'				,JRY_WB_HOST_DATABASE_NAME		.'.'.JRY_WB_DATABASE_GENERAL_PREFIX);		
 	}
 ?>

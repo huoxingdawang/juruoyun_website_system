@@ -14,7 +14,7 @@
 			$id=$jry_wb_login_user['id'];
 		if(is_object($data)||is_array($data))
 			$data=json_encode($data);
-		$q ="INSERT INTO ".constant('jry_wb_database_log')."data (`id`,`time`,`type`,`data`) VALUES(?,?,?,?)";
+		$q ="INSERT INTO ".JRY_WB_DATABASE_LOG."data (`id`,`time`,`type`,`data`) VALUES(?,?,?,?)";
 		$st = jry_wb_connect_database()->prepare($q);
 		$st->bindParam(1,$id);
 		$st->bindParam(2,date("Y-m-d H;i:s",time()));

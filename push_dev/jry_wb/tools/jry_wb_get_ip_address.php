@@ -4,7 +4,7 @@
 	function jry_wb_get_ip_address($ip)
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'ip WHERE ip=? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'ip WHERE ip=? LIMIT 1');
 		$st->bindParam(1,$ip);
 		$st->execute();
 		$data=$st->fetchAll();
@@ -28,7 +28,7 @@
 				$json=json_decode($json);
 				$json['by']='tb';
 				$json=json_encode($json);				
-				$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general').'ip (`ip`,`data`) VALUES (?,?)');
+				$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_GENERAL.'ip (`ip`,`data`) VALUES (?,?)');
 				$st->bindParam(1,$ip);
 				$st->bindParam(2,$json);
 				$st->execute();
@@ -39,7 +39,7 @@
 		if($json[4]==''&&$json[3]==''&&$json[2]==''&&$json[1]==''&&$json[0]=='')
 			return null;
 		$json='{"by":"ipip","code":0,"data":{"ip":"'.$ip.'","isp":"'.$json[4].'","area":"","city":"'.$json[2].'","county":"XX","isp_id":"","region":"'.$json[1].'","area_id":"","city_id":"","country":"'.$json[0].'","county_id":"xx","region_id":"","country_id":""}}';
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_general').'ip (`ip`,`data`) VALUES (?,?)');
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_GENERAL.'ip (`ip`,`data`) VALUES (?,?)');
 		$st->bindParam(1,$ip);
 		$st->bindParam(2,$json);
 		$st->execute();		

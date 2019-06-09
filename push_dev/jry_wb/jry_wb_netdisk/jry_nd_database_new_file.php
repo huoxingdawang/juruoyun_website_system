@@ -7,7 +7,7 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));		
 		if(is_string($father['share_list']))
 			$father['share_list']=json_decode($father['share_list']);
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_netdisk').'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`,`share`,`share_list`) VALUES (?,?,?,?,?,?,?,?,?,?)');
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_NETDISK.'file_list (`id`,`father`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`,`share`,`share_list`) VALUES (?,?,?,?,?,?,?,?,?,?)');
 		$st->bindValue(1,$user['id']);
 		$st->bindValue(2,$father['file_id']);
 		$st->bindValue(3,str_replace("&","/37",$name));

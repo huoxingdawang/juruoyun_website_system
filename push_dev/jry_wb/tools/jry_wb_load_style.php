@@ -2,13 +2,13 @@
 	include_once("jry_wb_includes.php");
 	function jry_wb_load_style($style_id)
 	{
-		$st=jry_wb_connect_database()->prepare('SELECT * FROM '.constant('jry_wb_database_general').'style where style_id=?');
+		$st=jry_wb_connect_database()->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'style where style_id=?');
 		$st->bindValue(1,$style_id);
 		$st->execute();
 		$buf=$st->fetchAll()[0];
 		if($buf==null)
 		{
-			$st=jry_wb_connect_database()->prepare('SELECT * FROM '.constant('jry_wb_database_general').'style where style_id=?');
+			$st=jry_wb_connect_database()->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'style where style_id=?');
 			$st->bindValue(1,1);
 			$st->execute();
 			$buf=$st->fetchAll()[0];			

@@ -1,11 +1,11 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");
-	require_once(constant('jry_wb_local_dir').'/jry_wb_tp_sdk/mi/utils/XMUtil.php');
-	require_once(constant('jry_wb_local_dir').'/jry_wb_tp_sdk/mi/utils/AccessToken.php');
-	require_once(constant('jry_wb_local_dir').'/jry_wb_tp_sdk/mi/httpclient/XMHttpClient.php');
-	require_once(constant('jry_wb_local_dir').'/jry_wb_tp_sdk/mi/httpclient/XMOAuthClient.php');
-	require_once(constant('jry_wb_local_dir').'/jry_wb_tp_sdk/mi/httpclient/XMApiClient.php');
+	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/utils/XMUtil.php');
+	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/utils/AccessToken.php');
+	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/httpclient/XMHttpClient.php');
+	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/httpclient/XMOAuthClient.php');
+	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/httpclient/XMApiClient.php');
 	$code=$_GET["code"];
 	if($code)
 	{
@@ -51,9 +51,9 @@
 	if($jry_wb_login_user['id']==-1)
 	{
 		$type=6;
-		require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
+		require(JRY_WB_LOCAL_DIR."/jry_wb_mainpages/do_login.php");
 		$conn=jry_wb_connect_database();
-		$q ="update ".constant('jry_wb_database_general')."users set oauth_mi=?,lasttime=? where id=? ";
+		$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_mi=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,json_encode($data));		
 		$st->bindParam(2,jry_wb_get_time());
@@ -62,7 +62,7 @@
 		exit();
 	}
 	$conn=jry_wb_connect_database();
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
 	$st->bindParam(1,$unionId);
 	$st->execute();
 	foreach($st->fetchAll()as $users);
@@ -79,7 +79,7 @@
 		exit();
 	}		
 	$conn=jry_wb_connect_database();
-	$q ="update ".constant('jry_wb_database_general')."users set oauth_mi=?,lasttime=? where id=? ";
+	$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_mi=?,lasttime=? where id=? ";
 	$st = $conn->prepare($q);
 	$st->bindParam(1,json_encode($data));		
 	$st->bindParam(2,jry_wb_get_time());

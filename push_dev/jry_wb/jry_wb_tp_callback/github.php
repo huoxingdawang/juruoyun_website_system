@@ -34,9 +34,9 @@
 	if($jry_wb_login_user['id']==-1)
 	{
 		$type=5;
-		require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
+		require(JRY_WB_LOCAL_DIR."/jry_wb_mainpages/do_login.php");
 		$conn=jry_wb_connect_database();
-		$q ="update ".constant('jry_wb_database_general')."users set oauth_github=?,lasttime=? where id=? ";
+		$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_github=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,json_encode($data));		
 		$st->bindParam(2,jry_wb_get_time());
@@ -45,7 +45,7 @@
 		exit();
 	}
 	$conn=jry_wb_connect_database();
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
 	$st->bindParam(1,$github_id);
 	$st->execute();
 	foreach($st->fetchAll()as $users);
@@ -62,7 +62,7 @@
 		exit();
 	}	
 	$conn=jry_wb_connect_database();
-	$q ="update ".constant('jry_wb_database_general')."users set oauth_github=?,lasttime=? where id=? ";
+	$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_github=?,lasttime=? where id=? ";
 	$st = $conn->prepare($q);
 	$st->bindParam(1,json_encode($data));		
 	$st->bindParam(2,jry_wb_get_time());

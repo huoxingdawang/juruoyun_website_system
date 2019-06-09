@@ -15,7 +15,7 @@
 	{
 		$filename=constant('jry_wb_upload_file_address').$photo['pictureid'].'.'.$photo['type']."_jryupload";
 		$size=ceil(filesize($filename)/1024);
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_netdisk').'file_list (`id`,`dir`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`) VALUES (?,?,?,?,?,?,?,?)');
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_NETDISK.'file_list (`id`,`dir`,`name`,`type`,`area`,`size`,`lasttime`,`uploading`) VALUES (?,?,?,?,?,?,?,?)');
 		$st->bindValue(1,$photo['id']);
 		$st->bindValue(2,'/picturebed/');
 		$st->bindValue(3,$photo['pictureid']);
@@ -33,26 +33,26 @@
 		stream_copy_to_stream($src, $dst);
 		fclose($src);		
 		fclose($dst);		
-		$st = $conn->prepare('INSERT INTO '.constant('jry_wb_database_netdisk').'share (`id`,`key`,`file_id`,`lasttime`,`share_id`) VALUES (?,?,?,?,?)');
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_NETDISK.'share (`id`,`key`,`file_id`,`lasttime`,`share_id`) VALUES (?,?,?,?,?)');
 		$st->bindValue(1,$photo['id']);
 		$st->bindValue(2,'');
 		$st->bindValue(3,$file_id);
 		$st->bindValue(4,jry_wb_get_time());
 		$st->bindValue(5,$photo['pictureid']);
 		$st->execute();
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'users SET size_used=size_used+? , lasttime=? WHERE `id`=?;');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_NETDISK.'users SET size_used=size_used+? , lasttime=? WHERE `id`=?;');
 		$st->bindValue(1,($size));
 		$st->bindValue(2,$lasttime=jry_wb_get_time());
 		$st->bindValue(3,$photo['id']);	
 		$st->execute();
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'area SET used=used+? , lasttime=? WHERE `area_id`=?;');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_NETDISK.'area SET used=used+? , lasttime=? WHERE `area_id`=?;');
 		$st->bindValue(1,$size);
 		$st->bindValue(2,jry_wb_get_time());
 		$st->bindValue(3,$area['area_id']);	
 		$st->execute();
 		if(($file=fopen('jry_nd.fast_save_message','r'))==false)
 		{
-			$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
+			$st = $conn->prepare('SELECT lasttime FROM '.JRY_WB_DATABASE_NETDISK.'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$data['group']=$st->fetchAll()[0]['lasttime'];
 			$data->area=jry_wb_get_time();
 			$file2=fopen('jry_nd.fast_save_message','w');
 			fwrite($file2,json_encode($data));

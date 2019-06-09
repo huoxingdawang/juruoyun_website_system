@@ -8,7 +8,7 @@
 		$value=urldecode($_GET['value']);
 		$type=urldecode($_GET['type']);
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_manage_system')."competence SET `".$name."`=? WHERE type=? LIMIT 1;");
+		$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_MANAGE_SYSTEM."competence SET `".$name."`=? WHERE type=? LIMIT 1;");
 		//$st->bindParam(1,$name);
 		$st->bindParam(1,$value);
 		$st->bindParam(2,$type);
@@ -18,7 +18,7 @@
 	if($method=='new')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("INSERT INTO ".constant('jry_wb_database_manage_system')."competence (`competencename`) VALUES ('new');");
+		$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_MANAGE_SYSTEM."competence (`competencename`) VALUES ('new');");
 		$st->execute();	
 		echo json_encode(array('code'=>true,'data'=>'New OK!'));
 	}
@@ -27,9 +27,9 @@
 		$name=preg_replace('/[^a-zA-Z]/','',urldecode($_GET['name']));
 		$default=0;
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare("ALTER TABLE ".constant('jry_wb_database_manage_system')."competence ADD COLUMN `".$name."` TINYINT(1)  NOT NULL DEFAULT '".$default."';");
+		$st = $conn->prepare("ALTER TABLE ".JRY_WB_DATABASE_MANAGE_SYSTEM."competence ADD COLUMN `".$name."` TINYINT(1)  NOT NULL DEFAULT '".$default."';");
 		$st->execute();	
-		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_manage_system')."competence SET `".$name."`=?;");
+		$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_MANAGE_SYSTEM."competence SET `".$name."`=?;");
 		$st->bindParam(1,$default);
 		$st->execute();
 		echo json_encode(array('code'=>true,'data'=>'Add competence '.$name.' OK!'));
@@ -38,7 +38,7 @@
 	{
 		$name=preg_replace('/[^a-zA-Z]/','',urldecode($_GET['name']));		
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare("ALTER TABLE ".constant('jry_wb_database_manage_system')."competence DROP COLUMN `".$name."`");
+		$st = $conn->prepare("ALTER TABLE ".JRY_WB_DATABASE_MANAGE_SYSTEM."competence DROP COLUMN `".$name."`");
 		$st->execute();
 		echo json_encode(array('code'=>true,'data'=>'Delete competence '.$name.' OK!'));
 	}

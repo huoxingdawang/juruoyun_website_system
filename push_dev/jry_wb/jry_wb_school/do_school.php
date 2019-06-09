@@ -5,7 +5,7 @@
 	if($action=='join')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_school').'list WHERE school_id=? LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_SCHOOL.'list WHERE school_id=? LIMIT 1');
 		$st->bindParam(1,$_POST['school_id']);
 		$st->execute();	
 		$data=$st->fetchAll();
@@ -22,7 +22,7 @@
 		}
 		if($data['check']==1)
 		{
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_school').'join WHERE school_id=? AND id=? LIMIT 1');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_SCHOOL.'join WHERE school_id=? AND id=? LIMIT 1');
 			$st = $conn->prepare($q);
 			$st->bindParam(1,$_POST['school_id']);
 			$st->bindParam(2,$jry_wb_login_user['id']);
@@ -33,7 +33,7 @@
 				echo json_encode(array('login'=>true,'result'=>false,'reason'=>'3'));
 				exit();
 			}
-			$st = $conn->prepare("INSERT INTO ".constant('jry_wb_school')."join (school_id,id,sex,time,extern,name) VALUES (?,?,?,?,?,?)");
+			$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_SCHOOL."join (school_id,id,sex,time,extern,name) VALUES (?,?,?,?,?,?)");
 			$st->bindParam(1,$_POST['school_id']);
 			$st->bindParam(2,$jry_wb_login_user['id']);
 			$st->bindParam(3,$_POST['sex']);
@@ -41,14 +41,14 @@
 			$st->bindParam(5,$_POST['extern']);
 			$st->bindParam(6,$_POST['name']);
 			$st->execute();
-			$st = $conn->prepare("UPDATE ".constant('jry_wb_school')."list SET waiting=waiting+1 WHERE school_id=?");
+			$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_SCHOOL."list SET waiting=waiting+1 WHERE school_id=?");
 			$st->bindParam(1,$_POST['school_id']);
 			$st->execute();			
 			echo json_encode(array('login'=>true,'result'=>true,'reason'=>1));
 		}
 		else
 		{
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_school').'student WHERE school_id=? AND id=? LIMIT 1');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_SCHOOL.'student WHERE school_id=? AND id=? LIMIT 1');
 			$st = $conn->prepare($q);
 			$st->bindParam(1,$_POST['school_id']);
 			$st->bindParam(2,$jry_wb_login_user['id']);
@@ -59,14 +59,14 @@
 				echo json_encode(array('login'=>true,'result'=>false,'reason'=>'3'));
 				exit();
 			}			
-			$st = $conn->prepare("INSERT INTO ".constant('jry_wb_school')."student (school_id,id,sex,time,name) VALUES (?,?,?,?,?)");
+			$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_SCHOOL."student (school_id,id,sex,time,name) VALUES (?,?,?,?,?)");
 			$st->bindParam(1,$_POST['school_id']);
 			$st->bindParam(2,$jry_wb_login_user['id']);
 			$st->bindParam(3,$_POST['sex']);
 			$st->bindParam(4,jry_wb_get_time());
 			$st->bindParam(5,$_POST['name']);
 			$st->execute();
-			$st = $conn->prepare("UPDATE ".constant('jry_wb_school')."list SET number=number+1 WHERE school_id=?");
+			$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_SCHOOL."list SET number=number+1 WHERE school_id=?");
 			$st->bindParam(1,$_POST['school_id']);
 			$st->execute();
 			echo json_encode(array('login'=>true,'result'=>true,'reason'=>2));

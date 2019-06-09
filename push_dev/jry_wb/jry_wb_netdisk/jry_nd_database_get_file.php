@@ -4,7 +4,7 @@
 	{
 		if($file_id==0)
 			return true;
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE file_id=? AND id=? AND `delete`=0 LIMIT 1');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE file_id=? AND id=? AND `delete`=0 LIMIT 1');
 		$st->bindValue(1,$file_id);
 		$st->bindValue(2,$user['id']);
 		$st->execute();
@@ -19,7 +19,7 @@
 			$father=$father['file_id'];
 		if(is_object($father))
 			$father=$father->file_id;
-		$st = $conn->prepare('SELECT file_id FROM '.constant('jry_wb_database_netdisk').'file_list WHERE `id`=? AND `father`=? AND `name`=? AND `type`=? AND isdir=? AND `delete`=0');
+		$st = $conn->prepare('SELECT file_id FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE `id`=? AND `father`=? AND `name`=? AND `type`=? AND isdir=? AND `delete`=0');
 		$st->bindValue(1,$user['id']);
 		$st->bindValue(2,$father);
 		$st->bindValue(3,str_replace("&","/37",$name));
@@ -35,7 +35,7 @@
 	{
 		if($father['isdir']==0)
 			return null;		
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE father=? AND id=? AND `delete`=0');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE father=? AND id=? AND `delete`=0');
 		$st->bindValue(1,$father['file_id']);
 		$st->bindValue(2,$user['id']);
 		$st->execute();

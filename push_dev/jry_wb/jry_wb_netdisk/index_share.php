@@ -5,8 +5,8 @@
 	$conn=jry_wb_connect_database();
 	if(($file=fopen('jry_nd.fast_save_message','r'))==false)
 	{
-		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$fastdata['area']=$st->fetchAll()[0]['lasttime'];
-		$st = $conn->prepare('SELECT lasttime FROM '.constant('jry_wb_database_netdisk').'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$fastdata['group']=$st->fetchAll()[0]['lasttime'];
+		$st = $conn->prepare('SELECT lasttime FROM '.JRY_WB_DATABASE_NETDISK.'area ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$fastdata['area']=$st->fetchAll()[0]['lasttime'];
+		$st = $conn->prepare('SELECT lasttime FROM '.JRY_WB_DATABASE_NETDISK.'group ORDER BY lasttime DESC LIMIT 1;');	$st->execute();		$fastdata['group']=$st->fetchAll()[0]['lasttime'];
 		$file=fopen('jry_nd.fast_save_message','w');
 		fwrite($file,json_encode($fastdata));
 		fclose($file);
@@ -17,7 +17,7 @@
 		$fastdata=json_decode(fread($file,filesize('jry_nd.fast_save_message')));
 		fclose($file);
 	}
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'share WHERE share_id=? AND `key`=? LIMIT 1;');
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'share WHERE share_id=? AND `key`=? LIMIT 1;');
 	$st->bindValue(1,$_GET['share_id']);
 	$st->bindValue(2,$_GET['key']==''?'':$_GET['key']);
 	$st->execute();
@@ -28,7 +28,7 @@
 		include('../../404.php');		
 		exit();
 	}
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE file_id=? AND id=? AND trust=1 AND `delete`=0 LIMIT 1');
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE file_id=? AND id=? AND trust=1 AND `delete`=0 LIMIT 1');
 	$st->bindValue(1,$share[0]['file_id']);
 	$st->bindValue(2,$share[0]['id']);
 	$st->execute();
@@ -54,7 +54,7 @@
 			global $dir_length;
 			global $share;
 			global $root;
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_netdisk').'file_list WHERE father=? AND id=? AND `delete`=0');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE father=? AND id=? AND `delete`=0');
 			$st->bindValue(1,$father);
 			$st->bindValue(2,$share[0]['id']);
 			$st->execute();

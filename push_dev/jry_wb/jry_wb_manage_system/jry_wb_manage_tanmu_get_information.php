@@ -5,7 +5,7 @@
 	if($action=='list')
 	{
 		$conn2=jry_wb_connect_database();
-		$st = $conn2->prepare('SELECT * FROM '.constant('jry_wb_database_mainpage').'tanmu ORDER BY id');
+		$st = $conn2->prepare('SELECT * FROM '.JRY_WB_DATABASE_MAINPAGE.'tanmu ORDER BY id');
 		$st->execute();
 		$i=0;
 		$json=array();

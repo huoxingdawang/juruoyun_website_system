@@ -6,7 +6,7 @@
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
 	include_once("../jry_wb_configs/jry_wb_tp_qq_oauth_config.php");
 	jry_wb_print_head("用户管理",true,true,true,array(),true,false);
-	$st=jry_wb_connect_database()->prepare('SELECT * FROM '.constant('jry_wb_database_general').'style');
+	$st=jry_wb_connect_database()->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'style');
 	$st->execute();
 	$i=0;
 	foreach($st->fetchAll() as $one)

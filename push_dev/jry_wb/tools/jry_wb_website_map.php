@@ -8,7 +8,7 @@
 		if($jry_wb_website_map!=NULL)
 			return;
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."website");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."website");
 		$st->execute();
 		$jry_wb_website_map=$st->fetchAll();		
 	}

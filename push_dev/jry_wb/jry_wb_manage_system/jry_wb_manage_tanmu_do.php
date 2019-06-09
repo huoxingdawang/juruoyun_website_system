@@ -6,7 +6,7 @@
 	if($action=='chenge'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("UPDATE ".constant('jry_wb_database_mainpage')."tanmu SET words=? WHERE id=? LIMIT 1;");
+		$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_MAINPAGE."tanmu SET words=? WHERE id=? LIMIT 1;");
 		$st->bindParam(1,$_POST['words']);
 		$st->bindParam(2,$id);			
 		$st->execute();
@@ -15,7 +15,7 @@
 	else if($action=='delete')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("DELETE FROM ".constant('jry_wb_database_mainpage')."tanmu WHERE id=? LIMIT 1;");
+		$st = $conn->prepare("DELETE FROM ".JRY_WB_DATABASE_MAINPAGE."tanmu WHERE id=? LIMIT 1;");
 		$st->bindParam(1,$id);
 		$st->execute();	
 		echo json_encode(array('code'=>1,'id'=>$id));		
@@ -23,7 +23,7 @@
 	else if($action=='add'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("INSERT INTO ".constant('jry_wb_database_mainpage')."tanmu (`words`) VALUES (?);");
+		$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_MAINPAGE."tanmu (`words`) VALUES (?);");
 		$st->bindParam(1,$_POST['words']);
 		$st->execute();
 		echo json_encode(array('code'=>1));

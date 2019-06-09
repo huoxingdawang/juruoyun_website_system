@@ -15,14 +15,14 @@
 		global $jry_wb_socket_mode;
 		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];		
-		$q ="DELETE FROM ".constant('jry_wb_database_general')."login where time<? AND trust=0";
+		$q ="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where time<? AND trust=0";
 		$st = $conn->prepare($q);
 		$st->bindValue(1,date("Y-m-d H;i:s",time()-constant('logintime')));
 		$st->execute();
 		$user=NULL;
 		if($cookie['code']!=NULL&&$cookie['id']!=NULL)
 		{
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login WHERE id=? AND code=? AND device=? AND browser=? LIMIT 1');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login WHERE id=? AND code=? AND device=? AND browser=? LIMIT 1');
 			$st->bindValue(1,intval((($cookie['id']!='') ? $cookie['id'] : -1)));
 			$st->bindValue(2,$cookie['code']);
 			$st->bindValue(3,jry_wb_get_device(true,$user_agent));
@@ -32,7 +32,7 @@
 			{
 				if($one['trust']&&$ip!=$one['ip'])
 				{
-					$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'login SET ip=? WHERE id=? AND device=? AND browser=? AND code=?');
+					$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'login SET ip=? WHERE id=? AND device=? AND browser=? AND code=?');
 					$st->bindValue(1,$ip);
 					$st->bindValue(2,intval((($cookie['id']!='') ? $cookie['id'] : -1)));
 					$st->bindValue(3,jry_wb_get_device(true,$user_agent));
@@ -50,7 +50,7 @@
 				$user=NULL;
 			else
 			{
-				$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE id=? LIMIT 1');
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id=? LIMIT 1');
 				$st->bindValue(1,$user['id']);
 				$st->execute();				
 				$datas=$st->fetchAll();
@@ -59,7 +59,7 @@
 				else
 				{
 					$user=array_merge($user,$datas[0]);
-					$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_manage_system').'competence WHERE type=? LIMIT 1');
+					$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence WHERE type=? LIMIT 1');
 					$st->bindValue(1,$user['type']);
 					$st->execute();
 					$datas=$st->fetchAll();
@@ -79,7 +79,7 @@
 		}
 		else
 		{
-			$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
 			$st->bindValue(1,$user['id']);
 			$st->execute();
 			$user['ips']=$st->fetchAll();	

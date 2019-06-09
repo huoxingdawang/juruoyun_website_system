@@ -10,7 +10,7 @@
 			echo json_encode(array('code'=>false,'reason'=>400000));
 			exit();
 		}
-		$cmd="UPDATE ".constant('jry_wb_database_general')."users SET ";
+		$cmd="UPDATE ".JRY_WB_DATABASE_GENERAL."users SET ";
 		foreach ($_POST as $key => $value) 
 			$cmd.='`'.(preg_replace('/[^a-zA-Z]/','',urldecode($key))."`=?,");
 		$cmd.=" lasttime=? WHERE id=? LIMIT 1;";
@@ -29,13 +29,13 @@
 	}else if($_GET['action']=='name_not_ok')
 	{
 		$id=(int)$_GET['id'];		
-		$cmd="UPDATE ".constant('jry_wb_database_general')."users SET `use`=0 , `lasttime`=? WHERE id=? LIMIT 1;";
+		$cmd="UPDATE ".JRY_WB_DATABASE_GENERAL."users SET `use`=0 , `lasttime`=? WHERE id=? LIMIT 1;";
 		$conn2=jry_wb_connect_database();
 		$st = $conn2->prepare($cmd);
 		$st->bindParam(1,jry_wb_get_time());
 		$st->bindParam(2,$id);
 		$st->execute();
-		$cmd="SELECT mail,name,id FROM ".constant('jry_wb_database_general')."users WHERE id=? LIMIT 1;";
+		$cmd="SELECT mail,name,id FROM ".JRY_WB_DATABASE_GENERAL."users WHERE id=? LIMIT 1;";
 		$st = $conn2->prepare($cmd);
 		$st->bindParam(1,$id);		
 		$st->execute();
@@ -54,7 +54,7 @@
 			echo json_encode(array('code'=>false,'reason'=>300001));			
 	}else if($_GET['action']=='bangyouxiang')
 	{
-		$q='SELECT tel,name FROM '.constant('jry_wb_database_general').'users WHERE id = ?';
+		$q='SELECT tel,name FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id = ?';
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$_GET['id']);
 		$st->execute();	
@@ -68,7 +68,7 @@
 	{
 		$conn2=jry_wb_connect_database();		
 		$id=(int)$_GET['id'];
-		$cmd="SELECT mail,name,id FROM ".constant('jry_wb_database_general')."users WHERE id=? LIMIT 1;";
+		$cmd="SELECT mail,name,id FROM ".JRY_WB_DATABASE_GENERAL."users WHERE id=? LIMIT 1;";
 		$st = $conn2->prepare($cmd);
 		$st->bindParam(1,$id);		
 		$st->execute();
@@ -122,7 +122,7 @@
 				if($key==$one['key'])
 					echo '<td>'.iconv('utf-8','gbk',$one['name']).'</td>';
 		echo '</tr>';
-		$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'users WHERE `type`=? ORDER BY id');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE `type`=? ORDER BY id');
 		$st->bindValue(1,4);
 		$st->execute();			
 		foreach($st->fetchAll() as $user)

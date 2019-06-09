@@ -14,7 +14,7 @@
 	$redis=new Redis;
 	$redis->connect('127.0.0.1',6379);	
 	$conn=jry_wb_connect_database();
-	$st =$conn->prepare("SELECT * FROM ".constant('jry_wb_database_log')."socket ORDER BY log_socket_id DESC LIMIT ".($argv[1]==''?50:((int)$argv[1])));
+	$st =$conn->prepare("SELECT * FROM ".JRY_WB_DATABASE_LOG."socket ORDER BY log_socket_id DESC LIMIT ".($argv[1]==''?50:((int)$argv[1])));
 	$st->execute();			
 	$data=$st->fetchAll();
 	$data=array_reverse($data);
@@ -24,7 +24,7 @@
 	{
 		if($message=$redis->lpop('log'))
 		{
-			$st =$conn->prepare("INSERT INTO ".constant('jry_wb_database_log')."socket (`data`) VALUES(?)");
+			$st =$conn->prepare("INSERT INTO ".JRY_WB_DATABASE_LOG."socket (`data`) VALUES(?)");
 			$st->bindParam(1,$message);
 			$st->execute();			
 			echo $message."\n";

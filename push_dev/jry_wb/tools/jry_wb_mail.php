@@ -38,7 +38,7 @@
 		$code=jry_wb_get_random_string(100);
 		$code=md5($mail.$code.jry_wb_get_time());
 		$conn=jry_wb_connect_database();
-		$q = "INSERT INTO ".constant('jry_wb_database_general')."mail_code (mail,code,time) VALUES (?,?,?)";
+		$q = "INSERT INTO ".JRY_WB_DATABASE_GENERAL."mail_code (mail,code,time) VALUES (?,?,?)";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$mail);
 		$st->bindParam(2,$code);
@@ -50,7 +50,7 @@
 	{
 		$code=jry_wb_get_random_string(6);
 		$conn=jry_wb_connect_database();
-		$q = "INSERT INTO ".constant('jry_wb_database_general')."mail_code (mail,code,time) VALUES (?,?,?)";
+		$q = "INSERT INTO ".JRY_WB_DATABASE_GENERAL."mail_code (mail,code,time) VALUES (?,?,?)";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$mail);
 		$st->bindParam(2,$code);

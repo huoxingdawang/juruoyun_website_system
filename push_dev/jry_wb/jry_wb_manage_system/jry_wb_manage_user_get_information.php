@@ -5,7 +5,7 @@
 	if($action=='list')
 	{
 		$conn2=jry_wb_connect_database();
-		$st = $conn2->prepare('SELECT * FROM '.constant('jry_wb_database_manage_system').'competence INNER JOIN '.constant('jry_wb_database_general').'users  ON ('.constant('jry_wb_database_general_prefix').'users.type = '.constant('jry_wb_database_manage_system_prefix').'competence.type AND lasttime>?) ORDER BY id');
+		$st = $conn2->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence INNER JOIN '.JRY_WB_DATABASE_GENERAL.'users  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.type = '.JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX.'competence.type AND lasttime>?) ORDER BY id');
 		$st->bindParam(1,urldecode($_GET['lasttime']));
 		$st->execute();
 		$i=0;

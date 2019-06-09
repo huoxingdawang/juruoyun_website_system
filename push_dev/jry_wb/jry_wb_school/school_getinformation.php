@@ -9,7 +9,7 @@
 		{
 			
 		}
-		$q='SELECT * FROM '.constant('jry_wb_school').'list ';
+		$q='SELECT * FROM '.JRY_WB_DATABASE_SCHOOL.'list ';
 		$st = $conn2->prepare($q);
 		$st->execute();	
 		$data=[];

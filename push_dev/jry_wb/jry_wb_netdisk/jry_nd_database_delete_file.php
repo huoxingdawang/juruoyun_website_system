@@ -2,7 +2,7 @@
 	include_once('jry_nd_database_include.php');
 	function jry_nd_database_delete_file_file_id($conn,$file_id)
 	{
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_netdisk').'file_list SET size=? , `delete`=? ,lasttime=? ,extern=? WHERE `file_id`=?');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_NETDISK.'file_list SET size=? , `delete`=? ,lasttime=? ,extern=? WHERE `file_id`=?');
 		$st->bindValue(1,0);
 		$st->bindValue(2,1);
 		$st->bindValue(3,jry_wb_get_time());

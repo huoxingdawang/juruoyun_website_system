@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once(constant('jry_wb_local_dir')."/jry_wb_tp_sdk/qq/oauth/qqConnectAPI.php");
+	include_once(JRY_WB_LOCAL_DIR."/jry_wb_tp_sdk/qq/oauth/qqConnectAPI.php");
 	$qc = new QC();
 	$data=(array('access_token'=>$qc->qq_callback(),'openid'=>$qc->get_openid()));
 	$qc = new QC($data['access_token'],$data['openid']);
@@ -11,9 +11,9 @@
 	if($jry_wb_login_user['id']==-1)
 	{
 		$type=4;
-		require(constant('jry_wb_local_dir')."/jry_wb_mainpages/do_login.php");
+		require(JRY_WB_LOCAL_DIR."/jry_wb_mainpages/do_login.php");
 		$conn=jry_wb_connect_database();
-		$q ="update ".constant('jry_wb_database_general')."users set oauth_qq=?,lasttime=? where id=? ";
+		$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_qq=?,lasttime=? where id=? ";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,json_encode($data));		
 		$st->bindParam(2,jry_wb_get_time());
@@ -22,7 +22,7 @@
 		exit();
 	}
 	$conn=jry_wb_connect_database();
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general')."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
 	$st->bindParam(1,$open_id);
 	$st->bindParam(2,$access_token);
 	$st->execute();
@@ -40,7 +40,7 @@
 		exit();
 	}
 	$conn=jry_wb_connect_database();
-	$q ="update ".constant('jry_wb_database_general')."users set oauth_qq=?,lasttime=? where id=? ";
+	$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_qq=?,lasttime=? where id=? ";
 	$st = $conn->prepare($q);
 	$st->bindParam(1,json_encode($data));		
 	$st->bindParam(2,jry_wb_get_time());

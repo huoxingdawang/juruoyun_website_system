@@ -9,7 +9,7 @@
 		if($user['green_money']+$money<0)
 			return false;
 		jry_wb_echo_log(constant('jry_wb_log_type_green_money'),array('money'=>$money,'by'=>$by));
-		$st = $conn->prepare('UPDATE '.constant('jry_wb_database_general').'users set greendate=?, green_money=green_money+?,lasttime=? where id=? ');
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users set greendate=?, green_money=green_money+?,lasttime=? where id=? ');
 		if(constant('jry_wb_log_type_green_money_login_add')==$by)
 			$st->bindParam(1,$user['greendate']=jry_wb_get_time());
 		else

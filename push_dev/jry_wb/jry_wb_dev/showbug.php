@@ -20,7 +20,7 @@
 <td width='*'>回复内容</td>
 </tr>
 <?php
-	$st = $conn->prepare('SELECT * FROM '.constant('jry_wb_database_general').'bug');
+	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'bug');
 	$st->execute();
 	foreach ($st->fetchAll() as $one)
 	{
