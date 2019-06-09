@@ -8,10 +8,10 @@
 		$mailer=new PHPMailer();
 		$mailer->CharSet = 'UTF-8';
 		$mailer->isSMTP();
-		$mailer->Host=constant('jry_wb_mail_phpmailer_host');
+		$mailer->Host=JRY_WB_MAIL_PHPMAILER_HOST;
 		$mailer->SMTPAuth=true;
-		$mailer->Username=constant('jry_wb_mail_phpmailer_user');
-		$mailer->Password=constant('jry_wb_mail_phpmailer_password');
+		$mailer->Username=JRY_WB_MAIL_PHPMAILER_USER;
+		$mailer->Password=JRY_WB_MAIL_PHPMAILER_PASSWORD;
 		$mailer->SMTPSecure='ssl';
 		$mailer->Port = 465;
 		$mailer->SMTPOptions = array(
@@ -21,9 +21,9 @@
 			'allow_self_signed' => true
 			)
 		);		
-		$mailer->setFrom(constant('jry_wb_mail_phpmailer_user'),JRY_WB_NAME);
-		$mailer->addAddress($to,constant('jry_wb_mail_phpmailer_to'));
-		$mailer->addReplyTo(constant('jry_wb_mail_phpmailer_replay'),constant('jry_wb_mail_phpmailer_replay_name'));
+		$mailer->setFrom(JRY_WB_MAIL_PHPMAILER_USER,JRY_WB_NAME);
+		$mailer->addAddress($to,JRY_WB_MAIL_PHPMAILER_TO);
+		$mailer->addReplyTo(JRY_WB_MAIL_PHPMAILER_REPLAY,JRY_WB_MAIL_PHPMAILER_REPLAY_NAME);
 
 		$mailer->isHTML(true); 
 

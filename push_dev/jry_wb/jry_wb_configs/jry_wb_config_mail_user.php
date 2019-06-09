@@ -1,3 +1,3 @@
 <?php
-	define('jry_wb_mail_switch','phpmailer');
+	define('JRY_WB_MAIL_SWITCH','phpmailer');
 ?>

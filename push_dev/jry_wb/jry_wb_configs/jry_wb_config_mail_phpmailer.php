@@ -1,8 +1,14 @@
 <?php
-	define('jry_wb_mail_phpmailer_password'		,'');			//smtp密码
-	define('jry_wb_mail_phpmailer_user'			,'');//smtp用户
-	define('jry_wb_mail_phpmailer_host'			,'');	//smtp服务器
-	define('jry_wb_mail_phpmailer_to'			,'');//发件名称
-	define('jry_wb_mail_phpmailer_replay'		,constant('jry_wb_mail_phpmailer_user'));//回复用户
-	define('jry_wb_mail_phpmailer_replay_name'	,'');//回复名称
+//smtp密码
+	define('JRY_WB_MAIL_PHPMAILER_PASSWORD'		,'');
+//smtp用户
+	define('JRY_WB_MAIL_PHPMAILER_USER'			,'');
+//smtp服务器
+	define('JRY_WB_MAIL_PHPMAILER_HOST'			,'');
+//发件名称
+	define('JRY_WB_MAIL_PHPMAILER_TO'			,'');
+//回复用户
+	define('JRY_WB_MAIL_PHPMAILER_REPLAY'		,'');
+//回复用户名称
+	define('JRY_WB_MAIL_PHPMAILER_REPLAY_NAME'	,'');
 ?>

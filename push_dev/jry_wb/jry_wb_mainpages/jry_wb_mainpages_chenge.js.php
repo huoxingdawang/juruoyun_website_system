@@ -1077,7 +1077,7 @@ function showmail()
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
 	button.type='button';
 	button.innerHTML='获取验证码';
-<?php if(constant('jry_wb_mail_switch')!=''&&constant('jry_wb_mail_switch')!=''){?>
+<?php if(JRY_WB_MAIL_SWITCH!=''&&JRY_WB_MAIL_SWITCH!=''){?>
 	button.innerHTML='获取验证码';
 <?php }else{ ?>
 	button.innerHTML='提交';
@@ -1085,17 +1085,17 @@ function showmail()
 	button.onclick=function()
 	{
 		if(mail.value==jry_wb_login_user.mail)
-		return jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+		return jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
 		if(!jry_wb_test_mail(mail.value))
-		return jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
-		jry_wb_ajax_load_data('do_chenge.php?action=<?php if(constant('jry_wb_mail_switch')!=''){?>send_mail<?php }else{ ?>mail<?php } ?>',function (data)
+		return jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+		jry_wb_ajax_load_data('do_chenge.php?action=<?php if(JRY_WB_MAIL_SWITCH!=''){?>send_mail<?php }else{ ?>mail<?php } ?>',function (data)
 		{
 			data=JSON.parse(data);
 			jry_wb_loading_off();
 			if(data.code)	
-			jry_wb_beautiful_alert.alert('<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>成功',mail.value,function()
+			jry_wb_beautiful_alert.alert('<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>成功',mail.value,function()
 			{
-<?php if(constant('jry_wb_mail_switch')!=''&&constant('jry_wb_mail_switch')!=''){?>
+<?php if(JRY_WB_MAIL_SWITCH!=''&&JRY_WB_MAIL_SWITCH!=''){?>
 					if(mail.value.includes("@163.com"))
 						window.open("https://mail.163.com/");
 					else if(mail.value.includes("@qq.com"))
@@ -1112,17 +1112,17 @@ function showmail()
 					else if(data.reason==100001)
 						jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
 					if(data.reason==100005)
-						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+						jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码大小写",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
 					else if(data.reason==100002)
-						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
+						jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","请检查验证码,点击图片可以换一张哦",function(){vcode.focus();vcode.style.border="5px solid #ff0000",vcode.style.margin="0px 0px";});
 					else if(data.reason==100004)
-						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+						jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","并没有修改",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
 					else if(data.reason==100014)
-						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+						jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","错误的格式",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
 					else if(data.reason==100015)
-						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","别人绑定过了",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
+						jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","别人绑定过了",function(){mail.focus();mail.style.border="5px solid #ff0000",mail.style.margin="0px 0px";});
 					else if(data.reason==100016)
-						jry_wb_beautiful_alert.alert("<?php if(constant('jry_wb_mail_switch')!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","配置错误，请联系开发组");				
+						jry_wb_beautiful_alert.alert("<?php if(JRY_WB_MAIL_SWITCH!=''){?>发送<?php }else{ ?>修改<?php } ?>失败","配置错误，请联系开发组");				
 					else
 						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 					return ;

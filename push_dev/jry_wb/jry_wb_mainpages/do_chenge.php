@@ -247,7 +247,7 @@
 		}
 		else if($_GET['action']=='send_mail')
 		{
-			if(constant('jry_wb_mail_switch')=='')
+			if(JRY_WB_MAIL_SWITCH=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{
@@ -271,7 +271,7 @@
 		}		
 		else if($_GET['action']=='mail')
 		{
-			if(constant('jry_wb_mail_switch')=='')
+			if(JRY_WB_MAIL_SWITCH=='')
 			{
 				$mail=$_POST['mail'];
 				if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
@@ -342,7 +342,7 @@
 			$st->bindParam(2,jry_wb_get_time());
 			$st->bindParam(3,$jry_wb_login_user['id']);
 			$st->execute();
-			if(constant('jry_wb_mail_switch')=='')
+			if(JRY_WB_MAIL_SWITCH=='')
 			{
 				echo json_encode(array('code'=>true,'mail'=>$mail,'jry_wb_gravatar_user_head'=>$jry_wb_gravatar_user_head,'head'=>($set_head==''?'':($jry_wb_login_user['sex']==0?JRY_WB_DEFULT_WOMAN_PICTURE:JRY_WB_DEFULT_MAN_PICTURE))));
 			}

@@ -169,7 +169,7 @@
 		$jry_wb_login_user['id']=$conn->lastInsertId();
 		if(JRY_WB_CHECK_MAIL_SWITCH)
 		{		
-			if(constant('jry_wb_mail_switch')!='')
+			if(JRY_WB_MAIL_SWITCH!='')
 			{
 				jry_wb_send_mail_code($_POST['mail'],"jry_wb_mainpages/do_chenge.php?action=mail&");
 				$send=true;	

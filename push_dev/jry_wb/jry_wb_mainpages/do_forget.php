@@ -32,7 +32,7 @@
 		}
 		else if($action=='send_mail')
 		{
-			if(constant('jry_wb_mail_switch')=='')
+			if(JRY_WB_MAIL_SWITCH=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));	
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{
@@ -100,7 +100,7 @@
 		}
 		else if($action=='chenge_password'&&$_GET['type']=='mail')
 		{
-			if(constant('jry_wb_mail_switch')=='')
+			if(JRY_WB_MAIL_SWITCH=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));		
 			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
 			{

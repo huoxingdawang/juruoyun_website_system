@@ -20,7 +20,7 @@
 				<input type="radio" name="type" value="1" onchange='by_tel()' <?php if($flag) echo 'checked'; ?>/>
 				手机号&nbsp;
 <?php $flag=false;} ?>
-<?php if(constant('jry_wb_mail_switch')!=''&&constant('jry_wb_mail_switch')!=''){?>			
+<?php if(JRY_WB_MAIL_SWITCH!=''&&JRY_WB_MAIL_SWITCH!=''){?>			
 				<input type="radio" name="type" value="2" onchange='by_mail()' <?php if($flag) echo 'checked'; ?>/>
 				邮箱
 <?php $flag=false;} ?>
@@ -265,7 +265,7 @@ function by_tel()
 }
 <?php if($flag) echo 'by_tel();'; ?>
 <?php $flag=false;} ?>
-<?php if(constant('jry_wb_mail_switch')!=''&&constant('jry_wb_mail_switch')!=''){?>
+<?php if(JRY_WB_MAIL_SWITCH!=''&&JRY_WB_MAIL_SWITCH!=''){?>
 function by_mail()
 {
 	if(area.getAttribute('type')=='mail')
