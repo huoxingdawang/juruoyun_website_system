@@ -310,7 +310,7 @@ function jry_wb_update_user(user,mode)
 {
 	if(mode==undefined||mode=='head')
 		for(var all=document.getElementsByName('jry_wb_user_head_'+user.id),i=0,n=all.length,head=jry_wb_get_user_head(user);i<n;i++)
-			all[i].src=head;
+			jry_wb_set_user_head_special(user,all[i]);
 }
 function jry_wb_get_user_head(user)
 {

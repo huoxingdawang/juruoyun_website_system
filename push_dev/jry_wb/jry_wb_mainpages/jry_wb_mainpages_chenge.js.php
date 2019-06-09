@@ -1504,9 +1504,7 @@ function showspecialfact()
 				else
 					window.follow_mouth.close();
 <?php } ?>
-				for(var all=document.getElementsByTagName('img'),i=0,n=all.length;i<n;i++)
-					if(all[i].src==jry_wb_login_user.head)
-						jry_wb_set_user_head_special(jry_wb_login_user,all[i]);
+				jry_wb_update_user(jry_wb_login_user,'head');
 				jry_wb_beautiful_alert.alert('修改成功','',function(){showspecialfact();});
 			}
 			else
