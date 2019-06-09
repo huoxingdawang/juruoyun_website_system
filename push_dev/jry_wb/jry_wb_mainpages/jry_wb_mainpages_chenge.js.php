@@ -183,14 +183,14 @@ function show()
 		}
 		<?php } ?>
 		<?php if(constant('jry_wb_tp_github_oauth_config_client_id')!=''){ ?>
-		if(jry_wb_login_user.oauth_gitee!=null)
+		if(jry_wb_login_user.oauth_github!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_login_user.oauth_gitee.avatar_url;
+			img2.src=jry_wb_login_user.oauth_github.avatar_url;
 			var td=document.createElement("td"); tr.appendChild(td);
 			if(jry_wb_login_user.head.type=='github')
 				td.innerHTML='正在使用';
@@ -225,8 +225,8 @@ function show()
 			}
 		}
 		<?php } ?>
-		<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
-		if(jry_wb_login_user.oauth_gitee!=null!='')
+		<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
+		if(jry_wb_login_user.oauth_gitee!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
@@ -1763,7 +1763,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_qq=null;
-					jry_wb_login_user.head.type='default';
+					if(jry_wb_login_user.head.type=='qq')
+						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
@@ -1826,7 +1827,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_github=null;
-					jry_wb_login_user.head.type='default';
+					if(jry_wb_login_user.head.type=='github')
+						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
@@ -1889,7 +1891,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_mi=null;
-					jry_wb_login_user.head.type='default';
+					if(jry_wb_login_user.head.type=='mi')					
+						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
@@ -1908,7 +1911,7 @@ function tp_in()
 		};
 	}
 	<?php } ?>
-	<?php if(constant('jry_wb_tp_gitee_oauth_config_client_id')!=''){ ?>
+	<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
@@ -1952,7 +1955,8 @@ function tp_in()
 				if(data.code)
 				{
 					jry_wb_login_user.oauth_gitee=null;
-					jry_wb_login_user.head.type='default';
+					if(jry_wb_login_user.head.type=='gitee')
+						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
 					tp_in();
 					jry_wb_beautiful_alert.alert("操作成功","");
