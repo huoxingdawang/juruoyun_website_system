@@ -31,7 +31,7 @@
 		
 		
 		
-		$qianzhui=$data[0]['config_message']->dir.constant('jry_nd_upload_file_prefix');
+		$qianzhui=$data[0]['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX;
 		$b=mb_strpos($dir,$qianzhui)+mb_strlen($qianzhui);
 		$e=mb_strpos($dir,"_jryupload")-$b;
 		$file_id=mb_substr($dir,$b,$e);

@@ -26,7 +26,7 @@
 		$st->bindValue(8,0);
 		$st->execute();
 		$file_id=$conn->lastInsertId();		
-		$file_name=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file_id.'_jryupload';
+		$file_name=$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file_id.'_jryupload';
 		echo $filename.'&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;&nbsp;'.$file_name.'<br>';
 		$dst=fopen($file_name, 'wb');
 		$src=fopen($filename, 'rb');

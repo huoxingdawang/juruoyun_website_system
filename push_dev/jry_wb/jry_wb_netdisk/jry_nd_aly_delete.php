@@ -9,7 +9,7 @@
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));		
 		try
 		{
-			$connect->deleteObject($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload');					
+			$connect->deleteObject($area['config_message']->bucket,$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload');					
 		}
 		catch(OssException $e)
 		{

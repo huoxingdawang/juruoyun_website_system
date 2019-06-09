@@ -38,8 +38,8 @@
 	});
 	var jry_nd_share_mode_flag=false;
 	var jry_nd_fast_save_message=JSON.parse('<?php  echo json_encode($data);?>');
-	var jry_nd_price_fast_size=JSON.parse('<?php  echo constant('jry_nd_price_fast_size');?>');
-	var jry_nd_price_size=JSON.parse('<?php  echo constant('jry_nd_price_size');?>');
+	var jry_nd_price_fast_size=JSON.parse('<?php  echo JRY_ND_PRICE_FAST_SIZE;?>');
+	var jry_nd_price_size=JSON.parse('<?php  echo JRY_ND_PRICE_SIZE;?>');
 </script>
 <div class="jry_wb_netdisk_body" id="body">
 

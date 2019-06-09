@@ -30,12 +30,12 @@
 					if($area['fast'])
 					{
 						if($area['type']==1)
-							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'.$file['extern']->open);
+							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['config_message']->bucket,$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'.$file['extern']->open);
 					}
 					else
 					{
 						if($area['faster_area']['type']==1)
-							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['faster_area']['config_message']->bucket,$area['faster_area']['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'.$file['extern']->open);
+							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['faster_area']['config_message']->bucket,$area['faster_area']['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'.$file['extern']->open);
 					}
 				}
 				if($file['extern']->download!='')
@@ -43,12 +43,12 @@
 					if($area['fast'])
 					{
 						if($area['type']==1)
-							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['config_message']->bucket,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'.$file['extern']->download);
+							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['config_message']->bucket,$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'.$file['extern']->download);
 					}
 					else
 					{
 						if($area['faster_area']['type']==1)
-							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['faster_area']['config_message']->bucket,$area['faster_area']['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'.$file['extern']->download);
+							jry_nd_aly_connect_in_by_area($area['faster_area'])->deleteObject($area['faster_area']['config_message']->bucket,$area['faster_area']['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'.$file['extern']->download);
 					}					
 				}				
 			}catch (jry_wb_exception $e){}

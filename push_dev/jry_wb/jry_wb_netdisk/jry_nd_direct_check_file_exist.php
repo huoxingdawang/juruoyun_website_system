@@ -5,7 +5,7 @@
 	use OSS\Core\OssException;
 	function jry_nd_direct_check_file_exist($area,$file,$action='')
 	{		
-		$file_name=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload';
+		$file_name=$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload';
 		if($action=='open')
 			$file_name.=$file['extern']->open;
 		else if($action=='download')

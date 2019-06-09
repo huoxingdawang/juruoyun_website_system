@@ -53,14 +53,14 @@
 					$ossclient_in	=jry_nd_aly_connect_in_by_area($area['faster_area']);
 					$ossclient		=jry_nd_aly_connect_out_by_area($area['faster_area']);
 					if(($new=jry_nd_direct_check_new_fast($area,$file,$action))!==true)
-						$tobject=$area['faster_area']['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'.$new;
+						$tobject=$area['faster_area']['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'.$new;
 					if($new===true)
 					{
 						$code=jry_nd_aly_upload_fast_buf($ossclient_in,$area,$file);
 						jry_nd_database_set_file_extern($conn,$file,$action,$code);
-						$tobject=$area['faster_area']['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'.$code;					
+						$tobject=$area['faster_area']['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'.$code;					
 					}
-					$time=$file['size']/constant('jry_nd_min_speed');
+					$time=$file['size']/JRY_ND_MIN_SPEED;
 					$time=max($time,60*5);
 					if($time<60)
 						$time='+'.$time.' seconds';
@@ -91,10 +91,10 @@
 				{
 					$ossclient_in	=jry_nd_aly_connect_in_by_area($area);
 					$ossclient		=jry_nd_aly_connect_out_by_area($area);
-					$fromobject=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload';
+					$fromobject=$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload';
 					if(($new=jry_nd_direct_check_new_fast($area,$file,$action))!==true)
 						$tobject=$fromobject.$new;
-					$time=$file['size']/constant('jry_nd_min_speed');
+					$time=$file['size']/JRY_ND_MIN_SPEED;
 					$time=max($time,60*5);
 					if($time<60)
 						$time='+'.$time.' seconds';
@@ -206,13 +206,13 @@
 					{
 						jry_nd_database_delete_file_file_id($conn,$file['file_id']);
 						jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,0,-$file['size']);	
-						unlink($area['config_message']->dir. constant('jry_nd_upload_file_prefix').$file['file_id'].'-'.$_POST['index']);
+						unlink($area['config_message']->dir. JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'-'.$_POST['index']);
 					}
 					if($area!=null)
 						jry_nd_database_operate_area_size($conn,$area,-$file['size']);
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200004,'file'=>__FILE__,'line'=>__LINE__)));
 				}
-				move_uploaded_file($_FILES['file']['tmp_name'],$area['config_message']->dir. constant('jry_nd_upload_file_prefix').$file['file_id'].'-'.$_POST['index']);
+				move_uploaded_file($_FILES['file']['tmp_name'],$area['config_message']->dir. JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'-'.$_POST['index']);
 			}
 			else
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
@@ -246,7 +246,7 @@
 						{
 							if($area['type']==0)
 							{
-								$target=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$data[0]['file_id'].'-';
+								$target=$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$data[0]['file_id'].'-';
 								for($i=0;$i<$_POST['index'];$i++) 
 									unlink($target.$i);
 							}
@@ -260,8 +260,8 @@
 				$size=0;
 				if($area['type']==0)
 				{
-					$target=$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'-';
-					$dst=fopen($area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload','wb');
+					$target=$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'-';
+					$dst=fopen($area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload','wb');
 					for($i=0;$i<$_POST['index'];$i++) 
 					{
 						$slice=$target.$i;
@@ -277,7 +277,7 @@
 				{
 					
 					$ossclient=jry_nd_aly_connect_in_by_area($area);
-					if(!jry_nd_aly_check_file_exist($ossclient,$area,$area['config_message']->dir.constant('jry_nd_upload_file_prefix').$file['file_id'].'_jryupload'))
+					if(!jry_nd_aly_check_file_exist($ossclient,$area,$area['config_message']->dir.JRY_ND_UPLOAD_FILE_PREFIX.$file['file_id'].'_jryupload'))
 						throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>220002,'file'=>__FILE__,'line'=>__LINE__)));
 					$size=jry_nd_aly_get_size($ossclient,$area,$file);
 				}
@@ -388,7 +388,7 @@
 	{
 		$size=(int)$_GET['size'];
 		$size=max(0,$size);
-		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/constant('jry_nd_price_size')),constant('jry_wb_log_type_green_money_pay_nd_size')))
+		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_SIZE),constant('jry_wb_log_type_green_money_pay_nd_size')))
 			jry_nd_database_operate_user_size($conn,$jry_wb_login_user,$size);
 		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'green_money'=>$jry_wb_login_user['green_money']));
 	}
@@ -396,7 +396,7 @@
 	{
 		$size=(int)$_GET['size'];
 		$size=max(0,$size);
-		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/constant('jry_nd_price_fast_size')),constant('jry_wb_log_type_green_money_pay_nd_size')))
+		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_FAST_SIZE),constant('jry_wb_log_type_green_money_pay_nd_size')))
 			jry_nd_database_operate_user_fast($conn,$jry_wb_login_user,$size);
 		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'fast_size'=>$jry_wb_login_user['nd_ei']['fast_size'],'green_money'=>$jry_wb_login_user['green_money']));		
 	}	
