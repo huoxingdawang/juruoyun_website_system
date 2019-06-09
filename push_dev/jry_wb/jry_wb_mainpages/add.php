@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
+	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");
 	jry_wb_print_head("注册",false,false,true);
 	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)
 	{
@@ -15,7 +15,7 @@
 </div>
 <div align="center" >
 	<table  border="1" cellspacing="0" cellpadding="0">
-<?php foreach($jry_wb_config_user_extern_message as $one)if($one['type']=='cutter'&&$one['before']===true){?>
+<?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']=='cutter'&&$one['before']===true){?>
 		<tr>
 			<td colspan='2' style='text-align:center;'><h56><?php echo $one['name']; ?></h56></td>
 		</tr>			
@@ -79,7 +79,7 @@
 		</tr>
 <?php } ?>			
 <?php
-	foreach($jry_wb_config_user_extern_message as $one)
+	foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)
 	{
 ?>
 		<?php if($one['type']=='cutter'){if($one['before']!==true){?>

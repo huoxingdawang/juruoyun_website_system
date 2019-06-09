@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
+	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");	
 	try{jry_wb_check_compentence(NULL,array('use','manage','manageusers'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	if($_GET['action']=='')
 	{
@@ -116,8 +116,8 @@
 		$extern_keys=['school','qq','china_id','parent_china_id','parent_tel','parent_name','guanxi','zhiyuan1','zhiyuan2','zhiyuan3','chifan','zhusu'];
 		echo '<tr>';
 		foreach($keys as $key)
-			echo '<td>'.iconv('utf-8','gbk',$jry_wb_config_user_name[$key]).'</td>';
-		foreach($jry_wb_config_user_extern_message as $one)
+			echo '<td>'.iconv('utf-8','gbk',$JRY_WB_CONFIG_USER_NAME[$key]).'</td>';
+		foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)
 			foreach($extern_keys as $key)
 				if($key==$one['key'])
 					echo '<td>'.iconv('utf-8','gbk',$one['name']).'</td>';
@@ -140,7 +140,7 @@
 					echo '<td style="vnd.ms-excel.numberformat:@">'.iconv('utf-8','gbk',$user[$key]).'</td>';
 				else
 					echo '<td style="vnd.ms-excel.numberformat:@">'.$user[$key].'</td>';
-			foreach($jry_wb_config_user_extern_message as $one)
+			foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)
 				foreach($extern_keys as $key)
 					if($key==$one['key'])
 					{

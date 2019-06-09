@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
+	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");	
 	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)
 	{
 		?><script>window.location="<?php echo JRY_WB_HOST_ADDRESS?>mainpages/add.php"</script><?php
@@ -99,7 +99,7 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
 
 		}
-		foreach($jry_wb_config_user_extern_message as $one)
+		foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)
 		{
 			if($one['type']=='cutter')
 				continue;

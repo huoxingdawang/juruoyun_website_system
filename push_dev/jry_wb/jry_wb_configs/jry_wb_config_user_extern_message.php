@@ -1,8 +1,8 @@
 <?php  
-	$jry_wb_config_user_extern_message=array(
+	$JRY_WB_CONFIG_USER_EXTERN_MESSAGE=array(
 	
 	);
-	$jry_wb_config_user_name=array(	'id'=>'ID',
+	$JRY_WB_CONFIG_USER_NAME=array(	'id'=>'ID',
 									'type'=>'类型',
 									'tel'=>'电话',
 									'mail'=>'邮箱',

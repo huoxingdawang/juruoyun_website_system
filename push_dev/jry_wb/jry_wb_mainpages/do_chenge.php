@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");		
+	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");		
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where time<?');
 	$st->bindParam(1,date("Y-m-d H:i:s",time()-12*60*60));
@@ -473,7 +473,7 @@
 		else if($_GET['action']=='extern')
 		{
 			$extern=json_decode(urldecode($_POST["extern"]),true);
-			foreach($jry_wb_config_user_extern_message as $one)
+			foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)
 			{
 				if($one['type']=='cutter')
 					continue;

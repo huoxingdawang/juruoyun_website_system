@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
+	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
@@ -34,7 +34,7 @@
 			<div class="jry_wb_left_toolbar_left_list_1" onClick="showcache();window.onresize();">缓存查看</div>
 			<?php $i=1;if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showmusiclist();window.onresize();">歌单管理</div><?php } ?>
 			<?php if(JRY_WB_OAUTH_SWITCH){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="tp_in();window.onresize();">第三方接入</div><?php } ?>
-			<?php if($jry_wb_config_user_extern_message!=NULL){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showextern();window.onresize();">扩展信息</div><?php } ?>
+			<?php if($JRY_WB_CONFIG_USER_EXTERN_MESSAGE!=NULL){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showextern();window.onresize();">扩展信息</div><?php } ?>
 			<?php if(!$jry_wb_login_user['use']){ ?><div class="leftlist_default" onClick="unlock()">申请解封</div><?php } ?>
 	  </td>
 		<td id="show"  valign="top"></td>
