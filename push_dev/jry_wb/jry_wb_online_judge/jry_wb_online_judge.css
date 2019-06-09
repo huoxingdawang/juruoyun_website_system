@@ -1,0 +1,32 @@
+.jry_wb_online_judge_all{border-spacing: 0px;overflow:hidden;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div
+{
+	width:61%;overflow-y:hidden;overflow-x:hidden;
+	float:left;
+}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_right_div
+{
+	width:39%;overflow-y:hidden;overflow-x:hidden;
+	float:left;
+	transition-duration: 1s;
+}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_body				{margin:5px 0px 30px 0px;background-color:#CCCCCC;overflow:hidden;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_id					{color:#33F;width:200px; border-radius:10px; padding:5px 5px 5px 5px;float:left;margin-top:5px;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_id:link				{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_id:visited			{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_id:hover			{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_id:active			{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_question			{color:#33F;padding:5px 5px 5px 5px;width:300px;float:left;margin-top:5px;} 
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_question:link		{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_question:visited	{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_question:hover		{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_question:active		{color:#33F}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_ans					{float:left;width:200px;margin-top: 5px;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_class				{color:#ff0000;background:#ffff00;margin-right:20px;padding:2px 5px 2px 5px;width:16px;float:left;margin-top:20px;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_type				{color:#ff0000;background:#ffff00;float:left;margin-top: 20px; width:60px; text-align:center;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_one_time				{padding:5px 5px 5px 5px; min-width:300px;float:right;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_right_calendar			{color:#23dd07;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_normal					{color:#33F;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_right			,.jry_wb_online_judge_all .jry_wb_online_judge_all_right_div .jry_wb_online_judge_right	{color:#23dd07;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_error			,.jry_wb_online_judge_all .jry_wb_online_judge_all_right_div .jry_wb_online_judge_error	{color:#ff0000;}
+.jry_wb_online_judge_all .jry_wb_online_judge_all_left_div .jry_wb_online_judge_nottry			,.jry_wb_online_judge_all .jry_wb_online_judge_all_right_div .jry_wb_online_judge_nottry	{color:#ddcc00;}

@@ -1,5 +1,5 @@
 //此文档相对独立不依赖缓存数据全部由后台直接提供
-function showquestion_function (area,returnaddr,clean) 
+function  jry_wb_online_judge_show_question_function(area,returnaddr,clean) 
 {
 	var t;
 	var question_struct;
@@ -12,7 +12,7 @@ function showquestion_function (area,returnaddr,clean)
 	{
 		document.getElementById('__LOAD').style.display='none';
 		this.t = JSON.parse(data); 
-		location.hash='#'+JSON.stringify({'ojquesionid':this.t.ojquestionid});
+		location.hash='#'+JSON.stringify({'jry_wb_online_judgequesionid':this.t.ojquestionid});
 		var notdoflag;
 		if(this.t.reason=='notdo')
 			notdoflag=true;
@@ -45,14 +45,14 @@ function showquestion_function (area,returnaddr,clean)
 			setTimeout(function(){jry_wb_beautiful_alert.close()},800);
 		}
 		this.question_struct.innerHTML='';
-		this.question_struct.className='oj_showquestion';
+		this.question_struct.className='jry_wb_online_judge_showquestion';
 		var message=document.createElement("input");this.question_struct.appendChild(message);
 		message.type='hidden';message.id='hidden'; 
 		message.value=JSON.stringify({ansid:this.t.ojquestionid,ojclassid:this.t.ojclassid,id:this.question_struct.id,returnaddr:this.returnaddr,questiontype:this.t.questiontype,isoption:(this.t.option!=null)});
 		message=null;
 		
 		var left_div=document.createElement("div");this.question_struct.appendChild(left_div);
-		left_div.className='oj_showquestion_left_div';
+		left_div.className='jry_wb_online_judge_showquestion_left_div';
 		
 		
 		if(this.t.error<0)
@@ -196,7 +196,7 @@ function showquestion_function (area,returnaddr,clean)
 				ans= x[0].value;				
 			}			
 			/*console.log(ans);*/
-			jry_wb_ajax_load_data("oj_checkquestion.php",
+			jry_wb_ajax_load_data("jry_wb_online_judge_checkquestion.php",
 			function (data)
 			{
 				if(showquestion==null)
@@ -219,22 +219,22 @@ function showquestion_function (area,returnaddr,clean)
 
 
 		var right_div=document.createElement("div");this.question_struct.appendChild(right_div);
-		right_div.className='oj_showquestion_right_div';
+		right_div.className='jry_wb_online_judge_showquestion_right_div';
 		var submit=document.createElement("div");right_div.appendChild(submit);
-		submit.className='h56 oj_showquestion_submit';submit.innerHTML=''+this.t.right+'/'+this.t.submit;
+		submit.className='h56 jry_wb_online_judge_showquestion_submit';submit.innerHTML=''+this.t.right+'/'+this.t.submit;
 		var reast=document.createElement("div");right_div.appendChild(reast);
-		reast.className='h56 oj_showquestion_reast';reast.innerHTML='同原因剩余:'+this.t.count;
+		reast.className='h56 jry_wb_online_judge_showquestion_reast';reast.innerHTML='同原因剩余:'+this.t.count;
 		jry_wb_get_and_show_user(right_div,this.t.ojquestionaddid,'90%',null);
 		var source=document.createElement("div");right_div.appendChild(source);
-		source.className='h56 oj_showquestion_source jry_wb_word_cut';source.innerHTML="来源:"+this.t.source;
+		source.className='h56 jry_wb_online_judge_showquestion_source jry_wb_word_cut';source.innerHTML="来源:"+this.t.source;
 		var reason=document.createElement("div");right_div.appendChild(reason);
-		reason.className='h56 oj_showquestion_reason';reason.innerHTML="原因:"+this.t.reason;
+		reason.className='h56 jry_wb_online_judge_showquestion_reason';reason.innerHTML="原因:"+this.t.reason;
 		if(!notdoflag)
 		{
 			var maxtimes=document.createElement("div");right_div.appendChild(maxtimes);
-			maxtimes.className='h56 oj_showquestion_maxtimes';maxtimes.innerHTML="最差记录:"+(this.t.maxtimes<0?('错'+(-this.t.maxtimes)):('对'+(this.t.maxtimes)))+'次';	
+			maxtimes.className='h56 jry_wb_online_judge_showquestion_maxtimes';maxtimes.innerHTML="最差记录:"+(this.t.maxtimes<0?('错'+(-this.t.maxtimes)):('对'+(this.t.maxtimes)))+'次';	
 			var times=document.createElement("div");right_div.appendChild(times);
-			times.className='h56 oj_showquestion_times';times.innerHTML="当前记录:"+(this.t.times<0?('错'+(-this.t.times)):('对'+(this.t.times)))+'次';				
+			times.className='h56 jry_wb_online_judge_showquestion_times';times.innerHTML="当前记录:"+(this.t.times<0?('错'+(-this.t.times)):('对'+(this.t.times)))+'次';				
 		}
 		
 	}
