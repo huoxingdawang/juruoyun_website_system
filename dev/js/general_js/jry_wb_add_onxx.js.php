@@ -247,4 +247,9 @@ function jry_wb_add_onbeforeunload(func)
     	window.onbeforeunload=function(event){if(oldonbeforeunload);oldonbeforeunload(event);func(event);};
 	return func;
 }
+function setinterval(func,time)
+{
+	func();
+	setInterval(func,time);
+}
 <?php if(false){ ?></script><?php } ?>

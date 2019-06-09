@@ -39,5 +39,15 @@
 		$st->bindValue(3,$user['id']);
 		$st->execute();
 		$user['nd_ei']['size_total']+=$size_total;
-	}		
+	}
+	function jry_nd_database_add_user_size($conn,&$user,$size,$endtime)
+	{
+		$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_NETDISK.'size_package (`id`,`size`,`endtime`) VALUES (?,?,?);');
+		$st->bindValue(1,$user['id']);
+		$st->bindValue(2,$size);
+		$st->bindValue(3,$endtime);
+		$st->execute();
+		jry_nd_database_operate_user_size($conn,$user,$size);
+	}
+//UPDATE netdisk_users,netdisk_size_package SET size_total =(select IFNULL(SUM(netdisk_size_package.size),0)+20480 from netdisk_size_package WHERE netdisk_users.id=netdisk_size_package.id),lasttime=NOW();	
 ?>

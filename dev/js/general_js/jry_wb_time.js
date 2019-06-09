@@ -16,23 +16,58 @@ function jry_wb_get_server_time()
 {
     return (new Date((new Date())-jry_wb_time_different));
 }
-function jry_wb_math_time(intime) 
+function jry_wb_get_day(second,all)
 {
-	var date1=jry_wb_get_server_time();
-	var date2= new Date(intime.replace(/\-/g, "/"));
-	var ms=(date2.getTime() - date1.getTime());
-	var day=parseInt(ms/(24*60*60*1000));
-	var hour=parseInt(ms/(60*60*1000))-day*24;
-	var minute=parseInt(ms/(60*1000))-hour*60-day*24*60;
-	var s = parseInt(ms/(1000))-minute*60-hour*60*60-day*24*60*60;
-	return ""+day+"-"+hour+"-"+minute+"-"+s;
+	if(isNaN(second))
+		return '';
+	if(all==undefined)
+		all=true;
+	var date='',showed=false;
+	second=Math.abs(second);
+	if(Math.floor(second/60/60/24/30/12)!=0)
+		date+=Math.floor(second/60/60/24/30/12)+'年',second-=(Math.floor(second/60/60/24/30/12)*60*60*24*30*12),showed=true;
+	if(Math.floor(second/60/60/24/30)!=0||(all&&showed))
+		date+=Math.floor(second/60/60/24/30)+'月',second-=(Math.floor(second/60/60/24/30)*60*60*24*30),showed=true;
+	if(Math.floor(second/60/60/24)!=0||(all&&showed))
+		date+=Math.floor(second/60/60/24)+'日',second-=(Math.floor(second/60/60/24)*60*60*24),showed=true;
+	if(Math.floor(second/60/60)!=0||(all&&showed))
+		date+=Math.floor(second/60/60)+'时',second-=(Math.floor(second/60/60)*60*60),showed=true;
+	if(Math.floor(second/60)!=0||(all&&showed))
+		date+=Math.floor(second/60)+'分',second-=(Math.floor(second/60)*60),showed=true;
+	if(Math.floor(second)!=0||(all&&showed))
+		date+=Math.floor(second)+'秒';
+	return date;
 }
 function jry_wb_show_time(intime,addre)
 {
-	timerid=setInterval(function()
+	if(typeof addre=='string')
+		addre=document.getElementById(addre);
+	if(typeof intime.to_time=='function')
+		intime=intime.to_time();
+	setinterval(function()
 	{
-		var date=jry_wb_math_time(intime),_date=date.split("-"),day=_date[0],hour=_date[1],minute=_date[2], s=_date[3];
-		document.getElementById(addre).innerHTML=day+"天"+hour+"时"+minute+"分"+s+"秒";
+		var date='',buf,jie;
+		var a=jry_wb_get_server_time();
+		buf=intime.getSeconds()-a.getSeconds();
+		if(buf<0)
+			buf=60+buf,jie=1;
+		else
+			jie=0;
+		date=buf+'秒'+date;
+		buf=intime.getMinutes()-a.getMinutes()-jie;
+		if(buf<0)
+			buf=60+buf,jie=1;
+		else
+			jie=0;
+		date=buf+'分'+date;
+		buf=intime.getHours()-a.getHours()-jie;
+		if(buf<0)
+			buf=24+buf,jie=1;
+		else
+			jie=0;
+		date=buf+'时'+date;
+		date=Math.floor((intime.getTime()-a.getTime()-jie)/(1000*60*60*24))+'天'+date;
+		addre.innerHTML=date;
 	},1000);
 }
 function jry_wb_compare_time(d1,d2)

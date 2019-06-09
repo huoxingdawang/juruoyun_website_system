@@ -60,7 +60,7 @@ jry_wb_add_load(function()
 		name_word.href=jry_wb_message.jry_wb_index_page;
 	}
 	if(!jry_nd_share_mode_flag)
-		progress=new jry_wb_progress_bar(left_body,left_body.clientWidth/2,jry_wb_login_user.nd_ei.size_used/jry_wb_login_user.nd_ei.size_total,jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_used)+'/'+jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_total),null,null,"jry_wb_netdisk_progress","ok",false);/*容量占用*/
+		progress=new jry_wb_progress_bar(left_body,left_body.clientWidth/2,jry_wb_login_user.nd_ei.size_used/jry_wb_login_user.nd_ei.size_total,jry_wb_get_size(jry_wb_login_user.nd_ei.size_used)+'/'+jry_wb_get_size(jry_wb_login_user.nd_ei.size_total),null,null,"jry_wb_netdisk_progress","ok",false);/*容量占用*/
 	var hr=document.createElement('div');left_body.appendChild(hr);					/*分割线*/
 	hr.classList.add('jry_wb_netdisk_hr');											/*分割线属性*/
 	var button_bar=document.createElement('div');left_body.appendChild(button_bar);	/*按钮栏*/
@@ -196,16 +196,16 @@ jry_wb_add_load(function()
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.nd_ei.group_name;
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='全部空间';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_total);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(jry_wb_login_user.nd_ei.size_total);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='已用空间';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_used);
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(jry_wb_login_user.nd_ei.size_used);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='可以上传的类型';
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.nd_ei.allow_type==-1?'全部':jry_wb_login_user.nd_ei.allow_type.toString();		
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='剩余高速下载流量';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_wb_login_user.nd_ei.fast_size);		
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(jry_wb_login_user.nd_ei.fast_size);		
 		};
 		upload_mesage_button.onclick=function()
 		{
@@ -243,7 +243,7 @@ jry_wb_add_load(function()
 				td1.classList.add('jry_wb_word_cut');
 				td1.style.width=message.clientWidth*0.25;
 				var td=document.createElement('td');tr.appendChild(td);	
-				progress_list[i]={'progress':new jry_wb_progress_bar(td,message.clientWidth*0.65,jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_nd_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_nd_get_size(jry_nd_upload_list[i].total),null,null,"progress","ok",false),'td1':td1};
+				progress_list[i]={'progress':new jry_wb_progress_bar(td,message.clientWidth*0.65,jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_get_size(jry_nd_upload_list[i].total),null,null,"progress","ok",false),'td1':td1};
 			}
 			var last=0;
 			var cnttt=[];
@@ -259,19 +259,19 @@ jry_wb_add_load(function()
 					if(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total>=1)
 					{
 						cnt++;
-						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_nd_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_nd_get_size(jry_nd_upload_list[i].total));
+						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_get_size(jry_nd_upload_list[i].total));
 						progress_list[i].td1.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
 					}
 					else if(jry_nd_upload_list[i].stopupload)
 					{
 						cnt++;
-						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_nd_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_nd_get_size(jry_nd_upload_list[i].total));
+						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_get_size(jry_nd_upload_list[i].total));
 						progress_list[i].td1.innerHTML=jry_nd_upload_list[i].fail_reason+';'+progress_list[i].td1.innerHTML;
 						progress_list[i].td1.classList.add('jry_wb_icon','jry_wb_icon_guanbi1');
 					}
 					else
 					{
-						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_nd_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_nd_get_size(jry_nd_upload_list[i].total));
+						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_get_size(jry_nd_upload_list[i].total));
 					}
 				}
 				if(last==0)
@@ -283,8 +283,8 @@ jry_wb_add_load(function()
 					cnttt.splice(0,1);
 				for(var i=0;i<cnttt.length;i++)
 					here+=cnttt[i];
-				progress_total.progress.update(loaded/total,jry_wb_nd_get_size(loaded)+'/'+jry_wb_nd_get_size(total));
-				speed.innerHTML=jry_wb_nd_get_size((here)*10/cnttt.length)+'/s'+';还要'+parseInt((total-loaded)/((here)*10/cnttt.length))+'s';
+				progress_total.progress.update(loaded/total,jry_wb_get_size(loaded)+'/'+jry_wb_get_size(total));
+				speed.innerHTML=jry_wb_get_size((here)*10/cnttt.length)+'/s'+';还要'+parseInt((total-loaded)/((here)*10/cnttt.length))+'s';
 				if(cnt==jry_nd_upload_list.length)
 				{
 					progress_total.td1.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
@@ -342,7 +342,7 @@ jry_wb_add_load(function()
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_login_user.green_money.toFixed(3);
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='今日价格';
-			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='高速流量:'+jry_wb_nd_get_size(jry_nd_price_fast_size)+'/绿币<br>'+'空间:'+jry_wb_nd_get_size(jry_nd_price_size)+'/绿币';			
+			var td=document.createElement('td');tr.appendChild(td);			td.innerHTML='高速流量:'+jry_wb_get_size(jry_nd_price_fast_size)+'/绿币<br>'+'空间:'+jry_wb_get_size(jry_nd_price_size)+'/绿币/月';			
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td1=document.createElement('td');tr.appendChild(td1);			td1.innerHTML='买流量';
 			var td=document.createElement('td');tr.appendChild(td);
@@ -350,30 +350,27 @@ jry_wb_add_load(function()
 			fast_size.value=0;
 			var span=document.createElement('span');td.appendChild(span);span.innerHTML='KB<br>';
 			var fast_size_span=document.createElement('span');td.appendChild(fast_size_span);
-			fast_size_span.innerHTML='共'+jry_wb_nd_get_size(fast_size.value)+'<br>耗费'+(fast_size.value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
+			fast_size_span.innerHTML='共'+jry_wb_get_size(fast_size.value)+'<br>耗费'+(fast_size.value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
+			fast_size_value=0;
 			fast_size.onkeyup=function()
 			{
 				if(fast_size.value=='')
 					fast_size.value=0;
-				fast_size.value=fast_size_value=Number(fast_size.value);
+				fast_size.value=fast_size_value=Math.ceil(fast_size.value);
 				if(isNaN(fast_size_value)||fast_size_value==undefined)
 					fast_size.value=0;
 				if(fast_size_value/jry_nd_price_fast_size>jry_wb_login_user.green_money)
 					fast_size_span.style.color='#ff0000';
 				else
 					fast_size_span.style.color='#000000';				
-				fast_size_span.innerHTML='共'+jry_wb_nd_get_size(fast_size_value)+'<br>耗费'+(fast_size_value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
+				fast_size_span.innerHTML='共'+jry_wb_get_size(fast_size_value)+'<br>耗费'+(fast_size_value/jry_nd_price_fast_size).toFixed(4)+'个绿币';
 			};
+			td.appendChild(document.createElement('br'));
 			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
 			button.onclick=function()
 			{
-				if(fast_size.value=='')
-					fast_size.value=0;
-				fast_size.value=fast_size_value=Number(fast_size.value);
-				if(isNaN(fast_size_value)||fast_size_value==undefined)
-					fast_size.value=0;
 				if(fast_size_value==0)
-					return;
+					return jry_wb_beautiful_right_alert.alert("无效操作",3000,"auto","error");
 				if(fast_size_value/jry_nd_price_fast_size>jry_wb_login_user.green_money)
 					return jry_wb_beautiful_right_alert.alert("余额不足",3000,"auto","error");
 				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_fast_size&size='+fast_size_value,function(data)
@@ -390,7 +387,8 @@ jry_wb_add_load(function()
 					}
 					jry_wb_login_user.nd_ei.fast_size=data.fast_size;
 					jry_wb_login_user.green_money=data.green_money;
-					green_money_button.onclick();									
+					jry_wb_beautiful_right_alert.alert("购买"+jry_wb_get_size(fast_size_value)+"高速流量成功",3000,"auto","ok");
+					green_money_button.onclick();		
 				});
 			};
 			var tr=document.createElement('tr');table.appendChild(tr);
@@ -399,34 +397,47 @@ jry_wb_add_load(function()
 			var size_total=document.createElement('input');td.appendChild(size_total);size_total.style.fontSize='16px';size_total.style.width=message.clientWidth-td1.clientWidth-50;
 			size_total.value=0;
 			var span=document.createElement('span');td.appendChild(span);span.innerHTML='KB<br>';
+			var month=document.createElement('input');td.appendChild(month);month.style.fontSize='16px';month.style.width=message.clientWidth-td1.clientWidth-50;
+			month.value=1;
+			var span=document.createElement('span');td.appendChild(span);span.innerHTML='月<br>';
 			var size_total_span=document.createElement('span');td.appendChild(size_total_span);
-			size_total_span.innerHTML='共'+jry_wb_nd_get_size(size_total.value)+'<br>耗费'+(size_total.value/jry_nd_price_size).toFixed(4)+'个绿币';
+			size_total_month=size_total_value=1;
+			size_total_span.innerHTML='共'+jry_wb_get_day(size_total_month*60*60*24*30,false)+jry_wb_get_size(size_total_value)+'存储包<br>耗费'+(size_total_value/jry_nd_price_size*size_total_month).toFixed(4)+'个绿币';
 			size_total.onkeyup=function()
 			{
 				if(size_total.value=='')
 					size_total.value=0;
-				size_total.value=size_total_value=Number(size_total.value);
+				size_total.value=size_total_value=Math.ceil(size_total.value);
 				if(isNaN(size_total_value)||size_total_value==undefined)
 					size_total.value=0;	
-				if(size_total_value/jry_nd_price_size>jry_wb_login_user.green_money)
+				if(size_total_value/jry_nd_price_size*size_total_month>jry_wb_login_user.green_money)
 					size_total_span.style.color='#ff0000';
 				else
 					size_total_span.style.color='#000000';
-				size_total_span.innerHTML='共'+jry_wb_nd_get_size(size_total_value)+'<br>耗费'+(size_total_value/jry_nd_price_size).toFixed(4)+'个绿币';
+				size_total_span.innerHTML='共'+jry_wb_get_day(size_total_month*60*60*24*30,false)+jry_wb_get_size(size_total_value)+'存储包<br>耗费'+(size_total_value/jry_nd_price_size*size_total_month).toFixed(4)+'个绿币';
 			};
+			month.onkeyup=function()
+			{
+				if(month.value=='')
+					month.value=0;
+				month.value=size_total_month=Math.ceil(month.value);
+				if(isNaN(size_total_month)||size_total_month==undefined)
+					size_total.value=0;	
+				if(size_total_value/jry_nd_price_size*size_total_month>jry_wb_login_user.green_money)
+					size_total_span.style.color='#ff0000';
+				else
+					size_total_span.style.color='#000000';				
+				size_total_span.innerHTML='共'+jry_wb_get_day(size_total_month*60*60*24*30,false)+jry_wb_get_size(size_total_value)+'存储包<br>耗费'+(size_total_value/jry_nd_price_size*size_total_month).toFixed(4)+'个绿币';
+			}
+			td.appendChild(document.createElement('br'));
 			var button=document.createElement('button');td.appendChild(button);button.innerHTML='购买';button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
 			button.onclick=function()
 			{
-				if(size_total.value=='')
-					size_total.value=0;
-				size_total.value=size_total_value=Number(size_total.value);
-				if(isNaN(size_total_value)||size_total_value==undefined)
-					size_total.value=0;
-				if(size_total_value==0)
-					return;
-				if(size_total_value/jry_nd_price_size>jry_wb_login_user.green_money)
+				if(size_total_value==0||size_total_month==0)
+					return jry_wb_beautiful_right_alert.alert("无效操作",3000,"auto","error");
+				if(size_total_value/jry_nd_price_size*size_total_month>jry_wb_login_user.green_money)
 					return jry_wb_beautiful_right_alert.alert("余额不足",3000,"auto","error");
-				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_size&size='+size_total_value,function(data)
+				jry_wb_ajax_load_data('jry_nd_do_file.php?action=add_size&size='+size_total_value+'&time='+size_total_month,function(data)
 				{
 					jry_wb_loading_off();
 					data=JSON.parse(data);
@@ -440,8 +451,9 @@ jry_wb_add_load(function()
 					}
 					jry_wb_login_user.nd_ei.size_total=data.size_total;
 					jry_wb_login_user.green_money=data.green_money;
+					progress.update(jry_wb_login_user.nd_ei.size_used/jry_wb_login_user.nd_ei.size_total,jry_wb_get_size(jry_wb_login_user.nd_ei.size_used)+'/'+jry_wb_get_size(jry_wb_login_user.nd_ei.size_total));					
+					jry_wb_beautiful_right_alert.alert("购买"+jry_wb_get_day(size_total_month*60*60*24*30,false)+jry_wb_get_size(size_total_value)+"存储空间成功",3000,"auto","ok");
 					green_money_button.onclick();
-					progress.update(jry_wb_login_user.nd_ei.size_used/jry_wb_login_user.nd_ei.size_total,jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_used)+'/'+jry_wb_nd_get_size(jry_wb_login_user.nd_ei.size_total));					
 				});
 			};			
 		};
@@ -521,7 +533,7 @@ jry_wb_add_load(function()
 								jry_wb_nd_fresh_file_list();
 							jry_wb_login_user.nd_ei.size_total=data.size_total;
 							jry_wb_login_user.nd_ei.size_used=data.size_used;
-							progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));					
+							progress.update(data.size_used/data.size_total,jry_wb_get_size(data.size_used)+'/'+jry_wb_get_size(data.size_total));					
 						},function()
 						{
 							jry_nd_upload_count--;
@@ -535,7 +547,7 @@ jry_wb_add_load(function()
 				var div = document.createElement("div"); upload_check.msgObj.appendChild(div);
 				div.style="width:100%;margin:0;padding:0;overflow:hidden;";
 				div.align='center';
-				div.innerHTML="即将上传共计"+input.files.length+"个文件到"+dir+',预计消耗'+jry_wb_nd_get_size(total_size)+'空间,剩余'+jry_wb_nd_get_size(rest)+'空间<br>';
+				div.innerHTML="即将上传共计"+input.files.length+"个文件到"+dir+',预计消耗'+jry_wb_get_size(total_size)+'空间,剩余'+jry_wb_get_size(rest)+'空间<br>';
 				div.innerHTML+="详细如下:<br>";
 				var table=document.createElement('table');div.appendChild(table);
 				var tr=document.createElement('tr');table.appendChild(tr);
@@ -545,7 +557,7 @@ jry_wb_add_load(function()
 				{
 					var tr=document.createElement('tr');table.appendChild(tr);
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=input.files[i].name;	
-					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(input.files[i].size/1024);	
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(input.files[i].size/1024);	
 				}
 			}
 			var fresh=document.createElement("div");mid_lan.appendChild(fresh);
@@ -658,8 +670,8 @@ jry_wb_add_load(function()
 						jry_wb_nd_fresh_file_list();							
 						jry_wb_login_user.nd_ei.size_total=data.size_total;
 						jry_wb_login_user.nd_ei.size_used=data.size_used;
-						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
-						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
+						progress.update(data.size_used/data.size_total,jry_wb_get_size(data.size_used)+'/'+jry_wb_get_size(data.size_total));
+						progress.update(data.size_used/data.size_total,jry_wb_get_size(data.size_used)+'/'+jry_wb_get_size(data.size_total));
 					},[{'name':'file_id','value':JSON.stringify(list)}]);					
 					delete_check.close();
 					select_delete();
@@ -678,7 +690,7 @@ jry_wb_add_load(function()
 				{
 					var tr=document.createElement('tr');table.appendChild(tr);
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_nd_selected_list[i].file.name;	
-					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(jry_nd_selected_list[i].file.size/1024);	
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(jry_nd_selected_list[i].file.size/1024);	
 				}				
 			};		
 		}
@@ -861,7 +873,7 @@ jry_wb_add_load(function()
 							jry_wb_nd_fresh_file_list();
 						jry_wb_login_user.nd_ei.size_total=data.size_total;
 						jry_wb_login_user.nd_ei.size_used=data.size_used;
-						progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));					
+						progress.update(data.size_used/data.size_total,jry_wb_get_size(data.size_used)+'/'+jry_wb_get_size(data.size_total));					
 					},function()
 					{
 						jry_nd_upload_count--;
@@ -874,7 +886,7 @@ jry_wb_add_load(function()
 			var div = document.createElement("div"); upload_check.msgObj.appendChild(div);
 			div.style="width:100%;margin:0;padding:0;overflow:hidden;";
 			div.align='center';
-			div.innerHTML="即将上传共计"+file_list.length+"个文件到"+dir+',预计消耗'+jry_wb_nd_get_size(total_size)+'空间,剩余'+jry_wb_nd_get_size(rest)+'空间<br>';
+			div.innerHTML="即将上传共计"+file_list.length+"个文件到"+dir+',预计消耗'+jry_wb_get_size(total_size)+'空间,剩余'+jry_wb_get_size(rest)+'空间<br>';
 			div.innerHTML+="详细如下:<br>";
 			var table=document.createElement('table');div.appendChild(table);
 			var tr=document.createElement('tr');table.appendChild(tr);
@@ -888,7 +900,7 @@ jry_wb_add_load(function()
 				{
 					var tr=document.createElement('tr');table.appendChild(tr);
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=file_list[i].name;	
-					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_nd_get_size(file_list[i].file.length/1024);
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(file_list[i].file.length/1024);
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=dir+buf.substring(0,buf.lastIndexOf('/'));	
 				}
 				else if(file_list[i].isDirectory)

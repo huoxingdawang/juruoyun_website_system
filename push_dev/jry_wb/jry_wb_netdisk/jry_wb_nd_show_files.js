@@ -164,7 +164,7 @@ function jry_wb_nd_show_files(checker)
 								jry_wb_nd_fresh_file_list();							
 								jry_wb_login_user.nd_ei.size_total=data.size_total;
 								jry_wb_login_user.nd_ei.size_used=data.size_used;
-								progress.update(data.size_used/data.size_total,jry_wb_nd_get_size(data.size_used)+'/'+jry_wb_nd_get_size(data.size_total));
+								progress.update(data.size_used/data.size_total,jry_wb_get_size(data.size_used)+'/'+jry_wb_get_size(data.size_total));
 							},[{'name':'file_id','value':JSON.stringify([file_id])}]);
 						},function()
 						{
@@ -280,7 +280,7 @@ function jry_wb_nd_show_files(checker)
 					var td = document.createElement("td"); tr.appendChild(td);td.innerHTML=(jry_nd_share_mode_flag?'分享的目录:':'')+jry_nd_file_list[i].dir;
 					var tr = document.createElement("tr"); table.appendChild(tr);
 					var td = document.createElement("td"); tr.appendChild(td);td.innerHTML='大小';
-					var td = document.createElement("td"); tr.appendChild(td);td.innerHTML=jry_wb_nd_get_size(jry_nd_file_list[i].size);
+					var td = document.createElement("td"); tr.appendChild(td);td.innerHTML=jry_wb_get_size(jry_nd_file_list[i].size);
 					if(!jry_nd_file_list[i].isdir)
 					{
 						var tr = document.createElement("tr"); table.appendChild(tr);
