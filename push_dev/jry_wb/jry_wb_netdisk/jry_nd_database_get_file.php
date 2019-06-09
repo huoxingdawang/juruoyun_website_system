@@ -3,7 +3,24 @@
 	function jry_nd_database_get_file($conn,$user,$file_id)
 	{
 		if($file_id==0)
-			return true;
+			return array(	'file_id'			=>0,
+							'id'				=>$user['id'],
+							'father'			=>0,
+							'name'				=>'/',
+							'type'				=>'',
+							'size'				=>0,
+							'lasttime'			=>'1926-08-17 00:00:00',
+							'uploading'			=>0,
+							'area'				=>1,
+							'download_times'	=>0,
+							'share'				=>0,
+							'self_share'		=>0,
+							'share_list'		=>[],
+							'delete'			=>0,
+							'isdir'				=>1,
+							'trust'				=>1,
+							'extern'			=>(object)[]
+			);
 		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'file_list WHERE file_id=? AND id=? AND `delete`=0 LIMIT 1');
 		$st->bindValue(1,$file_id);
 		$st->bindValue(2,$user['id']);

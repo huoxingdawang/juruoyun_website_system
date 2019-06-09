@@ -44,7 +44,8 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 			return ;
 		}
 		for(var i=0;i<checked.length;i++)
-			checked[i]=file_list.find(function(a){return a.file_id==checked[i]});
+			if(checked[i]=file_list.find(function(a){return a.file_id==checked[i]})==undefined)
+				checked[i]={'isdir':true,id:jry_wb_login_user.id,'file_id':0,'father':0,'name':'/'};
 		if(dironly&&oneonly)
 			if(!checked[0].isdir)
 				jry_wb_beautiful_right_alert.alert('请选中一个文件夹');				
@@ -53,13 +54,14 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 		select_mesage_lock=false;
 		alerter.close();
 	};
+	var root=tree.add(tree.root,'/',0);
 	function add_one(i)
 	{
 		if(added[i]===true)
 			return file_list[i].tree;
 		var father=file_list.find(function(a){return a.file_id==file_list[i].father});
 		if(father==null)
-			tree_father=tree.root;
+			tree_father=root;
 		else if(father.tree==null)
 			tree_father=file_list[i].tree=add_one(file_list.indexOf(father));
 		else
