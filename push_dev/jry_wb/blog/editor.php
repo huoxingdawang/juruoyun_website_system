@@ -88,23 +88,16 @@ function autosave()
 var refresh=true;
 var timeout=false;
 var ctrlkey;
-var refresh_time=1000;
 function convert()
 {
-	if(refresh&&((!ctrlkey)))
-	{
-		setTimeout(convert,refresh_time);
-		refresh=false;timeout=true;timeout=true;
-		jry_wb_cache.set('blog_'+blog_id,do_text());
-		jry_wb_beautiful_right_alert.alert('保存到本地 at '+jry_wb_get_server_time(),500,'auto');
-		if(xuanran)
-		{
-			var date=jry_wb_get_server_time(),month=date.getMonth()+1,strDate=date.getDate();
-			return_data=new jry_wb_markdown(document.getElementById("result"),jry_wb_login_user.id,date.getFullYear()+"-"+((month>=1&&month<=9)?"0":"")+month+"-"+((strDate>=0&&strDate<=9)?"0":"")+strDate+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(),do_text());
-		}
-	}
+	timer=null;
+	var text=do_text();
+	jry_wb_cache.set('blog_'+blog_id,text);
+	jry_wb_beautiful_right_alert.alert('保存到本地 at '+jry_wb_get_server_time(),500,'auto');
+	if(typeof markdown=='undefined')
+		markdown=new jry_wb_markdown(document.getElementById("result"),jry_wb_login_user.id,jry_wb_get_server_time().s(),text);
 	else
-		timeout=false;
+		markdown.fresh(jry_wb_get_server_time().s(),text)
 }
 var mood=0;
 var ziti=0;
@@ -160,7 +153,7 @@ function chenge_ziti()
 }
 function save()
 {
-	jry_wb_ajax_load_data('save.php?action=save_as_draft&blog_id='+blog_id+'&title='+return_data.title,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录保存失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失保存失败",10000,'auto','error');return;}else jry_wb_beautiful_right_alert.alert('已保存为 '+data.message,1000,'auto','ok')},Array({'name':'data','value':JSON.stringify(do_text())}));
+	jry_wb_ajax_load_data('save.php?action=save_as_draft&blog_id='+blog_id+'&title='+markdown.title,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录保存失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失保存失败",10000,'auto','error');return;}else jry_wb_beautiful_right_alert.alert('已保存为 '+data.message,1000,'auto','ok')},Array({'name':'data','value':JSON.stringify(do_text())}));
 }
 function push()
 {
@@ -179,6 +172,7 @@ jry_wb_add_onresize(function()
 			var all=document.getElementById("result");var width=document.documentElement.clientWidth;if(width>800){all_width=width-Math.min(width*0.3,width-800);all.style.width=all_width-10;all.style.margin="0px "+(width-all_width)/2+"px"}else{all.style.width=width-10,all.style.margin="0px 0px"}
 		}
 	});
+timer=null;
 </script>
 <div style="text-align: left" id="controler">
 <button class="jry_wb_button jry_wb_button_size_small jry_wb_color_normal" onclick="chenge_mood()">模式切换</button>
@@ -188,7 +182,7 @@ jry_wb_add_onresize(function()
 </div>
 <table height="100%" width="100%">
 	<tr>
-		<td width="50%" valign="top" id="bianji"><textarea id="oriContent" style="height:100%;width:100%;" onkeyup="ctrlkey=window.event.ctrlKey;if(!timeout){setTimeout(convert,100);timeout=true;/*console.log('setTimeout');*/}refresh=true;" contenteditable="true"></textarea></td>
+		<td width="50%" valign="top" id="bianji"><textarea id="oriContent" style="height:100%;width:100%;" onkeyup="if(timer!=null)clearTimeout(timer);timer=setTimeout(convert,markdown.time);" contenteditable="true"></textarea></td>
 		<td width="50%" valign="top" id="show"><div id="result" style="overflow:scroll; height:100%;"></div></td>
 	</tr>
 </table>

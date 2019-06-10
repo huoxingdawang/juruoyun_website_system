@@ -28,6 +28,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 <?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.time('jry_wb_markdown');
 <?php } ?>
+		var start=new Date();
 		this.area.innerHTML='';
 		this.catalog.innerHTML='';
 		this.autonum=false;
@@ -540,7 +541,8 @@ function jry_wb_markdown(area,id,time,text,notitle)
 			this.catalogdoc[i].innerHTML=this.catalog.innerHTML;
 <?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.timeEnd('jry_wb_markdown');
-<?php } ?>		
+<?php } ?>
+		this.time=(new Date()-start);
 	};
 	this.fresh(time,text);
 }
