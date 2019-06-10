@@ -1,5 +1,7 @@
+<?php if(false){ ?><script><?php } ?>
 function jry_wb_highlight(area,code,start)
 {
+<?php if(JRY_WB_DEBUG_MODE){ ?>console.time('jry_wb_highlight');<?php } ?>	
 	var div=document.createElement("div");
 	div.classList.add('jry_wb_highlight');
 	var language='';
@@ -13,7 +15,7 @@ function jry_wb_highlight(area,code,start)
 	for(var i=start,n=code.length;i<n;i++)
 	{
 		if(code[i]=='`'&&code[i+1]=='`'&&code[i+2]=='`')
-			return area.appendChild(div),i+2;
+			return <?php if(JRY_WB_DEBUG_MODE){ ?>console.timeEnd('jry_wb_highlight'),<?php } ?>area.appendChild(div),i+2;
 		if(i==start)
 		{
 			for(;i<n&&code[i]!='\n'&&code[i]!=' ';i++)
@@ -153,5 +155,7 @@ function jry_wb_highlight(area,code,start)
 				span.classList.add('default'),span.innerHTML=code[i];
 		}
 	}
+<?php if(JRY_WB_DEBUG_MODE){ ?>console.timeEnd('jry_wb_highlight');<?php } ?>	
 	return false;
 }
+<?php if(false){ ?></script><?php } ?>
