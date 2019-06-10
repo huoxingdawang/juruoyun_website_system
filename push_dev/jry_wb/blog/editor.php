@@ -10,6 +10,18 @@
 	<?php jry_wb_print_href('blog_draft');?>
 	<?php jry_wb_print_href('blog_editor','active');?> 
 </div>
+<div style="text-align: left" id="controler">
+	<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_normal" onclick="chenge_mood()">模式切换</button>
+	<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_normal" onclick="chenge_ziti()">编辑区字体切换</button>
+	<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_ok" onclick="save()">保存</button>
+	<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_warn" onclick="" id='push_pull'></button>
+</div>
+<table height="100%" width="100%" id='area'>
+	<tr>
+		<td width="50%" valign="top" id="bianji"><textarea id="oriContent" style="height:100%;width:100%;" onkeyup="if(timer!=null)clearTimeout(timer);timer=setTimeout(convert,markdown.time);" contenteditable="true"></textarea></td>
+		<td width="50%" valign="top" id="show"><div id="result" style="overflow:scroll; height:100%;"></div></td>
+	</tr>
+</table>
 <script type="text/javascript">
 function do_text(text)
 {
@@ -22,13 +34,13 @@ jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_p],function(){jry_wb_
 jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_l],function(){jry_wb_beautiful_right_alert.alert("已打开草稿箱列表",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('blog_draft','','',true);?>');});
 jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_b],function(){jry_wb_beautiful_right_alert.alert("已打开博客列表",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('blog','','',true);?>');});
 jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_s],save);
+push_pull=document.getElementById('push_pull');
 jry_wb_add_load(function ()
 {
 	if(!(!jry_wb_word_special_fact))
 		jry_wb_word_special_fact.switch=false;
 	if(!(!follow_mouth))
 		follow_mouth.close();
-	push_pull=document.getElementById('push_pull');
 	jry_wb_ajax_load_data("blog_getinformation.php?action=get_draft_one&blog_id=<?php echo $_GET['blog_id']?>",function(data){
 		jry_wb_loading_off();
 		data=JSON.parse(data);
@@ -69,10 +81,11 @@ jry_wb_add_load(function ()
 			do_text(jry_wb_ajax_get_text(data.data));
 			jry_wb_beautiful_right_alert.alert('已成功从服务器'+data.lasttime+'复原',4000,'auto','ok');
 		}
-		convert();
+		setTimeout(convert,100);
 		jry_wb_beautiful_right_alert.alert("每隔5分钟自动保存",5000,'auto','warn');
 		setInterval("autosave()",1000);
 	});
+	document.getElementById('buttom_message').style.display='none';	
 });
 time=0;
 function autosave()
@@ -85,9 +98,6 @@ function autosave()
 		save();
 	}
 }
-var refresh=true;
-var timeout=false;
-var ctrlkey;
 function convert()
 {
 	timer=null;
@@ -163,27 +173,20 @@ function pull()
 {
 	jry_wb_ajax_load_data('save.php?action=pull&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录收回失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失收回失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功收回'+data.message,1000,'auto','ok');push_pull.innerHTML='发布';push_pull.setAttribute('onclick','push()');}});
 }
+var top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];
+if(top_toolbar==undefined)
+	top_toolbar={'clientHeight':0};
+var scroll=new jry_wb_beautiful_scroll(document.getElementById('result'),undefined,true);
 jry_wb_add_onresize(function()
+{
+	if(mood==0)
+		document.getElementById('result').style.width=document.body.clientWidth/2;
+	else if(mood=1)
 	{
-		if(mood==0)
-			document.getElementById('result').style.width=document.body.clientWidth/2;
-		else if(mood=1)
-		{
-			var all=document.getElementById("result");var width=document.documentElement.clientWidth;if(width>800){all_width=width-Math.min(width*0.3,width-800);all.style.width=all_width-10;all.style.margin="0px "+(width-all_width)/2+"px"}else{all.style.width=width-10,all.style.margin="0px 0px"}
-		}
-	});
+		var all=document.getElementById("result");var width=document.documentElement.clientWidth;if(width>800){all_width=width-Math.min(width*0.3,width-800);all.style.width=all_width-10;all.style.margin="0px "+(width-all_width)/2+"px"}else{all.style.width=width-10,all.style.margin="0px 0px"}
+	}
+	document.getElementById('result').style.height=document.getElementById('area').style.height=document.body.clientHeight-top_toolbar.clientHeight-document.getElementById('controler').clientHeight-10;
+});
 timer=null;
 </script>
-<div style="text-align: left" id="controler">
-<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_normal" onclick="chenge_mood()">模式切换</button>
-<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_normal" onclick="chenge_ziti()">编辑区字体切换</button>
-<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_ok" onclick="save()">保存</button>
-<button class="jry_wb_button jry_wb_button_size_small jry_wb_color_warn" onclick="" id='push_pull'></button>
-</div>
-<table height="100%" width="100%">
-	<tr>
-		<td width="50%" valign="top" id="bianji"><textarea id="oriContent" style="height:100%;width:100%;" onkeyup="if(timer!=null)clearTimeout(timer);timer=setTimeout(convert,markdown.time);" contenteditable="true"></textarea></td>
-		<td width="50%" valign="top" id="show"><div id="result" style="overflow:scroll; height:100%;"></div></td>
-	</tr>
-</table>
 <?php jry_wb_print_tail();?>

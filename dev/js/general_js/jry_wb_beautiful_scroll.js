@@ -8,6 +8,9 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 	var timer=null;/*鼠标离开*/
 	var timer4=null;/*点击动画*/
 	area.style.overflow='hidden';
+	var top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];
+	if(top_toolbar==undefined||!move)
+		top_toolbar={'clientHeight':0};	
 	var arae_old_onmouseout=area.onmouseout;
 	var arae_old_onmouseover=area.onmouseover;
 	area.onmouseover=function()
@@ -25,8 +28,8 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 	var jry_wb_scroll_body=document.createElement("div");area.appendChild(jry_wb_scroll_body);
 	jry_wb_scroll_body.style.position='absolute';
 	jry_wb_scroll_body.style.right='0';
-	jry_wb_scroll_body.style.top=0;
 	jry_wb_scroll_body.style.height=area.clientHeight;
+	jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight);		
 	jry_wb_scroll_body.style.opacity='0';
 	jry_wb_scroll_body.style.transitionDuration='1s';	
 	if(move)jry_wb_scroll_body.style.zIndex='9999';
@@ -96,6 +99,8 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 		if(timer4!=null)clearInterval(timer4),timer4=null;
 		jry_wb_scroll_kuai.style.height=area.clientHeight/h*parseInt(jry_wb_scroll_body.style.height);			
 		jry_wb_scroll_kuai.style.top=Math.max(0,get_scrolly()/h*parseInt(jry_wb_scroll_body.style.height));
+		jry_wb_scroll_body.style.height=area.clientHeight;
+		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight);		
 		jry_wb_scroll_body.style.opacity=1;
 		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 	};
@@ -134,7 +139,7 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 					area.children[i].style.position='relative';
 					area.children[i].style.top=-y;
 				}
-			}		
+			}
 	}
 	this.scrollto=scrollto;
 	function get_scrolly()
@@ -186,6 +191,8 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 		jry_wb_scroll_kuai.style.height=area.clientHeight/h*parseInt(jry_wb_scroll_body.style.height);			
 		jry_wb_scroll_kuai.style.top=Math.max(0,get_scrolly()/h*parseInt(jry_wb_scroll_body.style.height));
 		jry_wb_scroll_body.style.opacity=1;
+		jry_wb_scroll_body.style.height=area.clientHeight-Math.max(0,top_toolbar.clientHeight-get_scrolly());
+		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight);		
 		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 		if(timer!=null)clearTimeout(timer),timer=null;
 		if(timer4!=null)clearInterval(timer4),timer4=null;
