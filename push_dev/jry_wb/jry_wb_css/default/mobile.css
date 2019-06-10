@@ -47,24 +47,33 @@ h56 {font-size:30px;color:#33F;}
 
 .jry_wb_font_buttom{color:#ffffff;margin: 0px 0px 0px 5px;font-size:12px;}
 .jry_wb_font_normal_size{font-size:30px}
-.jry_wb_font_small_size{font-size:20px}input[type="radio"],input[type="checkbox"]{-webkit-appearance:none;width:30px;height:30px;border-radius:4px;background-color:#FFF;}
-input[type="radio"]:checked,input[type="checkbox"]:checked{background-color:#4CAF50;}
-input[type=""],input[type="submit"],input[type="reset"]{-webkit-appearance:none;}
-textarea{-webkit-appearance:none;}
-input,textarea{margin:3px 3px;}
-input:focus,textarea:focus{outline: none;padding:0px 0px;border: 3px solid #118ed7;}
-.code
+.jry_wb_font_small_size{font-size:20px}.jry_wb_highlight
 {
-	background-color:#000000;
+	background-color:#272822;
 	color:#ffffff;
 	font-size:20px;
 	overflow:scroll;
 	margin:10px 0px;
 	white-space:nowrap;
-	max-height:300px;
+/*	max-height:300px;*/
 	min-height:40px;
 }
-.md_normal strong{color:white;}
+.jry_wb_highlight .important{color:#66D9EF;}
+/*.jry_wb_highlight .important{color:#0080C0;}*/
+.jry_wb_highlight .operator{color:#FF8000;}
+.jry_wb_highlight .number{color:#AE81FF;}
+.jry_wb_highlight .string{color:#E6DB74;}
+.jry_wb_highlight .default{color:#F8F8F2;}
+.jry_wb_highlight .comment{color:#75715E;}
+.jry_wb_highlight .preprocessor{color:#FF80C0;}
+input[type="radio"],input[type="checkbox"]{-webkit-appearance:none;width:30px;height:30px;border-radius:4px;background-color:#FFF;}
+input[type="radio"]:checked,input[type="checkbox"]:checked{background-color:#4CAF50;}
+input[type=""],input[type="submit"],input[type="reset"]{-webkit-appearance:none;}
+textarea{-webkit-appearance:none;}
+input,textarea{margin:3px 3px;}
+input:focus,textarea:focus{outline: none;padding:0px 0px;border: 3px solid #118ed7;}
+.md_normal {color:white;word-break:break-all;}
+.md_normal strong{color:white;word-break:break-all;}
 .md_normal em{color:white;}
 .md_normal .line_m{text-decoration:line-through}
 .md_cite{font-size:20px;color:white;}
@@ -78,9 +87,6 @@ input:focus,textarea:focus{outline: none;padding:0px 0px;border: 3px solid #118e
 .md_hr{background-color:blue;height:2px;border:none;}
 .md_toc_ul{-webkit-padding-start:0px;}
 .md_toc_li{-webkit-padding-start:40px;}
-.code .important{color:#ff0000;}
-.code .fuhao{color:#8ebc22;}
-.code .number{color:#ffff00;}
 .md_a{font-size:30px;}
 .md_media_font{font-size:20px;color:red;}
 .md_title{font-size:42px;color:red;}

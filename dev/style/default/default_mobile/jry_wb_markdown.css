@@ -1,15 +1,5 @@
-.code
-{
-	background-color:#000000;
-	color:#ffffff;
-	font-size:20px;
-	overflow:scroll;
-	margin:10px 0px;
-	white-space:nowrap;
-	max-height:300px;
-	min-height:40px;
-}
-.md_normal strong{color:white;}
+.md_normal {color:white;word-break:break-all;}
+.md_normal strong{color:white;word-break:break-all;}
 .md_normal em{color:white;}
 .md_normal .line_m{text-decoration:line-through}
 .md_cite{font-size:20px;color:white;}
@@ -23,9 +13,6 @@
 .md_hr{background-color:blue;height:2px;border:none;}
 .md_toc_ul{-webkit-padding-start:0px;}
 .md_toc_li{-webkit-padding-start:40px;}
-.code .important{color:#ff0000;}
-.code .fuhao{color:#8ebc22;}
-.code .number{color:#ffff00;}
 .md_a{font-size:30px;}
 .md_media_font{font-size:20px;color:red;}
 .md_title{font-size:42px;color:red;}

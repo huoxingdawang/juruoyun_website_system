@@ -1,15 +1,4 @@
 <?php if(false){ ?><script><?php } ?>
-function jry_wb_highlight_code(area,code,start)
-{
-	var pre=document.createElement("pre");
-	for(var i=start;i<code.length;i++)
-	{
-		if(code[i]=='`'&&code[i+1]=='`'&&code[i+2]=='`')
-			return area.appendChild(pre),i+2;
-		pre.innerHTML+=code[i];
-	}
-	return false;
-}
 function jry_wb_markdown(area,id,time,text,notitle)
 {
 	this.notitle=true;
@@ -130,7 +119,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 				else if(j=test(this.text,i,'```'))
 				{
 					i+=j;
-					if((j=jry_wb_highlight_code(this.area,this.text,i))!==false)
+					if((j=jry_wb_highlight(this.area,this.text,i))!==false)
 						i=j;
 					this.lasttext=null;
 				}

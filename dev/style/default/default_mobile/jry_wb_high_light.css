@@ -1,0 +1,19 @@
+.jry_wb_highlight
+{
+	background-color:#272822;
+	color:#ffffff;
+	font-size:20px;
+	overflow:scroll;
+	margin:10px 0px;
+	white-space:nowrap;
+/*	max-height:300px;*/
+	min-height:40px;
+}
+.jry_wb_highlight .important{color:#66D9EF;}
+/*.jry_wb_highlight .important{color:#0080C0;}*/
+.jry_wb_highlight .operator{color:#FF8000;}
+.jry_wb_highlight .number{color:#AE81FF;}
+.jry_wb_highlight .string{color:#E6DB74;}
+.jry_wb_highlight .default{color:#F8F8F2;}
+.jry_wb_highlight .comment{color:#75715E;}
+.jry_wb_highlight .preprocessor{color:#FF80C0;}
