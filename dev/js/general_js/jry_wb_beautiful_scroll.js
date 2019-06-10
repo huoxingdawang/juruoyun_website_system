@@ -4,7 +4,7 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 	if(absolute==undefined)
 		absolute=false;
 	if(move==undefined)
-		move=true;
+		move=false;
 	var timer=null;/*鼠标离开*/
 	var timer4=null;/*点击动画*/
 	area.style.overflow='hidden';
@@ -102,7 +102,8 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 		jry_wb_scroll_body.style.height=area.clientHeight;
 		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight);		
 		jry_wb_scroll_body.style.opacity=1;
-		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
+		if(move)
+			jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 	};
 	jry_wb_scroll_body.onmouseout=function()
 	{
@@ -192,8 +193,9 @@ function jry_wb_beautiful_scroll(area,absolute,move)
 		jry_wb_scroll_kuai.style.top=Math.max(0,get_scrolly()/h*parseInt(jry_wb_scroll_body.style.height));
 		jry_wb_scroll_body.style.opacity=1;
 		jry_wb_scroll_body.style.height=area.clientHeight-Math.max(0,top_toolbar.clientHeight-get_scrolly());
-		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight);		
-		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
+		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight);
+		if(move)
+			jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 		if(timer!=null)clearTimeout(timer),timer=null;
 		if(timer4!=null)clearInterval(timer4),timer4=null;
 		timer=setTimeout(function()
