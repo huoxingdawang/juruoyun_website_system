@@ -18,6 +18,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 	this.delete_flag=false;	
 	this.strong_flag=false;
 	this.id=id;
+	var allow_html=['audio','div','span','a','b','p','img'];
 	function test(text,i,word)
 	{
 		for(var j=0;j<word.length&&(i+j)<text.length;j++)
@@ -206,6 +207,50 @@ function jry_wb_markdown(area,id,time,text,notitle)
 					}
 					this.lastcatalog=li;
 					this.lasttext=null;
+				}
+				else if(this.text[i]=='<')
+				{
+					var flag=false;
+					for(var j=0;j<allow_html.length;j++)
+						if((k=test(this.text,i+1,allow_html[j])))
+						{
+							var art='';
+							for(var a=0;a+k+i+1<n;a++)
+								if(this.text[a+k+i+1]=='>')
+								{
+									var buf='';
+									for(var b=0;a+k+i+b+2<n&&a<20000&&(!(c=test(this.text,a+k+i+b+2,'</'+allow_html[j]+'>')));b++)
+										buf+=this.text[a+k+i+b+2];
+									if(c)
+									{
+										i+=a+b+k+c+2-1;
+										flag=true;
+										this.lasttext=null;
+										var dom=document.createElement(allow_html[j]);
+										art=art.split(' ');
+										console.log(art);
+										for(var d=0;d<art.length;d++)
+										{
+											var buff=art[d].split('=');
+											if(buff[0]!=undefined&&buff[1]!=undefined)
+												dom.setAttribute(buff[0],buff[1].slice(1,-1));
+										}
+										dom.innerHTML=buf;
+										this.area.appendChild(dom);
+										break;
+									}										
+								}
+								else
+									art+=this.text[a+k+i+1];
+							
+							break;
+						}
+					if(!flag)
+					{
+						if(this.lasttext==null)
+							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
+						this.lasttext.innerHTML+=this.text[i];
+					}						
 				}
 				else if(this.text[i]=='\n')
 				{
