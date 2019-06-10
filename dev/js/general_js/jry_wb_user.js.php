@@ -40,8 +40,8 @@ function jry_wb_set_user_head_special(user,img)
 	};
 	img.setAttribute('name','jry_wb_user_head_'+user.id);	
 }
-var jry_wb_getting_user=[];
-var jry_wb_getting_user_call_back=[];
+jry_wb_getting_user=[];
+jry_wb_getting_user_call_back=[];
 function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 {
 	if(reload==null)
@@ -320,9 +320,9 @@ function jry_wb_get_user_head(user)
 		else
 			user.head.type='default_head_man';
 	if(user.head.type=='default_head_man')
-		return '<?php echo constant('jry_wb_defult_man_picture'); ?>';
+		return '<?php echo JRY_WB_DEFULT_MAN_PICTURE;?>';
 	else if(user.head.type=='default_head_woman')
-		return '<?php echo constant('jry_wb_defult_woman_picture'); ?>';
+		return '<?php echo JRY_WB_DEFULT_WOMAN_PICTURE; ?>';
 	else if(user.head.type=='gravatar')
 		return "http://www.gravatar.com/avatar/"+hex_md5(user.mail)+"?size=80&d=404&r=g";
 	else if(user.head.type=='qq'&&user.oauth_qq!=null)
@@ -338,6 +338,6 @@ function jry_wb_get_user_head(user)
 	else if(user.head.type=='url')
 		return user.head.url;
 	else if(user.head.type=='netdisk')
-		return '<?php echo constant('jry_wb_host'); ?>jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+user.head.share_id+'&file_id='+user.head.file_id;
+		return jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+user.head.share_id+'&file_id='+user.head.file_id;
 }
 <?php if(false){ ?></script><?php } ?>

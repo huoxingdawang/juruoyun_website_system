@@ -20,7 +20,7 @@ var jry_wb_socket = new function()
 				return;
 			if(socket!==null)
 				socket.close(),socket=null;
-			socket=new WebSocket('ws://<?php echo constant('jry_wb_domin'); ?>:<?php echo constant('jry_wb_socket_port'); ?>/jry_wb/jry_wb_socket/socket.php');
+			socket=new WebSocket('ws://<?php echo JRY_WB_DOMIN; ?>:<?php echo JRY_WB_SOCKET_PORT; ?>/jry_wb/jry_wb_socket/socket.php');
 			socket.onopen=(evt)=>
 			{
 				onstart();
