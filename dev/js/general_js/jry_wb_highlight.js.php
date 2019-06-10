@@ -36,23 +36,26 @@ function jry_wb_highlight(area,code,start)
 		}
 		else
 		{
-			var flag=false,important=[],operator=[],str=[],comment=[],preprocessor=[];
+			var flag=false,important=[],operator=[],str=[],comment=[],preprocessor=[],constant=[];
 			if(language=='c')
-				important	=['int','void','const','return','long','inline','register','for','include','define','char','unsigned','if','else','true','flase','null','while','switch','case','break','continue'],
+				important	=['asm','auto','break','case','char','const','continue','default','define','do','double','else','enum','extern','float','for','goto','if','inline','int','long','register','return','short','signed','sizeof','static','struct','switch','true','typedef','union','unsigned','void','volatile','while'],
+				constant	=['NULL'],
 				operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~','`',';',':'],
 				str			=['"',"'"],
 				comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
 				preprocessor=[{'start':'#','end':'\n'}];
 			else if(language=='c++'||language=='cpp')
-				important	=['int','void','using','namespace','const','return','long','inline','register','for','include','define','char','bool','unsigned','if','else','true','flase','null','while','switch','case','break','new','delete','class','continue'],
+				important	=['asm','auto','bool','break','case','catch','char','class','const','const_cast','continue','default','define','delete','do','double','dynamic_cast','else','enum','explicit','export','extern','false','float','for','friend','goto','if','inline','int','long','mutable','namespace','new','operator','private','protected','public','register','reinterpret_cast','return','short','signed','sizeof','static','static_cast','struct','switch','template','this','throw','try','typedef','typeid','typename','union','unsigned','using','virtual','void','volatile','wchar_t','while'],
+				constant	=['NULL','false','true'],
 				operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~','`',';',':'],
 				str			=['"',"'"],
 				comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
 				preprocessor=[{'start':'#','end':'\n'}];
 			else if(language=='javascript'||language=='js')
-				important	=['return','var','for','if','else','true','flase','null','while','switch','case','break','new','delete','class','array','continue'],
+				important	=['abstract','arguments','boolean','break','byte','case','catch','char','class','const','continue','debugger','default','delete','do','double','else','enum','eval','export','extends','false','final','finally','float','for','function','goto','if','implements','import','in','instanceof','int','interface','let','long','native','new','null','package','private','protected','public','return','short','static','super','switch','synchronized','this','throw','throws','transient','true','try','typeof','var','void','volatile','while','with','yield'],
 				operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~','`',';',':'],
 				str			=['"',"'"],
+				constant	=['Array','Date','Infinity','Math','NaN','Number','Object','String','eval','false','function','isFinite','isNaN','length','name','null','prototype','true','undefined'],
 				comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
 				preprocessor=[{'start':'#','end':'\n'}];				
 			else if(language=='markdown'||language=='md')
@@ -71,6 +74,18 @@ function jry_wb_highlight(area,code,start)
 						span.classList.add('important');
 						break;
 					}
+			if(flag==false&&!((/[0-9a-zA-Z_]/i).test(code[i-1])))
+				for(var j=0;j<constant.length;j++)
+					if(k=test(code,i,constant[j]))
+					{
+						if((/[0-9a-zA-Z_]/i).test(code[i+k]))
+							continue;
+						i+=k-1;
+						span.innerHTML=constant[j];
+						flag=true;
+						span.classList.add('constant');
+						break;
+					}					
 			if(flag==false)
 				for(var j=0;j<str.length;j++)
 					if(k=test(code,i,str[j]))

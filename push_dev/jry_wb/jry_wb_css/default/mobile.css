@@ -59,7 +59,7 @@ h56 {font-size:30px;color:#33F;}
 	min-height:40px;
 }
 .jry_wb_highlight .important{color:#66D9EF;}
-/*.jry_wb_highlight .important{color:#0080C0;}*/
+.jry_wb_highlight .constant{color:#0080C0;}
 .jry_wb_highlight .operator{color:#FF8000;}
 .jry_wb_highlight .number{color:#AE81FF;}
 .jry_wb_highlight .string{color:#E6DB74;}
