@@ -74,7 +74,7 @@ function jry_wb_highlight(area,code,start)
 						span.classList.add('important');
 						break;
 					}
-			if(flag==false&&!((/[0-9a-zA-Z_]/i).test(code[i-1])))
+			if(flag==false&&!((/[0-9a-zA-Z_]/).test(code[i-1])))
 				for(var j=0;j<constant.length;j++)
 					if(k=test(code,i,constant[j]))
 					{
@@ -160,7 +160,7 @@ function jry_wb_highlight(area,code,start)
 						break;
 					}
 			if(flag==false)
-				if(!isNaN(parseInt(code[i])))
+				if(!((/[0-9a-zA-Z_]/i).test(code[i-1]))&&!isNaN(parseInt(code[i])))
 				{
 					span.innerHTML=code[i];
 					flag=true;
