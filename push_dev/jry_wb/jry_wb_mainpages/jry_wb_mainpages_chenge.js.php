@@ -498,9 +498,8 @@ function show()
 	},1000);
 	jry_wb_show_tr_no_input(table,'类型',jry_wb_login_user.competencename,'',250);	
 	var td=jry_wb_show_tr_no_input(table,'显示状态演示','','',250);
-	td.innerHTML='';
+	td.innerHTML='<h56>访客模式:</h56>';
 	jry_wb_get_and_show_user(td,jry_wb_login_user.id,'auto','',true);
-	td.innerHTML+='<h55>点击有惊喜</h55>';
 	table=null;
 }
 function show_ip()

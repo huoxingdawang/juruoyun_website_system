@@ -109,7 +109,7 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 		jry_wb_loading_off();		
 	},null,yibu);
 }
-function jry_wb_show_user(addr,user,width,float,inline,after)
+function jry_wb_show_user(addr,user,width,float,inline,direct)
 {
 	if(width==null)
 		width='200px';
@@ -117,20 +117,24 @@ function jry_wb_show_user(addr,user,width,float,inline,after)
 		float='';
 	else
 		float='float:'+float+';';
+	if(direct==undefined)
+		direct=false;
 	var flag = false;
 	if((user==null)||(user.show==null&&user.name==null&&user.head==null))
 		{user={color:666666,show:'用户已消失'};flag = true;}
 	else if(user!=null&&!user.use)
 		{user={color:666666,show:'[禁止使用]'};flag = true;}
+	if(direct)
+		var adder=addr;
 	if(inline)
 	{
-		var adder = document.createElement("span");
+		if(!direct){var adder = document.createElement("span");addr.appendChild(adder);}
 		adder.classList.add("jry_wb_show_user_inline");
 		adder.style='width:'+width;
 	}
 	else
 	{
-		var adder = document.createElement("div");
+		if(!direct){var adder = document.createElement("div");addr.appendChild(adder);}
 		adder.classList.add("jry_wb_show_user");
 		adder.style = float+';width:'+width+';overflow:hidden;';	
 	}
@@ -148,10 +152,6 @@ function jry_wb_show_user(addr,user,width,float,inline,after)
 	}
 	if(!flag)
 		adder.setAttribute('onclick','jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)');
-	if(after==undefined||after.nextSibling==null)
-		addr.appendChild(adder);
-	else
-		addr.insertBefore(adder,after.nextSibling);
 	adder = null;		
 }			
 function jry_wb_show_user_full(user,width,height)
@@ -272,37 +272,42 @@ function jry_wb_show_user_full(user,width,height)
 <?php } ?>
 	jry_wb_beautiful_scroll(jry_wb_beautiful_alert.msgObj);	
 }
-function jry_wb_show_user_intext(user)
+function jry_wb_show_user_intext(addr,user)
 {
 	if(!user.use)
 		{user={color:666666,show:'[禁止使用]'};flag = true;}
 	else if((user==null)||(user.show==null&&user.name==null&&user.head==null))
-		{user={color:666666,show:'用户已消失'};flag = true;}	
-	document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name+'</span>');
+		{user={color:666666,show:'用户已消失'};flag = true;}
+	if(addr==undefined)
+		document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name+'</span>');
+	else
+		addr.onclick='jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)',addr.name='jry_wb_user_name_'+user.id,addr.style.background='#'+user.color,addr.classList.add('jry_wb_show_user_intext'),addr.innerHTML=user.name;
 }
 function jry_wb_get_and_show_user(addr,id,width,float,inline)
 {
-	let after=addr.children[addr.children.length-1];
-	jry_wb_get_user(id,false,function()
+	if(inline)
+		var adder = document.createElement("span");
+	else
+		var adder = document.createElement("div");
+	addr.appendChild(adder);
+	jry_wb_get_user(id,false,function(user)
 	{
-		var data = jry_wb_cache.get('users');
-		var user = data.find(function (a){ return a.id==id});
-		jry_wb_show_user(addr,user,width,float,inline,after);
+		jry_wb_show_user(adder,user,width,float,inline,true);
 	});
 }
 function jry_wb_get_and_show_user_intext(id)
 {
-	jry_wb_get_user(id,false,function(){},false);
-	var data = jry_wb_cache.get('users');
-	var user = data.find(function (a){ return a.id==id});
-	jry_wb_show_user_intext(user);
+	var idd=Math.random();
+	document.write('<span id="'+idd+'" ></span>');
+	jry_wb_get_user(id,false,function(user)
+	{
+		jry_wb_show_user_intext(document.getElementById(idd),user);
+	},false);
 }
 function jry_wb_get_and_show_user_full(id,width,height)
 {
-	jry_wb_get_user(id,false,function()
+	jry_wb_get_user(id,false,function(user)
 	{
-		var data = jry_wb_cache.get('users');
-		var user = data.find(function (a){ return a.id==id});
 		jry_wb_show_user_full(user,width,height);		
 	});	
 }
