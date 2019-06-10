@@ -11,6 +11,7 @@ var jry_wb_right_tools = new function()
 		this.body.style.position='fixed';
 		this.body.style.width='40px';
 		this.body.style.zIndex='9999';
+		this.body.style.transitionDuration='1s';
 	};
 	this.list=[];
 	this.add=function(button)
