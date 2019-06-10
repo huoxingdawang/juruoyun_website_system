@@ -56,7 +56,6 @@
 						document.title = normal_title;
 				});
 			<?php } ?>
-				window.onmousewheel();
 			});
 			var timer=setInterval(function()
 			{

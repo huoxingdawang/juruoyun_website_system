@@ -347,7 +347,7 @@ var jry_wb_chat_room=new function()
 			this.sync();
 		}
 	},10000);
-	function show_one_chat_message(message_box,message)
+	function show_one_chat_message(message_box,message,callback)
 	{
 		let one=document.createElement('div');message_box.appendChild(one);
 		one.classList.add('jry_wb_chat_one');	
@@ -372,7 +372,13 @@ var jry_wb_chat_room=new function()
 		let msg=document.createElement('span');one.appendChild(msg);
 		msg.classList.add('message');
 		msg.style.width=one.clientWidth-head.clientWidth-40;
-		var md=new jry_wb_markdown(msg,message.id,message.send_time,message.message,true);
+		setTimeout(()=>
+		{
+			var md=new jry_wb_markdown(msg,message.id,message.send_time,message.message,true);
+			one.style.height=user.clientHeight+msg.clientHeight;
+			if(typeof callback=='function')
+				callback();
+		},Math.random()*100+10);
 		jry_wb_add_onresize(function(){
 			one.style.height=user.clientHeight+msg.clientHeight;
 			msg.style.width=one.clientWidth-head.clientWidth-40;
@@ -737,9 +743,15 @@ var jry_wb_chat_room=new function()
 				}				
 				var message_box=rooms[i].message_box=document.createElement('div');this.right.appendChild(message_box);
 				console.time('message');
+				let cnt=0,all=0;
 				for(var j=messages.length-1;j>=0;j--)
 					if(messages[j].chat_room_id==rooms[i].chat_room_id)
-						show_one_chat_message(message_box,messages[j]);
+						all++,show_one_chat_message(message_box,messages[j],()=>
+						{
+							cnt++;
+							if(cnt==all)
+								this.message_scroll.scrollto(this.message_scroll.get_all_child_height());
+						});
 				console.timeEnd('message');
 				var input_area=document.createElement('div');this.right.appendChild(input_area);
 				input_area.classList.add('jry_wb_chat_input_area');
@@ -796,8 +808,7 @@ var jry_wb_chat_room=new function()
 					
 					jry_wb_cache.set('jry_wb_chat_input_buf',input.value);
 				};
-				this.message_scroll=new jry_wb_beautiful_scroll(message_box);
-				this.message_scroll.scrollto(this.message_scroll.get_all_child_height());
+				this.message_scroll=new jry_wb_beautiful_scroll(message_box,undefined,true);
 			};
 			if(window.location.hash=='#'+rooms[i].chat_room_id)
 				setTimeout(()=>{one.onclick();},200);

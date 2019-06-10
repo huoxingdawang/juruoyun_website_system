@@ -24,7 +24,7 @@ var jry_wb_background_music = new function()
 			this.backgroundmusic_icon.style="z-index:9999;margin:0px;right:0px;position:fixed;width:35px;height:35px;font-size:35px";
 			this.backgroundmusic_control=document.createElement("div");document.body.appendChild(this.backgroundmusic_control);
 			this.backgroundmusic_control.id='jry_wb_left_button_backgroundmusic_control';
-			this.backgroundmusic_control.style="z-index:9999;right:35px;display:none;position:fixed;width:auto;overflow:unset;width:300px;";
+			this.backgroundmusic_control.style="z-index:9999;right:35px;display:none;position:fixed;width:auto;overflow:unset;width:300px;transition-duration:2s;";
 			this.backgroundmusic_control.onmouseover=this.backgroundmusic_icon.onmouseover=this.backgroundmusic_icon.onclick=()=>
 			{
 				if(timer!=null)

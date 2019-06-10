@@ -1,8 +1,10 @@
 var jry_wb_beautiful_scroll_run_flag=false;
-function jry_wb_beautiful_scroll(area,absolute)
+function jry_wb_beautiful_scroll(area,absolute,move)
 {
-	if(absolute==null)
+	if(absolute==undefined)
 		absolute=false;
+	if(move==undefined)
+		move=true;
 	var timer=null;/*鼠标离开*/
 	var timer4=null;/*点击动画*/
 	area.style.overflow='hidden';
@@ -27,6 +29,7 @@ function jry_wb_beautiful_scroll(area,absolute)
 	jry_wb_scroll_body.style.height=area.clientHeight;
 	jry_wb_scroll_body.style.opacity='0';
 	jry_wb_scroll_body.style.transitionDuration='1s';	
+	if(move)jry_wb_scroll_body.style.zIndex='9999';
 	jry_wb_scroll_body.classList.add('jry_wb_beautiful_scroll_body');
 	var jry_wb_scroll_kuai=document.createElement("div");jry_wb_scroll_body.appendChild(jry_wb_scroll_kuai);
 	jry_wb_scroll_kuai.style.height=document.body.clientHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
@@ -94,6 +97,7 @@ function jry_wb_beautiful_scroll(area,absolute)
 		jry_wb_scroll_kuai.style.height=area.clientHeight/h*parseInt(jry_wb_scroll_body.style.height);			
 		jry_wb_scroll_kuai.style.top=Math.max(0,get_scrolly()/h*parseInt(jry_wb_scroll_body.style.height));
 		jry_wb_scroll_body.style.opacity=1;
+		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 	};
 	jry_wb_scroll_body.onmouseout=function()
 	{
@@ -106,6 +110,7 @@ function jry_wb_beautiful_scroll(area,absolute)
 		{
 			timer=null;
 			jry_wb_scroll_body.style.opacity=0;
+			jry_wb_right_tools.right();
 		},1000);
 	};
 	var now_y=0;
@@ -181,12 +186,14 @@ function jry_wb_beautiful_scroll(area,absolute)
 		jry_wb_scroll_kuai.style.height=area.clientHeight/h*parseInt(jry_wb_scroll_body.style.height);			
 		jry_wb_scroll_kuai.style.top=Math.max(0,get_scrolly()/h*parseInt(jry_wb_scroll_body.style.height));
 		jry_wb_scroll_body.style.opacity=1;
+		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 		if(timer!=null)clearTimeout(timer),timer=null;
 		if(timer4!=null)clearInterval(timer4),timer4=null;
 		timer=setTimeout(function()
 		{		
 			timer=null;
 			jry_wb_scroll_body.style.opacity=0;
+			jry_wb_right_tools.right();
 		},1000);
 	};
 	jry_wb_scroll_kuai.onselectstart=function()
@@ -229,7 +236,7 @@ function jry_wb_beautiful_scroll(area,absolute)
 		e=e||window.event;
 		if(timer!=null)clearTimeout(timer),timer=null;
 		if(timer4!=null)clearInterval(timer4),timer4=null;		
-		scrollto((e.clientY-chaju));
+		scrollto((e.clientY-chaju)/area.clientHeight*h);
 		jry_wb_scroll_kuai.style.height=area.clientHeight/h*parseInt(jry_wb_scroll_body.style.height);			
 		jry_wb_scroll_kuai.style.top=Math.max(0,get_scrolly()/h*parseInt(jry_wb_scroll_body.style.height));
 	});
@@ -265,9 +272,6 @@ function jry_wb_beautiful_scroll(area,absolute)
 }
 jry_wb_add_load(function()
 {
-	var y=window.scrollY;
-	var x=window.scrolLX;
-	window.scrollTo(0,0);
 	var timer=null;/*鼠标离开*/
 	var timer4=null;/*点击动画*/
 	document.body.style.overflow='hidden';
@@ -277,15 +281,16 @@ jry_wb_add_load(function()
 	var top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];
 	if(top_toolbar==undefined)
 		top_toolbar={'clientHeight':0};
-	jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeighty-window.scrollY);;
 	jry_wb_scroll_body.style.height=window.innerHeight-Math.max(0,top_toolbar.clientHeight-window.scrollY);
+	jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight-window.scrollY);
 	jry_wb_scroll_body.style.opacity='0';
-	jry_wb_scroll_body.style.zIndex='9999';
+	jry_wb_scroll_body.style.zIndex='9998';
 	jry_wb_scroll_body.style.transitionDuration='1s';
 	jry_wb_scroll_body.classList.add('jry_wb_beautiful_scroll_body');
 	var jry_wb_scroll_kuai=document.createElement("div");jry_wb_scroll_body.appendChild(jry_wb_scroll_kuai);
-	jry_wb_scroll_kuai.style.height=window.innerHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
 	jry_wb_scroll_kuai.style.position='fixed';
+	jry_wb_scroll_kuai.style.height=window.innerHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
+	jry_wb_scroll_kuai.style.top=Math.min(window.innerHeight-parseInt(jry_wb_scroll_kuai.style.height),Math.max(parseInt(jry_wb_scroll_body.style.top),window.scrollY/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height)));
 	jry_wb_scroll_kuai.classList.add('jry_wb_beautiful_scroll_kuai');
 	jry_wb_add_onresize(function()
 	{
@@ -300,7 +305,7 @@ jry_wb_add_load(function()
 		jry_wb_scroll_body.style.height=window.innerHeight-Math.max(0,top_toolbar.clientHeight-window.scrollY);
 		jry_wb_scroll_kuai.style.height=window.innerHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
 		jry_wb_scroll_body.style.opacity=1;
-		jry_wb_right_tools.body.style.right=jry_wb_scroll_body.clientWidth;
+		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);		
 	};
 	var all_flag=false;
 	var chaju=0;
@@ -313,7 +318,7 @@ jry_wb_add_load(function()
 		timer=setTimeout(function()
 		{		
 			jry_wb_scroll_body.style.opacity=0;
-			jry_wb_right_tools.body.style.right=0;
+			jry_wb_right_tools.right();
 			timer=null;
 		},1000);
 	};
@@ -416,24 +421,24 @@ jry_wb_add_load(function()
 	window.onmousewheel=function(e)
 	{
 		if(timer!=null)clearTimeout(timer),timer=null;
+		if(timer4!=null)clearTimeout(timer4),timer4=null;
 		if(window.innerHeight==document.body.offsetHeight||jry_wb_beautiful_scroll_run_flag)
 			return;
 		e=e||window.event;
 		if(e!=null)
 			window.scrollTo(window.scrollX,window.scrollY+(e.deltaY||e.detail*50));
 		jry_wb_scroll_body.style.height=window.innerHeight-Math.max(0,top_toolbar.clientHeight-window.scrollY);
-		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight-window.scrollY);;
+		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight-window.scrollY);
 		jry_wb_scroll_kuai.style.height=window.innerHeight/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height);
 		jry_wb_scroll_kuai.style.top=Math.min(window.innerHeight-parseInt(jry_wb_scroll_kuai.style.height),Math.max(parseInt(jry_wb_scroll_body.style.top),window.scrollY/document.body.offsetHeight*parseInt(jry_wb_scroll_body.style.height)));
 		jry_wb_scroll_body.style.opacity=1;
-		jry_wb_right_tools.body.style.right=jry_wb_scroll_body.clientWidth;
+		jry_wb_right_tools.left(jry_wb_scroll_body.clientWidth);
 		timer=setTimeout(function()
 		{		
 			jry_wb_scroll_body.style.opacity=0;
-			jry_wb_right_tools.body.style.right=0;
+			jry_wb_right_tools.right();
 			timer=null;
 		},1000);
 	};
 	document.addEventListener('DOMMouseScroll',window.onmousewheel,false);
-	window.scrollTo(x,y);
 });

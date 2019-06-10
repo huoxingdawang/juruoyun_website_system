@@ -1,3 +1,4 @@
+<?php if(false){ ?><script><?php } ?>
 var jry_wb_right_tools = new function()
 {
 	this.init=function()
@@ -33,6 +34,21 @@ var jry_wb_right_tools = new function()
 			this.list[i].style.top=this.body.clientHeight*0.05+this.body.clientHeight*(i+1)/(this.list.length+3);
 		}
 	};
+	this.left=function(x)
+	{
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>
+		jry_wb_background_music.backgroundmusic_control.style.right=x+jry_wb_background_music.backgroundmusic_icon.clientWidth;
+<?php } ?>
+		this.body.style.right=x;
+	};
+	this.right=function()
+	{
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>
+		jry_wb_background_music.backgroundmusic_control.style.right=jry_wb_background_music.backgroundmusic_icon.clientWidth;
+<?php } ?>
+		this.body.style.right=0;		
+	};
 	jry_wb_add_onresize(()=>{this.fresh();});
 	jry_wb_add_load(()=>{this.init()});
 };
+<?php if(false){ ?></script><?php } ?>
