@@ -15,6 +15,8 @@ Array.prototype.max=function(a,ex)
 {
 	if(a=='')
 		return undefined;
+	if(this.length==0)
+		return undefined;
 	if(ex=='date')
 		var max=this[0][a].to_time();
 	else
