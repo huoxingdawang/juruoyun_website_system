@@ -1,5 +1,10 @@
-const jry_wb_netdisk_uploader_max_size_pre_chunk=1024*1024*5;
-const jry_wb_netdisk_uploader_max_pices_pre_time=5;
+<?php
+	header("content-type: application/x-javascript");
+	include_once("jry_nd_direct_include.php");
+?>
+<?php if(false){ ?><script><?php } ?>
+const jry_wb_netdisk_uploader_max_size_pre_chunk=1024*<?php echo JRY_ND_UPLOAD_METHOD_0_MAX_SIZE_PRE_CHUNK; ?>;
+const jry_wb_netdisk_uploader_max_pices_pre_time=<?php echo JRY_ND_UPLOAD_METHOD_0_MAX_SIZE_PRE_TIME; ?>;
 function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail_call_back)
 {
 	var start = 0;
@@ -14,67 +19,84 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 	this.name=file.name;
 	this.total=file.size/1024;
 	var arr=file.name.split('.');var type=arr[arr.length-1];arr.pop();var name=arr.join('.');delete arr;
+	var uploading_cnt=0;
+	var uploading_buf=[];
 	this.upload_file=function(blob,index,start,end)
 	{
 		if(this.stopupload)
 			return ;
-		var xhr;
-		var fd;
-		var chunk;
-		xhr = new XMLHttpRequest();
-		xhr.onreadystatechange=()=> 
+		uploading_buf.push(()=>
 		{
-			if(xhr.readyState==4) 
+			uploading_cnt++;
+			var xhr;
+			var fd;
+			var chunk;
+			xhr = new XMLHttpRequest();
+			xhr.onreadystatechange=()=> 
 			{
-				var data=JSON.parse(xhr.responseText);
-				if((!data.code))
+				if(xhr.readyState==4) 
 				{
-					if(!this.stopupload)
+					var data=JSON.parse(xhr.responseText);
+					if((!data.code))
 					{
-						if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-						else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-						else if(data.reason==200001)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+type+"是不允许的文件类型",5000,"auto","error");
-						else if(data.reason==200004)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"分片上传数据发送错误",5000,"auto","error");
-						this.fail_reason=data.reason;
-						uploaded_fail_call_back();
+						if(!this.stopupload)
+						{
+							if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+							else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+							else if(data.reason==200001)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+type+"是不允许的文件类型",5000,"auto","error");
+							else if(data.reason==200004)	jry_wb_beautiful_right_alert.alert(name+(type==''?'':('.'+type))+"上传失败，因为:"+"分片上传数据发送错误",5000,"auto","error");
+							this.fail_reason=data.reason;
+							uploaded_fail_call_back();
+						}
+						this.stopupload=true;
+						return ;
 					}
-					this.stopupload=true;
-					return ;
+					slices--;
+					uploading_cnt--;
+					if(uploading_cnt<jry_wb_netdisk_uploader_max_pices_pre_time&&uploading_buf.length>0)
+					{
+						uploading_buf[0]();
+						uploading_buf=uploading_buf.slice(1);
+					}
+					if(slices==0) 
+						if(this.stopupload)
+							jry_wb_beautiful_right_alert.alert('文件上传失败',5000,'auto','error');
+						else
+							this.merge_file(blob);
 				}
-				slices--;
-				if(slices==0) 
-					if(this.stopupload)
-						jry_wb_beautiful_right_alert.alert('文件上传失败',5000,'auto','error');
-					else
-						this.merge_file(blob);
+			};
+			chunk=blob.slice(start,end);
+			fd=new FormData();
+			fd.append("file",chunk);
+			fd.append("index",index);
+			fd.append("name",name);
+			fd.append("father",father);
+			fd.append("type",type);
+			fd.append("size",Math.ceil(file.size/1024));
+			fd.append("file_id",this.file_id);
+			xhr.open("POST",jry_wb_netdisk_do_file+'?action=upload',true);
+			this.progress.push({
+				'loaded':0,
+				'total':0
+			});
+			var cnt=this.progress.length-1;
+			xhr.upload.onprogress=(event)=>
+			{
+				if(event.lengthComputable)
+					this.progress[cnt].loaded=event.loaded,this.progress[cnt].total=event.total;
+				this.loaded=0;
+				for(var i=0;i<this.progress.length;i++)
+					this.loaded+=this.progress[i].loaded;
+				this.loaded=this.loaded/1024;
 			}
-		};
-		chunk=blob.slice(start,end);
-		fd=new FormData();
-		fd.append("file",chunk);
-		fd.append("index",index);
-		fd.append("name",name);
-		fd.append("father",father);
-		fd.append("type",type);
-		fd.append("size",Math.ceil(file.size/1024));
-		fd.append("file_id",this.file_id);
-		xhr.open("POST",jry_wb_netdisk_do_file+'?action=upload',true);
-		this.progress.push({
-			'loaded':0,
-			'total':0
+			xhr.setRequestHeader("X_Requested_With", location.href.split("/")[3].replace(/[^a-z]+/g, '$'));
+			xhr.send(fd);	
 		});
-		var cnt=this.progress.length-1;
-		xhr.upload.onprogress=(event)=>
+		if(uploading_cnt<jry_wb_netdisk_uploader_max_pices_pre_time&&uploading_buf.length>0)
 		{
-			if(event.lengthComputable)
-				this.progress[cnt].loaded=event.loaded,this.progress[cnt].total=event.total;
-			this.loaded=0;
-			for(var i=0;i<this.progress.length;i++)
-				this.loaded+=this.progress[i].loaded;
-			this.loaded=this.loaded/1024;
-		}
-		xhr.setRequestHeader("X_Requested_With", location.href.split("/")[3].replace(/[^a-z]+/g, '$'));
-		xhr.send(fd);		
+			uploading_buf[0]();
+			uploading_buf=uploading_buf.slice(1);
+		}		
 	}
 	var merge_timer=null;
 	var cnt=0;
@@ -199,3 +221,4 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 		}
 	},[{'name':'father','value':father},{'name':'name','value':name},{'name':'type','value':type},{'name':'size','value':Math.ceil(file.size/1024)}]);
 }
+<?php if(false){ ?></script><?php } ?>

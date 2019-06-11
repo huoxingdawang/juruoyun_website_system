@@ -2,7 +2,7 @@
 	include_once('jry_nd_direct_include.php');
 	function jry_nd_direct_chose_area($conn,$user,$size)
 	{
-		if($size<1000)
+		if($size<JRY_ND_UPLOAD_METHOD_0_MAX_SIZE||JRY_ND_UPLOAD_METHOD_0_MAX_SIZE==-1)
 			$method=0;
 		else
 			$method=1;

@@ -39,7 +39,7 @@
 				$kou_user=$jry_wb_login_user;			
 			$file['extern']=json_decode($file['extern']);
 //			var_dump($share_mode);var_dump($fast_mode);var_dump($by);print_r($file);print_r($area);	print_r($kou_user);
-			if(!$fast_mode&&$file['size']>1024*10)
+			if(!$fast_mode&&$file['size']>JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE&&JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE!=-1)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200009,'file'=>__FILE__,'line'=>__LINE__)));
 			if($area['type']==0)
 			{
