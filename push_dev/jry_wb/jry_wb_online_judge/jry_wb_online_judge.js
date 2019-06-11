@@ -19,6 +19,10 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	this.aftersync=()=>
 	{
 		this.show_class();
+		if(this.question_list==null)	this.question_list=[];
+		if(this.logs==null)				this.logs=[];
+		if(this.classes==null)			this.classes=[];
+		if(this.error==null)			this.error=[];
 		for(var i=0;i<this.question_list.length;i++)
 			this.question_list[i].classes=this.get_classes_by_question(this.question_list[i]),this.question_list[i].error=this.get_error_by_question_id(this.question_list[i].question_id);
 		for(var i=0;i<this.logs.length;i++)
