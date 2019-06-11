@@ -2,8 +2,36 @@
 function jry_wb_highlight(area,code,start)
 {
 <?php if(JRY_WB_DEBUG_MODE){ ?>console.time('jry_wb_highlight');<?php } ?>	
-	var div=document.createElement("div");
-	div.classList.add('jry_wb_highlight');
+	var dom=document.createElement("div");
+	dom.classList.add('jry_wb_highlight');
+	dom.style.maxHeight='390px';
+	dom.style.position='relative';
+	var tools_bar=document.createElement("div");dom.appendChild(tools_bar);
+	tools_bar.classList.add('jry_wb_highlight_tools');
+	var copy=document.createElement("span");tools_bar.appendChild(copy);
+	copy.classList.add('jry_wb_icon_fuzhi','jry_wb_icon');
+	var down=document.createElement("span");tools_bar.appendChild(down);
+	down.classList.add('jry_wb_icon_xuanzeqizhankai','jry_wb_icon');
+	var down_flag=false;
+	down.onclick=function()
+	{
+		if(down_flag==false)
+		{
+			down.classList.add('jry_wb_icon_xuanzeqishouqi');
+			down.classList.remove('jry_wb_icon_xuanzeqizhankai');
+			dom.style.maxHeight='';
+			down_flag=true;
+		}
+		else
+		{
+			down.classList.add('jry_wb_icon_xuanzeqizhankai');
+			down.classList.remove('jry_wb_icon_xuanzeqishouqi');
+			dom.style.maxHeight='390px';	
+			down_flag=false;
+		}
+	};
+	var code_dom=document.createElement("div");dom.appendChild(code_dom);
+	code_dom.classList.add('jry_wb_highlight_code');
 	var language='';
 	function test(text,i,word)
 	{
@@ -15,7 +43,17 @@ function jry_wb_highlight(area,code,start)
 	for(var i=start,n=code.length;i<n;i++)
 	{
 		if(code[i]=='`'&&code[i+1]=='`'&&code[i+2]=='`')
-			return <?php if(JRY_WB_DEBUG_MODE){ ?>console.timeEnd('jry_wb_highlight'),<?php } ?>area.appendChild(div),i+2;
+		{
+			<?php if(JRY_WB_DEBUG_MODE){ ?>console.timeEnd('jry_wb_highlight');<?php } ?>
+			area.appendChild(dom);
+			new jry_wb_beautiful_scroll(dom,undefined,undefined,true);
+			copy.onclick=function()
+			{
+				jry_wb_copy_to_clipboard(code.slice(start+language.length+1,i));
+				jry_wb_beautiful_right_alert.alert('复制成功',2000,'auto','ok')
+			};			
+			return i+2;
+		}
 		if(i==start)
 		{
 			for(;i<n&&code[i]!='\n'&&code[i]!=' ';i++)
@@ -23,15 +61,15 @@ function jry_wb_highlight(area,code,start)
 			language=language.toLowerCase();
 		}
 		else if(code[i]=='\n')
-			div.appendChild(document.createElement('br'));
+			code_dom.appendChild(document.createElement('br'));
 		else if(code[i]=='\t')
 		{
-			var span=document.createElement('span');div.appendChild(span);
+			var span=document.createElement('span');code_dom.appendChild(span);
 			span.innerHTML='&emsp;&emsp;';			
 		}
 		else if(code[i]==' ')
 		{
-			var span=document.createElement('span');div.appendChild(span);
+			var span=document.createElement('span');code_dom.appendChild(span);
 			span.innerHTML='&ensp;';			
 		}
 		else
@@ -61,7 +99,7 @@ function jry_wb_highlight(area,code,start)
 			else if(language=='markdown'||language=='md')
 				operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~','`',';',':'],
 				str			=['"',"'"];
-			var span=document.createElement('span');div.appendChild(span);
+			var span=document.createElement('span');code_dom.appendChild(span);
 			if(flag==false&&!((/[0-9a-zA-Z_]/i).test(code[i-1])))
 				for(var j=0;j<important.length;j++)
 					if(k=test(code,i,important[j]))
@@ -123,7 +161,7 @@ function jry_wb_highlight(area,code,start)
 						flag=true;
 						i+=k-1;
 						if(comment[j].end[comment[j].end.length-1]=='\n')
-							div.appendChild(document.createElement('br'));
+							code_dom.appendChild(document.createElement('br'));
 						break;
 					}
 			if(flag==false)
@@ -146,7 +184,7 @@ function jry_wb_highlight(area,code,start)
 						flag=true;
 						i+=k-1;
 						if(preprocessor[j].end[preprocessor[j].end.length-1]=='\n')
-							div.appendChild(document.createElement('br'));
+							code_dom.appendChild(document.createElement('br'));
 						break;
 					}						
 			if(flag==false)
@@ -169,7 +207,7 @@ function jry_wb_highlight(area,code,start)
 			if(flag==false)
 				span.classList.add('default'),span.innerHTML=code[i];
 		}
-	}
+	}	
 <?php if(JRY_WB_DEBUG_MODE){ ?>console.timeEnd('jry_wb_highlight');<?php } ?>	
 	return false;
 }

@@ -1,10 +1,12 @@
 .jry_wb_beautiful_scroll_body
 {
-	width:15px;
+	width:10px;
+	height:10px;
 }
 .jry_wb_beautiful_scroll_body .jry_wb_beautiful_scroll_kuai
 {
-	width:15px;
+	width:10px;
+	height:10px;
 	background:#00ff00;
 	border-radius:10px;
 }

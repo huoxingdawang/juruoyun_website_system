@@ -62,6 +62,8 @@ function jry_wb_ajax_load_data(url,func,array,yibu)
 }
 function jry_wb_ajax_get_text(data)
 {
+	if(data==null)
+		return '';
 	return data.replace(/\/37/g,"&").replace(/\/43/g,"+")
 }
 <?php if(false){ ?></script><?php } ?>

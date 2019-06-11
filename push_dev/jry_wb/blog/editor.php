@@ -18,7 +18,7 @@
 </div>
 <table height="100%" width="100%" id='area'>
 	<tr>
-		<td width="50%" valign="top" id="bianji"><textarea id="oriContent" style="height:100%;width:100%;" onkeyup="if(timer!=null)clearTimeout(timer);timer=setTimeout(function(){convert();},markdown.time);" contenteditable="true"></textarea></td>
+		<td width="50%" valign="top" id="bianji"><textarea id="oriContent" style="height:100%;width:100%;" onkeyup="if(timer!=null)clearTimeout(timer);timer=setTimeout(function(){convert();},Math.max(markdown.time,1000));" contenteditable="true"></textarea></td>
 		<td width="50%" valign="top" id="show"><div id="result" style="overflow:scroll; height:100%;"></div></td>
 	</tr>
 </table>

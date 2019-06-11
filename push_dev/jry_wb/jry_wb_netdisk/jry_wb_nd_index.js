@@ -88,7 +88,7 @@ jry_wb_add_load(function()
 	var left_body_scroll=new jry_wb_beautiful_scroll(left_body,true);
 	jry_wb_add_onresize(function()
 	{
-		left_body_scroll.scrollto(0);
+		left_body_scroll.scrollto(0,0);
 		message.style.height=Math.max(document.body.clientHeight-message.offsetTop,window.getComputedStyle(message,null).maxHeight);
 	});
 	var upload_refresh_timer=null;

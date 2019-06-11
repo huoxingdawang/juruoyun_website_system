@@ -31,7 +31,7 @@ var jry_wb_chat_room=new function()
 		if(now_show==data.data.room)
 		{
 			show_one_chat_message(one.message_box,buf);
-			this.message_scroll.scrollto(this.message_scroll.get_all_child_height());
+			this.message_scroll.scrollto(0,this.message_scroll.get_all_child_height());
 		}
 		jry_wb_get_user(data.from,false,function(data)
 		{
@@ -750,7 +750,7 @@ var jry_wb_chat_room=new function()
 						{
 							cnt++;
 							if(cnt==all)
-								this.message_scroll.scrollto(this.message_scroll.get_all_child_height());
+								this.message_scroll.scrollto(0,this.message_scroll.get_all_child_height());
 						});
 				console.timeEnd('message');
 				var input_area=document.createElement('div');this.right.appendChild(input_area);
@@ -828,7 +828,7 @@ var jry_wb_chat_room=new function()
 									break;
 							}						
 							if(total>this.right.children[0].clientHeight)
-								this.message_scroll.scrollto(this.message_scroll.get_all_child_height());								
+								this.message_scroll.scrollto(0,this.message_scroll.get_all_child_height());								
 						}
 		},100);
 		first=false;

@@ -19,6 +19,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 	this.strong_flag=false;
 	this.id=id;
 	var allow_html=['audio','div','span','a','b','p','img'];
+	var disallow_attribute=['onclick','onmouseover','onmousedown','onmouseenter','onmouseleave','onmousemove','onmouseout','onmouseover','onmousewheel','ondrag','ondrop','onfocus'];
 	function test(text,i,word)
 	{
 		for(var j=0;j<word.length&&(i+j)<text.length;j++)
@@ -228,7 +229,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 										this.lasttext=null;
 										var dom=document.createElement(allow_html[j]);
 										art=art.split(' ');
-										console.log(art);
 										for(var d=0;d<art.length;d++)
 										{
 											var buff=art[d].split('=');
@@ -236,6 +236,19 @@ function jry_wb_markdown(area,id,time,text,notitle)
 												dom.setAttribute(buff[0],buff[1].slice(1,-1));
 										}
 										dom.innerHTML=buf;
+										function ju(d)
+										{
+											if(d.tagName=='SCRIPT')
+												setTimeout(function(){eval(d.innerHTML)},500);
+											for(var e=0;e<disallow_attribute.length;e++)
+												d.removeAttribute(disallow_attribute[e]);
+											for(var i=0;i<d.children.length;i++)
+												if(!allow_html.includes(d.children[i].tagName.toLowerCase()))
+													d.removeChild(d.children[i]);
+												else
+													ju(d.children[i]);
+										}
+										ju(dom);
 										this.area.appendChild(dom);
 										break;
 									}										
@@ -379,6 +392,8 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						{
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
 								href+=this.text[i+j+k+2];
+							if(k<256&&((buf=href.split(',')).length>=2)&&!isNaN(parseInt(buf[0]))&&!isNaN(parseInt(buf[1])))
+								href='http://dev.juruoyun.top/jry_wb/jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
@@ -410,7 +425,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						if(this.lasttext==null)
 							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
 						this.lasttext.innerHTML+=this.text[i];
-					}					
+					}
 				}
 				else if(j=test(this.text,i,'%['))
 				{

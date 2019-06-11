@@ -296,5 +296,5 @@ jry_wb_beautiful_music.prototype.push_song_list = function(list,highlighturl)
 			one.classList.add('active'),this.lastone = one;
 	}
 	if(this.beautiful_scroll==null)
-		this.beautiful_scroll=new jry_wb_beautiful_scroll(this.list_area).jry_wb_scroll_body;
+		this.beautiful_scroll=new jry_wb_beautiful_scroll(this.list_area).jry_wb_scroll_body_y;
 };
