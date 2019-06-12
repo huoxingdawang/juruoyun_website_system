@@ -78,6 +78,7 @@ function jry_nd_get_content_type($type)
 	else if($type=='mpga')		return 'audio/mpeg';
 	else if($type=='mp2')		return 'audio/mp2';
 	else if($type=='mp3')		return 'audio/mp3';
+	else if($type=='mp4')		return 'video/mp4';
 	else if($type=='aif')		return 'audio/x-aiff';
 	else if($type=='aiff')		return 'audio/x-aiff';
 	else if($type=='aifc')		return 'audio/x-aiff';

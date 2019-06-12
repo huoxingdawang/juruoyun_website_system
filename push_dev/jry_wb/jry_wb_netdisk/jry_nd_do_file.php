@@ -46,7 +46,7 @@
 				if(!$fast_mode)
 				{
 					jry_nd_direct_set_head($action,$file);
-					echo jry_nd_local_read_file($area,$file);
+					jry_nd_local_echo_file($area,$file);
 				}
 				else
 				{
