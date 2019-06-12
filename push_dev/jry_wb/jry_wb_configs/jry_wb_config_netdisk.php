@@ -1,6 +1,6 @@
 <?php
 //上传文件前缀
-	define('JRY_ND_UPLOAD_FILE_PREFIX'					,'jry_nd_');
+	define('JRY_ND_UPLOAD_FILE_PREFIX'					,'');
 //oss加速签名时间(s做单位)
 	define('JRY_ND_OSS_SIGN_MAX_TIME'					,5);
 //aly sts ak id
@@ -16,11 +16,11 @@
 //高速流量价格(KB/绿币)
 	define('JRY_ND_PRICE_FAST_SIZE'						,2*1024);
 //方法0(服务器)上最大值(-1是不限制)
-	define('JRY_ND_UPLOAD_METHOD_0_MAX_SIZE'			,1024*20);
+	define('JRY_ND_UPLOAD_METHOD_0_MAX_SIZE'			,-1);
 //方法0(服务器)上单分片最大值
 	define('JRY_ND_UPLOAD_METHOD_0_MAX_SIZE_PRE_CHUNK'	,1024*10);
 //方法0(服务器)同时上传分片最大值
 	define('JRY_ND_UPLOAD_METHOD_0_MAX_SIZE_PRE_TIME'	,2);
 //方法0(服务器)下载最大值(-1是不限制)
-	define('JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE'			,1024*10);
+	define('JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE'			,-1);
 ?>
