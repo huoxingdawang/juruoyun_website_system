@@ -34,6 +34,8 @@
 	define('JRY_WB_CHECK_MAIL_SWITCH'					,false);
 //注册检测电话
 	define('JRY_WB_CHECK_TEL_SWITCH'					,true);
+//验证码字体位置
+	define('JRY_WB_VCODE_FONT_DIR'						,'');
 //是否是主站
 	define('JRY_WB_HOST_SWITCH'							,false);
 //主站地址

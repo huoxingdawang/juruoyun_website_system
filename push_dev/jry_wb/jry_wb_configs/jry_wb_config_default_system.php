@@ -1,6 +1,7 @@
 <?php
 	include_once("jry_wb_config_default_user.php");
 	define('JRY_WB_LOCAL_DIR'			,dirname(dirname(__FILE__)));
+	define('JRY_WB_LOCAL_DATA_DIR'		,dirname(dirname(dirname(__FILE__))).'/data/');
 	define('JRY_WB_HOST'				,'http://'.JRY_WB_DOMIN.(JRY_WB_PORT==''?'':(':'.JRY_WB_PORT)).'/jry_wb/');
 	define('JRY_WB_DATA_HOST'			,'http://'.JRY_WB_DOMIN.(JRY_WB_PORT==''?'':(':'.JRY_WB_PORT)).'/data/');
 	define('JRY_WB_VERSION'				,'3.0dev');

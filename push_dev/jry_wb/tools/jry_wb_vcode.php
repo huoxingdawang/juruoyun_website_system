@@ -1,4 +1,5 @@
 <?php
+	include_once("../jry_wb_configs/jry_wb_config_default_user.php");
 	include_once("jry_wb_get_device.php");
 	include_once("jry_wb_test_device.php");
 	if((!jry_wb_test_is_mobile())||jry_wb_get_device()=='ipad')
@@ -24,7 +25,7 @@
 	{
 		$c=$srcstr[mt_rand(0, 50)];
 		$_SESSION["vcode"].=$c;
-		imagettftext($im,$fontsize,mt_rand(0,50),10+$i*$fontsize,$fontsize+4,$font,'../../data/font/simhei.ttf',$c);
+		imagettftext($im,$fontsize,mt_rand(0,50),10+$i*$fontsize,$fontsize+4,$font,JRY_WB_VCODE_FONT_DIR,$c);
 	}
 	imagerectangle($im, 0, 0, $width -1, $height -1, $font);
 	imagepng($im);
