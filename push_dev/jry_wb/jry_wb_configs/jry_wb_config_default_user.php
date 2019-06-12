@@ -35,7 +35,11 @@
 //注册检测电话
 	define('JRY_WB_CHECK_TEL_SWITCH'					,true);
 //验证码字体位置
-	define('JRY_WB_VCODE_FONT_DIR'						,'');
+	define('JRY_WB_VCODE_FONT_DIR'						,JRY_WB_LOCAL_DATA_DIR.'font/simhei.ttf');
+//验证码斜度
+	define('JRY_WB_VCODE_FONT_SLOPE'					,[-45,45]);
+//验证码颜色
+	define('JRY_WB_VCODE_COLOR'							,[['back'=>['r'=>0xFF,'g'=>0xFF,'b'=>0xFF],'pix'=>['r'=>187,'g'=>230,'b'=>247],'font'=>['r'=>41,'g'=>163,'b'=>238]]]);		
 //是否是主站
 	define('JRY_WB_HOST_SWITCH'							,false);
 //主站地址
