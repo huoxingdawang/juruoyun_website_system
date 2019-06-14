@@ -32,6 +32,10 @@ function jry_wb_highlight(area,code,start)
 	};
 	var code_dom=document.createElement("div");dom.appendChild(code_dom);
 	code_dom.classList.add('jry_wb_highlight_code');
+	jry_wb_add_onresize(()=>
+	{
+		tools_bar.style.width=code_dom.clientWidth;
+	});
 	var language='';
 	function test(text,i,word)
 	{
