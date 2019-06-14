@@ -46,7 +46,7 @@
 			$slope=mt_rand(JRY_WB_VCODE_FONT_SLOPE[0],JRY_WB_VCODE_FONT_SLOPE[1]);
 		imagettftext($im,$fontsize,$slope,$fontsize+$i*$fontsize,$fontsize*1.5,$font,$dir,$c);
 	}
-	for ($i=0;$i<$width*$height*(3/2);$i++) 
+	for ($i=0;$i<$width*$height*JRY_WB_VCODE_NOISE_RATIO;$i++) 
 		imagesetpixel($im, mt_rand(0, $width), mt_rand(0, $height), $pix);
 	imagerectangle($im, 0, 0, $width -1, $height -1, $font);
 	imagepng($im);
