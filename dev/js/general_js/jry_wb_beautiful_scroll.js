@@ -231,7 +231,7 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 	area.addEventListener("touchstart",(e)=>
 	{
 		jry_wb_beautiful_scroll_run_flag=true;
-		e.preventDefault();
+		document.body.style.overflowY='hidden';
 		if(typeof e=='undefined'||e==undefined)
 			e=window.event;
 		if(e.touches!=null&&e.touches.length==1)
@@ -246,6 +246,7 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 	area.addEventListener("touchmove",(e)=>
 	{
 		jry_wb_beautiful_scroll_run_flag=true;
+		document.body.style.overflowY='hidden';
 		if(typeof e=='undefined'||e==undefined)
 			e=window.event;
 		if(e.touches!=null&&e.touches.length==1)
@@ -254,14 +255,13 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 		else if(e.changedTouches!=null&&e.changedTouches.length==1)
 			e.clientY		=e.changedTouches[0].clientY,
 			e.clientX		=e.changedTouches[0].clientX;
-		e.preventDefault();
 		area.onmousewheel({'deltaY':last_y-e.clientY,'deltaX':last_x-e.clientX});
 		last_y=e.clientY;		
 		last_x=e.clientX;
 	},false);
 	area.addEventListener("touchend",(e)=>
 	{
-		e.preventDefault();
+		document.body.style.overflowY='scroll';		
 		jry_wb_beautiful_scroll_run_flag=false;
 	},false);
 	area.onmousewheel=(e)=>
@@ -439,7 +439,8 @@ jry_wb_add_load(function()
 {
 	var timer1=null;/*鼠标离开*/
 	var timer4=null;/*点击动画*/
-	document.body.style.overflow='hidden';
+	if(!jry_wb_test_is_pc())
+		document.body.style.overflowX='hidden',document.body.style.overflowY='scroll';
 	var jry_wb_scroll_body=document.createElement("div");document.body.appendChild(jry_wb_scroll_body);
 	jry_wb_scroll_body.style.position='fixed';
 	jry_wb_scroll_body.style.right='0';
@@ -559,7 +560,7 @@ jry_wb_add_load(function()
 	{
 		return false;
 	};
-	var last_y=0;
+/*	var last_y=0;
 	document.addEventListener("touchstart",function(evt)
 	{
 		if(jry_wb_beautiful_scroll_run_flag)
@@ -586,14 +587,17 @@ jry_wb_add_load(function()
 		window.onmousewheel({'deltaY':last_y-event.clientY});
 		last_y=event.clientY;		
 	},false);
+*/
 	window.onmousewheel=function(e)
 	{
 		if(timer1!=null)clearTimeout(timer1),timer1=null;
 		if(timer4!=null)clearTimeout(timer4),timer4=null;
+		if(!jry_wb_test_is_pc())
+			document.body.style.overflowX='hidden',document.body.style.overflowY='scroll';		
 		if(window.innerHeight==document.body.offsetHeight||jry_wb_beautiful_scroll_run_flag)
 			return;
 		e=e||window.event;
-		if(e!=null)
+		if(e!=null&&jry_wb_test_is_pc())
 			window.scrollTo(window.scrollX,window.scrollY+(e.deltaY||e.detail*50));
 		jry_wb_scroll_body.style.height=window.innerHeight-Math.max(0,top_toolbar.clientHeight-window.scrollY);
 		jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight-window.scrollY);
@@ -608,5 +612,7 @@ jry_wb_add_load(function()
 			timer1=null;
 		},1000);
 	};
+	if(!jry_wb_test_is_pc())
+		jry_wb_add_onscroll(window.onmousewheel);
 	document.addEventListener('DOMMouseScroll',window.onmousewheel,false);
 });
