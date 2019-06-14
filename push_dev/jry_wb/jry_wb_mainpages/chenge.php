@@ -41,7 +41,7 @@
 	</tr>
 </table>
 <script language="javascript">
-	var jry_wb_gravatar_user_head=<?php	$uri = 'http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404';$headers = @get_headers($uri);if (preg_match("|200|", $headers[0])) echo "'".$uri."'";else echo 'null';?>;
+	var jry_wb_gravatar_user_head=<?php	$uri = 'http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404';if(JRY_WB_CHECK_GRAVATAR)$headers=@get_headers($uri);if((!JRY_WB_CHECK_GRAVATAR)||preg_match("|200|", $headers[0])) echo "'".$uri."'";else echo 'null';?>;
 	var style=JSON.parse('<?php  echo json_encode($ans);?>');
 </script>
 <script language="javascript" src="jry_wb_mainpages_chenge.js.php"></script>

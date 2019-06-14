@@ -57,6 +57,8 @@
 	define('JRY_WB_DEBUG_MODE'							,true);
 //socket模式	
 	define('JRY_WB_SOCKET_SWITCH'						,false);
+//检查gravator头像合法性(如果你的服务器在内网请设置为false否则会卡顿)
+	define('JRY_WB_CHECK_GRAVATAR'						,false);
 //默认歌单
 	if(JRY_WB_BACKGROUND_MUSIC_SWITCH)
 		define('JRY_WB_BACKGROUND_MUSIC_DEFAULT_LIST',
