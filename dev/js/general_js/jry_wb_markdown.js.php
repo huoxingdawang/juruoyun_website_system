@@ -32,7 +32,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 <?php if(JRY_WB_DEBUG_MODE){ ?>console.time('jry_wb_markdown');<?php } ?>
 		var start=new Date();
 		this.father.removeChild(this.area);
-<?php if(JRY_WB_DEBUG_MODE){ ?>console.timeLog('jry_wb_markdown');<?php } ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>if(typeof console.timeLog!='undefined')console.timeLog('jry_wb_markdown');<?php } ?>
 		this.area.innerHTML='';
 		this.catalog.innerHTML='';
 		this.autonum=false;
@@ -601,7 +601,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		}
 		for(var i=0;i<this.catalogdoc.length;i++)
 			this.catalogdoc[i].innerHTML=this.catalog.innerHTML;
-<?php if(JRY_WB_DEBUG_MODE){ ?>console.timeLog('jry_wb_markdown');<?php } ?>
+<?php if(JRY_WB_DEBUG_MODE){ ?>if(typeof console.timeLog!='undefined')console.timeLog('jry_wb_markdown');<?php } ?>
 		this.father.appendChild(this.area);		
 <?php if(JRY_WB_DEBUG_MODE){ ?>console.timeEnd('jry_wb_markdown');<?php } ?>
 		this.time=(new Date()-start);
