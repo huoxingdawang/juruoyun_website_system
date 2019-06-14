@@ -37,14 +37,14 @@ var jry_wb_right_tools = new function()
 	this.left=function(x)
 	{
 <?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>
-		jry_wb_background_music.backgroundmusic_control.style.right=x+jry_wb_background_music.backgroundmusic_icon.clientWidth;
+		if(typeof jry_wb_background_music.backgroundmusic_control!='undefined')jry_wb_background_music.backgroundmusic_control.style.right=x+jry_wb_background_music.backgroundmusic_icon.clientWidth;
 <?php } ?>
 		this.body.style.right=x;
 	};
 	this.right=function()
 	{
 <?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>
-		jry_wb_background_music.backgroundmusic_control.style.right=jry_wb_background_music.backgroundmusic_icon.clientWidth;
+		if(typeof jry_wb_background_music.backgroundmusic_control!='undefined')jry_wb_background_music.backgroundmusic_control.style.right=jry_wb_background_music.backgroundmusic_icon.clientWidth;
 <?php } ?>
 		this.body.style.right=0;		
 	};
