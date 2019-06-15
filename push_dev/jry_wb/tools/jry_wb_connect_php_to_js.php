@@ -46,6 +46,5 @@
 		echo (json_encode($data));?>'));
 	jry_wb_login_user.zhushi=jry_wb_login_user.zhushi.replace(/<br>/g,'\n');
 	jry_wb_login_user.id=parseInt(jry_wb_login_user.id);
-	var jry_wb_save_browsing_history=jry_wb_message.jry_wb_host+"tools/jry_wb_save_browsing_history.php";
 	jry_wb_time_different=(new Date()-new Date('<?php  echo jry_wb_get_time();?>'.replace(/\-/g, "/")));
 </script>

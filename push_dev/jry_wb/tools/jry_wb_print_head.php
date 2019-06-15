@@ -4,6 +4,7 @@
 	{
 		ob_start();
 		global $jry_wb_login_user; 
+		include("jry_wb_save_browsing_history.php");
 		global $jry_wb_keywords; 
 		global $jry_wb_description; 
 		if($setweb)
@@ -53,7 +54,6 @@
 		  <div class="rect5" style="-webkit-animation-delay: -0.8s;animation-delay: -0.8s;"></div>
 		</div>
 	</div>
-	<script  type='text/javascript'>jry_wb_ajax_load_data(jry_wb_save_browsing_history,function(data){data=JSON.parse(data);if(data==true)jry_wb_loading_off();else jry_wb_beautiful_alert.alert("网络错误","请刷新");},[{'name':'from','value':document.referrer},{'name':'now','value':document.location.href}]);</script>
 	<?php ob_flush();
 		if($checklogin)
 		{
