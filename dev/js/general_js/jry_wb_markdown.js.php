@@ -33,6 +33,13 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		var start=new Date();
 		this.father.removeChild(this.area);
 <?php if(JRY_WB_DEBUG_MODE){ ?>if(typeof console.timeLog!='undefined')console.timeLog('jry_wb_markdown');<?php } ?>
+		if(typeof jry_wb_ajax_get_text=="function")
+			text=jry_wb_ajax_get_text(text);
+		else
+			text=(text);
+		if(text==this.text)
+			return;
+		this.text=text;
 		this.area.innerHTML='';
 		this.catalog.innerHTML='';
 		this.autonum=false;
@@ -44,13 +51,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		this.delete_flag=false;
 		this.em_flag=false;
 		this.strong_flag=false;
-		if(typeof jry_wb_ajax_get_text=="function")
-			text=jry_wb_ajax_get_text(text);
-		else
-			text=(text);
-		if(text==this.text)
-			return;
-		this.text=text;
 		var buf=document.createElement('div');
 		var title_flag=false;
 		var title_flag_enable=true;
