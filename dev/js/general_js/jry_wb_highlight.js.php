@@ -190,7 +190,7 @@ function jry_wb_highlight(area,code,start)
 							code_dom.appendChild(document.createElement('br'));
 						break;
 					}
-			if(flag==false)
+			if(flag==false&&code[i-1]!='\\')
 				for(var j=0;j<str_length;j++)
 					if(k=test(code,i,str[j]))
 					{
@@ -198,15 +198,20 @@ function jry_wb_highlight(area,code,start)
 						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
 						span.classList.add('string');
 						span.innerHTML+=str[j];
-						for(;i<n&&(!(k=test(code,i,str[j])));i++)
+						for(;i<n&&((!(k=test(code,i,str[j])))||(k!=false&&code[i-1]=='\\'))&&(code[i]!='`'&&code[i+1]!='`'&&code[i+2]!='`');i++)
 							if(code[i]=='\n')
 								span.appendChild(document.createElement('br'));
 							else if(code[i]==' ')
 								span.innerHTML+='&nbsp;';
 							else
 								span.innerHTML+=code[i];
-						span.innerHTML+=str[j];
 						flag=true;
+						if(code[i+1]=='`'&&code[i+2]=='`'&&code[i+3]=='`')
+						{
+							i-=1;
+							break;
+						}
+						span.innerHTML+=str[j];
 						lastword_dom=null;
 						i+=k-1;
 						break;
