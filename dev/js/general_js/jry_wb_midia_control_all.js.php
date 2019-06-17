@@ -1,5 +1,5 @@
 <?php if(false){ ?><script><?php } ?>
-var jry_wb_midia_control_all  =  new function()
+var jry_wb_midia_control_all=new function()
 {
 	this.playing_buf = null;
 	this.playing = 0;
@@ -8,9 +8,11 @@ var jry_wb_midia_control_all  =  new function()
 	var timer3=null;
 	jry_wb_js_session.add_listener(1,(data)=>
 	{
+<?php if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?>		
 		var playing=jry_wb_cache.get('background_music');
 		if(playing.status==true)
 			this.stop_background=false;
+<?php } ?>
 		if(data=='get')
 		{
 			if(timer1!=null)
