@@ -76,7 +76,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 				}
 				else if(title_flag_enable)
 					title_flag=true;
-					
 				i+=2;
 				continue;
 			}
@@ -112,23 +111,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 			}
 			else
 			{
-				if(j=test(this.text,i,'[toc]'))
-				{
-					i+=j;
-					var buf=document.createElement('ul');this.area.appendChild(buf);
-					buf.classList.add('md_toc_ul');
-					this.catalogdoc.push(buf);
-					buf.innerHTML=this.catalog.innerHTML;
-					this.lasttext=null;
-				}
-				else if(j=test(this.text,i,'```'))
-				{
-					i+=j;
-					if((j=jry_wb_highlight(this.area,this.text,i))!==false)
-						i=j;
-					this.lasttext=null;
-				}
-				else if(this.text[i]=='#'&&(i==0||this.text[i-1]=='\n'))
+				if(this.text[i]=='#'&&(i==0||this.text[i-1]=='\n'))
 				{
 					for(var j=0;(i+j)<this.text.length&&this.text[i+j]=='#';j++);
 					i+=j;
@@ -282,6 +265,57 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						cite.innerHTML+=this.text[i];
 					var br=document.createElement("br");this.lasttext.appendChild(br);
 				}
+				else if(j=test(this.text,i,'[toc]'))
+				{
+					i+=j;
+					var buf=document.createElement('ul');this.area.appendChild(buf);
+					buf.classList.add('md_toc_ul');
+					this.catalogdoc.push(buf);
+					buf.innerHTML=this.catalog.innerHTML;
+					this.lasttext=null;
+				}				
+				else if(this.text[i]=='[')
+				{
+					var word='';
+					var href='';
+					var failed=false;
+					for(var j=0;(i+j+1)<n&&this.text[i+j+1]!=']'&&j<128;j++)
+						word+=this.text[i+j+1];
+					j+=2;
+					if(j<128)
+					{
+						if(this.text[i+j]=='(')
+						{
+							for(var k=0;(i+j+k+1)<n&&this.text[i+j+k+1]!=')'&&k<256;k++)
+								href+=this.text[i+j+k+1];
+							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
+							{
+								i+=j;
+								i+=k;
+								i+=1;
+								if(this.lasttext==null)
+									this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');					
+								var a=document.createElement("a");this.lasttext.appendChild(a);
+								a.href=href;
+								a.classList.add('md_link');
+								a.setAttribute('target','_blank');
+								a.innerHTML=word;	
+							}
+							else
+								failed=true;
+						}
+						else
+							failed=true;
+					}
+					else
+						failed=true;
+					if(failed)
+					{
+						if(this.lasttext==null)
+							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
+						this.lasttext.innerHTML+=this.text[i];
+					}
+				}			
 				else if(j=test(this.text,i,'=='))
 				{
 					i+=j;
@@ -519,7 +553,26 @@ function jry_wb_markdown(area,id,time,text,notitle)
 							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
 						this.lasttext.innerHTML+=this.text[i];
 					}					
-				}					
+				}
+				else if(j=test(this.text,i,'```'))
+				{
+					i+=j;
+					if((j=jry_wb_highlight(this.area,this.text,i))!==false)
+						i=j;
+					this.lasttext=null;
+				}				
+				else if((j=test(this.text,i,'-[x]'))||(k=test(this.text,i,'-[]')))
+				{
+					if(this.lasttext==null)
+						this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
+					var b=document.createElement("b");this.lasttext.appendChild(b);
+					b.classList.add('jry_wb_icon');
+					if(j==false)
+						j=k,b.classList.add('md_unfinish','jry_wb_icon_hr');
+					else
+						b.classList.add('md_finish','jry_wb_icon_duigoux');
+					i+=(j-1);
+				}
 				else if((j=test(this.text,i,'[http://'))||(k=test(this.text,i,'[https://')))
 				{
 					var href='http';
@@ -536,60 +589,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 					a.classList.add('md_link');
 					a.setAttribute('target','_blank');
 					a.innerHTML='网页链接';
-				}
-				else if(this.text[i]=='[')
-				{
-					var word='';
-					var href='';
-					var failed=false;
-					for(var j=0;(i+j+1)<n&&this.text[i+j+1]!=']'&&j<128;j++)
-						word+=this.text[i+j+1];
-					j+=2;
-					if(j<128)
-					{
-						if(this.text[i+j]=='(')
-						{
-							for(var k=0;(i+j+k+1)<n&&this.text[i+j+k+1]!=')'&&k<256;k++)
-								href+=this.text[i+j+k+1];
-							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
-							{
-								i+=j;
-								i+=k;
-								i+=1;
-								if(this.lasttext==null)
-									this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');					
-								var a=document.createElement("a");this.lasttext.appendChild(a);
-								a.href=href;
-								a.classList.add('md_link');
-								a.setAttribute('target','_blank');
-								a.innerHTML=word;	
-							}
-							else
-								failed=true;
-						}
-						else
-							failed=true;
-					}
-					else
-						failed=true;
-					if(failed)
-					{
-						if(this.lasttext==null)
-							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
-						this.lasttext.innerHTML+=this.text[i];
-					}
-				}
-				else if((j=test(this.text,i,'-[x]'))||(k=test(this.text,i,'-[]')))
-				{
-					if(this.lasttext==null)
-						this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
-					var b=document.createElement("b");this.lasttext.appendChild(b);
-					b.classList.add('jry_wb_icon');
-					if(j==false)
-						j=k,b.classList.add('md_unfinish','jry_wb_icon_hr');
-					else
-						b.classList.add('md_finish','jry_wb_icon_duigoux');
-					i+=(j-1);
 				}
 				else
 				{
