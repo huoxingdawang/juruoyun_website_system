@@ -6,12 +6,9 @@ function jry_wb_trie()
 		if(i==w.length)
 			return;
 		if(t[w[i]]==undefined)
-		{
-			t[w[i]]={};
-			t[w[i]].c=[];
-		}
-		t[w[i]].p=(w.length==(i+1));
-		if(t[w[i]].p==true)
+			t[w[i]]={},t[w[i]].c=[],t[w[i]].p=false;
+		t[w[i]].p|=(w.length==(i+1));
+		if(w.length==(i+1))
 			t[w[i]].d=d;
 		newnode(t[w[i]].c,w,i+1,d);
 	};
