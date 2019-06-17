@@ -47,6 +47,7 @@ function jry_wb_highlight(area,code,start)
 	}
 	for(var i=start,n=code.length;i<n&&code[i]!='\n'&&code[i]!=' ';i++)
 		language+=code[i];
+	i++;
 	language=language.toLowerCase();
 	var important=[],operator=[],str=[],comment=[],preprocessor=[],constant=[];
 	if(jry_wb_highlight_buf[language]==undefined)
@@ -54,15 +55,15 @@ function jry_wb_highlight(area,code,start)
 		if(language=='c')
 			important	=['asm','auto','break','case','char','const','continue','default','define','do','double','else','enum','extern','float','for','goto','if','inline','int','long','register','return','short','signed','sizeof','static','struct','switch','true','typedef','union','unsigned','void','volatile','while'],
 			constant	=['NULL'],
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'];
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','$','%','^','&','*','-','=','+','~',';',':'];
 		else if(language=='c++'||language=='cpp')
 			important	=['asm','auto','bool','break','case','catch','char','class','const','const_cast','continue','default','define','delete','do','double','dynamic_cast','else','enum','explicit','export','extern','false','float','for','friend','goto','if','inline','int','long','mutable','namespace','new','operator','private','protected','public','register','reinterpret_cast','return','short','signed','sizeof','static','static_cast','struct','switch','template','this','throw','try','typedef','typeid','typename','union','unsigned','using','virtual','void','volatile','wchar_t','while'],
 			constant	=['NULL','false','true'],
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'];
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','$','%','^','&','*','-','=','+','~',';',':'];
 		else if(language=='javascript'||language=='js')
 			important	=['abstract','arguments','boolean','break','byte','case','catch','char','class','const','continue','debugger','default','delete','do','double','else','enum','eval','export','extends','false','final','finally','float','for','function','goto','if','implements','import','in','instanceof','int','interface','let','long','native','new','null','package','private','protected','public','return','short','static','super','switch','synchronized','this','throw','throws','transient','true','try','typeof','var','void','volatile','while','with','yield'],
 			constant	=['Array','Date','Infinity','Math','NaN','Number','Object','String','eval','false','function','isFinite','isNaN','length','name','null','prototype','true','undefined'],
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'];
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','$','%','^','&','*','-','=','+','~',';',':'];
 		else if(language=='markdown'||language=='md')
 			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'];
 		jry_wb_highlight_buf[language]=new jry_wb_trie();
@@ -72,8 +73,6 @@ function jry_wb_highlight(area,code,start)
 			jry_wb_highlight_buf[language].add(constant[j]		,{'word':constant[j]		,'type':'constant'});
 		for(var j=0,n=operator.length;j<n;j++)
 			jry_wb_highlight_buf[language].add(operator[j]		,{'word':operator[j]		,'type':'operator'});
-		for(var j=0,n=str.length;j<n;j++)
-			jry_wb_highlight_buf[language].add(str[j]			,{'word':str[j]				,'type':'str'});
 	}
 	if(language=='c')
 		comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
@@ -89,9 +88,10 @@ function jry_wb_highlight(area,code,start)
 		str			=['"',"'"];
 	else if(language=='markdown'||language=='md')
 		str			=['"',"'"];
-	var important_length=important.length,constant_length=constant.length,str_length=str.length,operator_length=operator.length,comment_length=comment.length,preprocessor_length=preprocessor.length;	
+	var str_length=str.length,comment_length=comment.length,preprocessor_length=preprocessor.length;	
 	var trie=jry_wb_highlight_buf[language];
 	var lastword_dom=null;
+	var nwt=(/[0-9a-zA-Z_]/i);
 	for(n=code.length;i<n;i++)
 	{
 		if(code[i]=='`'&&code[i+1]=='`'&&code[i+2]=='`')
@@ -125,52 +125,6 @@ function jry_wb_highlight(area,code,start)
 		{
 			var flag=false;
 			if(flag==false)
-				for(var j=0;j<str_length;j++)
-					if(k=test(code,i,str[j]))
-					{
-						i+=k;
-						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
-						span.classList.add('string');
-						span.innerHTML+=str[j];
-						for(;i<n&&(!(k=test(code,i,str[j])));i++)
-							if(code[i]=='\n')
-								span.appendChild(document.createElement('br'));
-							else if(code[i]==' ')
-								span.innerHTML+='&nbsp;';
-							else
-								span.innerHTML+=code[i];
-						span.innerHTML+=str[j];
-						flag=true;
-						lastword_dom=null;
-						i+=k-1;
-						break;
-					}
-			if(flag==false)
-				for(var j=0;j<preprocessor_length;j++)
-					if(k=test(code,i,preprocessor[j].start))
-					{
-						i+=k;
-						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
-						span.innerHTML+=preprocessor[j].start;
-						span.classList.add('preprocessor');
-						for(;i<n&&(!(k=test(code,i,preprocessor[j].end)));i++)
-						{
-							if(code[i]=='\n')
-								span.appendChild(document.createElement('br'));
-							else if(code[i]==' ')
-								span.innerHTML+='&nbsp;';
-							else
-								span.innerHTML+=code[i];
-						}
-						span.innerHTML+=preprocessor[j].end;
-						flag=true;
-						lastword_dom=null;
-						i+=k-1;
-						if(preprocessor[j].end[preprocessor[j].end.length-1]=='\n')
-							code_dom.appendChild(document.createElement('br'));
-						break;
-					}
-			if(flag==false)
 				for(var j=0;j<comment_length;j++)
 					if(k=test(code,i,comment[j].start))
 					{
@@ -198,16 +152,67 @@ function jry_wb_highlight(area,code,start)
 				var result=trie.serch(code,i);
 				if(result!=null)
 				{
-					var span=document.createElement('span');code_dom.appendChild(span);
-					span.innerHTML=result.word;
-					span.classList.add(result.type);
-					i+=result.word.length-1;
-					flag=true;
-					lastword_dom=null;
+					var wl=result.word.length;
+					if(	((result.type=='important'||result.type=='constant')	&&(!nwt.test(code[i-1]))&&(!nwt.test(code[i+wl])))||
+						((result.type=='operator')								&&true)	)
+					{
+						var span=document.createElement('span');code_dom.appendChild(span);
+						span.innerHTML=result.word;
+						span.classList.add(result.type);
+						i+=wl-1;
+						flag=true;
+						lastword_dom=null;
+					}
 				}
 			}
 			if(flag==false)
-				if(!((/[0-9a-zA-Z_]/i).test(code[i-1]))&&!isNaN(parseInt(code[i])))
+				for(var j=0;j<preprocessor_length;j++)
+					if(k=test(code,i,preprocessor[j].start))
+					{
+						i+=k;
+						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
+						span.innerHTML+=preprocessor[j].start;
+						span.classList.add('preprocessor');
+						for(;i<n&&(!(k=test(code,i,preprocessor[j].end)));i++)
+						{
+							if(code[i]=='\n')
+								span.appendChild(document.createElement('br'));
+							else if(code[i]==' ')
+								span.innerHTML+='&nbsp;';
+							else
+								span.innerHTML+=code[i];
+						}
+						span.innerHTML+=preprocessor[j].end;
+						flag=true;
+						lastword_dom=null;
+						i+=k-1;
+						if(preprocessor[j].end[preprocessor[j].end.length-1]=='\n')
+							code_dom.appendChild(document.createElement('br'));
+						break;
+					}
+			if(flag==false)
+				for(var j=0;j<str_length;j++)
+					if(k=test(code,i,str[j]))
+					{
+						i+=k;
+						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
+						span.classList.add('string');
+						span.innerHTML+=str[j];
+						for(;i<n&&(!(k=test(code,i,str[j])));i++)
+							if(code[i]=='\n')
+								span.appendChild(document.createElement('br'));
+							else if(code[i]==' ')
+								span.innerHTML+='&nbsp;';
+							else
+								span.innerHTML+=code[i];
+						span.innerHTML+=str[j];
+						flag=true;
+						lastword_dom=null;
+						i+=k-1;
+						break;
+					}
+			if(flag==false)
+				if(!(nwt.test(code[i-1]))&&!isNaN(parseInt(code[i])))
 				{
 					flag=true;
 					var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
