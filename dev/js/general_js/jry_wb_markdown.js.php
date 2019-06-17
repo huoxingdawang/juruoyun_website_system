@@ -45,9 +45,12 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		this.em_flag=false;
 		this.strong_flag=false;
 		if(typeof jry_wb_ajax_get_text=="function")
-			this.text=jry_wb_ajax_get_text(text);
+			text=jry_wb_ajax_get_text(text);
 		else
-			this.text=(text);
+			text=(text);
+		if(text==this.text)
+			return;
+		this.text=text;
 		var buf=document.createElement('div');
 		var title_flag=false;
 		var title_flag_enable=true;
