@@ -563,6 +563,8 @@ function show_ip()
 	
 	for(let i=0;i<jry_wb_login_user.login_addr.length;i++)
 	{
+		if(jry_wb_login_user.login_addr[i]==undefined)
+			continue;
 		let div=document.createElement("div");h55.appendChild(div);
 		div.innerHTML=jry_wb_login_user.login_addr[i].data;
 		let logout=document.createElement("span");div.appendChild(logout);
@@ -578,8 +580,11 @@ function show_ip()
 					if(data.code)
 					{
 						h55.removeChild(div);
+						delete div;
 						if(jry_wb_login_user.login_addr[i].isthis)
-							document.location.href=jry_wb_message.jry_wb_index_page;						
+							document.location.href=jry_wb_message.jry_wb_index_page;	
+						delete jry_wb_login_user.login_addr[i];
+						window.onresize();
 					}
 					else
 					{
@@ -615,7 +620,10 @@ function show_ip()
 							jry_wb_login_user.login_addr[i].trust=0;
 							trust.classList.remove('jry_wb_color_ok');
 							if(!jry_wb_login_user.login_addr[i].isthis)
+							{
 								div.removeChild(trust);
+								delete trust;
+							}
 							jry_wb_beautiful_right_alert.alert('解除信任成功',2000,'auto','ok');
 						}
 						else
