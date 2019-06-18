@@ -49,49 +49,56 @@ function jry_wb_highlight(area,code,start)
 		language+=code[i];
 	i++;
 	language=language.toLowerCase();
+	if(language=='c++')
+		language='cpp';
 	var important=[],operator=[],str=[],comment=[],preprocessor=[],constant=[];
 	if(jry_wb_highlight_buf[language]==undefined)
 	{
 		if(language=='c')
 			important	=['asm','auto','break','case','char','const','continue','default','define','do','double','else','enum','extern','float','for','goto','if','inline','int','long','register','return','short','signed','sizeof','static','struct','switch','true','typedef','union','unsigned','void','volatile','while'],
 			constant	=['NULL'],
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','$','%','^','&','*','-','=','+','~',';',':'];
-		else if(language=='c++'||language=='cpp')
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','$','%','^','&','*','-','=','+','~',';',':'],
+			comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
+			preprocessor=[{'start':'#','end':'\n'}],
+			str			=['"',"'"];
+		else if(language=='cpp')
 			important	=['asm','auto','bool','break','case','catch','char','class','const','const_cast','continue','default','define','delete','do','double','dynamic_cast','else','enum','explicit','export','extern','false','float','for','friend','goto','if','inline','int','long','mutable','namespace','new','operator','private','protected','public','register','reinterpret_cast','return','short','signed','sizeof','static','static_cast','struct','switch','template','this','throw','try','typedef','typeid','typename','union','unsigned','using','virtual','void','volatile','wchar_t','while'],
 			constant	=['NULL','false','true'],
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','$','%','^','&','*','-','=','+','~',';',':'];
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','$','%','^','&','*','-','=','+','~',';',':'],
+			comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
+			preprocessor=[{'start':'#','end':'\n'}],
+			str			=['"',"'"];
 		else if(language=='javascript'||language=='js')
 			important	=['abstract','arguments','boolean','break','byte','case','catch','char','class','const','continue','debugger','default','delete','do','double','else','enum','eval','export','extends','false','final','finally','float','for','function','goto','if','implements','import','in','instanceof','int','interface','let','long','native','new','null','package','private','protected','public','return','short','static','super','switch','synchronized','this','throw','throws','transient','true','try','typeof','var','void','volatile','while','with','yield'],
 			constant	=['Array','Date','Infinity','Math','NaN','Number','Object','String','eval','false','function','isFinite','isNaN','length','name','null','prototype','true','undefined'],
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','$','%','^','&','*','-','=','+','~',';',':'];
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','$','%','^','&','*','-','=','+','~',';',':'],
+			comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
+			preprocessor=[{'start':'#','end':'\n'}],				
+			str			=['"',"'"];
 		else if(language=='markdown'||language=='md')
-			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'];
+			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'],
+			str			=['"',"'"];
+		else if(language=='bash')
+			important	=['sudo','apt-get','apt','install','ps','grep','cd','ls','netplan','apply','chmod'],
+			constant	=['openssh-server','apache2','php7.2'];
 		jry_wb_highlight_buf[language]=new jry_wb_trie();
 		for(var j=0,n=important.length;j<n;j++)
-			jry_wb_highlight_buf[language].add(important[j]		,{'word':important[j]		,'type':'important'});
+			jry_wb_highlight_buf[language].add(important[j]				,{'word':important[j]		,'type':'important'});
 		for(var j=0,n=constant.length;j<n;j++)
-			jry_wb_highlight_buf[language].add(constant[j]		,{'word':constant[j]		,'type':'constant'});
+			jry_wb_highlight_buf[language].add(constant[j]				,{'word':constant[j]		,'type':'constant'});
 		for(var j=0,n=operator.length;j<n;j++)
-			jry_wb_highlight_buf[language].add(operator[j]		,{'word':operator[j]		,'type':'operator'});
+			jry_wb_highlight_buf[language].add(operator[j]				,{'word':operator[j]		,'type':'operator'});
+		for(var j=0,n=comment.length;j<n;j++)
+			jry_wb_highlight_buf[language].add(comment[j].start			,{'data':comment[j]			,'type':'comment'});
+		for(var j=0,n=preprocessor.length;j<n;j++)
+			jry_wb_highlight_buf[language].add(preprocessor[j].start	,{'data':preprocessor[j]	,'type':'preprocessor'});	
+		for(var j=0,n=str.length;j<n;j++)
+			jry_wb_highlight_buf[language].add(str[j]					,{'word':str[j]				,'type':'str'});
 	}
-	if(language=='c')
-		comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
-		preprocessor=[{'start':'#','end':'\n'}],
-		str			=['"',"'"];
-	else if(language=='c++'||language=='cpp')
-		comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
-		preprocessor=[{'start':'#','end':'\n'}],
-		str			=['"',"'"];
-	else if(language=='javascript'||language=='js')
-		comment		=[{'start':'/*','end':'*/'},{'start':'//','end':'\n'}],
-		preprocessor=[{'start':'#','end':'\n'}],				
-		str			=['"',"'"];
-	else if(language=='markdown'||language=='md')
-		str			=['"',"'"];
-	var str_length=str.length,comment_length=comment.length,preprocessor_length=preprocessor.length;	
 	var trie=jry_wb_highlight_buf[language];
 	var lastword_dom=null;
 	var nwt=(/[0-9a-zA-Z_]/i);
+	var wt=(/[a-zA-Z_]/i);
 	for(n=code.length;i<n;i++)
 	{
 		if(code[i]=='`'&&code[i+1]=='`'&&code[i+2]=='`')
@@ -124,100 +131,102 @@ function jry_wb_highlight(area,code,start)
 		else
 		{
 			var flag=false;
-			if(flag==false)
-				for(var j=0;j<comment_length;j++)
-					if(k=test(code,i,comment[j].start))
+			var result=trie.serch(code,i);
+			if(result!=null)
+			{
+				if(result.word!=undefined)
+					var wl=result.word.length;
+				else
+					var wl=result.data.start.length;
+				if(	((result.type=='important'||result.type=='constant')	&&(!nwt.test(code[i-1]))&&(!nwt.test(code[i+wl])))||
+					((result.type=='operator')								&&true)	)
+				{
+					i+=wl-1;
+					var span=document.createElement('span');code_dom.appendChild(span);
+					span.innerHTML=result.word;
+					span.classList.add(result.type);
+					flag=true;
+					lastword_dom=null;
+				}
+				else if(result.type=='preprocessor')
+				{
+					i+=wl;
+					var span=document.createElement('span');code_dom.appendChild(span);
+					span.innerHTML+=result.data.start;
+					span.classList.add('preprocessor');
+					for(;i<n&&(!(k=test(code,i,result.data.end)));i++)
 					{
-						i+=k;
-						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
-						span.innerHTML+=comment[j].start;
-						span.classList.add('comment');
-						for(;i<n&&(!(k=test(code,i,comment[j].end)));i++)
-							if(code[i]=='\n')
-								span.appendChild(document.createElement('br'));
-							else if(code[i]==' ')
-								span.innerHTML+='&nbsp;';
-							else
-								span.innerHTML+=code[i];
-						span.innerHTML+=comment[j].end;
-						flag=true;
+						if(code[i]=='\n')
+							span.appendChild(document.createElement('br'));
+						else if(code[i]==' ')
+							span.innerHTML+='&nbsp;';
+						else
+							span.innerHTML+=code[i];
+					}
+					span.innerHTML+=result.data.end;
+					flag=true;
+					lastword_dom=null;
+					i+=k-1;
+					if(result.data.end[result.data.end.length-1]=='\n')
+						code_dom.appendChild(document.createElement('br'));
+					
+				}
+				else if(result.type=='comment')
+				{
+					i+=wl;
+					var span=document.createElement('span');code_dom.appendChild(span);
+					span.innerHTML+=result.data.start;
+					span.classList.add('comment');
+					for(;i<n&&(!(k=test(code,i,result.data.end)));i++)
+						if(code[i]=='\n')
+							span.appendChild(document.createElement('br'));
+						else if(code[i]==' ')
+							span.innerHTML+='&nbsp;';
+						else
+							span.innerHTML+=code[i];
+					span.innerHTML+=result.data.end;
+					flag=true;
+					lastword_dom=null;
+					i+=k-1;
+					if(result.data.end[result.data.end.length-1]=='\n')
+						code_dom.appendChild(document.createElement('br'));
+					
+				}
+				else if(result.type=='str'&&code[i-1]!='\\')
+				{
+					i+=wl;
+					var span=document.createElement('span');code_dom.appendChild(span);
+					span.classList.add('string');
+					span.innerHTML+=result.word;
+					for(;i<n&&((!(k=test(code,i,result.word)))||(k!=false&&code[i-1]=='\\'))&&!(code[i]=='`'&&code[i+1]=='`'&&code[i+2]=='`');i++)
+						if(code[i]=='\n')
+							span.appendChild(document.createElement('br'));
+						else if(code[i]==' ')
+							span.innerHTML+='&nbsp;';
+						else
+							span.innerHTML+=code[i];
+					flag=true;
+					if(code[i]=='`'&&code[i]=='`'&&code[i]=='`')
+						i-=1;
+					else
+					{
+						span.innerHTML+=result.word;
 						lastword_dom=null;
 						i+=k-1;
-						if(comment[j].end[comment[j].end.length-1]=='\n')
-							code_dom.appendChild(document.createElement('br'));
-						break;
 					}
-			if(flag==false)
-			{
-				var result=trie.serch(code,i);
-				if(result!=null)
+				}
+				else
 				{
-					var wl=result.word.length;
-					if(	((result.type=='important'||result.type=='constant')	&&(!nwt.test(code[i-1]))&&(!nwt.test(code[i+wl])))||
-						((result.type=='operator')								&&true)	)
-					{
-						var span=document.createElement('span');code_dom.appendChild(span);
-						span.innerHTML=result.word;
-						span.classList.add(result.type);
-						i+=wl-1;
-						flag=true;
-						lastword_dom=null;
-					}
+					i+=wl-1;
+					if(lastword_dom==null)
+						lastword_dom=document.createElement('span'),code_dom.appendChild(lastword_dom);		
+					lastword_dom.classList.add('default');
+					lastword_dom.innerHTML+=result.word;
+					flag=true;
 				}
 			}
 			if(flag==false)
-				for(var j=0;j<preprocessor_length;j++)
-					if(k=test(code,i,preprocessor[j].start))
-					{
-						i+=k;
-						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
-						span.innerHTML+=preprocessor[j].start;
-						span.classList.add('preprocessor');
-						for(;i<n&&(!(k=test(code,i,preprocessor[j].end)));i++)
-						{
-							if(code[i]=='\n')
-								span.appendChild(document.createElement('br'));
-							else if(code[i]==' ')
-								span.innerHTML+='&nbsp;';
-							else
-								span.innerHTML+=code[i];
-						}
-						span.innerHTML+=preprocessor[j].end;
-						flag=true;
-						lastword_dom=null;
-						i+=k-1;
-						if(preprocessor[j].end[preprocessor[j].end.length-1]=='\n')
-							code_dom.appendChild(document.createElement('br'));
-						break;
-					}
-			if(flag==false&&code[i-1]!='\\')
-				for(var j=0;j<str_length;j++)
-					if(k=test(code,i,str[j]))
-					{
-						i+=k;
-						var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
-						span.classList.add('string');
-						span.innerHTML+=str[j];
-						for(;i<n&&((!(k=test(code,i,str[j])))||(k!=false&&code[i-1]=='\\'))&&(code[i]!='`'&&code[i+1]!='`'&&code[i+2]!='`');i++)
-							if(code[i]=='\n')
-								span.appendChild(document.createElement('br'));
-							else if(code[i]==' ')
-								span.innerHTML+='&nbsp;';
-							else
-								span.innerHTML+=code[i];
-						flag=true;
-						if(code[i+1]=='`'&&code[i+2]=='`'&&code[i+3]=='`')
-						{
-							i-=1;
-							break;
-						}
-						span.innerHTML+=str[j];
-						lastword_dom=null;
-						i+=k-1;
-						break;
-					}
-			if(flag==false)
-				if(!(nwt.test(code[i-1]))&&!isNaN(parseInt(code[i])))
+				if(!(wt.test(code[i-1]))&&!isNaN(parseInt(code[i])))
 				{
 					flag=true;
 					var span=document.createElement('span');code_dom.appendChild(span);lastword_dom=null;
@@ -228,8 +237,9 @@ function jry_wb_highlight(area,code,start)
 			if(flag==false)
 			{
 				if(lastword_dom==null)
-					lastword_dom=document.createElement('span');code_dom.appendChild(lastword_dom);
-				lastword_dom.classList.add('default'),lastword_dom.innerHTML+=code[i];
+					lastword_dom=document.createElement('span'),code_dom.appendChild(lastword_dom);
+				lastword_dom.classList.add('default');
+				lastword_dom.innerHTML+=code[i];
 			}
 		}
 	}	

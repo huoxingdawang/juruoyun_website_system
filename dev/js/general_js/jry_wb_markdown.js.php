@@ -27,18 +27,20 @@ function jry_wb_markdown(area,id,time,text,notitle)
 				return false;
 		return word.length;
 	}
-	this.fresh=(time,text)=>
+	this.fresh=(time,text,force)=>
 	{
-<?php if(JRY_WB_DEBUG_MODE){ ?>console.time('jry_wb_markdown');<?php } ?>
-		var start=new Date();
-		this.father.removeChild(this.area);
-<?php if(JRY_WB_DEBUG_MODE){ ?>if(typeof console.timeLog!='undefined')console.timeLog('jry_wb_markdown');<?php } ?>
+		if(force==undefined)
+			force=false;
 		if(typeof jry_wb_ajax_get_text=="function")
 			text=jry_wb_ajax_get_text(text);
 		else
 			text=(text);
-		if(text==this.text)
+		if(text==this.text&&!force)
 			return;
+<?php if(JRY_WB_DEBUG_MODE){ ?>console.time('jry_wb_markdown');<?php } ?>
+		var start=new Date();
+		this.father.removeChild(this.area);
+<?php if(JRY_WB_DEBUG_MODE){ ?>if(typeof console.timeLog!='undefined')console.timeLog('jry_wb_markdown');<?php } ?>
 		this.text=text;
 		this.area.innerHTML='';
 		this.catalog.innerHTML='';
