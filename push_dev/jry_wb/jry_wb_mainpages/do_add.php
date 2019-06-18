@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");	
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)
 	{
 		?><script>window.location="<?php echo JRY_WB_HOST_ADDRESS?>mainpages/add.php"</script><?php

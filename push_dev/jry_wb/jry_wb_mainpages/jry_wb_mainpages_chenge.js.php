@@ -1,7 +1,7 @@
 <?php
 	header("content-type: application/x-javascript");
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");	
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 ?>
 <?php if(false){ ?><script><?php } ?>
 var showdiv=document.getElementById("show");
@@ -2023,6 +2023,8 @@ function tp_in()
 <?php if($JRY_WB_CONFIG_USER_EXTERN_MESSAGE!=NULL){ ?>
 function showextern()
 {
+	if(jry_wb_login_user.extern==null)
+		jry_wb_login_user.extern={};
 	window.location.hash='extern';
 	showdiv.innerHTML='';
 	if(login_timer==null)clearInterval(login_timer),login_timer=null;

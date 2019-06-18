@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/JRY_WB_CONFIG_USER_EXTERN_MESSAGE.php");	
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 	try{jry_wb_check_compentence(NULL,array('use','manage','manageusers'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	if($_GET['action']=='')
 	{
