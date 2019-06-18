@@ -110,9 +110,8 @@
 	$st->bindParam(1,jry_wb_get_time());	
 	$st->bindParam(2,$jry_wb_login_user['id']);
 	$st->execute();
-	if(strtotime($jry_wb_login_user['greendate'].' +24 hours')<time())
+	if(strtotime($jry_wb_login_user['greendate'].' + '.JRY_WB_LOGIN_TIME.' seconds')<time())
 		jry_wb_set_green_money($conn,$jry_wb_login_user,$green_money=rand(1,10),constant('jry_wb_log_type_green_money_login_add'));
-	
 	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=? AND device=? AND code=? AND ip=? AND browser=?');
 	$st->bindParam(1,$jry_wb_login_user['id']);
 	$st->bindParam(2,jry_wb_get_device(true));

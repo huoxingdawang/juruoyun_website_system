@@ -250,6 +250,6 @@ function jry_wb_add_onbeforeunload(func)
 function setinterval(func,time)
 {
 	func();
-	setInterval(func,time);
+	return setInterval(func,time);
 }
 <?php if(false){ ?></script><?php } ?>

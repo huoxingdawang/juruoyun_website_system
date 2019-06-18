@@ -24,6 +24,14 @@
 				echo json_encode(array('data'=>'mail'));
 			exit();
 		}
+		else if($_GET['action']=='qiandao')
+		{
+			$green_money=0;
+			if(strtotime($jry_wb_login_user['greendate'].' + '.JRY_WB_LOGIN_TIME.' seconds')<time())
+				jry_wb_set_green_money($conn,$jry_wb_login_user,$green_money=rand(1,10),constant('jry_wb_log_type_green_money_login_add'));
+			echo json_encode(array('code'=>true,'green_money'=>$green_money,'greendate'=>jry_wb_get_time()));
+			exit();
+		}
 		else if($_GET['action']=='send_tel')
 		{
 			if(JRY_WB_SHORT_MESSAGE_SWITCH=='')

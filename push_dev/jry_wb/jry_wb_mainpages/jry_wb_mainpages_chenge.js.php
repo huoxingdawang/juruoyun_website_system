@@ -12,8 +12,6 @@ function unlock()
 login_timer=next_green_timer=null;
 function show()
 {
-	if(window.location.hash=='#show'&&showdiv.innerHTML!='')
-		return;
 	window.location.hash='show';
 	showdiv.innerHTML='';
 	var table=document.createElement("table");
@@ -470,7 +468,7 @@ function show()
 	jry_wb_show_tr_no_input(table,'登录日期',jry_wb_login_user.logdate,'',250);		
 	var login_time=jry_wb_show_tr_no_input(table,'已登录时间',0,'login','',250).children[0];
 	if(login_timer==null)clearInterval(login_timer),login_timer=null;
-	login_timer=setInterval(function()
+	login_timer=setinterval(function()
 	{
 		var ms=jry_wb_compare_time(jry_wb_get_server_time(),jry_wb_login_user.logdate);
 		var day=parseInt(ms/(24*60*60*1000));
@@ -482,9 +480,9 @@ function show()
 	jry_wb_show_tr_no_input(table,'上次绿币奖励时间',jry_wb_login_user.greendate,'',250);
 	var next_green_time=jry_wb_show_tr_no_input(table,'距下次获得',0,'next',250).children[0];
 	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
-	next_green_timer=setInterval(function()
+	next_green_timer=setinterval(function()
 	{
-		var ms=24*60*60*1000-jry_wb_compare_time(jry_wb_get_server_time(),jry_wb_login_user.greendate);
+		var ms=<?php echo JRY_WB_LOGIN_TIME ?>*1000-jry_wb_compare_time(jry_wb_get_server_time(),jry_wb_login_user.greendate);
 		if(ms>0)
 		{
 			var day=0;
@@ -494,7 +492,41 @@ function show()
 			next_green_time.innerHTML=hour+"时"+minute+"分"+s+"秒";
 		}
 		else
-			next_green_time.innerHTML="时间到，退出重登即可";
+		{
+			next_green_time.innerHTML="时间到，点击这里即可";
+			clearInterval(next_green_timer),next_green_timer=null;
+			next_green_time.onclick=function()
+			{
+				jry_wb_ajax_load_data('do_chenge.php?action=qiandao',function(data)
+				{
+					data=JSON.parse(data);
+					jry_wb_loading_off();
+					if(data.code)
+					{
+						if(data.green_money==0)
+							jry_wb_beautiful_alert.alert('签到失败','没到时间，嘤嘤嘤');
+						else
+						{
+							jry_wb_beautiful_alert.alert('签到成功','随机奖励绿币'+data.green_money);
+							jry_wb_login_user.green_money+=data.green_money;
+							jry_wb_login_user.greendate=data.greendate;
+							next_green_timer=null;
+							show();
+						}
+					}
+					else
+					{
+						if(data.reason==100000)
+							jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+						else if(data.reason==100001)
+							jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+						else
+							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
+						return ;
+					}
+				});				
+			};
+		}
 	},1000);
 	jry_wb_show_tr_no_input(table,'类型',jry_wb_login_user.competencename,'',250);	
 	var td=jry_wb_show_tr_no_input(table,'显示状态演示','','',250);
