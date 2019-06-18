@@ -79,7 +79,7 @@ function jry_wb_highlight(area,code,start)
 			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'],
 			str			=['"',"'"];
 		else if(language=='bash')
-			important	=['sudo','apt-get','apt','install','ps','grep','cd','ls','netplan','apply','chmod'],
+			important	=['sudo','apt-get','apt','install','ps','grep','cd','ls','netplan','apply','chmod','restart'],
 			constant	=['openssh-server','apache2','php7.2'];
 		jry_wb_highlight_buf[language]=new jry_wb_trie();
 		for(var j=0,n=important.length;j<n;j++)
