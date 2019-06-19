@@ -156,8 +156,8 @@ function  jry_wb_beautiful_alert_function()
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
 				jry_wb_beautiful_scroll_run_flag=false;
-				func();
 				window.onkeyup=old_onkeyup;
+				func();
 			};
 		}
 		else
@@ -169,9 +169,9 @@ function  jry_wb_beautiful_alert_function()
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
 				jry_wb_beautiful_scroll_run_flag=false;
+				window.onkeyup=old_onkeyup;
 				if(typeof func!="undefined")
 					eval(func);
-				window.onkeyup=old_onkeyup;
 			};		
 		}
 		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
