@@ -113,8 +113,15 @@
 	}
 	$user['head_special']->mouse_out->result=jry_wb_get_user_head_style_out($user);
 	$user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($user);
+	if($user['head']==''||$user['head']==NULL||$user['head']=='NULL')
+		if($user['sex']==0)
+			$user['head']=array('type'=>'default_head_woman');
+		else
+			$user['head']=array('type'=>'default_head_man');
+	else
+		$user['head']=json_decode($user['head'],true);	
 	$data=array('id'=>(int)$id,
-				'head'=>json_decode($user['head'],true),
+				'head'=>$user['head'],
 				'head_special'=>$user['head_special'],
 				'green_money'=>$user['green_money'],
 				'enroldate'=>$user['enroldate'],
@@ -135,7 +142,8 @@
 				'oauth_github'=>(($admin_mode||$user['oauth_show'])?$user['oauth_github']->message:null),
 				'oauth_gitee'=>(($admin_mode||$user['oauth_show'])?$user['oauth_gitee']->message:null),
 				'login_addr'=>($user['ip_show']||($admin_mode))?$ip:-1,
-				'password'=>($admin_mode)?$user['password']:''
+				'password'=>($admin_mode)?$user['password']:'',
+				'extern'=>($admin_mode)?json_decode($user['extern']):''
 				);
 	echo json_encode($data);
 ?>

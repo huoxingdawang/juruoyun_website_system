@@ -99,6 +99,13 @@
 			$user['style_id']=1;
 			$user['head_special']='NULL';
 		}
+		if($user['head']==''||$user['head']==NULL||$user['head']=='NULL')
+			if($user['sex']==0)
+				$user['head']=array('type'=>'default_head_woman');
+			else
+				$user['head']=array('type'=>'default_head_man');
+		else
+			$user['head']=json_decode($user['head'],true);
 		if(!jry_wb_test_is_cli_mode())
 		{
 			foreach($user['ips']as $ips)
@@ -144,7 +151,6 @@
 				$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
 			if($user['extern']!='')
 				$user['extern']=json_decode($user['extern']);
-			$user['head']=json_decode($user['head'],true);
 		}
 		else
 		{
