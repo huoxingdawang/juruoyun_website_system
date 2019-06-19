@@ -41,6 +41,23 @@
 			echo json_encode(array('code'=>true,'data'=>$data));
 			exit();
 		}
+		else if($_GET['action']=='getlog')
+		{
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_LOG."data WHERE id=? AND time>? AND type!=?");
+			$st->bindValue(1,$jry_wb_login_user['id']);
+			$st->bindValue(2,$_GET['lasttime']);
+			$st->bindValue(3,constant('jry_wb_log_type_send_tel_code'));
+			$st->execute();			
+			$data=[];
+			foreach($st->fetchAll() as $one)
+				$data[]=array(	'log_id'=>$one['log_id'],
+								'id'=>$one['id'],
+								'time'=>$one['time'],
+								'type'=>$one['type'],
+								'data'=>$one['data']);
+			echo json_encode(array('code'=>true,'data'=>$data));
+			exit();
+		}		
 		else if($_GET['action']=='creatinvitecode'&&JRY_WB_INVITE_CODE)
 		{
 			$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_GENERAL."invite_code (`id`,`code`,`creattime`,`lasttime`) VALUES (?,?,?,?);");

@@ -36,6 +36,7 @@
 			<?php if(JRY_WB_OAUTH_SWITCH){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showtpin();window.onresize();">第三方接入</div><?php } ?>
 			<?php if($JRY_WB_CONFIG_USER_EXTERN_MESSAGE!=NULL){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showextern();window.onresize();">扩展信息</div><?php } ?>
 			<?php if(JRY_WB_INVITE_CODE){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showinvitecode();window.onresize();">邀请码</div><?php } ?>
+			<div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showlog();window.onresize();">操作记录</div>
 			<?php if(!$jry_wb_login_user['use']){ ?><div class="leftlist_default" onClick="unlock()">申请解封</div><?php } ?>
 	  </td>
 		<td id="show"  valign="top"></td>

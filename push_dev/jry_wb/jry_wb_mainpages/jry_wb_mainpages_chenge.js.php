@@ -512,6 +512,7 @@ function show()
 							jry_wb_login_user.greendate=data.greendate;
 							next_green_timer=null;
 							show();
+							jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog&lasttime='+jry_wb_cache.get_last_time('log'),null,function(a){return a.log_id==this.buf.log_id},function(data){log_data=data;jry_wb_cache.set_last_time('log',data.max('time','date'));if(window.location.hash=='#log')showlog();},function(a,b){return b.log_id-a.log_id});
 						}
 					}
 					else
@@ -2317,6 +2318,154 @@ function showinvitecode()
 	
 }
 <?php } ?>
+var log_data=[];
+jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog&lasttime='+jry_wb_cache.get_last_time('log'),null,function(a){return a.log_id==this.buf.log_id},function(data){log_data=data;jry_wb_cache.set_last_time('log',data.max('time','date'));if(window.location.hash=='#log')showlog();},function(a,b){return b.log_id-a.log_id});
+function showlog()
+{
+	window.location.hash='log';
+	showdiv.innerHTML='';
+	if(login_timer==null)clearInterval(login_timer),login_timer=null;
+	if(next_green_timer==null)clearInterval(next_green_timer),next_green_timer=null;
+	var table=document.createElement("table");showdiv.appendChild(table);	
+	table.border=1;
+	table.width="100%";	
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.innerHTML='您的操作记录';
+	td.setAttribute('colspan',4);
+	td.classList.add('h56');
+	td.style.textAlign='center';
+	var tr=document.createElement("tr");table.appendChild(tr);	
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.innerHTML='编号';
+	td.style.width='10%';
+	td.style.textAlign='center';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.style.textAlign='center';
+	td.style.width='10%';
+	td.innerHTML='类型';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.style.textAlign='center';
+	td.style.width='20%';
+	td.innerHTML='时间';
+	var td=document.createElement("td");tr.appendChild(td);
+	td.classList.add('h56');
+	td.style.textAlign='center';
+	td.innerHTML='详细事件';
+	for(let i=0,n=log_data.length;i<n;i++)
+	{
+		var tr=document.createElement("tr");table.appendChild(tr);	
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h56');
+		td.innerHTML=log_data[i].log_id;
+		td.style.width='20%';
+		td.style.textAlign='center';
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h56');
+		if(log_data[i].use==0)
+			td.classList.add('jry_wb_color_ok');	
+		td.style.textAlign='center';
+		switch(log_data[i].type)
+		{
+			case <?php echo constant('jry_wb_log_type_test')?>:
+				td.innerHTML='测试';
+				break;
+			case <?php echo constant('jry_wb_log_type_logout')?>:
+				td.innerHTML='登出';
+				break;
+			case <?php echo constant('jry_wb_log_type_add')?>:
+				td.innerHTML='注册';
+				break;
+			case <?php echo constant('jry_wb_log_type_login')?>:
+				td.innerHTML='登录';
+				break;
+			case <?php echo constant('jry_wb_log_type_forget')?>:
+				td.innerHTML='找回密码';
+				break;
+			case <?php echo constant('jry_wb_log_type_green_money')?>:
+				td.innerHTML='绿币变化';
+				break;
+			default :
+				td.innerHTML='未知操作';			
+		}
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h56');
+		td.style.textAlign='center';		
+		td.innerHTML=log_data[i].time;
+		var td=document.createElement("td");tr.appendChild(td);
+		td.classList.add('h56');
+		td.style.textAlign='center';
+		switch(log_data[i].type)
+		{
+			case <?php echo constant('jry_wb_log_type_test')?>:
+				td.innerHTML='测试';
+				break;
+			case <?php echo constant('jry_wb_log_type_logout')?>:
+				break;
+			case <?php echo constant('jry_wb_log_type_add')?>:
+				break;
+			case <?php echo constant('jry_wb_log_type_login')?>:
+				var buf=JSON.parse(log_data[i].data);
+				td.innerHTML='在'+buf.ip+'以';
+				switch(buf.type)
+				{
+					case 1:
+						td.innerHTML+='电话+密码';						
+						break;
+					case 2:
+						td.innerHTML+='邮箱+密码';						
+						break;
+					case 4:
+						td.innerHTML+='QQ第三方登录';						
+						break;
+					case 5:
+						td.innerHTML+='github第三方登录';						
+						break;
+					case 6:
+						td.innerHTML+='小米第三方登录';						
+						break;
+					case 7:
+						td.innerHTML+='码云第三方登录';						
+						break;
+					case 8:
+						td.innerHTML+='主站登录';						
+						break;
+					default:
+						td.innerHTML+='ID+密码';						
+				}
+				td.innerHTML+='方式登录';
+				break;
+			case <?php echo constant('jry_wb_log_type_forget')?>:
+				break;
+			case <?php echo constant('jry_wb_log_type_green_money')?>:
+				var buf=JSON.parse(log_data[i].data);
+				td.innerHTML='因为';
+				switch(buf.by)
+				{
+					case <?php echo constant('jry_wb_log_type_green_money_login_add')?>:
+						td.innerHTML+='签到或登录奖励';						
+						break;
+					case <?php echo constant('jry_wb_log_type_green_money_pay_nd_size')?>:
+						td.innerHTML+='买网盘空间';						
+						break;
+					case <?php echo constant('jry_wb_log_type_green_money_pay_nd_fast_size')?>:
+						td.innerHTML+='买网盘高速流量';						
+						break;
+					case <?php echo constant('jry_wb_log_type_green_money_invite_user')?>:
+						td.innerHTML+='邀请用户';						
+						break;				
+				}
+				td.innerHTML+=(buf.money<0?'消耗':'获得');
+				td.innerHTML+=Math.abs(buf.money)+'绿币';
+				break;
+			default :
+				td.innerHTML='';			
+		}		
+	}	
+}
 switch(window.location.hash)
 {
 	case '#show':
@@ -2379,8 +2528,12 @@ switch(window.location.hash)
 		window.onresize();
 		break;	
 <?php } ?>
-		default:
-			show();
-			window.onresize();
+	case '#log':
+		showlog();
+		window.onresize();
+		break;	
+	default:
+		show();
+		window.onresize();
 }
 <?php if(false){ ?></script><?php } ?>
