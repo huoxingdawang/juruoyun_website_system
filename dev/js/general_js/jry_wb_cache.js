@@ -46,7 +46,10 @@ var jry_wb_cache=
 			return '1926-08-17 00:00:00';
 		if(buf.data==null||( typeof buf.data=="object"&&buf.data.length==0))
 			return '1926-08-17 00:00:00';
-		return buf.lasttime.to_time().s();
+		if(typeof buf.lasttime.to_time=='function')
+			return buf.lasttime.to_time().s();
+		else
+			return new Date(buf.lasttime).s();
 	},
 	delete:function(name)
 	{
