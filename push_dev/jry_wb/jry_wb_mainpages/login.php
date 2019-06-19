@@ -238,15 +238,15 @@
 	};
 	for(var i=0,n=types.length;i<n;i++)
 		type=types[i].onclick=id.onfocus;
-	var old_onkeydown=document.onkeydown;
-	document.onkeydown=function(e)
+	var old_onkeyup=window.onkeyup;
+	window.onkeyup=function(e)
 	{
 		if (!e) 
 			e=window.event;
 		var keycode=(e.keyCode||e.which);
 		if(keycode==jry_wb_keycode_enter)
 			check();
-		return old_onkeydown();
+		return old_onkeyup();
 	};
 	document.getElementById('id').focus();
 	function qqlogin()

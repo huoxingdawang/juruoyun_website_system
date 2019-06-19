@@ -77,7 +77,7 @@
 				<input name="mail" type="text" id="mail" class="h56" style='width:99%;'/>
 			</td>
 		</tr>
-<?php } ?>			
+<?php } ?>	
 <?php
 	foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)
 	{
@@ -118,6 +118,16 @@
 			</td>
 		</tr>			
 <?php }?>
+<?php if(JRY_WB_INVITE_CODE){ ?>
+		<tr>
+			<td width="200">
+				<h55>邀请码</h55><span style='color:white'>没有留空</span>
+			</td>
+			<td width="300">
+				<input name="invitecode" type="text" id="invitecode" class="h56" style='width:99%;'/>
+			</td>
+		</tr>
+<?php } ?>	
 		<tr>
 			<td>
 				<h55>验证码</h55>

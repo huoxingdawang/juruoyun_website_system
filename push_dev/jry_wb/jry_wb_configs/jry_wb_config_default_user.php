@@ -57,6 +57,12 @@
 	define('JRY_WB_DEBUG_MODE'							,true);
 //socket模式	
 	define('JRY_WB_SOCKET_SWITCH'						,false);
+//登录绿币范围
+	define('JRY_WB_LOGIN_GREEN_MONEY'					,array('min'=>1,'max'=>10));
+//邀请码模式
+	define('JRY_WB_INVITE_CODE'							,false);
+//邀请码奖励绿币范围
+	define('JRY_WB_INVITE_CODE_GREEN_MONEY'				,array('min'=>500,'max'=>500));
 //检查gravator头像合法性(如果你的服务器在内网请设置为false否则会卡顿)
 	define('JRY_WB_CHECK_GRAVATAR'						,false);
 //默认歌单

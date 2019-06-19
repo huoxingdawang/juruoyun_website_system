@@ -40,6 +40,8 @@
 		$psw2=$_POST["password2"];
 		$sex=$_POST["sex"];
 		$tel=$_POST["tel"];
+		if($tel==NULL)
+			$tel='';
 		$name=$_POST["name"];
 		$vcode=$_POST["vcode"];
 		$extern=json_decode(urldecode($_POST["extern"]),true);
@@ -50,13 +52,22 @@
 			else
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100002,'file'=>__FILE__,'line'=>__LINE__)));		
 		}
-		
 		if($name=="")
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100013,'file'=>__FILE__,'line'=>__LINE__)));	
 		if(strlen($psw1)<8)	
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100012,'file'=>__FILE__,'line'=>__LINE__)));	
 		if($psw1!=$psw2)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100011,'file'=>__FILE__,'line'=>__LINE__)));
+		$invite_code=NULL;
+		if(JRY_WB_INVITE_CODE&&$_POST['invitecode']!='')
+		{
+			$st = $conn->prepare('SELECT incite_code_id,id FROM '.JRY_WB_DATABASE_GENERAL."invite_code WHERE code=? AND `use`=0 LIMIT 1;");
+			$st->bindParam(1,$_POST['invitecode']);
+			$st->execute();
+			if(count(($data=$st->fetchAll()))==0)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100019,'file'=>__FILE__,'line'=>__LINE__)));
+			$invite_code=$data[0];
+		}
 		if(JRY_WB_CHECK_TEL_SWITCH)
 		{
 			if(!jry_wb_test_phone_number($tel))
@@ -73,7 +84,6 @@
 				if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));
 			}
-			
 			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=?');
 			$st->bindParam(1,$tel);
 			$st->execute();
@@ -154,17 +164,18 @@
 		$conn=jry_wb_connect_database();
 		$now=jry_wb_get_time();//时间
 		if($sex==0)
-			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?)';
+			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern,invite_id) VALUES (?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?,?)';
 		else
-			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern) VALUES (?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?)';
+			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern,invite_id) VALUES (?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?,?)';
 		$st = $conn->prepare($q);
-		$st->bindParam(1,$name);
-		$st->bindParam(2,$psw1);
-		$st->bindParam(3,$sex);
-		$st->bindParam(4,$now);
-		$st->bindParam(5,$tel);
-		$st->bindParam(6,$now);
-		$st->bindParam(7,json_encode($extern));
+		$st->bindValue(1,$name);
+		$st->bindValue(2,$psw1);
+		$st->bindValue(3,$sex);
+		$st->bindValue(4,$now);
+		$st->bindValue(5,$tel);
+		$st->bindValue(6,$now);
+		$st->bindValue(7,json_encode($extern));
+		$st->bindValue(8,($invite_code==NULL?0:$invite_code['id']));
 		$st->execute();
 		$jry_wb_login_user['id']=$conn->lastInsertId();
 		if(JRY_WB_CHECK_MAIL_SWITCH)
@@ -177,13 +188,22 @@
 			else
 			{
 				$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET mail=? WHERE id=? ');
-				$st->bindParam(1,$_POST['mail']);
-				$st->bindParam(2,$jry_wb_login_user['id']);
+				$st->bindValue(1,$_POST['mail']);
+				$st->bindValue(2,$jry_wb_login_user['id']);
 				$st->execute();					
 			}
 		}			
 		jry_wb_echo_log(constant('jry_wb_log_type_add'),'');
-		$_SESSION['vcode']='';
+		if($invite_code!=NULL)
+		{
+			$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL."invite_code SET `use`=?,`lasttime`=? WHERE incite_code_id=?;");
+			$st->bindValue(1,$jry_wb_login_user['id']);
+			$st->bindValue(2,jry_wb_get_time());			
+			$st->bindValue(3,$invite_code['incite_code_id']);
+			$st->execute();
+			$user=array('id'=>$invite_code['id'],'green_money'=>0,'greendate'=>'1926-08-17 00:00:00');
+			jry_wb_set_green_money($conn,$user,rand(JRY_WB_INVITE_CODE_GREEN_MONEY['min'],JRY_WB_INVITE_CODE_GREEN_MONEY['max']),constant('jry_wb_log_type_green_money_invite_user'));
+		}
 		echo json_encode(array('code'=>true,'id'=>$jry_wb_login_user['id'],'send'=>$send));
 	}
 	catch(jry_wb_exception $e)
