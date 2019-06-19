@@ -14,6 +14,6 @@
 		jry_wb_chat_room.show_main_button.onclick=function(){};
 	});
 </script>
-<link href="http://dev.juruoyun.top/jry_wb/jry_wb_chat/jry_wb_chat.css" type="text/css" rel="stylesheet">
+<link href="jry_wb_chat.css" type="text/css" rel="stylesheet">
 <div id='chat_body' style="width:100%;height:100%"></div>
 <?php jry_wb_print_tail();?>
