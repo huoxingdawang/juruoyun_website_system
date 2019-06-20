@@ -38,9 +38,9 @@ function jry_wb_nd_show_files(checker)
 					if(jry_nd_file_list[i].isdir)
 						jry_wb_nd_show_files_by_dir(jry_nd_file_list[i].dir+jry_nd_file_list[i].name+'/');
 					else if(jry_nd_file_list[i].type=='jpg'||jry_nd_file_list[i].type=='jpeg'||jry_nd_file_list[i].type=='png'||jry_nd_file_list[i].type=='bmp')
-						jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,'http://dev.juruoyun.top/jry_wb/jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
+						jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
 					else if(jry_nd_file_list[i].type=='mp4'||jry_nd_file_list[i].type=='flv')	
-						jry_wb_beautiful_alert.openvideo(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,'http://dev.juruoyun.top/jry_wb/jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''),'');
+						jry_wb_beautiful_alert.openvideo(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''),'');
 					else
 						one.oncontextmenu(event);
 				}

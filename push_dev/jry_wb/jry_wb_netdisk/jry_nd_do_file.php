@@ -43,7 +43,7 @@
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200009,'file'=>__FILE__,'line'=>__LINE__)));
 			if($area['type']==0)
 			{
-				if(!$fast_mode)
+				if(!$fast_mode&&$area['fast'])
 				{
 					jry_nd_direct_set_head($action,$file);
 					jry_nd_local_echo_file($area,$file);
