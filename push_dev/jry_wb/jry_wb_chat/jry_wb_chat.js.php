@@ -572,26 +572,32 @@ var jry_wb_chat_room=new function()
 			add.style.transitionDuration='0s';		
 			add.onclick=()=>
 			{
-<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
-				if(jry_wb_socket.send({'code':true,'type':200003},false)==false)
-<?php } ?>
-				jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=add_room',(data)=>
+				jry_wb_beautiful_alert.check('您确定新建聊天室吗?',function()
 				{
-					jry_wb_loading_off();
-					data=JSON.parse(data);
-					if(data.code==false)
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
+					if(jry_wb_socket.send({'code':true,'type':200003},false)==false)
+<?php } ?>
+					jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=add_room',(data)=>
 					{
-						return;
-					}
-					else				
-						this.sync();
-				});
+						jry_wb_loading_off();
+						data=JSON.parse(data);
+						if(data.code==false)
+						{
+							return;
+						}
+						else				
+							this.sync();
+					});
+				},function(){},'新建','放弃');
 			};
 		}
-		input.style.width=top.clientWidth-serch.offsetWidth-add.offsetWidth-20;
+		var home=document.createElement('a');top.appendChild(home);
+		home.classList.add('jry_wb_icon_home','jry_wb_icon','button');
+		home.href=jry_wb_message.jry_wb_host+'jry_wb_mainpages/index.php';
+		input.style.width=top.clientWidth-serch.offsetWidth-add.offsetWidth-home.offsetWidth-20;
 		jry_wb_add_onresize(function()
 		{
-			input.style.width=top.clientWidth-serch.offsetWidth-add.offsetWidth-20;
+			input.style.width=top.clientWidth-serch.offsetWidth-add.offsetWidth-home.offsetWidth-20;
 		});		
 		var result=document.createElement('div');top.appendChild(result);
 		result.classList.add('result');
@@ -675,7 +681,7 @@ var jry_wb_chat_room=new function()
 				});
 			}
 			rooms[i].name_dom.style.width=Math.max(one.clientWidth-head_width,20);
-			if(rooms[i].id==jry_wb_login_user.id)
+			if(rooms[i].id==jry_wb_login_user.id&&rooms[i].big)
 				rooms[i].name_dom.oncontextmenu=(e)=>
 				{
 					jry_wb_beautiful_alert.prompt('请输入新名字',(value)=>
