@@ -339,7 +339,7 @@ var jry_wb_chat_room=new function()
 				}
 				else				
 					this.sync();
-			},[{'name':'room','value':room},{'name':'message','value':encodeURIComponent(message)}]);
+			},[{'name':'room','value':room},{'name':'message','value':message}]);
 	}
 	setInterval(()=>{
 		if(jry_wb_socket.status!=1)

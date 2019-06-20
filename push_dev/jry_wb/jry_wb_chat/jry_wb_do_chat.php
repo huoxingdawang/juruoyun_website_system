@@ -6,7 +6,7 @@
 	{
 		$data=[];
 		if($action=='send'||$action==200000)
-			jry_wb_chat_send($conn,$jry_wb_login_user,$_POST['room'],urldecode($_POST['message']));					
+			jry_wb_chat_send($conn,$jry_wb_login_user,$_POST['room'],str_replace('/37','&',str_replace('/43','+',$_POST['message'])));					
 		else if($action=='enter_room'||$action==200001)
 			jry_wb_chat_enter_room($conn,$jry_wb_login_user,$_POST['room']);
 		else if($action=='exit_room'||$action==200002)
