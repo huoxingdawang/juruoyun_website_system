@@ -2,8 +2,13 @@
 	include_once("../tools/jry_wb_includes.php");
 	function jry_wb_get_user($conn,$id)
 	{
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id=? LIMIT 1');
-		$st->bindValue(1,$id);
+		if($id=='')
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users ORDER BY id DESC LIMIT 1');
+		else
+		{
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id=? LIMIT 1');
+			$st->bindValue(1,$id);
+		}
 		$st->execute();				
 		$datas=$st->fetchAll();
 		if(count($datas)==0)
@@ -27,6 +32,16 @@
 				$user['competencename']=$user['compentence']['competencename'];
 			}
 		}
+		if($user['oauth_qq']!='')
+			$user['oauth_qq']=json_decode($user['oauth_qq']);
+		if($user['oauth_github']!='')
+			$user['oauth_github']=json_decode($user['oauth_github']);	
+		if($user['oauth_mi']!='')
+			$user['oauth_mi']=json_decode($user['oauth_mi']);	
+		if($user['oauth_gitee']!='')
+			$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
+		if($user['extern']!='')
+			$user['extern']=json_decode($user['extern']);		
 		return $user;
 	}
 	function jry_wb_get_user_head_style_out($user)

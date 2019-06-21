@@ -2,29 +2,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	$conn=jry_wb_connect_database();
 	$admin_mode=(($_GET['admin_mode']=='true')&&($jry_wb_login_user['id']!=-1)&&$jry_wb_login_user['compentence']['manageusers']&&$jry_wb_login_user['compentence']['manage']);	
-	if($_GET['action']=='new')
-	{
-		$q='SELECT *,'.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id AS id
-			FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence 
-			INNER JOIN '.JRY_WB_DATABASE_GENERAL.'users  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.type = '.JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX.'competence.type) 
-			LEFT JOIN '.JRY_WB_DATABASE_GENERAL.'login  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id = '.JRY_WB_DATABASE_GENERAL_PREFIX."login.id)
-			order by ".JRY_WB_DATABASE_GENERAL."users.id desc limit 1";
-		$st = $conn->prepare($q);
-		$st->execute();
-		foreach($st->fetchAll()as $user);
-	}
-	else
-	{
-		$q='SELECT *,'.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id AS id
-			FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence 
-			INNER JOIN '.JRY_WB_DATABASE_GENERAL.'users  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.type = '.JRY_WB_DATABASE_MANAGE_SYSTEM_PREFIX.'competence.type) 
-			LEFT JOIN '.JRY_WB_DATABASE_GENERAL.'login  ON ('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id = '.JRY_WB_DATABASE_GENERAL_PREFIX."login.id)
-			where ".JRY_WB_DATABASE_GENERAL_PREFIX."users.id =? LIMIT 1";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$_GET['id']);
-		$st->execute();
-		foreach($st->fetchAll()as $user);
-	}
+	$user=jry_wb_get_user($conn,$_GET['id']);
 	if($user==null)
 	{
 		echo json_encode(array(	'id'=>(int)$_GET['id'],
@@ -36,7 +14,7 @@
 						));
 		exit();			
 	}
-	if(!$user['use']&&!$jry_wb_login_user['manageusers'])
+	if(!$user['use']&&!$jry_wb_login_user['compentence']['manageusers'])
 	{
 		echo json_encode(array(	'id'=>(int)$_GET['id'],
 								'use'=>(int)$user['use'],
@@ -49,14 +27,6 @@
 		echo json_encode(array('id'=>-1,'use'=>1));
 		exit();
 	}
-	if($user['oauth_qq']!='')
-		$user['oauth_qq']=json_decode($user['oauth_qq']);
-	if($user['oauth_github']!='')
-		$user['oauth_github']=json_decode($user['oauth_github']);	
-	if($user['oauth_mi']!='')
-		$user['oauth_mi']=json_decode($user['oauth_mi']);	
-	if($user['oauth_gitee']!='')
-		$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
 	$ip=array();
 	if($user['ip_show']||($admin_mode))
 	{
