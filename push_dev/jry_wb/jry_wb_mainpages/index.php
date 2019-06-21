@@ -13,7 +13,7 @@
 		else
 		{
 			jry_wb_show_user($jry_wb_login_user);
-			if($jry_wb_login_user['manage']==1)
+			if($jry_wb_login_user['compentence']['manage']==1)
 				jry_wb_print_href('jry_wb_manage_system');
 		}
 		jry_wb_load_website_map();

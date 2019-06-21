@@ -9,9 +9,9 @@
 			$compentence=array('use');
 		if($code=='')
 			$code=$_COOKIE['code'];
-		if(($code!=$jry_wb_login_user['code']||$jry_wb_login_user['code']==''||$code==''))
+		if(($code!=$user['code']||$user['code']==''||$code==''))
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100000,'file'=>__FILE__,'line'=>__LINE__)));		
 		foreach($compentence as $c)
-			if($jry_wb_login_user[$c]==0)
+			if(($c!='use'&&$user['compentence'][$c]==0)||($c=='use'&&$user['use']==0))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'extern'=>$c)));		
 	}

@@ -2,8 +2,7 @@
 	include_once("jry_wb_chat_includes.php");
 	function jry_wb_chat_exit_room($conn,&$user,&$roomm)
 	{
-		if(!$user['usechat'])
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));
+		jry_wb_check_compentence($user,['usechat'],$user['code']);
 		if(jry_wb_chat_get_user($conn,$user)==null)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));
 		if(is_string($roomm)||is_int($roomm))

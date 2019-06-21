@@ -1,7 +1,7 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
-	try{jry_wb_check_compentence(NULL,array('use','manage','manageusers'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
+	try{jry_wb_check_compentence(NULL,array('use','manage','manageusers'));}catch(jry_wb_exception $e){die($e->getMessage());}
 	if($_GET['action']=='')
 	{
 		$id=(int)$_GET['id'];
@@ -12,18 +12,19 @@
 		}
 		$cmd="UPDATE ".JRY_WB_DATABASE_GENERAL."users SET ";
 		foreach ($_POST as $key => $value) 
-			$cmd.='`'.(preg_replace('/[^a-zA-Z]/','',urldecode($key))."`=?,");
+			if(($key=='type'&&$jry_wb_login_user['compentence']['managecompentence'])||$key!='type')
+				$cmd.='`'.(preg_replace('/[^a-zA-Z]/','',urldecode($key))."`=?,");
+			else
+				die(json_encode(array('code'=>false,'reason'=>100001,'extern'=>'managecompentence')));
 		$cmd.=" lasttime=? WHERE id=? LIMIT 1;";
 		$conn2=jry_wb_connect_database();
 		$st = $conn2->prepare($cmd);
 		$i=1;
 		foreach ($_POST as $key => &$value) 
-		{
-			$st->bindParam($i,$value);
-			$i++;
-		}
-		$st->bindParam($i,jry_wb_get_time());
-		$st->bindParam($i+1,$id);
+			if(($key=='type'&&$jry_wb_login_user['compentence']['managecompentence'])||$key!='type')
+				$st->bindValue(($i++),$value);
+		$st->bindValue($i,jry_wb_get_time());
+		$st->bindValue($i+1,$id);
 		$st->execute();
 		echo json_encode(array('code'=>true));
 	}else if($_GET['action']=='name_not_ok')
@@ -32,12 +33,12 @@
 		$cmd="UPDATE ".JRY_WB_DATABASE_GENERAL."users SET `use`=0 , `lasttime`=? WHERE id=? LIMIT 1;";
 		$conn2=jry_wb_connect_database();
 		$st = $conn2->prepare($cmd);
-		$st->bindParam(1,jry_wb_get_time());
-		$st->bindParam(2,$id);
+		$st->bindValue(1,jry_wb_get_time());
+		$st->bindValue(2,$id);
 		$st->execute();
 		$cmd="SELECT mail,name,id FROM ".JRY_WB_DATABASE_GENERAL."users WHERE id=? LIMIT 1;";
 		$st = $conn2->prepare($cmd);
-		$st->bindParam(1,$id);		
+		$st->bindValue(1,$id);		
 		$st->execute();
 		$data=$st->fetchAll()[0];
 		if(jry_wb_send_mail($data['mail'],
@@ -56,7 +57,7 @@
 	{
 		$q='SELECT tel,name FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id = ?';
 		$st = $conn->prepare($q);
-		$st->bindParam(1,$_GET['id']);
+		$st->bindValue(1,$_GET['id']);
 		$st->execute();	
 		$user=$st->fetchAll()[0];
 		require_once "../tools/jry_wb_short_message.php";
@@ -70,7 +71,7 @@
 		$id=(int)$_GET['id'];
 		$cmd="SELECT mail,name,id FROM ".JRY_WB_DATABASE_GENERAL."users WHERE id=? LIMIT 1;";
 		$st = $conn2->prepare($cmd);
-		$st->bindParam(1,$id);		
+		$st->bindValue(1,$id);		
 		$st->execute();
 		$data=$st->fetchAll()[0];
 		if(jry_wb_send_mail($data['mail'],

@@ -9,26 +9,33 @@ var jry_wb_manage_user=new function()
 }
 jry_wb_manage_user.sync=function()
 {
-	jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',(data)=>{
-		var buf=JSON.parse(data);
-		if(buf!=null)
-			if(buf.code==false)
-			{
-				if(data.reason==100000)
-					jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-				else if(data.reason==100001)
-					jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
-				else
-					jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-				return ;
-			}
-		data=buf;
-		data.sort(function (a,b){return a.type-b.type;});
-		jry_wb_cache.set('competence',data);
-		this.competence=data;
-		jry_wb_loading_off();	
-	});	
-	jry_wb_sync_data_with_server('user_list',"jry_wb_manage_user_get_information.php?action=list",null,function(a){return a.id==this.buf.id},function(data){jry_wb_manage_user.all=data;for(var i=0,n=jry_wb_manage_user.all.length;i<n;i++)jry_wb_manage_user.reload[jry_wb_manage_user.all[i]]=true;jry_wb_manage_user.showall();},function(a,b){return a.id-b.id});
+	if(jry_wb_login_user.compentence.managecompentence)
+		jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',(data)=>{
+			var buf=JSON.parse(data);
+			if(buf!=null)
+				if(buf.code==false)
+				{
+					if(buf.reason==100000)
+						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+					else if(buf.reason==100001)
+						jry_wb_beautiful_alert.alert("权限缺失","缺少"+buf.extern,"window.location.href=''");
+					else
+						jry_wb_beautiful_alert.alert("错误"+buf.reason,"请联系开发组");
+					return ;
+				}
+			data=buf;
+			data.sort(function (a,b){return a.type-b.type;});
+			jry_wb_cache.set('competence',data);
+			this.competence=data;
+			jry_wb_loading_off();	
+		});	
+	jry_wb_sync_data_with_server('user_list',"jry_wb_manage_user_get_information.php?action=list",null,function(a){return a.id==this.buf.id},(data)=>
+	{
+		this.all=data;
+		for(var i=0,n=this.all.length;i<n;i++)
+			this.reload[this.all[i]]=true;
+		this.showall();
+	},function(a,b){return a.id-b.id});
 }
 jry_wb_manage_user.showall=function()
 {
@@ -47,11 +54,11 @@ jry_wb_manage_user.showall=function()
 	var one=document.createElement('div');list.appendChild(one);
 	one.classList.add('jry_wb_left_toolbar_left_list_default');
 	one.innerHTML='重载';
-	one.onclick=function(event)
+	one.onclick=(event)=>
 	{
-		jry_wb_manage_user.sync();
-		for(var i=0,n=jry_wb_manage_user.reload.length;i<n;i++)
-			jry_wb_manage_user.reload[i]=true;
+		this.sync();
+		for(var i=0,n=this.reload.length;i<n;i++)
+			this.reload[i]=true;
 	};
 	var one=document.createElement('div');list.appendChild(one);
 	one.classList.add('jry_wb_left_toolbar_left_list_default');
@@ -70,8 +77,8 @@ jry_wb_manage_user.showall=function()
 		else
 			one.classList.add(('jry_wb_left_toolbar_left_list_'+(i%2+1)));
 		one.innerHTML=this.all[i].id+':'+this.all[i].name;
-		jry_wb_get_user(this.all[i].id,jry_wb_manage_user.reload[this.all[i].id],()=>{jry_wb_loading_off();},undefined,true);
-		jry_wb_manage_user.reload[this.all[i].id]=false;
+		jry_wb_get_user(this.all[i].id,this.reload[this.all[i].id],()=>{jry_wb_loading_off();},undefined,true);
+		this.reload[this.all[i].id]=false;
 		one.onclick=(event)=>
 		{
 			var id=parseInt(event.target.innerHTML);
@@ -93,10 +100,9 @@ jry_wb_manage_user.showall=function()
 				event.target.classList.remove(event.target.classList[i]);
 			}				
 			event.target.classList.add('jry_wb_left_toolbar_left_list_active');
-			jry_wb_get_user(id,jry_wb_manage_user.reload[id],
-				function()
+			jry_wb_get_user(id,this.reload[id],()=>
 				{
-					jry_wb_manage_user.reload[id]=false;
+					this.reload[id]=false;
 					var data=jry_wb_cache.get('jry_wb_manage_user_cache');
 					var user=data.find(function (a){return a.id==id});
 					var show=event.target.parentNode.parentNode.nextElementSibling;
@@ -108,11 +114,11 @@ jry_wb_manage_user.showall=function()
 
 					var button=document.createElement("button");jry_wb_show_tr_no_input(one,'昵称',user.name).appendChild(button);
 					button.type="button";button.innerHTML="昵称不合法";button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");button.name=user.id;
-					button.onclick=function(event)
+					button.onclick=(event)=>
 					{
 						var id=parseInt(event.target.name); 
-						jry_wb_manage_user.reload[id]=true;
-						jry_wb_ajax_load_data('jry_wb_manage_user_do.php?action=name_not_ok&id='+id,function (data)
+						this.reload[id]=true;
+						jry_wb_ajax_load_data('jry_wb_manage_user_do.php?action=name_not_ok&id='+id,(data)=>
 						{
 							jry_wb_loading_off();
 							data=JSON.parse(data);
@@ -158,26 +164,37 @@ jry_wb_manage_user.showall=function()
 					var tr=document.createElement("tr");one.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	
 					td.width="400";
-					var h55=document.createElement("h56");td.appendChild(h55);	
-					h55.innerHTML='权限组';
-					td=null;
-					var td=document.createElement("td");tr.appendChild(td);	
-					var select=document.createElement("select");td.appendChild(select);	
-					select.name=select.id='type';select.classList.add('h56');
-					for(var i=0,n=jry_wb_manage_user.competence.length;i<n;i++)
+					td.classList.add('h56');
+					td.innerHTML='权限组';
+					delete td;
+					if(jry_wb_login_user.compentence.managecompentence)
 					{
-						var option=document.createElement('option');select.appendChild(option);	
-						option.value=jry_wb_manage_user.competence[i].type;
-						if(jry_wb_manage_user.competence[i].type==user.type)
-							option.setAttribute("selected","selected");
-						for(var j=0,nn=jry_wb_manage_user.competence[i].data.length;j<nn;j++)
-							if(jry_wb_manage_user.competence[i].data[j].name=="competencename")
-							{
-								option.innerHTML=jry_wb_manage_user.competence[i].data[j].value;
-								break;
-							}
+						var td=document.createElement("td");tr.appendChild(td);	
+						var select=document.createElement("select");td.appendChild(select);	
+						select.name=select.id='type';select.classList.add('h56');
+						for(var i=0,n=this.competence.length;i<n;i++)
+						{
+							var option=document.createElement('option');select.appendChild(option);	
+							option.value=this.competence[i].type;
+							if(this.competence[i].type==user.type)
+								option.setAttribute("selected","selected");
+							for(var j=0,nn=this.competence[i].data.length;j<nn;j++)
+								if(this.competence[i].data[j].name=="competencename")
+								{
+									option.innerHTML=this.competence[i].data[j].value;
+									break;
+								}
+						}
+						td.innerHTML+='<h56>('+user.type+')</h56>';
 					}
-					td.innerHTML+='<h56>('+user.type+')</h56>';
+					else
+					{
+						var td=document.createElement("td");tr.appendChild(td);	
+						td.width="400";
+						td.classList.add('h56');
+						td.innerHTML=user.competencename;
+						delete td;
+					}
 					var tr=document.createElement("tr");one.appendChild(tr);
 					var td=document.createElement("td");tr.appendChild(td);	
 					td.width="400";			
@@ -209,10 +226,10 @@ jry_wb_manage_user.showall=function()
 					{
 						var button=document.createElement("button");jry_wb_show_tr_no_input(one,'邮箱',user.mail).appendChild(button);
 						button.type="button";button.innerHTML="提醒绑邮箱";button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");button.name=user.id;
-						button.onclick=function(event)
+						button.onclick=(event)=>
 						{
 							var id=parseInt(event.target.name); 
-							jry_wb_manage_user.reload[id]=true;
+							this.reload[id]=true;
 							jry_wb_ajax_load_data('jry_wb_manage_user_do.php?action=bangyouxiang&id='+id,function(data)
 							{
 								jry_wb_loading_off();
@@ -356,10 +373,10 @@ jry_wb_manage_user.showall=function()
 					td.setAttribute("colspan","2");td.setAttribute("align","center");
 					var button=document.createElement("button");td.appendChild(button);
 					button.type="button";button.innerHTML="修改";button.className="jry_wb_button jry_wb_button_size_big jry_wb_color_ok";button.name=user.id;
-					button.onclick=function(event)
+					button.onclick=(event)=>
 					{
 						var id=parseInt(event.target.name); 
-						jry_wb_manage_user.reload[id]=true;
+						this.reload[id]=true;
 						var inputs=event.target.parentNode.parentNode.parentNode.getElementsByTagName('input')
 						var out=new Array();
 						for(var i=0,n=inputs.length;i<n;i++)
@@ -376,7 +393,7 @@ jry_wb_manage_user.showall=function()
 								if(data.reason==100000)
 									jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
 								else if(data.reason==100001)
-									jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+									jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=jry_wb_message.jry_wb_host+'jry_wb_mainpages/index.php'");
 								else if(data.reason==300001)
 									jry_wb_beautiful_right_alert.alert('没有邮箱',10000,'auto','error');
 								else

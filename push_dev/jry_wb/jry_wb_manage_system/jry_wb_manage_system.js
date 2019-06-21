@@ -138,7 +138,7 @@
 						window.onresize();
 					}
 				}
-				else
+				else if(data[i].url=='')
 				{
 					one.onclick=function()
 					{
@@ -172,6 +172,8 @@
 						window.onresize();
 					}
 				}
+				else
+					one.onclick=function(){jry_wb_beautiful_right_alert.alert('并没有项目',5000,'auto','error');};
 				if(hash[tree.length]==data[i].hash&&(first))
 				{
 					one.onclick(false);

@@ -566,7 +566,7 @@ var jry_wb_chat_room=new function()
 				result.innerHTML='',result.style.height=0;
 		};
 		var add=document.createElement('span');top.appendChild(add);
-		if(jry_wb_login_user.addchatroom)
+		if(jry_wb_login_user.compentence.addchatroom)
 		{
 			add.classList.add('jry_wb_icon_xinjian','jry_wb_icon','button');
 			add.style.transitionDuration='0s';		

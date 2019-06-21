@@ -9,7 +9,6 @@
 		$type=urldecode($_GET['type']);
 		$conn=jry_wb_connect_database();
 		$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_MANAGE_SYSTEM."competence SET `".$name."`=? WHERE type=? LIMIT 1;");
-		//$st->bindParam(1,$name);
 		$st->bindParam(1,$value);
 		$st->bindParam(2,$type);
 		$st->execute();

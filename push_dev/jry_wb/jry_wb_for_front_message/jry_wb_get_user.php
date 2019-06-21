@@ -1,7 +1,7 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
 	$conn=jry_wb_connect_database();
-	$admin_mode=(($_GET['admin_mode']=='true')&&($jry_wb_login_user['id']!=-1)&&$jry_wb_login_user['manageusers']&&$jry_wb_login_user['manage']);	
+	$admin_mode=(($_GET['admin_mode']=='true')&&($jry_wb_login_user['id']!=-1)&&$jry_wb_login_user['compentence']['manageusers']&&$jry_wb_login_user['compentence']['manage']);	
 	if($_GET['action']=='new')
 	{
 		$q='SELECT *,'.JRY_WB_DATABASE_GENERAL_PREFIX.'users.id AS id

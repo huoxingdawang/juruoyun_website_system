@@ -10,10 +10,7 @@
 			$to_head=json_decode(json_encode($to_head),true);
 		if($to_head['type']!='default')
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600005,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__)));	
-		if(!$user['usechat'])
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));
-		if(!$user['setchatroomhead'])
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'setchatroomhead')));		
+		jry_wb_check_compentence($user,['usechat','setchatroomhead'],$user['code']);		
 		jry_wb_chat_get_user($conn,$user,true);
 		if(is_string($roomm)||is_int($roomm))
 			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$user);

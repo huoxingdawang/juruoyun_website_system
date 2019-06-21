@@ -2,10 +2,7 @@
 	include_once("jry_wb_chat_includes.php");
 	function jry_wb_chat_delete_room($conn,&$user,&$roomm)
 	{
-		if(!$user['usechat'])
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));
-		if(!$user['deletechatroom'])
-			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'file'=>__FILE__,'line'=>__LINE__,'extern'=>'deletechatroom')));
+		jry_wb_check_compentence($user,['usechat','deletechatroom'],$user['code']);
 		if(is_string($roomm)||is_int($roomm))
 			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$user);
 		else

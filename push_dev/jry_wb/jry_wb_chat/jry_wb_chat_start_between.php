@@ -15,8 +15,7 @@
 		$all=$st->fetchAll();
 		if(count($all)===0)
 		{
-			if(!$user2['usechat'])
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100001,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__,'extern'=>'usechat')));			
+			jry_wb_check_compentence($user2,['usechat'],$user2['code']);		
 			$room=jry_wb_chat_add_room($conn,$user1,false);
 			jry_wb_chat_enter_room($conn,$user2,$room);
 			return $room;
