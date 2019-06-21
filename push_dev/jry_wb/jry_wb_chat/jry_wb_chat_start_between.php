@@ -15,7 +15,7 @@
 		$all=$st->fetchAll();
 		if(count($all)===0)
 		{
-			jry_wb_check_compentence($user2,['usechat'],$user2['code']);		
+			jry_wb_check_compentence($user2,['usechat'],NULL);		
 			$room=jry_wb_chat_add_room($conn,$user1,false);
 			jry_wb_chat_enter_room($conn,$user2,$room);
 			return $room;

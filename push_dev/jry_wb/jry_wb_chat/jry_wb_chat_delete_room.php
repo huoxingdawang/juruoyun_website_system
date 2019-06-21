@@ -2,7 +2,7 @@
 	include_once("jry_wb_chat_includes.php");
 	function jry_wb_chat_delete_room($conn,&$user,&$roomm)
 	{
-		jry_wb_check_compentence($user,['usechat','deletechatroom'],$user['code']);
+		jry_wb_check_compentence($user,['usechat','deletechatroom'],NULL);
 		if(is_string($roomm)||is_int($roomm))
 			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$user);
 		else

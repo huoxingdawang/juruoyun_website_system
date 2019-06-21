@@ -18,7 +18,14 @@
 			if(count($datas)==0)
 				$user=NULL;				
 			else
-				$user=array_merge($user,$datas[0]);
+			{
+				$user['compentence']=$datas[0];
+				for($i=0,$n=count($user['compentence']);$i<$n;$i++)
+					unset($user['compentence'][$i]);
+				$user['color']=$user['compentence']['color'];
+				$user['order']=$user['compentence']['order'];
+				$user['competencename']=$user['compentence']['competencename'];
+			}
 		}
 		return $user;
 	}

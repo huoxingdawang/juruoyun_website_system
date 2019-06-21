@@ -2,7 +2,7 @@
 	include_once("jry_wb_chat_includes.php");
 	function jry_wb_chat_get_message($conn,&$user,&$roomm,$lasttime='1926-08-17 00:00:00')
 	{
-		jry_wb_check_compentence($user,['usechat'],$user['code']);
+		jry_wb_check_compentence($user,['usechat'],NULL);
 		jry_wb_chat_get_user($conn,$user,true);
 		if(is_string($roomm)||is_int($roomm))
 			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$user);

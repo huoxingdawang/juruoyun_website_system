@@ -4,7 +4,7 @@
 	{
 		if($message==NULL||$message=='')
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>600003,'extern'=>array('chat_room'=>$roomm),'file'=>__FILE__,'line'=>__LINE__)));
-		jry_wb_check_compentence($sender,['usechat'],$sender['code']);	
+		jry_wb_check_compentence($sender,['usechat'],NULL);	
 		if(is_string($roomm)||is_int($roomm))
 			$room=jry_wb_chat_get_chat_room($conn,(int)$roomm,$sender);
 		else
