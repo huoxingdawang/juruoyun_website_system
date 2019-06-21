@@ -23,7 +23,9 @@ var jry_wb_chat_room=new function()
 	{
 <?php if(JRY_WB_DEBUG_MODE){ ?>		
 		console.log('来自'+data.from+'在'+data.data.room+'的编号是'+data.data.chat_text_id+'的新信息'+data.data.message);
-<?php } ?>		
+<?php } ?>
+		if(data.from!=jry_wb_login_user.id)
+			jry_wb_music_alert.play();
 		var buf={'chat_room_id':data.data.room,'chat_text_id':data.data.chat_text_id,'id':data.from,'message':data.data.message,'send_time':data.data.send_time};
 		messages=jry_wb_sync_data_with_array('chat_messages',[buf],function(a){return a.chat_text_id==this.buf.chat_text_id},function(a,b){return b.send_time.to_time()-a.send_time.to_time();});
 		jry_wb_cache.set_last_time('chat_messages',messages[0].send_time);

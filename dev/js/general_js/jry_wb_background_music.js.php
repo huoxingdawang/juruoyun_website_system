@@ -54,7 +54,7 @@ var jry_wb_background_music = new function()
 				jry_wb_cache.set('background_music_playing',true);
 			};
 			this.passive=false;
-			this.audio=document.createElement("audio");document.body.appendChild(this.audio);
+			this.audio=document.createElement("audio");
 			this.audio.id='jry_wb_background_music';
 			this.beautiful= new jry_wb_beautiful_music(this.audio,this.backgroundmusic_control,true);
 			this.beautiful.do_reply_count(1);
