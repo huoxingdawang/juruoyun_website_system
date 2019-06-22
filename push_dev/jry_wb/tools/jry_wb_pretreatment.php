@@ -50,31 +50,11 @@
 				$user=NULL;
 			else
 			{
-				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE id=? LIMIT 1');
-				$st->bindValue(1,$user['id']);
-				$st->execute();				
-				$datas=$st->fetchAll();
-				if(count($datas)==0)
+				$buf=jry_wb_get_user($conn,$user['id'],true);
+				if($buf==NULL)
 					$user=NULL;				
 				else
-				{
-					$user=array_merge($user,$datas[0]);
-					$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence WHERE type=? LIMIT 1');
-					$st->bindValue(1,$user['type']);
-					$st->execute();
-					$datas=$st->fetchAll();
-					if(count($datas)==0)
-						$user=NULL;				
-					else
-					{
-						$user['compentence']=$datas[0];
-						for($i=0,$n=count($user['compentence']);$i<$n;$i++)
-							unset($user['compentence'][$i]);
-						$user['color']=$user['compentence']['color'];
-						$user['order']=$user['compentence']['order'];
-						$user['competencename']=$user['compentence']['competencename'];
-					}
-				}
+					$user=array_merge($buf,$user);
 			}
 		}
 		if($user==NULL)
@@ -84,112 +64,5 @@
 			setcookie('id',-1,time()-1,'/',JRY_WB_DOMIN,NULL,false);
 			setcookie('code','',time()-1,'/',JRY_WB_DOMIN,NULL,true);
 		}
-		else
-		{
-			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
-			$st->bindValue(1,$user['id']);
-			$st->execute();
-			$user['ips']=$st->fetchAll();	
-			$_SESSION['language']=$user['language'];
-		}
-		if(jry_wb_test_is_mobile())
-			$user['jry_wb_test_is_mobile']='mobile';
-		else if(jry_wb_test_is_weixin())
-			$user['jry_wb_test_is_mobile']='weixin';
-		else
-			$user['jry_wb_test_is_mobile']='disktop';
-		$user['browser']=jry_wb_get_browser();
-		$user['device']=jry_wb_get_device();
-		$user['manageusers']=$user['id']==-1?0:$user['manageusers'];
-		if($user['id']==-1)
-		{
-			$user['style_id']=1;
-			$user['head_special']='NULL';
-		}
-		if($user['head']==''||$user['head']==NULL||$user['head']=='NULL')
-			if($user['sex']==0)
-				$user['head']=array('type'=>'default_head_woman');
-			else
-				$user['head']=array('type'=>'default_head_man');
-		else
-			$user['head']=json_decode($user['head'],true);
-		if(!jry_wb_test_is_cli_mode())
-		{
-			foreach($user['ips']as $ips)
-			{
-				$arr=jry_wb_get_ip_address($ips['ip']);
-				if($arr->data->isp=='unknow')
-					$data='未知地区|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
-				else if($arr->data->isp=='内网IP')
-					$data='内网IP|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
-				else
-					$data=$arr->data->country.$arr->data->region.$arr->data->city.$arr->data->isp.'|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']).'|'.jry_wb_get_browser_from_database($ips['browser']);
-				if($isthis=($cookie['code']==$ips['code']))
-				{
-					$user['logdate']=$ips['time'];
-					if($ips['trust'])
-						$time=time()+60*60*24*365*1000;
-					else
-						$time=time()+JRY_WB_LOGIN_TIME;
-					setcookie('id',$user['id'],$time,'/',jry_wb_get_domain(),NULL,false);
-					setcookie('id',$user['id'],$time,'/',JRY_WB_DOMIN,NULL,false);			
-					setcookie('code',$ips['code'],$time,'/',JRY_WB_DOMIN,NULL,true);			
-				}
-				$user['login_addr'][]=array('isthis'=>$isthis,'data'=>$data,'trust'=>$ips['trust'],'login_id'=>$ips['login_id']);
-			}
-			$user['head_special']=json_decode($user['head_special']);
-			if($user['head_special']->mouse_on->times!=-1&&($user['head_special']->mouse_out->times==0||$user['head_special']->mouse_out->speed==0))
-			{
-				$user['head_special']->mouse_out->speed=$user['head_special']->mouse_on->speed;
-				$user['head_special']->mouse_out->direction=(($user['head_special']->mouse_on->direction)?0:1);
-				$user['head_special']->mouse_out->times=1;
-			}	
-			$user['head_special']->mouse_out->result=jry_wb_get_user_head_style_out($user);
-			$user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($user);
-			$user['style']=jry_wb_load_style($user['style_id']);
-			$user['background_music_list']=json_decode($user['background_music_list']==''||$user['id']==-1?'[{"slid": "0", "type": "songlist"}]':$user['background_music_list']);
-			if($user['oauth_qq']!='')
-				$user['oauth_qq']=json_decode($user['oauth_qq']);
-			if($user['oauth_github']!='')
-				$user['oauth_github']=json_decode($user['oauth_github']);	
-			if($user['oauth_mi']!='')
-				$user['oauth_mi']=json_decode($user['oauth_mi']);	
-			if($user['oauth_gitee']!='')
-				$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
-			if($user['extern']!='')
-				$user['extern']=json_decode($user['extern']);
-		}
-		else
-		{
-			unset($user['background_music_list']);
-			unset($user['head_special']);
-			unset($user['oauth_qq']);
-			unset($user['oauth_github']);
-			unset($user['oauth_mi']);
-			unset($user['oauth_gitee']);
-			unset($user['ips']);
-			unset($user['zhushi']);
-			unset($user['head']);
-			unset($user['jry_wb_test_is_mobile']);
-			unset($user['trust']);
-			unset($user['browser']);
-			unset($user['device']);
-			unset($user['time']);
-			unset($user['follow_mouth']);
-			unset($user['word_special_fact']);
-			unset($user['style_id']);
-			unset($user['tel_show']);
-			unset($user['mail_show']);
-			unset($user['ip_show']);
-			unset($user['greendate']);
-			unset($user['logdate']);
-			unset($user['enroldate']);
-			unset($user['password']);
-			unset($user['lasttime']);
-			unset($user['color']);
-		}
-		$n=count($user);
-		for($i=0;$i<$n;$i++)
-			unset($user[$i]);		
 	}
 	jry_wb_pretreatment($conn,$jry_wb_login_user,$_COOKIE,$_SERVER['REMOTE_ADDR']);

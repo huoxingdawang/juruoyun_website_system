@@ -2,7 +2,7 @@
 	include_once("../tools/jry_wb_includes.php");
 	$conn=jry_wb_connect_database();
 	$admin_mode=(($_GET['admin_mode']=='true')&&($jry_wb_login_user['id']!=-1)&&$jry_wb_login_user['compentence']['manageusers']&&$jry_wb_login_user['compentence']['manage']);	
-	$user=jry_wb_get_user($conn,$_GET['id']);
+	$user=jry_wb_get_user($conn,$_GET['id'],$admin_mode);
 	if($user==null)
 	{
 		echo json_encode(array(	'id'=>(int)$_GET['id'],
@@ -27,69 +27,10 @@
 		echo json_encode(array('id'=>-1,'use'=>1));
 		exit();
 	}
-	$ip=array();
-	if($user['ip_show']||($admin_mode))
-	{
-		$i=0;
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=?');
-		$st->bindParam(1,$user['id']);
-		$st->execute();
-		$user['ips']=$st->fetchAll();
-		foreach($user['ips']as $ips)
-		{
-			$arr=jry_wb_get_ip_address($ips['ip']);
-			if($arr->data->isp=='unknow')
-				$ip[$i]='未知地区|'.$ips['time'].' '.jry_wb_get_device_from_database($ips['device']);
-			else if($arr->data->isp=='内网IP')
-				$ip[$i]='内网IP|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']);
-			else
-				$ip[$i] = $arr->data->country.$arr->data->region.$arr->data->city.$arr->data->isp.'|'.$ips['time'].'|'.jry_wb_get_device_from_database($ips['device']);
-			$i++;
-		}
-	}
-	if($user['mail']!=''&&(!$admin_mode))
-	{
-		if($user['mail_show']==0)
-		{
-			$buf=explode('@',$user['mail']);
-			$user['mail']=substr_replace($buf[0],'****',3,count($buf[0])-3).'@'.$buf[1];
-		}else if($user['mail_show']==1)
-		{
-			$buf=explode('@',$user['mail']);
-			$count=count($buf[0]);
-			$user['mail']='';
-			for($i=0;$i<$count;$i++)
-				$user['mail'].='*';
-			$user['mail'].='@'.$buf[1];
-		}
-	}
-	if($user['tel']!=''&&(!$admin_mode))
-	{
-		if($user['tel_show']==0)
-			$user['tel']=substr_replace($user['tel'],'****',3,4);
-		else if($user['tel_show']==1)
-			$user['tel']=substr_replace($user['tel'],'***********',0,11);
-	}
 	if($_GET['action']=='new')
 		$id=$user['id'];
 	else
 		$id=$_GET['id'];
-	$user['head_special']=json_decode($user['head_special']);
-	if($user['head_special']->mouse_on->times!=-1&&($user['head_special']->mouse_out->times==0||$user['head_special']->mouse_out->speed==0))
-	{
-		$user['head_special']->mouse_out->speed=$user['head_special']->mouse_on->speed;
-		$user['head_special']->mouse_out->direction=(($user['head_special']->mouse_on->direction)?0:1);
-		$user['head_special']->mouse_out->times=1;
-	}
-	$user['head_special']->mouse_out->result=jry_wb_get_user_head_style_out($user);
-	$user['head_special']->mouse_on->result=jry_wb_get_user_head_style_on($user);
-	if($user['head']==''||$user['head']==NULL||$user['head']=='NULL')
-		if($user['sex']==0)
-			$user['head']=array('type'=>'default_head_woman');
-		else
-			$user['head']=array('type'=>'default_head_man');
-	else
-		$user['head']=json_decode($user['head'],true);	
 	$data=array('id'=>(int)$id,
 				'head'=>$user['head'],
 				'head_special'=>$user['head_special'],
@@ -111,7 +52,7 @@
 				'oauth_mi'=>(($admin_mode||$user['oauth_show'])?$user['oauth_mi']->message:null),
 				'oauth_github'=>(($admin_mode||$user['oauth_show'])?$user['oauth_github']->message:null),
 				'oauth_gitee'=>(($admin_mode||$user['oauth_show'])?$user['oauth_gitee']->message:null),
-				'login_addr'=>($user['ip_show']||($admin_mode))?$ip:-1,
+				'login_addr'=>($user['ip_show']||($admin_mode))?$user['login_addr']:-1,
 				'password'=>($admin_mode)?$user['password']:'',
 				'extern'=>($admin_mode)?json_decode($user['extern']):''
 				);

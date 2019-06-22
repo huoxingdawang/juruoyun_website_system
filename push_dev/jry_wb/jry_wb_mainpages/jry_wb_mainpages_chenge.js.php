@@ -567,7 +567,15 @@ function show_ip()
 		if(jry_wb_login_user.login_addr[i]==undefined)
 			continue;
 		let div=document.createElement("div");h55.appendChild(div);
-		div.innerHTML=jry_wb_login_user.login_addr[i].data;
+		let address=document.createElement("span");div.appendChild(address);
+		jry_wb_get_ip_address(jry_wb_login_user.login_addr[i].ip,function(data)
+		{
+			if(data.isp=='内网IP')
+				address.innerHTML='内网IP';
+			else	
+				address.innerHTML=data.country+data.region+data.city+data.isp;
+			address.innerHTML+='|'+jry_wb_login_user.login_addr[i].time+'|'+jry_wb_get_device_from_database(jry_wb_login_user.login_addr[i].device)+'|'+jry_wb_get_browser_from_database(jry_wb_login_user.login_addr[i].browser);
+		});
 		let logout=document.createElement("span");div.appendChild(logout);
 		logout.classList.add('jry_wb_icon','h55','jry_wb_icon_logout');
 		logout.onclick=function()
@@ -2395,13 +2403,13 @@ function showlog()
 		td.classList.add('h56');
 		td.style.textAlign='center';		
 		td.innerHTML=log_data[i].time;
-		var td=document.createElement("td");tr.appendChild(td);
-		td.classList.add('h56');
-		td.style.textAlign='center';
+		let detail=document.createElement("td");tr.appendChild(detail);
+		detail.classList.add('h56');
+		detail.style.textAlign='center';
 		switch(log_data[i].type)
 		{
 			case <?php echo constant('jry_wb_log_type_test')?>:
-				td.innerHTML='测试';
+				detail.innerHTML='测试';
 				break;
 			case <?php echo constant('jry_wb_log_type_logout')?>:
 				break;
@@ -2409,60 +2417,70 @@ function showlog()
 				break;
 			case <?php echo constant('jry_wb_log_type_login')?>:
 				var buf=JSON.parse(log_data[i].data);
-				td.innerHTML='在'+buf.ip+'以';
-				switch(buf.type)
+				jry_wb_get_ip_address(buf.ip,function(data)
 				{
-					case 1:
-						td.innerHTML+='电话+密码';						
-						break;
-					case 2:
-						td.innerHTML+='邮箱+密码';						
-						break;
-					case 4:
-						td.innerHTML+='QQ第三方登录';						
-						break;
-					case 5:
-						td.innerHTML+='github第三方登录';						
-						break;
-					case 6:
-						td.innerHTML+='小米第三方登录';						
-						break;
-					case 7:
-						td.innerHTML+='码云第三方登录';						
-						break;
-					case 8:
-						td.innerHTML+='主站登录';						
-						break;
-					default:
-						td.innerHTML+='ID+密码';						
-				}
-				td.innerHTML+='方式登录';
+					var buf=JSON.parse(log_data[i].data);
+					detail.innerHTML='在';
+					if(data.isp=='内网IP')
+						detail.innerHTML+='内网IP';
+					else	
+						detail.innerHTML+=data.country+data.region+data.city+data.isp;
+					detail.innerHTML+='以';
+					switch(buf.type)
+					{
+						case 1:
+							detail.innerHTML+='电话+密码';
+							break;
+						case 2:
+							detail.innerHTML+='邮箱+密码';
+							break;
+						case 4:
+							detail.innerHTML+='QQ第三方登录';
+							break;
+						case 5:
+							detail.innerHTML+='github第三方登录';
+							break;
+						case 6:
+							detail.innerHTML+='小米第三方登录';
+							break;
+						case 7:
+							detail.innerHTML+='码云第三方登录';
+							break;
+						case 8:
+							detail.innerHTML+='主站登录';
+							break;
+						default:
+							detail.innerHTML+='ID+密码';
+					}
+					detail.innerHTML+='方式登录';
+					delete buf;
+				});
 				break;
 			case <?php echo constant('jry_wb_log_type_forget')?>:
 				break;
 			case <?php echo constant('jry_wb_log_type_green_money')?>:
 				var buf=JSON.parse(log_data[i].data);
-				td.innerHTML='因为';
+				detail.innerHTML='因为';
 				switch(buf.by)
 				{
 					case <?php echo constant('jry_wb_log_type_green_money_login_add')?>:
-						td.innerHTML+='签到或登录奖励';						
+						detail.innerHTML+='签到或登录奖励';						
 						break;
 					case <?php echo constant('jry_wb_log_type_green_money_pay_nd_size')?>:
-						td.innerHTML+='买网盘空间';						
+						detail.innerHTML+='买网盘空间';						
 						break;
 					case <?php echo constant('jry_wb_log_type_green_money_pay_nd_fast_size')?>:
-						td.innerHTML+='买网盘高速流量';						
+						detail.innerHTML+='买网盘高速流量';						
 						break;
 					case <?php echo constant('jry_wb_log_type_green_money_invite_user')?>:
-						td.innerHTML+='邀请用户';						
+						detail.innerHTML+='邀请用户';						
 						break;				
 				}
-				td.innerHTML+=(buf.money<0?'消耗':'获得');
-				td.innerHTML+=Math.abs(buf.money)+'绿币';
+				detail.innerHTML+=(buf.money<0?'消耗':'获得');
+				detail.innerHTML+=Math.abs(buf.money)+'绿币';
 				break;
 			default :
-				td.innerHTML='';			
+				detail.innerHTML='';			
 		}		
 	}	
 }

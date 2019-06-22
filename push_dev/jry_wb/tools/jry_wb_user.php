@@ -1,6 +1,6 @@
 <?php
 	include_once("../tools/jry_wb_includes.php");
-	function jry_wb_get_user($conn,$id)
+	function jry_wb_get_user($conn,$id,$host_mode)
 	{
 		if($id=='')
 			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users ORDER BY id DESC LIMIT 1');
@@ -12,7 +12,7 @@
 		$st->execute();				
 		$datas=$st->fetchAll();
 		if(count($datas)==0)
-			$user=NULL;				
+			return NULL;				
 		else
 		{
 			$user=$datas[0];
@@ -21,17 +21,67 @@
 			$st->execute();
 			$datas=$st->fetchAll();
 			if(count($datas)==0)
-				$user=NULL;				
-			else
+				return NULL;				
+		}
+		$_SESSION['language']=$user['language'];			
+		$user['compentence']=$datas[0];
+		for($i=0,$n=count($user['compentence']);$i<$n;$i++)
+			unset($user['compentence'][$i]);
+		$user['color']=$user['compentence']['color'];
+		$user['order']=$user['compentence']['order'];
+		$user['competencename']=$user['compentence']['competencename'];
+		$user['login_addr']=[];
+		if($user['ip_show']||($host_mode))
+		{
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'login where id=? ORDER BY `device`,`time`,`browser`,`ip`');
+			$st->bindValue(1,$user['id']);
+			$st->execute();
+			foreach($st->fetchAll() as $ips)
 			{
-				$user['compentence']=$datas[0];
-				for($i=0,$n=count($user['compentence']);$i<$n;$i++)
-					unset($user['compentence'][$i]);
-				$user['color']=$user['compentence']['color'];
-				$user['order']=$user['compentence']['order'];
-				$user['competencename']=$user['compentence']['competencename'];
+				if($isthis=($cookie['code']==$ips['code']))	
+					$user['logdate']=$ips['time'];
+				$user['login_addr'][]=array('isthis'=>$isthis,'ip'=>$ips['ip'],'time'=>$ips['time'],'device'=>$ips['device'],'browser'=>$ips['browser'],'trust'=>$ips['trust'],'login_id'=>$ips['login_id']);
+			}			
+		}
+		if($user['mail']!=''&&(!$host_mode))
+		{
+			if($user['mail_show']==0)
+			{
+				$buf=explode('@',$user['mail']);
+				$user['mail']=substr_replace($buf[0],'****',3,count($buf[0])-3).'@'.$buf[1];
+			}
+			else if($user['mail_show']==1)
+			{
+				$buf=explode('@',$user['mail']);
+				$count=count($buf[0]);
+				$user['mail']='';
+				for($i=0;$i<$count;$i++)
+					$user['mail'].='*';
+				$user['mail'].='@'.$buf[1];
 			}
 		}
+		if($user['tel']!=''&&(!$host_mode))
+		{
+			if($user['tel_show']==0)
+				$user['tel']=substr_replace($user['tel'],'****',3,4);
+			else if($user['tel_show']==1)
+				$user['tel']=substr_replace($user['tel'],'***********',0,11);
+		}
+		$user['head_special']=json_decode($user['head_special']);
+		if($user['head_special']->mouse_on->times!=-1&&($user['head_special']->mouse_out->times==0||$user['head_special']->mouse_out->speed==0))
+		{
+			$user['head_special']->mouse_out->speed=$user['head_special']->mouse_on->speed;
+			$user['head_special']->mouse_out->direction=(($user['head_special']->mouse_on->direction)?0:1);
+			$user['head_special']->mouse_out->times=1;
+		}
+		if($user['head']==''||$user['head']==NULL||$user['head']=='NULL')
+			if($user['sex']==0)
+				$user['head']=array('type'=>'default_head_woman');
+			else
+				$user['head']=array('type'=>'default_head_man');
+		else
+			$user['head']=json_decode($user['head'],true);
+		$user['style']=jry_wb_load_style($user['style_id']);
 		if($user['oauth_qq']!='')
 			$user['oauth_qq']=json_decode($user['oauth_qq']);
 		if($user['oauth_github']!='')
@@ -41,7 +91,11 @@
 		if($user['oauth_gitee']!='')
 			$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
 		if($user['extern']!='')
-			$user['extern']=json_decode($user['extern']);		
+			$user['extern']=json_decode($user['extern']);
+		$user['background_music_list']=json_decode($user['background_music_list']==''||$user['id']==-1?'[{"slid": "0", "type": "songlist"}]':$user['background_music_list']);		
+		$n=count($user);
+		for($i=0;$i<$n;$i++)
+			unset($user[$i]);			
 		return $user;
 	}
 	function jry_wb_get_user_head_style_out($user)
@@ -68,15 +122,15 @@
 		$ans.=';';
 		return $ans;
 	}
-	function jry_wb_show_user(&$row,$active=false)
+	function jry_wb_show_user(&$user,$active=false)
 	{
-		if($row['name']=='')
+		if($user['name']=='')
 		{
 			$show="该用户消失了";
 			$add=jry_wb_print_href('jry_wb_host','','',true);
 			$color='33CCFF';
 		}
-		else if(!$row['use'])
+		else if(!$user['use'])
 		{
 			$show="[禁止使用]";
 			$add=jry_wb_print_href('jry_wb_host','','',true);
@@ -84,18 +138,18 @@
 		}
 		else
 		{
-			$show='<span name="jry_wb_user_name_'.$row['id'].'">'.$row['name'].'</span>';
+			$show='<span name="jry_wb_user_name_'.$user['id'].'">'.$user['name'].'</span>';
 			$width=22;
 			$add=jry_wb_print_href('users','','',true);
-			$on=	'animation:'		.$row['head_special']->mouse_on->result.
-					'-moz-animation:'	.$row['head_special']->mouse_on->result.
-					'-webkit-animation:'.$row['head_special']->mouse_on->result.
-					'-o-animation:'		.$row['head_special']->mouse_on->result;
-			$out=	'animation:'		.$row['head_special']->mouse_out->result.
-					'-moz-animation:'	.$row['head_special']->mouse_out->result.
-					'-webkit-animation:'.$row['head_special']->mouse_out->result.
-					'-o-animation:'		.$row['head_special']->mouse_out->result;
-			$show.=("<img name='jry_wb_user_head_".$row['id']."' style='".$out."' ".'onMouseOver="this.style=\''.$on.'\';" '.'onMouseOut="this.style=\''.$out.'\';" '."src= '".jry_wb_get_user_head($row)."' width='".$width."' height='".$width."'/>");
+			$on=	'animation:'		.$buf=jry_wb_get_user_head_style_on($user).
+					'-moz-animation:'	.$buf.
+					'-webkit-animation:'.$buf.
+					'-o-animation:'		.$buf;
+			$out=	'animation:'		.$buf=jry_wb_get_user_head_style_out($user).
+					'-moz-animation:'	.$buf.
+					'-webkit-animation:'.$buf.
+					'-o-animation:'		.$buf;
+			$show.=("<img name='jry_wb_user_head_".$user['id']."' style='".$out."' ".'onMouseOver="this.style=\''.$on.'\';" '.'onMouseOut="this.style=\''.$out.'\';" '."src= '".jry_wb_get_user_head($user)."' width='".$width."' height='".$width."'/>");
 	
 		}
 		echo "<a href=".$add." target='_parent' class=".($active?'active':'')." jry_wb_top_toolbar_right>".$show."</a>";

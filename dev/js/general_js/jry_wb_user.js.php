@@ -220,16 +220,20 @@ function jry_wb_show_user_full(user,width,height)
 			jry_wb_show_tr_no_input(table,'登录信息','该用户没有登录');			
 		else
 		{
-			var td = jry_wb_show_tr_no_input(table,'登录信息','该用户的隐私策略不允许展示');
+			var td = jry_wb_show_tr_no_input(table,'登录信息','');
 			td.innerHTML='';
 			var h55 = document.createElement("h56");td.appendChild(h55); 
-			for( var i = 0,n = user.login_addr.length;i<n;i++)
+			for(let i = 0,n = user.login_addr.length;i<n;i++)
 			{
-				var li = document.createElement("li");h55.appendChild(li);
-				if(typeof user.login_addr[i]=='object')
-					li.innerHTML = user.login_addr[i].data;
-				else
-					li.innerHTML = user.login_addr[i];
+				let address=document.createElement("div");h55.appendChild(address);
+				jry_wb_get_ip_address(user.login_addr[i].ip,function(data)
+				{
+					if(data.isp=='内网IP')
+						address.innerHTML='内网IP';
+					else	
+						address.innerHTML=data.country+data.region+data.city+data.isp;
+					address.innerHTML+='|'+user.login_addr[i].time+'|'+jry_wb_get_device_from_database(user.login_addr[i].device)+'|'+jry_wb_get_browser_from_database(user.login_addr[i].browser);
+				});
 			}
 		}
 	}

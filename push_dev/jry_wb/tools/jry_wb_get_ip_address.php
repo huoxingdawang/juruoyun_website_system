@@ -17,7 +17,7 @@
 		$ip2region = new Ip2Region();
 		$json=explode('|',$ip2region->btreeSearch($ip)['region']);
 		if(!($json[4]==''&&$json[3]==''&&$json[2]==''&&$json[1]==''&&$json[0]==''))
-			return json_decode('{"by":"ip2region","code":0,"data":{"ip":"'.$ip.'","isp":"'.$json[4].'","area":"","city":"'.$json[3].'","county":"XX","isp_id":"","region":"'.$json[2].'","area_id":"","city_id":"","country":"'.$json[0].'","county_id":"xx","region_id":"","country_id":""}}');
+			return json_decode('{"by":"ip2region","code":0,"data":{"ip":"'.$ip.'","isp":"'.$json[4].'","city":"'.(($json[3]=='0')?'':$json[3]).'","region":"'.(($json[2]=='0')?'':$json[2]).'","country":"'.$json[0].'"}}');
 /*		$json=file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip='.$ip);
 		if($json=='')
 			$json='{"code":0,"data":{"country":"XX","area":"","region":"XX","city":"unknow","county":"unknow","isp":"unknow","country_id":"xx","area_id":"","region_id":"xx","city_id":"local","county_id":"local","isp_id":"local"}}';
@@ -51,5 +51,5 @@
 		return $json->data->country.$json->data->region.$json->data->city.$json->data->isp;
 	}
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
-		echo json_encode(jry_wb_get_ip_address($_GET['ip']));
+		echo json_encode([jry_wb_get_ip_address($_GET['ip'])]);
 ?>

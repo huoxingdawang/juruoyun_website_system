@@ -261,10 +261,17 @@ jry_wb_manage_user.showall=function()
 					td=null;
 					var td=document.createElement("td");tr.appendChild(td);	
 					var h55=document.createElement("h55");td.appendChild(h55);	
-					for(var i=0;i<user.login_addr.length;i++)
+					for(let i = 0,n = user.login_addr.length;i<n;i++)
 					{
-						var li=document.createElement("li");h55.appendChild(li);	
-						li.innerHTML=user.login_addr[i];
+						let address=document.createElement("div");h55.appendChild(address);
+						jry_wb_get_ip_address(user.login_addr[i].ip,function(data)
+						{
+							if(data.isp=='内网IP')
+								address.innerHTML='内网IP';
+							else	
+								address.innerHTML=data.country+data.region+data.city+data.isp;
+							address.innerHTML+='|'+user.login_addr[i].time+'|'+jry_wb_get_device_from_database(user.login_addr[i].device)+'|'+jry_wb_get_browser_from_database(user.login_addr[i].browser);
+						});
 					}
 <?php if(JRY_WB_OAUTH_SWITCH){ ?>						
 					var tr=document.createElement("tr");one.appendChild(tr);
