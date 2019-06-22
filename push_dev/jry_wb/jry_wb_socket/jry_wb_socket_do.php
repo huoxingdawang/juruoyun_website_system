@@ -76,7 +76,11 @@
 			catch(PDOException $e)
 			{
 				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.jry_wb_php_cli_color($e->getMessage(),'blue'));			
-			}		
+			}
+			catch(Exception $e)
+			{
+				jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow').' Because '.jry_wb_php_cli_color($e->getMessage(),'blue'));			
+			}				
 		}
 		else
 			sleep(1);
