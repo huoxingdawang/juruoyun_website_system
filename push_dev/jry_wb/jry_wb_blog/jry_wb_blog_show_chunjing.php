@@ -28,10 +28,24 @@
 	<?php jry_wb_print_href($name,"active");?>
 </div>
 <script type="text/javascript">
-jry_wb_add_onresize(function(){var all=document.getElementById("result");var width=document.documentElement.clientWidth;if(width>800){all_width=width-Math.min(width*0.3,width-800);all.style.width=all_width;all.style.margin="0px "+(width-all_width)/2+"px"}else{all.style.width=width,all.style.margin="0px 0px"}})
-jry_wb_add_load(function ()
+jry_wb_add_onresize(function()
 {
-	jry_wb_ajax_load_data("../blog/blog_getinformation.php?action=get_blog_one&blog_id=<?php echo $_GET['blog_id']; ?>",function(data){
+	var all=document.getElementById("result");
+	var width=document.documentElement.clientWidth;
+	if(width>800)
+	{
+		all_width=width-Math.min(width*0.3,width-800);
+		all.style.width=all_width;
+		all.style.margin="0px "+(width-all_width)/2+"px";
+	}
+	else
+	{
+		all.style.width=width;
+		all.style.margin="0px 0px";
+	}
+});jry_wb_add_load(function ()
+{
+	jry_wb_ajax_load_data("../jry_wb_blog/jry_wb_blog_getinformation.php?action=get_blog_one&blog_id=<?php echo $_GET['blog_id']; ?>",function(data){
 		jry_wb_loading_off();
 		data=JSON.parse(data);
 		if(!data.ifshow||data.delete||data.data==null)
