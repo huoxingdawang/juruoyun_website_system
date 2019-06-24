@@ -1579,7 +1579,7 @@ function showcache(loaded)
 	table.border=1;table.width='100%';
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);
-	td.innerHTML='占用率<br><a href="../test/cache.php" target="_blank">测试缓存页面</a>';td.width='400';td.classList.add('h55');
+	td.innerHTML='占用率:';td.width='400';td.classList.add('h55');
 	var td=document.createElement("td");tr.appendChild(td);
 	td.width='*';td.setAttribute('colspan',2);
 	cache_progress =new jry_wb_progress_bar_round(td,10,100,'#ccc','#1ABC9C',40,'#1ABC9C');
