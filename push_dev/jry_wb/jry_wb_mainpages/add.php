@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
 	jry_wb_print_head("注册",false,false,true);
 	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)

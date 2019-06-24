@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	header("Content-Type:text/xml");
 	$dom=new DOMDocument("1.0");
 	$root=$dom->createElement("urlset");												$dom->appendChild($root);

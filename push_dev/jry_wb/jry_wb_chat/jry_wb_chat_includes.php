@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_socket/jry_wb_send_to_socket.php");
 	include_once("jry_wb_chat_send.php");
 	include_once("jry_wb_chat_get_chat_room.php");

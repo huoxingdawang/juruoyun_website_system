@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	echo "HTTP_USER_AGENT:".$_SERVER["HTTP_USER_AGENT"].'<br><br><br>';
 	echo "browser:".jry_wb_get_browser(true).':'.jry_wb_get_browser(false).'<br><br><br>';
 	echo "device:".jry_wb_get_device(true).':'.jry_wb_get_device(false).'<br><br><br>';

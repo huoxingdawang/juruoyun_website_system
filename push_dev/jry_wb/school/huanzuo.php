@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	jry_wb_print_head("换座位内测在线版",false,false,true);
 ?>
 <div class="jry_wb_top_toolbar">

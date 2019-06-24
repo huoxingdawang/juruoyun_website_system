@@ -1,5 +1,5 @@
 <?php	
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	$action=$_GET['action'];
 	$conn2=jry_wb_connect_database();
 	try{jry_wb_check_compentence(NULL,array('use','manage','manageschool','manageschoolschool'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	

@@ -1,6 +1,6 @@
 <?php
 	header("content-type: application/x-javascript");
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 ?>
 <?php if(false){ ?><script><?php } ?>

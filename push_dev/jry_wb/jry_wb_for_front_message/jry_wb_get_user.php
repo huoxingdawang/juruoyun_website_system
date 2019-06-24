@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	$conn=jry_wb_connect_database();
 	$admin_mode=(($_GET['admin_mode']=='true')&&($jry_wb_login_user['id']!=-1)&&$jry_wb_login_user['compentence']['manageusers']&&$jry_wb_login_user['compentence']['manage']);	
 	$user=jry_wb_get_user($conn,$_GET['id'],$admin_mode);

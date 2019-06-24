@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	$get_try=$_GET['try'];
 	if($get_try!='')
 		$jry_wb_login_user['style']=jry_wb_load_style($_GET['try']);

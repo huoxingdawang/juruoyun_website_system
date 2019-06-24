@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
@@ -122,8 +122,8 @@
 	password=document.getElementById('password');
 	vcode=document.getElementById('vcode');
 	vcodesrc=document.getElementById('vcodesrc');
-	vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
-	vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random()};
+	vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
+	vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random()};
 	types=document.getElementsByName('type');
 	function check()
 	{ 

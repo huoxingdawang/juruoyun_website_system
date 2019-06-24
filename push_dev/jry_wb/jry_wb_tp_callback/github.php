@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");	
 	$code=$_GET['code'];
 	$ch=curl_init('https://github.com/login/oauth/access_token?client_id='.JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID.'&client_secret='.JRY_WB_TP_GITHUB_OAUTH_CLIENT_SECRET.'&code='.$code.'&redirect_uri='.JRY_WB_HOST ."jry_wb_tp_callback/github.php");

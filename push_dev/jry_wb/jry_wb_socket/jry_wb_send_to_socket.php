@@ -1,6 +1,6 @@
 <?php
 	include_once("../jry_wb_configs/jry_wb_config_socket.php");	
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	function jry_wb_send_to_socket($from,$to_id,$type,$data,$c_index=-1)
 	{
 		if(JRY_WB_SOCKET_SWITCH!=true)

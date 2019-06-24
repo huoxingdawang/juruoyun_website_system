@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once('163_music_spider.php');
 	include_once('qq_music_spider.php');
 	$slid=(int)$_GET['slid'];

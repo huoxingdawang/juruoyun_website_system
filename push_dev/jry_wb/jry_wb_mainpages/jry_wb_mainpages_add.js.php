@@ -1,6 +1,6 @@
 <?php
 	header("content-type: application/x-javascript");
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 ?>
 <?php if(false){ ?><script><?php } ?>
@@ -38,8 +38,8 @@ phonecode=document.getElementById('phonecode');
 tr_tel=document.getElementById('tr_tel');
 <?php } ?>
 vcodesrc=document.getElementById('vcodesrc');
-vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
-vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random()};
+vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
+vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random()};
 <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']!='cutter'){ 
 	if($one['type']=='check')
 	{ ?>

@@ -1,5 +1,5 @@
 <?php
-	include_once('../tools/jry_wb_includes.php');
+	include_once('../jry_wb_tools/jry_wb_includes.php');
 	jry_wb_print_head('重置密码',false,false,true);
 ?>
 <div class='jry_wb_top_toolbar'>
@@ -52,8 +52,8 @@
 </div>
 <script language="javascript">
 vcodesrc=document.getElementById('vcodesrc');
-vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
-vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random()};
+vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
+vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random()};
 vcode=document.getElementById('vcode');
 mark=document.getElementById('mark');
 area=document.getElementById('area');

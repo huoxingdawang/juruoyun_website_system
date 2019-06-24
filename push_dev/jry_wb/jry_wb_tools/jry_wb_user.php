@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	function jry_wb_get_user($conn,$id,$host_mode)
 	{
 		if($id=='')

@@ -1,5 +1,5 @@
 <?php 
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	$question=$_GET['question'];
 	jry_wb_print_head('help|'.$question,false,false,true);
 ?>

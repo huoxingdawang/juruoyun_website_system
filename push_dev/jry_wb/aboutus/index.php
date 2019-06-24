@@ -1,5 +1,5 @@
 <?php 
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	jry_wb_print_head("关于我们",false,true,true);
 ?>
 <script>

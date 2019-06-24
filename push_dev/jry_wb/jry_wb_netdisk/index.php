@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");
 	include_once("jry_wb_nd_tools.php");
 	jry_wb_print_head("网盘",true,true,true,array('use','usenetdisk'));

@@ -138,7 +138,7 @@ class SMTP
      * The timeout value for connection, in seconds.
      * Default of 5 minutes (300sec) is from RFC2821 section 4.5.3.2
      * This needs to be quite high to function correctly with jry_wb_hosts using greetdelay as an anti-spam measure.
-     * @link http://tools.ietf.org/html/rfc2821#section-4.5.3.2
+     * @link http://jry_wb_tools.ietf.org/html/rfc2821#section-4.5.3.2
      * @var integer
      */
     public $Timeout = 300;

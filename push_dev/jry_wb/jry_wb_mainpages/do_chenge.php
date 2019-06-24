@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");		
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where time<?');
@@ -97,7 +97,7 @@
 			$st->execute();
 			if(count($st->fetchAll())!=0)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100009,'file'=>__FILE__,'line'=>__LINE__)));	
-			require_once "../tools/jry_wb_short_message.php";
+			require_once "../jry_wb_tools/jry_wb_short_message.php";
 			if(($code=jry_wb_get_short_message_code($_POST['tel']))==-1)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100003,'file'=>__FILE__,'line'=>__LINE__)));	
 			jry_wb_send_short_message($_POST['tel'],Array ("code"=>$code),JRY_WB_SHORT_MESSAGE_ALY_CHANGE);

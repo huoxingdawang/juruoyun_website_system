@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	setcookie('id',-1,time()-1,'/',JRY_WB_DOMIN,NULL,false);
 	setcookie('code','',time()-1,'/',JRY_WB_DOMIN,NULL,true);
 	jry_wb_print_head("登出",false,false,false);

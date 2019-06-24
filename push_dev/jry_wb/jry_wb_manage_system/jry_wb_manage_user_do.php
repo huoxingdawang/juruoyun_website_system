@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 	try{jry_wb_check_compentence(NULL,array('use','manage','manageusers'));}catch(jry_wb_exception $e){die($e->getMessage());}
 	if($_GET['action']=='')
@@ -60,7 +60,7 @@
 		$st->bindValue(1,$_GET['id']);
 		$st->execute();	
 		$user=$st->fetchAll()[0];
-		require_once "../tools/jry_wb_short_message.php";
+		require_once "../jry_wb_tools/jry_wb_short_message.php";
 		jry_wb_send_short_message($user['tel'],Array ("name"=>$user['name']),JRY_WB_SHORT_MESSAGE_ALY_CONNECT_MAIL); 	
 		echo json_encode(array('code'=>true));
 		exit();

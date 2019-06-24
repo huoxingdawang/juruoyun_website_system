@@ -1,6 +1,6 @@
 <?php
 	header("content-type: application/x-javascript");
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
 ?>
 <?php if(false){ ?><script><?php } ?>
@@ -951,9 +951,9 @@ function showtel()
 	img.id='vcodesrc';
 	img.onclick=function ()
 	{
-		img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
+		img.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
 	};
-	img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
+	img.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
 <?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>	
 	var td=jry_wb_show_tr_with_input(table,'短信验证码','phonecode','','text',function (){},250);
 		var phonecode=td.children[0];
@@ -1115,9 +1115,9 @@ function showmail()
 	img.id='vcodesrc';
 	img.onclick=function ()
 	{
-		img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
+		img.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
 	};	
-	img.src=jry_wb_message.jry_wb_host+'tools/jry_wb_vcode.php?r='+Math.random();
+	img.src=jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_vcode.php?r='+Math.random();
 	var tr=document.createElement("tr");table.appendChild(tr);	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.setAttribute('colspan',2);	

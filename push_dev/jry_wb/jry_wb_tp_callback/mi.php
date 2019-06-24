@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");
 	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/utils/XMUtil.php');
 	require_once(JRY_WB_LOCAL_DIR.'/jry_wb_tp_sdk/mi/utils/AccessToken.php');

@@ -91,7 +91,7 @@ class PHPMailer
      * @var string
      * @deprecated Email senders should never set a return-path header;
      * it's the receiver's job (RFC5321 section 4.4), so this no longer does anything.
-     * @link https://tools.ietf.org/html/rfc5321#section-4.4 RFC5321 reference
+     * @link https://jry_wb_tools.ietf.org/html/rfc5321#section-4.4 RFC5321 reference
      */
     public $ReturnPath = '';
 
@@ -203,7 +203,7 @@ class PHPMailer
      * If empty, a unique id will be generated.
      * You can set your own, but it must be in the format "<id@domain>",
      * as defined in RFC5322 section 3.6.4 or it will be ignored.
-     * @see https://tools.ietf.org/html/rfc5322#section-3.6.4
+     * @see https://jry_wb_tools.ietf.org/html/rfc5322#section-3.6.4
      * @var string
      */
     public $MessageID = '';
@@ -2075,7 +2075,7 @@ class PHPMailer
         }
 
         // Only allow a custom message ID if it conforms to RFC 5322 section 3.6.4
-        // https://tools.ietf.org/html/rfc5322#section-3.6.4
+        // https://jry_wb_tools.ietf.org/html/rfc5322#section-3.6.4
         if ('' != $this->MessageID and preg_match('/^<.*@.*>$/', $this->MessageID)) {
             $this->lastMessageID = $this->MessageID;
         } else {
@@ -2933,7 +2933,7 @@ class PHPMailer
 
     /**
      * Encode a string using Q encoding.
-     * @link http://tools.ietf.org/html/rfc2047
+     * @link http://jry_wb_tools.ietf.org/html/rfc2047
      * @param string $str the text to encode
      * @param string $position Where the text is going to be used, see the RFC for what that means
      * @access public
@@ -3803,7 +3803,7 @@ class PHPMailer
             $pinfo = openssl_pkey_get_details($privKey);
             $hash = hash('sha256', $signHeader);
             //'Magic' constant for SHA256 from RFC3447
-            //@link https://tools.ietf.org/html/rfc3447#page-43
+            //@link https://jry_wb_tools.ietf.org/html/rfc3447#page-43
             $t = '3031300d060960864801650304020105000420' . $hash;
             $pslen = $pinfo['bits'] / 8 - (strlen($t) / 2 + 3);
             $eb = pack('H*', '0001' . str_repeat('FF', $pslen) . '00' . $t);

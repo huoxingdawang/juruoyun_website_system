@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	function jry_wb_qq_music_spider($in_mid)
 	{
 		$conn=jry_wb_connect_database();

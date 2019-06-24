@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
 	include_once("../jry_wb_configs/jry_wb_tp_github_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");

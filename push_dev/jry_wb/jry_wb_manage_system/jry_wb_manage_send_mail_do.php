@@ -1,5 +1,5 @@
 <?php
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	try{jry_wb_check_compentence(NULL,array('use','manage','usemailsender'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare("SELECT mail,name,id FROM ".JRY_WB_DATABASE_GENERAL."users ORDER BY id DESC;");

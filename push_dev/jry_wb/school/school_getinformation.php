@@ -1,5 +1,5 @@
 <?php	
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	$action=$_GET['action'];
 	try{jry_wb_check_compentence();}catch(jry_wb_exception $e){echo $e->getMessage();exit();}			
 	$conn2=jry_wb_connect_database();

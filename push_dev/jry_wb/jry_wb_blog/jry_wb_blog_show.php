@@ -1,5 +1,5 @@
 <?php 
-	include_once("../tools/jry_wb_includes.php");
+	include_once("../jry_wb_tools/jry_wb_includes.php");
 	$action=$_GET['action'];
 	jry_wb_print_head("博客",false,true,true);
 ?>
