@@ -34,7 +34,7 @@ function jry_wb_get_day(second,all)
 		date+=Math.floor(second/60/60)+'时',second-=(Math.floor(second/60/60)*60*60),showed=true;
 	if(Math.floor(second/60)!=0||(all&&showed))
 		date+=Math.floor(second/60)+'分',second-=(Math.floor(second/60)*60),showed=true;
-	if(Math.floor(second)!=0||(all&&showed))
+	if(Math.floor(second)!=0||(all))
 		date+=Math.floor(second)+'秒';
 	return date;
 }
