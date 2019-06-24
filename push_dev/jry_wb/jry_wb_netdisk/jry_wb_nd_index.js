@@ -209,8 +209,6 @@ jry_wb_add_load(function()
 		};
 		upload_mesage_button.onclick=function()
 		{
-			if(upload_refresh_timer!=null)
-				return ;
 			message.innerHTML='';
 			if(jry_nd_upload_list.length==0)
 			{			
@@ -226,7 +224,6 @@ jry_wb_add_load(function()
 			table.style.width=message.clientWidth;
 			var tr=document.createElement('tr');table.appendChild(tr);
 			var td1=document.createElement('td');tr.appendChild(td1);td1.innerHTML='速度';
-			td1.classList.add('jry_wb_word_cut');
 			td1.style.width=message.clientWidth*0.25;
 			var speed=document.createElement('td');tr.appendChild(speed);	
 			var tr=document.createElement('tr');table.appendChild(tr);
@@ -247,12 +244,14 @@ jry_wb_add_load(function()
 			}
 			var last=0;
 			var cnttt=[];
+			if(upload_refresh_timer!=null)
+				clearInterval(upload_refresh_timer);
 			upload_refresh_timer=setInterval(function()
 			{
 				var cnt=0;
 				var loaded=0;
 				var total=0;
-				for(var i=0,n=jry_nd_upload_list.length;i<n;i++)
+				for(var i=0,n=progress_list.length;i<n;i++)
 				{
 					loaded+=jry_nd_upload_list[i].loaded;
 					total+=jry_nd_upload_list[i].total;
@@ -279,20 +278,19 @@ jry_wb_add_load(function()
 				cnttt[cnttt.length]=loaded-last;
 				last=loaded;
 				var here=0;
-				if(cnttt.length>100)
+				if(cnttt.length>50)
 					cnttt.splice(0,1);
 				for(var i=0;i<cnttt.length;i++)
 					here+=cnttt[i];
 				progress_total.progress.update(loaded/total,jry_wb_get_size(loaded)+'/'+jry_wb_get_size(total));
-				speed.innerHTML=jry_wb_get_size((here)*10/cnttt.length)+'/s'+';还要'+parseInt((total-loaded)/((here)*10/cnttt.length))+'s';
+				speed.innerHTML=jry_wb_get_size((here)/(cnttt.length*100/1000))+'/s'+'<br>还要'+jry_wb_get_day(parseInt((total-loaded)/((here)/(cnttt.length*100/1000))));
 				if(cnt==jry_nd_upload_list.length)
 				{
 					progress_total.td1.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
 					clearInterval(upload_refresh_timer);
 					upload_refresh_timer=null;
 				}
-			}
-			,500);
+			},100);
 		};
 		select_mesage_button.onclick=function()
 		{
@@ -690,7 +688,7 @@ jry_wb_add_load(function()
 				{
 					var tr=document.createElement('tr');table.appendChild(tr);
 					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_nd_selected_list[i].file.name;	
-					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(jry_nd_selected_list[i].file.size/1024);	
+					var td=document.createElement('td');tr.appendChild(td);			td.innerHTML=jry_wb_get_size(jry_nd_selected_list[i].file.size);	
 				}				
 			};		
 		}
