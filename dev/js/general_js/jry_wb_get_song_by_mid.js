@@ -1,6 +1,6 @@
-jry_wb_spider_qq_music_spider=jry_wb_message.jry_wb_host+"spiders/qq_music_spider.php";
-jry_wb_spider_163_music_spider=jry_wb_message.jry_wb_host+"spiders/163_music_spider.php";
-jry_wb_spider_music_list_spider=jry_wb_message.jry_wb_host+"spiders/music_list_spider.php";
+jry_wb_spider_qq_music_spider=jry_wb_message.jry_wb_host+"jry_wb_spiders/qq_music_spider.php";
+jry_wb_spider_163_music_spider=jry_wb_message.jry_wb_host+"jry_wb_spiders/163_music_spider.php";
+jry_wb_spider_music_list_spider=jry_wb_message.jry_wb_host+"jry_wb_spiders/music_list_spider.php";
 function jry_wb_get_songs_by_mid (list)
 {
 	this.get_qq=function(mid)
