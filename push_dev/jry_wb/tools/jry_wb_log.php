@@ -7,6 +7,7 @@
 	define('jry_wb_log_type_forget',4);
 	define('jry_wb_log_type_green_money',5);
 	define('jry_wb_log_type_send_tel_code',6);
+	define('JRY_WB_LOG_TYPE_ERROR',7);
 	function jry_wb_echo_log($type,$data,$id=-1)
 	{
 		global $jry_wb_login_user; 
