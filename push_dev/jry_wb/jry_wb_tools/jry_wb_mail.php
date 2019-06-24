@@ -1,6 +1,6 @@
 <?php
 	include_once("jry_wb_includes.php");
-	require_once( dirname(__FILE__).'/phpemailer/PHPMailerAutoload.php');
+	require_once(dirname(dirname(__FILE__)).'/jry_wb_tp_sdk/phpemailer/PHPMailerAutoload.php');
 	function jry_wb_send_mail($to,$subject,$text)
 	{
 		if($to==''||$subject==''||$text=='')
