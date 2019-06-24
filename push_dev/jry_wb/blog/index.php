@@ -7,7 +7,7 @@
 	<?php jry_wb_print_logo(false);?>
 	<?php if($jry_wb_login_user[id]!=-1)jry_wb_show_user($jry_wb_login_user);?>
 	<?php jry_wb_print_href('blog','active');?>
-	<?php if($jry_wb_login_user[id]!=-1&&$jry_wb_login_user['editorblog'])jry_wb_print_href('blog_draft');?>
+	<?php if($jry_wb_login_user[id]!=-1&&$jry_wb_login_user['compentence']['editorblog'])jry_wb_print_href('blog_draft');?>
 </div>
 <link rel="stylesheet" type="text/css" href="blog_show.css">
 <script language="javascript" src="blog_show.js"></script>
