@@ -7,15 +7,15 @@
 			$q='SELECT * FROM '.JRY_WB_DATABASE_ONLINE_JUDGE.'question_list ';
 			$a=0;
 			foreach($class as $c)
-				($q.=((($a++)==0?' WHERE ':' OR ').' JSON_CONTAINS(class,?) '));
-			$q.=' ORDER BY rand() LIMIT 1';
+				($q.=((($a++)==0?' WHERE (':' OR ').' JSON_CONTAINS(class,?) '));
+			$q.=') AND `use`=1 ORDER BY rand() LIMIT 1';
 			$st=$conn->prepare($q);
 			$i=1;
 			foreach($class as $c)
 				$st->bindParam($i++,json_encode($c));
 		}
 		else
-			($st=$conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_ONLINE_JUDGE.'question_list WHERE question_id=? LIMIT 1'))->bindParam(1,$question_id);
+			($st=$conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_ONLINE_JUDGE.'question_list WHERE question_id=? AND `use`=1 LIMIT 1'))->bindParam(1,$question_id);
 		$st->execute();
 		$json=array();
 		$all=$st->fetchAll();

@@ -1,4 +1,3 @@
-// JavaScript Document
 jry_wb_online_judge_function.prototype.show_all=function(page)
 {
 	this.main_dom.innerHTML='';
@@ -28,7 +27,8 @@ jry_wb_online_judge_function.prototype.show_all=function(page)
 	};
 	var show=new Array();
 	for(let i=0,n=this.question_list.length;i<n;i++)
-		if(	(this.showwhat.id==0||this.showwhat.id==this.question_list[i].id)&&
+		if(	this.question_list[i].use&&
+			(this.showwhat.id==0||this.showwhat.id==this.question_list[i].id)&&
 			(this.showwhat.question_id==0||this.showwhat.question_id==this.question_list[i].question_id)&&
 			(this.showwhat.question_type==0||this.showwhat.question_type==this.question_list[i].question_type)&&
 			(check_status(this.question_list[i]))&&

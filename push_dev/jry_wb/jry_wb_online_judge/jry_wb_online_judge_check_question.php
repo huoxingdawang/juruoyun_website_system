@@ -142,7 +142,8 @@
 			WHERE  	'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.question_id='.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'error.question_id
 			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'error.id=?
 			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'error.times<0
-			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'error.question_id!=?
+			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.question_id!=?
+			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.use=1
 			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'error.extern->\'$.nexttime\' < ?		
 			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.config->\'$.autojump\'=true
 			';				
@@ -170,6 +171,7 @@
 								WHERE	'.JRY_WB_DATABASE_ONLINE_JUDGE.'error.id=?
 			)			
 			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.question_id!=?
+			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.use=1			
 			AND		'.JRY_WB_DATABASE_ONLINE_JUDGE_PREFIX.'question_list.config->\'$.autojump\'=true
 		';
 		$a=0;

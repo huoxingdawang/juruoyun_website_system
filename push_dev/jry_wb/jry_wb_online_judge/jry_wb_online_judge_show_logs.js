@@ -1,4 +1,3 @@
-//此文档依赖缓存
 jry_wb_online_judge_function.prototype.show_logs=function(page)
 {
 	this.main_dom.innerHTML='';

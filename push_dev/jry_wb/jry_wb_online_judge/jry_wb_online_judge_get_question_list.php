@@ -9,13 +9,14 @@
 		$st->execute();
 		$json=array();
 		foreach($st->fetchAll() as $one)
-			$json[]=array(	'question_id'=>$one['question_id'],
-							'id'=>$one['id'],
-							'question_type'=>$one['question_type'],
-							"question"=>mb_substr($one['question'],0,64,'utf-8'),
-							"source"=>$one['source'],
-							"lasttime"=>$one['lasttime'],
-							"class"=>json_decode(str_replace('"','',$one['class']))
+			$json[]=array(	'question_id'=>		$one['question_id'],
+							"use"=>				$one['use'],
+							"lasttime"=>		$one['lasttime'],
+							'id'=>				($one['use']?$one['id']:''),
+							'question_type'=>	($one['use']?$one['question_type']:''),
+							"question"=>		($one['use']?mb_substr($one['question'],0,64,'utf-8'):''),
+							"source"=>			($one['use']?$one['source']:''),
+							"class"=>			($one['use']?json_decode(str_replace('"','',$one['class'])):'')
 							);
 		return $json;
 	}
