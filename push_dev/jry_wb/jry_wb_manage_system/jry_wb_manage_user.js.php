@@ -40,7 +40,7 @@ jry_wb_manage_user.sync=function()
 jry_wb_manage_user.showall=function()
 {
 	this.area.innerHTML='';
-	var all = document.createElement('one');this.area.appendChild(all);
+	var all = document.createElement('table');this.area.appendChild(all);
 	all.width='100%';all.height='100%';
 	all.classList.add("jry_wb_left_toolbar");
 	var tr=document.createElement('tr');all.appendChild(tr);
@@ -82,23 +82,9 @@ jry_wb_manage_user.showall=function()
 		one.onclick=(event)=>
 		{
 			var id=parseInt(event.target.innerHTML);
-			if(this.lasthighlight!=null&&this.lasthighlight.target!=null&&this.lasthighlight.classList!=null)
-			{
-				this.lasthighlight.target.classList.remove('jry_wb_left_toolbar_left_list_active');
-				for(var i=0,n=this.lasthighlight.classList.length;i<n;i++)
-					this.lasthighlight.target.classList.add(this.lasthighlight.classList[i]);
-			}
-			else
-			{
-				this.lasthighlight={};
-			}
-			this.lasthighlight.target=event.target;
-			this.lasthighlight.classList=[];
-			for(var i=0,n=event.target.classList.length;i<n;i++)
-			{
-				this.lasthighlight.classList.push(event.target.classList[i]);
-				event.target.classList.remove(event.target.classList[i]);
-			}				
+			if(this.lasthighlight!=null)
+				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
+			this.lasthighlight=event.target;	
 			event.target.classList.add('jry_wb_left_toolbar_left_list_active');
 			jry_wb_get_user(id,this.reload[id],()=>
 				{

@@ -1,6 +1,8 @@
 (function()
 {
-	jry_wb_ajax_load_data('jry_wb_manage_system_get_information.php',function(data){
+	jry_wb_ajax_load_data('jry_wb_manage_system_get_information.php',function(data)
+	{
+		document.getElementById('buttom_message').style.display='none';
 		var hash=location.hash.slice(1).split('/');
 		location.hash='';
 		jry_wb_manage_system_information=JSON.parse(data);
