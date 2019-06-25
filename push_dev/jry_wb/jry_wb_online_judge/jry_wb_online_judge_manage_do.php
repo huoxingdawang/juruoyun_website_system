@@ -12,9 +12,9 @@
 		foreach ($st->fetchAll() as $one)
 			$manager[$one['class_id']]=true;
 		if($action=='set_use')
-			echo json_encode(jry_wb_online_judge_manage_set_use($conn,$jry_wb_login_user,jry_wb_online_judge_get_question_admin($conn,$jry_wb_login_user,$_POST['question_id'],$manager),$_POST['use']));
+			echo json_encode(jry_wb_online_judge_manage_set_use($conn,$jry_wb_login_user,$manager,jry_wb_online_judge_get_question_admin($conn,$jry_wb_login_user,$_POST['question_id'],$manager),$_POST['use']));
 		else if($action=='save')
-			echo json_encode(jry_wb_online_judge_manage_save($conn,$jry_wb_login_user,jry_wb_online_judge_get_question_admin($conn,$jry_wb_login_user,$_POST['question_id'],$manager),str_replace('/37','&',str_replace('/43','+',$_POST['question'])),str_replace('/37','&',str_replace('/43','+',$_POST['source'])),str_replace('/37','&',str_replace('/43','+',$_POST['config'])),str_replace('/37','&',str_replace('/43','+',$_POST['exdata']))));
+			echo json_encode(jry_wb_online_judge_manage_save($conn,$jry_wb_login_user,$manager,jry_wb_online_judge_get_question_admin($conn,$jry_wb_login_user,$_POST['question_id'],$manager),str_replace('/37','&',str_replace('/43','+',$_POST['question'])),str_replace('/37','&',str_replace('/43','+',$_POST['source'])),str_replace('/37','&',str_replace('/43','+',$_POST['config'])),str_replace('/37','&',str_replace('/43','+',$_POST['exdata'])),(int)$_POST['question_type'],json_decode($_POST['class'])));
 		else if($action=='new')
 			echo json_encode(jry_wb_online_judge_manage_new($conn,$jry_wb_login_user));
 		else

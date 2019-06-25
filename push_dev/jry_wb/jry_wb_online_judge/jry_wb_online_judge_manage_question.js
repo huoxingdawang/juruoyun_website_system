@@ -1,7 +1,3 @@
-/*
-							"config"=>			($admin?json_decode($one['config']):NULL),
-							"exquestion"=>			($admin?json_decode($one['exquestion']):NULL)
-*/
 jry_wb_online_judge_manage_function.prototype.manage_question=function()
 {
 	this.area.innerHTML='';
@@ -51,6 +47,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 			},function(){});
 		};
 	}
+	jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[0].onclick();});
 	for(let i=0,n=this.question_list.length;i<n;i++)
 	{
 		let manage_flag=true;
@@ -64,8 +61,10 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		one.style.width='';
 			one.classList.add(('jry_wb_left_toolbar_left_list_'+(i%2+1)));
 		one.innerHTML=this.question_list[i].question_id+':'+this.question_list[i].question.slice(0,10);
-		one.onclick=(event)=>
+		this.question_list[i].onclick=one.onclick=(event)=>
 		{
+			jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[i+1].onclick();});
+			jry_wb_set_shortcut(jry_wb_keycode_left,()=>{this.question_list[i-1].onclick();});
 			if(this.lasthighlight!=null)
 				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
 			this.lasthighlight=one;	
@@ -120,15 +119,83 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 			}
 			var tr=document.createElement("tr");table.appendChild(tr);
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');td.setAttribute('valign','top');td.width='20%';
-			td.innerHTML='标签';
+			td.innerHTML='标签<span style="font-size:16px;">右键删除</span>';
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');
-			for(var j=0,m=question.classes.length,span;j<m;j++)
-				td.appendChild(span=document.createElement("span")),span.innerHTML=question.classes[j].class_name+';';
+			let class_doms=undefined;
+			if(manage_flag)
+			{
+				class_doms=td;
+				for(let j=0,m=question.classes.length,span;j<m;j++)
+				{
+					let class_dom=document.createElement("select");td.appendChild(class_dom);
+					class_dom.classList.add('h56');
+					var option=document.createElement("option");class_dom.appendChild(option);
+					option.classList.add('h56');
+					option.innerHTML=question.classes[j].class_name;
+					option.value=question.classes[j].class_id;
+					if(!question.classes[j].manager.includes(jry_wb_login_user.id))
+						option.setAttribute('disabled','disabled');
+					else
+					{
+						class_dom.oncontextmenu=function()
+						{
+							jry_wb_beautiful_alert.check('确定删除标签"'+class_dom.value+'"吗?',()=>
+							{
+								class_dom.parentNode.removeChild(class_dom);
+							},function(){});
+							return false;
+						}
+					}
+				}
+				let add_class_button=document.createElement("button");td.appendChild(add_class_button);
+				add_class_button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_normal','jry_wb_icon','jry_wb_icon_xinjian');
+				add_class_button.onclick=()=>
+				{
+					let class_dom=document.createElement("select");add_class_button.parentNode.insertBefore(class_dom,add_class_button);
+					class_dom.classList.add('h56');
+					for(let j=0;j<this.classes.length;j++)
+						if(this.classes[j].manager.includes(jry_wb_login_user.id))
+						{
+							var option=document.createElement("option");class_dom.appendChild(option);
+							option.classList.add('h56');
+							option.innerHTML=this.classes[j].class_name;
+							option.value=this.classes[j].class_id;
+							class_dom.oncontextmenu=()=>
+							{
+								jry_wb_beautiful_alert.check('确定删除标签"'+this.classes.find(function(a){return a.class_id==class_dom.value}).class_name+'"吗?',()=>
+								{
+									class_dom.parentNode.removeChild(class_dom);
+								},function(){});
+								return false;
+							}
+						}
+					
+				};				
+			}
+			else
+				for(var j=0,m=question.classes.length,span;j<m;j++)
+					td.appendChild(span=document.createElement("span")),span.innerHTML=question.classes[j].class_name+';';
 			var tr=document.createElement("tr");table.appendChild(tr);
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');td.setAttribute('valign','top');td.width='20%';
 			td.innerHTML='类型';
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');
-			td.innerHTML=this.get_word_by_type(question.question_type);
+			let type_dom=undefined;
+			if(manage_flag)
+			{
+				type_dom=document.createElement("select");td.appendChild(type_dom);
+				type_dom.classList.add('h56');
+				for(var j=1;this.get_word_by_type(j)!=undefined;j++)
+				{
+					var option=document.createElement("option");type_dom.appendChild(option);
+					option.classList.add('h56');
+					option.innerHTML=this.get_word_by_type(j);
+					option.value=j;
+					if(j==question.question_type)
+						option.setAttribute('selected','selected');
+				}
+			}
+			else
+				td.innerHTML=this.get_word_by_type(question.question_type);
 			var tr=document.createElement("tr");table.appendChild(tr);
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');td.setAttribute('valign','top');td.width='20%';
 			td.innerHTML='最后修改时间';
@@ -138,7 +205,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');td.setAttribute('valign','top');td.width='20%';
 			td.innerHTML='通过/提交/ratio';
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');
-			td.innerHTML=question.right+'/'+question.submit+'/'+parseInt(question.right/question.submit*100)+'%';				
+			td.innerHTML=question.right+'/'+question.submit+'/'+(isNaN(question.right/question.submit)?'100':parseInt(question.right/question.submit*100))+'%';				
 			var tr=document.createElement("tr");table.appendChild(tr);
 			var td=document.createElement("td");tr.appendChild(td);td.classList.add('h56');td.setAttribute('valign','top');td.width='20%';
 			td.innerHTML='来源';
@@ -182,7 +249,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 				button.onclick=function()
 				{
 					try{JSON.parse(config_dom.value);}catch(e){jry_wb_beautiful_alert.alert('配置有错误','','');return;};
-					jry_wb_beautiful_right_alert.alert('正常',2000,'auto','ok');
+					jry_wb_beautiful_right_alert.alert('配置正常',2000,'auto','ok');
 				};
 			}			
 			
@@ -207,7 +274,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 				button.onclick=function()
 				{
 					try{JSON.parse(exdata_dom.value);}catch(e){jry_wb_beautiful_alert.alert('扩展信息有错误','','');return;};
-					jry_wb_beautiful_right_alert.alert('正常',2000,'auto','ok');
+					jry_wb_beautiful_right_alert.alert('扩展信息正常',2000,'auto','ok');
 				};
 			}
 
@@ -224,6 +291,17 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 				{
 					try{JSON.parse(config_dom.value);}catch(e){jry_wb_beautiful_alert.alert('配置有错误','','');return;};
 					try{JSON.parse(exdata_dom.value);}catch(e){jry_wb_beautiful_alert.alert('扩展信息有错误','','');return;};
+					if(class_doms!=undefined)
+					{
+						var classes=[];
+						for(var j=0;j<class_doms.children.length;j++)
+							if(class_doms.children[j].tagName=='SELECT')
+								classes.push(parseInt(class_doms.children[j].value));
+					}
+					else
+						classes=question.class;
+					classes=classes.unique();
+					console.log(classes);
 					jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_manage_do.php?action=save',(data)=>
 					{
 						data=JSON.parse(data);
@@ -237,14 +315,25 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 						else if(data.reason==700001)
 							jry_wb_beautiful_alert.alert("不存在的题目",data.extern,function(){});
 						else if(data.reason==700002)
-							jry_wb_beautiful_alert.alert("您不是这个题的管理员",data.extern,function(){});
+							jry_wb_beautiful_alert.alert("您不是这个题的管理员",'题号:'+data.extern+'<br>或您添加或删除不属于您管理的标签',function(){});
 						else if(data.reason==700003)
 							jry_wb_beautiful_alert.alert("配置有错误",'',function(){});
 						else if(data.reason==700004)
-							jry_wb_beautiful_alert.alert("扩展信息有错误",data.extern,function(){});						
+							jry_wb_beautiful_alert.alert("扩展信息有错误",data.extern,function(){});	
+						else if(data.reason==700005)
+							jry_wb_beautiful_alert.alert("类型异常",data.extern,function(){});	
+						else if(data.reason==700006)
+							jry_wb_beautiful_alert.alert("标签异常",data.extern,function(){});						
 						else
 							jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
-					},[{'name':'question_id','value':question.question_id},{'name':'source','value':source_dom.value},{'name':'question','value':question_dom.value},{'name':'config','value':config_dom.value},{'name':'exdata','value':exdata_dom.value}]);
+					},[{'name':'question_id','value':question.question_id},{'name':'question_type','value':((typeof type_dom=='undefined')?question.question_type:type_dom.value)},{'name':'source','value':source_dom.value},{'name':'class','value':JSON.stringify(classes)},{'name':'question','value':question_dom.value},{'name':'config','value':config_dom.value},{'name':'exdata','value':exdata_dom.value}]);
+				};
+				var button=document.createElement("button");td.appendChild(button);
+				button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_warn');
+				button.innerHTML='放弃';
+				button.onclick=()=>
+				{
+					one.onclick();
 				};
 			}			
 			var show_scroll=new jry_wb_beautiful_scroll(show);
