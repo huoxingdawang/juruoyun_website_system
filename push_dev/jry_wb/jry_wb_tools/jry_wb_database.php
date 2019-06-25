@@ -11,15 +11,7 @@
 	}
 	function jry_wb_connect_database_test($conn)
 	{
-		try
-		{
-			$conn->getAttribute(PDO::ATTR_SERVER_INFO);
-		}
-		catch(PDOException $e)
-		{
-			return false;
-		}
-		return true;
+		return is_object($conn->prepare('SELECT 1'));
 	}
 	if(!JRY_WB_HOST_SWITCH)
 	{

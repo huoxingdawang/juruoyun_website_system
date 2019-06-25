@@ -17,13 +17,8 @@
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];
 		$q="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where time<? AND trust=0";
 		$st=$conn->prepare($q);
-		if(is_object($st))
-		{
-			$st->bindValue(1,date("Y-m-d H:i:s",time()-JRY_WB_LOGIN_TIME));
-			$st->execute();
-		}
-		else
-			jry_wb_echo_log(JRY_WB_LOG_TYPE_ERROR,'On file: '.__FILE__.'line:'.__LINE__.';'.$q);
+		$st->bindValue(1,date("Y-m-d H:i:s",time()-JRY_WB_LOGIN_TIME));
+		$st->execute();
 		$user=NULL;
 		if($cookie['code']!=NULL&&$cookie['id']!=NULL)
 		{
