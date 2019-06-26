@@ -14,6 +14,13 @@ jry_wb_manage_competence_function.prototype.doforsync=function(data)
 	data.sort(function (a,b){return a.type-b.type;});
 	jry_wb_cache.set('competence',data);
 	this.all=data;
+	for(var i=0;i<this.all.length;i++)
+		for(var k=0,nn=this.all[i].data.length;k<nn;k++)
+			if(this.all[i].data[k].name=="competencename")
+			{
+				this.all[i].name=this.all[i].data[k].value;
+				break;
+			}		
 	jry_wb_loading_off();	
 }
 jry_wb_manage_competence_function.prototype.showall=function()
@@ -132,23 +139,9 @@ jry_wb_manage_competence_function.prototype.showall=function()
 		one.innerHTML=this.all[i].type;
 		one.onclick=(event)=>
 		{
-			if(this.lasthighlight!=null&&this.lasthighlight.target!=null&&this.lasthighlight.classList!=null)
-			{
-				this.lasthighlight.target.classList.remove('jry_wb_left_toolbar_left_list_active');
-				for(var i=0,n=this.lasthighlight.classList.length;i<n;i++)
-					this.lasthighlight.target.classList.add(this.lasthighlight.classList[i]);
-			}
-			else
-			{
-				this.lasthighlight={};
-			}
-			this.lasthighlight.target=event.target;
-			this.lasthighlight.classList=[];
-			for(var i=0,n=event.target.classList.length;i<n;i++)
-			{
-				this.lasthighlight.classList.push(event.target.classList[i]);
-				event.target.classList.remove(event.target.classList[i]);
-			}
+			if(this.lasthighlight!=null)
+				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
+			this.lasthighlight=event.target;	
 			event.target.classList.add('jry_wb_left_toolbar_left_list_active');
 			var type=event.target.innerHTML;
 			var all=jry_wb_cache.get('competence');	
