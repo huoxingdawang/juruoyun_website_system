@@ -14,14 +14,6 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 	all.style.height=list.style.height=show.style.height=document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight);
 	show.style.position=list.style.position='relative';
 	show.style.width=all.clientWidth-list.clientWidth;
-	var buf=document.createElement('div');list.appendChild(buf);
-	buf.classList.add('jry_wb_left_toolbar_left_list_default');
-	buf.innerHTML='刷新';
-	buf.onclick=(event)=>{this.sync();};
-	var buf=document.createElement('div');list.appendChild(buf);
-	buf.classList.add('jry_wb_left_toolbar_left_list_default');
-	buf.innerHTML='清空缓存';
-	buf.onclick=(event)=>{jry_wb_cache.delete_all();this.sync();};	
 	if(jry_wb_login_user.compentence.manageonlinejudgeaddquestion)
 	{
 		var buf=document.createElement('div');list.appendChild(buf);
@@ -63,8 +55,10 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		one.innerHTML=this.question_list[i].question_id+':'+this.question_list[i].question.slice(0,10);
 		this.question_list[i].onclick=one.onclick=(event)=>
 		{
-			jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[i+1].onclick();});
-			jry_wb_set_shortcut(jry_wb_keycode_left,()=>{this.question_list[i-1].onclick();});
+			if(i!=n-1)
+				jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[i+1].onclick();});
+			if(i!=0)
+				jry_wb_set_shortcut(jry_wb_keycode_left,()=>{this.question_list[i-1].onclick();});
 			if(this.lasthighlight!=null)
 				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
 			this.lasthighlight=one;	

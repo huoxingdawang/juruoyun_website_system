@@ -72,3 +72,22 @@ function jry_wb_online_judge_manage_question_run(area)
 	jry_wb_online_judge_manage.do=jry_wb_online_judge_manage.manage_question;
 	jry_wb_online_judge_manage.sync();
 }
+function jry_wb_online_judge_sync_init(area)
+{
+	jry_wb_online_judge_manage_init(area,jry_wb_online_judge_sync_run);
+}
+function jry_wb_online_judge_sync_run(area)
+{
+	jry_wb_online_judge_manage.sync();
+	jry_wb_beautiful_right_alert.alert('已刷新',2000,'auto','ok');
+}
+function jry_wb_online_judge_clean_init(area)
+{
+	jry_wb_online_judge_manage_init(area,jry_wb_online_judge_clean_run);
+}
+function jry_wb_online_judge_clean_run(area)
+{
+	jry_wb_cache.delete_all();
+	jry_wb_online_judge_manage.sync();
+	jry_wb_beautiful_right_alert.alert('已清空缓存',2000,'auto','ok');
+}

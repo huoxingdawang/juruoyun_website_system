@@ -94,7 +94,7 @@
 				}
 				one.innerHTML="上一页";
 			}
-			for(var i=0,n=data.length;i<n;i++)
+			for(let i=0,n=data.length;i<n;i++)
 			{
 				if((data[i].children==null||data[i].children.length==0)&&data[i].url=='')
 					continue;
@@ -106,42 +106,47 @@
 				{
 					one.onclick=function()
 					{
-						document.getElementById('hash').innerHTML='/'+(location.hash+=data[parseInt(this.name)].hash+'/').slice(0);
-						tree.push(parseInt(this.name));
-						do_one(data[parseInt(this.name)].children,true,tree);
+						document.getElementById('hash').innerHTML='/'+(location.hash+=data[i].hash+'/').slice(0);
+						tree.push(i);
+						do_one(data[i].children,true,tree);
 					}
 				}
+				else if(data[i].hash=='')
+					one.onclick=function()
+					{
+						if(data[i].inited==undefined||data[i].inited==false)
+							data[i].inited=true,jry_wb_include_once_script(jry_wb_message.jry_wb_host+data[i].url,function(){eval(data[i].init_script+'(one_function)');});
+						else
+							eval(data[i].run_script+'(one_function)');
+						window.onresize();						
+					};
 				else if(data[i].is_script)
-				{
 					one.onclick=function()
 					{
 						if(one_function.innerHTML!='')
 						{
 							var a=location.hash.slice(1).split('/');
 							location.hash='';
-							for(var i=0,n=a.length;i<n-2;i++)
-								location.hash+=a[i]+'/';
+							for(var j=0,n=a.length;j<n-2;j++)
+								location.hash+=a[j]+'/';
 						}					
-						document.getElementById('hash').innerHTML='/'+(location.hash+=data[parseInt(this.name)].hash+'/').slice(1);
+						document.getElementById('hash').innerHTML='/'+(location.hash+=data[i].hash+'/').slice(1);
 						if(one_function.tagName=="IFRAME")
 						{
 							right_body.removeChild(one_function);
 							one_function=document.createElement('div');right_body.appendChild(one_function);
 						}
-						var i=parseInt(this.name);
 						if(data[i].inited==undefined||data[i].inited==false)
 						{
 							data[i].inited=true;
 							one_function.innerHTML='';
-							jry_wb_include_once_script(jry_wb_message.jry_wb_host+data[i].url,function(){eval(data[i].init_script+'(one_function)');})
+							jry_wb_include_once_script(jry_wb_message.jry_wb_host+data[i].url,function(){eval(data[i].init_script+'(one_function)');});
 						}
 						else
 							eval(data[i].run_script+'(one_function)');
 						window.onresize();
 					}
-				}
 				else if(data[i].url=='')
-				{
 					one.onclick=function()
 					{
 						if(one_function.innerHTML!='')
@@ -173,10 +178,9 @@
 						}
 						window.onresize();
 					}
-				}
 				else
 					one.onclick=function(){jry_wb_beautiful_right_alert.alert('并没有项目',5000,'auto','error');};
-				if(hash[tree.length]==data[i].hash&&(first))
+				if(hash[tree.length]==data[i].hash&&(first)&&hash[tree.length]!='')
 				{
 					one.onclick(false);
 					if(data[i].children!=null&&data[i].children.length!=0)
