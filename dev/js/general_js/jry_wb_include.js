@@ -6,7 +6,7 @@ function jry_wb_include_once_script(src,callback)
 	var flag = false;
 	for( var i = 0,n = test.length;i<n;i++)
 		if(test[i].src==src)
-			return true;
+			return callback(),true;
 	jry_wb_loading_on();
 	jry_wb_include_once_script_cnt++;
 	var myscript=document.createElement('script');document.head.appendChild(myscript);
