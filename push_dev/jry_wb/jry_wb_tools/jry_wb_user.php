@@ -56,7 +56,7 @@
 			$st->execute();
 			foreach($st->fetchAll() as $ips)
 			{
-				if($isthis=($cookie['code']==$ips['code']))	
+				if($isthis=($_COOKIE['code']==$ips['code']))	
 					$user['logdate']=$ips['time'];
 				$user['login_addr'][]=array('isthis'=>$isthis,'ip'=>$ips['ip'],'time'=>$ips['time'],'device'=>$ips['device'],'browser'=>$ips['browser'],'trust'=>$ips['trust'],'login_id'=>$ips['login_id']);
 			}			
