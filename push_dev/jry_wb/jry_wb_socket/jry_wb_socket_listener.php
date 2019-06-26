@@ -43,15 +43,17 @@
 	{
 		try
 		{
-			if(!jry_wb_connect_database_test($conn))
-				$conn=jry_wb_connect_database();
 			$sockets=$clients;
 			$sockets[]=$master;
 			$write=NULL;
 			$except=NULL;
 			$tv_sec=NULL;
 			socket_select($sockets, $write, $except, $tv_sec);
-			//循环有状态变化的socket
+			if(!jry_wb_connect_database_test($conn))
+			{
+				$conn=jry_wb_connect_database();
+				jry_wb_cli_echo_log('JRY Socket database reconnect '.jry_wb_php_cli_color('OK','green')."\n");
+			}
 			foreach ($sockets as $socket)
 			{
 				if($socket===$master)
