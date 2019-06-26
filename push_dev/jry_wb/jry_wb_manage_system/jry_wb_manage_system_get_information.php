@@ -11,7 +11,7 @@
 	}
 	function load($father,$conn)
 	{
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'list where father=? ORDER BY name ASC');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'list where father=? ORDER BY `order` ASC');
 		$st->bindParam(1,$father);
 		$st->execute();
 		foreach($st->fetchAll()as $list)
