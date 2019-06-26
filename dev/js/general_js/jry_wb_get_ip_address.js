@@ -9,7 +9,7 @@ function jry_wb_get_ip_address(ip,callback)
 		return jry_wb_get_ip_address_buf[ip].push(callback);
 	jry_wb_get_ip_address_buf[ip]=[];
 	jry_wb_get_ip_address_buf[ip].push(callback);
-	jry_wb_sync_data_with_server('ip',jry_wb_message.jry_wb_host+'tools/jry_wb_get_ip_address.php?ip='+ip,null,function(a){return a.data.ip==this.buf.data.ip},function(data)
+	jry_wb_sync_data_with_server('ip',jry_wb_message.jry_wb_host+'jry_wb_tools/jry_wb_get_ip_address.php?ip='+ip,null,function(a){return a.data.ip==this.buf.data.ip},function(data)
 	{
 		if(data!=undefined)
 			if((data=data.find(function(a){return a.data.ip==ip}))!=undefined)
