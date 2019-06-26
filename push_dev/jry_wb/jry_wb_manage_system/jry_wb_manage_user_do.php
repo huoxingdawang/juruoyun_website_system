@@ -20,7 +20,7 @@
 		$conn2=jry_wb_connect_database();
 		$st = $conn2->prepare($cmd);
 		$i=1;
-		foreach ($_POST as $key => &$value) 
+		foreach ($_POST as $key => $value) 
 			if(($key=='type'&&$jry_wb_login_user['compentence']['managecompentence'])||$key!='type')
 				$st->bindValue(($i++),$value);
 		$st->bindValue($i,jry_wb_get_time());

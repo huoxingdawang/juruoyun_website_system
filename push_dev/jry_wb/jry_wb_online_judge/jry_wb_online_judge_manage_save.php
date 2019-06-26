@@ -15,12 +15,6 @@
 		foreach($classes as $class)
 			if($manager[$class]!==true)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>700002,'extern'=>$q['question_id'],'file'=>__FILE__,'line'=>__LINE__)));	
-		foreach($q['class'] as $class)
-			if(($buf=array_search($class))!==false)
-				unset($old_classes[$buf]);
-		foreach($old_classes as $class)
-			if($manager[$class]!==true)
-				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>700002,'extern'=>$q['question_id'],'file'=>__FILE__,'line'=>__LINE__)));			
 		if(is_nan($question_type)||$question_type<1||$question_type>4)
 			throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>700005,'file'=>__FILE__,'line'=>__LINE__)));
 		if(is_null(json_decode($config)))

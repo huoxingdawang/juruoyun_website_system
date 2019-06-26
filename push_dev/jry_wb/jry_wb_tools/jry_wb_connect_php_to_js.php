@@ -24,6 +24,7 @@
 					'name'=>$jry_wb_login_user['name'],
 					'sex'=>$jry_wb_login_user['sex'],
 					'tel'=>$jry_wb_login_user['tel'],
+					'type'=>$jry_wb_login_user['type'],
 					'mail'=>$jry_wb_login_user['mail'],
 					'language'=>$jry_wb_login_user['language'],
 					'zhushi'=>str_replace(array("\r\n", "\r", "\n"),'<br>',$jry_wb_login_user['zhushi']),

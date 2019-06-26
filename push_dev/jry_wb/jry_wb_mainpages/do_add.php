@@ -164,20 +164,24 @@
 		$conn=jry_wb_connect_database();
 		$now=jry_wb_get_time();//时间
 		if($sex==0)
-			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern,invite_id) VALUES (?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?,?)';
+			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,type,password,sex,enroldate,head,tel,lasttime,extern,invite_id) VALUES (?,?,?,?,?,head=\'{"type":"default_head_woman"}\',?,?,?,?)';
 		else
-			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,password,sex,enroldate,head,tel,lasttime,extern,invite_id) VALUES (?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?,?)';
+			$q = 'INSERT INTO '.JRY_WB_DATABASE_GENERAL.'users (name,type,password,sex,enroldate,head,tel,lasttime,extern,invite_id) VALUES (?,?,?,?,?,head=\'{"type":"default_head_man"}\',?,?,?,?)';
 		$st = $conn->prepare($q);
 		$st->bindValue(1,$name);
-		$st->bindValue(2,$psw1);
-		$st->bindValue(3,$sex);
-		$st->bindValue(4,$now);
-		$st->bindValue(5,$tel);
-		$st->bindValue(6,$now);
-		$st->bindValue(7,json_encode($extern));
-		$st->bindValue(8,($invite_code==NULL?0:$invite_code['id']));
+		$st->bindValue(2,json_encode([4]));
+		$st->bindValue(3,$psw1);
+		$st->bindValue(4,$sex);
+		$st->bindValue(5,$now);
+		$st->bindValue(6,$tel);
+		$st->bindValue(7,$now);
+		$st->bindValue(8,json_encode($extern));
+		$st->bindValue(9,($invite_code==NULL?0:$invite_code['id']));
 		$st->execute();
 		$jry_wb_login_user['id']=$conn->lastInsertId();
+		$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET `order`=(SELECT MIN(`order`) FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence WHERE `type` IN (SUBSTRING_INDEX(SUBSTRING(JSON_UNQUOTE('.JRY_WB_DATABASE_GENERAL_PREFIX.'users.type),2),\']\',1))) WHERE id=?');
+		$st->bindValue(1,$jry_wb_login_user['id']);
+		$st->execute();		
 		if(JRY_WB_CHECK_MAIL_SWITCH)
 		{		
 			if(JRY_WB_MAIL_SWITCH!='')

@@ -16,20 +16,38 @@
 		else
 		{
 			$user=$datas[0];
-			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence WHERE type=? LIMIT 1');
-			$st->bindValue(1,$user['type']);
+			$user['type']=json_decode($user['type']);
+			if(is_int($user['type']))
+				$user['type']=[$user['type']];
+			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_MANAGE_SYSTEM.'competence WHERE type IN ('.implode(',',$user['type']).')  ORDER BY `order` ASC');
 			$st->execute();
 			$datas=$st->fetchAll();
 			if(count($datas)==0)
 				return NULL;				
 		}
-		$_SESSION['language']=$user['language'];			
+		$_SESSION['language']=$user['language'];
 		$user['compentence']=$datas[0];
+		$user['color']=$user['compentence']['color'];
+		$user['competencename']=[$user['compentence']['competencename']];
+		unset($datas[0]);
+		foreach($datas as $data)
+			foreach($data as $key=>$value)
+				if($key=='order')
+					$user['order']=min($user['order'],$data['order']);
+				else if($key=='competencename')
+					$user['competencename'][]=$data['competencename'];
+				else if($key!='type'&&$key!='or'&&$key!='color')
+					if($data['or'])
+						$user['compentence'][$key]|=$data[$key];
+					else 
+						$user['compentence'][$key]&=$data[$key];
 		for($i=0,$n=count($user['compentence']);$i<$n;$i++)
 			unset($user['compentence'][$i]);
-		$user['color']=$user['compentence']['color'];
-		$user['order']=$user['compentence']['order'];
-		$user['competencename']=$user['compentence']['competencename'];
+		unset($user['compentence']['competencename']);
+		unset($user['compentence']['type']);
+		unset($user['compentence']['order']);
+		unset($user['compentence']['or']);
+		unset($user['compentence']['color']);
 		$user['login_addr']=[];
 		if($user['ip_show']||($host_mode))
 		{
