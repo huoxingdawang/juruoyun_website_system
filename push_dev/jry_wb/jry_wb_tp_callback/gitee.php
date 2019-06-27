@@ -41,7 +41,8 @@
 		?>
 		<script>
 			jry_wb_loading_off();
-			jry_wb_word_special_fact.switch=false;		
+			jry_wb_word_special_fact.switch=false;
+			jry_wb_js_session.close=true;
 			jry_wb_beautiful_alert.alert("绑定失败",'绑定过了',function(){window.close();});
 		</script>
 		<?php
@@ -56,7 +57,8 @@
 	?>
 	<script>
 		jry_wb_loading_off();
-		jry_wb_word_special_fact.switch=false;		
+		jry_wb_word_special_fact.switch=false;
+		jry_wb_js_session.close=true;
 		jry_wb_cache.set('oauth_gitee','<?php  echo json_encode($data['message']);?>');
 		jry_wb_beautiful_alert.alert("绑定成功",'<?php  echo $data['message']->name . $data['message']->login?>',function(){window.close();});
 	</script>
