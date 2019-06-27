@@ -3,27 +3,10 @@
 	setcookie('id',-1,time()-1,'/',JRY_WB_DOMIN,NULL,false);
 	setcookie('code','',time()-1,'/',JRY_WB_DOMIN,NULL,true);
 	jry_wb_print_head("登出",false,false,false);
-	if($_GET['action']=='all')
-	{
-		$conn=jry_wb_connect_database();
-		$q ="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where id=?";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$jry_wb_login_user['id']);
-		$st->execute();	
-	}
-	else
-	{
-		$conn=jry_wb_connect_database();
-		$q ="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where id=? AND ip=? AND device=?";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,$jry_wb_login_user['id']);
-		$st->bindParam(2,$_SERVER['REMOTE_ADDR']);
-		$st->bindParam(3,jry_wb_get_device(true));
-		$st->execute();	
-	}
-	$st = $conn->prepare("update ".JRY_WB_DATABASE_GENERAL."users SET lasttime=? where id=?");
-	$st->bindParam(1,jry_wb_get_time());
-	$st->bindParam(2,$jry_wb_login_user['id']); 
+	$conn=jry_wb_connect_database();
+	$q ="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where id=?";
+	$st = $conn->prepare($q);
+	$st->bindParam(1,$jry_wb_login_user['id']);
 	$st->execute();	
 	$url="window.location.href='".jry_wb_print_href("home","","",1)."'";
 	jry_wb_echo_log(constant('jry_wb_log_type_logout'),'by self');

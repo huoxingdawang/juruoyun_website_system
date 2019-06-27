@@ -11,8 +11,10 @@ var jry_wb_js_session=new function()
 	else
 	{
 		var worker=new SharedWorker(jry_wb_message.jry_wb_host+'jry_wb_js/jry_wb_js_session_worker.js');
-		worker.port.onmessage=function(data)
+		worker.port.onmessage=(data)=>
 		{
+			if(this.close)
+				return;			
 			data=data.data;
 			if(keys.indexOf(data.key)!=-1)
 			{

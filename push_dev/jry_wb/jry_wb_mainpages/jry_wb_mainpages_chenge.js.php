@@ -135,15 +135,15 @@ function show()
 			}
 		}
 		<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>		
-		if(jry_wb_login_user.oauth_qq!=null||jry_wb_login_user.mail.includes('@qq.com'))
+		if(jry_wb_login_user.oauth.qq.message!=null||jry_wb_login_user.mail.includes('@qq.com'))
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			if(jry_wb_login_user.oauth_qq!=null)
-				img2.src=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+			if(jry_wb_login_user.oauth.qq.message!=null)
+				img2.src=jry_wb_login_user.oauth.qq.message.figureurl_qq_2;
 			else
 				img2.src="https://q2.qlogo.cn/headimg_dl?dst_uin="+jry_wb_login_user.mail.split('@')[0]+"&spec=100";
 			var td=document.createElement("td"); tr.appendChild(td);
@@ -181,14 +181,14 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth_github!=null)
+		if(jry_wb_login_user.oauth.github.message!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_login_user.oauth_github.avatar_url;
+			img2.src=jry_wb_login_user.oauth.github.message.avatar_url;
 			var td=document.createElement("td"); tr.appendChild(td);
 			if(jry_wb_login_user.head.type=='github')
 				td.innerHTML='正在使用';
@@ -224,14 +224,14 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth_gitee!=null)
+		if(jry_wb_login_user.oauth.gitee.message!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_login_user.oauth_gitee.avatar_url;
+			img2.src=jry_wb_login_user.oauth.gitee.message.avatar_url;
 			var td=document.createElement("td"); tr.appendChild(td);
 			if(jry_wb_login_user.head.type=='gitee')
 				td.innerHTML='正在使用';
@@ -267,14 +267,14 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth_mi!=null)
+		if(jry_wb_login_user.oauth.mi.message!=null)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
 			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
-			img2.src=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
+			img2.src=jry_wb_login_user.oauth.mi.message.miliaoIcon_orig;
 			var td=document.createElement("td"); tr.appendChild(td);
 			if(jry_wb_login_user.head.type=='mi')
 				td.innerHTML='正在使用';
@@ -687,17 +687,10 @@ function show_ip()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.setAttribute('colspan',2);	
 	var button=document.createElement("button");td.appendChild(button);
-	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
-	button.setAttribute('onclick',"window.open('logout.php','_parent');");
-	button.innerHTML="登出";
-	button=null;	
-	var button=document.createElement("button");td.appendChild(button);
 	button.classList.add("jry_wb_button","jry_wb_button_size_big","jry_wb_color_warn");
 	button.setAttribute('onclick',"window.open('logout.php?action=all','_parent')");
 	button.innerHTML="全部登出";
 	button=null;
-	
-	
 }
 function __addbutton(form,onclick)
 {
@@ -1776,9 +1769,10 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='QQ(oauth2.0)';
+	td.width='20%';
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');
-	if(jry_wb_login_user.oauth_qq==null||jry_wb_login_user.oauth_qq=='')
+	if(jry_wb_login_user.oauth.qq.message==null||jry_wb_login_user.oauth.qq.message=='')
 	{
 		td.innerHTML='没有绑定,点击绑定，powered by Tencent';
 		td.onclick=function()
@@ -1788,7 +1782,7 @@ function showtpin()
 				if(newwindow.closed)
 				{
 					clearInterval(timer);
-					jry_wb_login_user.oauth_qq=JSON.parse(jry_wb_cache.get('oauth_qq'));
+					jry_wb_login_user.oauth.qq.message=JSON.parse(jry_wb_cache.get('oauth_qq'));
 					jry_wb_cache.delete('oauth_qq');
 					showtpin();
 				}
@@ -1798,9 +1792,9 @@ function showtpin()
 	else
 	{
 		var div=document.createElement("div");td.appendChild(div);
-		div.innerHTML=jry_wb_login_user.oauth_qq.nickname;
+		div.innerHTML=jry_wb_login_user.oauth.qq.message.nickname;
 		var img=document.createElement("img");div.appendChild(img);
-		img.src=jry_wb_login_user.oauth_qq.figureurl_qq_2;
+		img.src=jry_wb_login_user.oauth.qq.message.figureurl_qq_2;
 		img.height=30;
 		img.width=30;
 		var span=document.createElement("span");td.appendChild(span);
@@ -1814,7 +1808,7 @@ function showtpin()
 				var data=JSON.parse(data);
 				if(data.code)
 				{
-					jry_wb_login_user.oauth_qq=null;
+					jry_wb_login_user.oauth.qq.message=null;
 					if(jry_wb_login_user.head.type=='qq')
 						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
@@ -1840,9 +1834,10 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='gayhub(oauth2.0)';
+	td.width='20%';	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');	
-	if(jry_wb_login_user.oauth_github==null||jry_wb_login_user.oauth_github=='')
+	if(jry_wb_login_user.oauth.github.message==null||jry_wb_login_user.oauth.github.message=='')
 	{
 		td.innerHTML='没有绑定,点击绑定，powered by github';
 		td.onclick=function()
@@ -1852,7 +1847,7 @@ function showtpin()
 				if(newwindow.closed)
 				{
 					clearInterval(timer);
-					jry_wb_login_user.oauth_github=JSON.parse(jry_wb_cache.get('oauth_github'));
+					jry_wb_login_user.oauth.github.message=JSON.parse(jry_wb_cache.get('oauth_github'));
 					jry_wb_cache.delete('oauth_github');
 					showtpin();
 				}
@@ -1862,9 +1857,9 @@ function showtpin()
 	else
 	{
 		var div=document.createElement("div");td.appendChild(div);
-		div.innerHTML=jry_wb_login_user.oauth_github.name+jry_wb_login_user.oauth_github.login;
+		div.innerHTML=jry_wb_login_user.oauth.github.message.name+jry_wb_login_user.oauth.github.message.login;
 		var img=document.createElement("img");div.appendChild(img);
-		img.src=jry_wb_login_user.oauth_github.avatar_url;
+		img.src=jry_wb_login_user.oauth.github.message.avatar_url;
 		img.height=30;
 		img.width=30;
 		var span=document.createElement("span");td.appendChild(span);
@@ -1878,7 +1873,7 @@ function showtpin()
 				var data=JSON.parse(data);
 				if(data.code)
 				{
-					jry_wb_login_user.oauth_github=null;
+					jry_wb_login_user.oauth.github.message=null;
 					if(jry_wb_login_user.head.type=='github')
 						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
@@ -1904,9 +1899,10 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='MI(oauth2.0)';
+	td.width='20%';	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');
-	if(jry_wb_login_user.oauth_mi==null||jry_wb_login_user.oauth_mi=='')
+	if(jry_wb_login_user.oauth.mi.message==null||jry_wb_login_user.oauth.mi.message=='')
 	{
 		td.innerHTML='没有绑定,点击绑定，powered by Xiaomi.inc';
 		td.onclick=function()
@@ -1916,7 +1912,7 @@ function showtpin()
 				if(newwindow.closed)
 				{
 					clearInterval(timer);
-					jry_wb_login_user.oauth_mi=JSON.parse(jry_wb_cache.get('oauth_mi'));
+					jry_wb_login_user.oauth.mi.message=JSON.parse(jry_wb_cache.get('oauth_mi'));
 					jry_wb_cache.delete('oauth_mi');
 					showtpin();
 				}
@@ -1926,9 +1922,9 @@ function showtpin()
 	else
 	{
 		var div=document.createElement("div");td.appendChild(div);
-		div.innerHTML=jry_wb_login_user.oauth_mi.miliaoNick;
+		div.innerHTML=jry_wb_login_user.oauth.mi.message.miliaoNick;
 		var img=document.createElement("img");div.appendChild(img);
-		img.src=jry_wb_login_user.oauth_mi.miliaoIcon_orig;
+		img.src=jry_wb_login_user.oauth.mi.message.miliaoIcon_orig;
 		img.height=30;
 		img.width=30;
 		var span=document.createElement("span");td.appendChild(span);
@@ -1942,7 +1938,7 @@ function showtpin()
 				var data=JSON.parse(data);
 				if(data.code)
 				{
-					jry_wb_login_user.oauth_mi=null;
+					jry_wb_login_user.oauth.mi.message=null;
 					if(jry_wb_login_user.head.type=='mi')					
 						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');
@@ -1968,9 +1964,10 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='码云(oauth2.0)';
+	td.width='20%';	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');	
-	if(jry_wb_login_user.oauth_gitee==null||jry_wb_login_user.oauth_gitee=='')
+	if(jry_wb_login_user.oauth.gitee.message==null||jry_wb_login_user.oauth.gitee.message=='')
 	{
 		td.innerHTML='没有绑定,点击绑定，powered by 码云';
 		td.onclick=function()
@@ -1980,7 +1977,7 @@ function showtpin()
 				if(newwindow.closed)
 				{
 					clearInterval(timer);
-					jry_wb_login_user.oauth_gitee=JSON.parse(jry_wb_cache.get('oauth_gitee').replace(/\n/g, "<br>"));
+					jry_wb_login_user.oauth.gitee.message=JSON.parse(jry_wb_cache.get('oauth_gitee').replace(/\n/g, "<br>"));
 					jry_wb_cache.delete('oauth_gitee');
 					showtpin();
 				}
@@ -1990,9 +1987,9 @@ function showtpin()
 	else
 	{
 		var div=document.createElement("div");td.appendChild(div);
-		div.innerHTML=jry_wb_login_user.oauth_gitee.name+jry_wb_login_user.oauth_gitee.login;
+		div.innerHTML=jry_wb_login_user.oauth.gitee.message.name+jry_wb_login_user.oauth.gitee.message.login;
 		var img=document.createElement("img");div.appendChild(img);
-		img.src=jry_wb_login_user.oauth_gitee.avatar_url;
+		img.src=jry_wb_login_user.oauth.gitee.message.avatar_url;
 		img.height=30;
 		img.width=30;
 		var span=document.createElement("span");td.appendChild(span);
@@ -2006,7 +2003,7 @@ function showtpin()
 				var data=JSON.parse(data);	
 				if(data.code)
 				{
-					jry_wb_login_user.oauth_gitee=null;
+					jry_wb_login_user.oauth.gitee.message=null;
 					if(jry_wb_login_user.head.type=='gitee')
 						jry_wb_login_user.head.type='default';
 					jry_wb_update_user(jry_wb_login_user,'head');

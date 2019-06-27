@@ -37,10 +37,11 @@
 					'word_special_fact'=>$jry_wb_login_user['word_special_fact'],
 					'follow_mouth'=>$jry_wb_login_user['follow_mouth'],						
 					'background_music_list'=>$jry_wb_login_user['background_music_list'],
-					'oauth_qq'=>$jry_wb_login_user['oauth_qq']->message,
-					'oauth_github'=>$jry_wb_login_user['oauth_github']->message,
-					'oauth_gitee'=>$jry_wb_login_user['oauth_gitee']->message,
-					'oauth_mi'=>$jry_wb_login_user['oauth_mi']->message,
+					'oauth'=>array(	'qq'		=>array('message'=>$jry_wb_login_user['oauth']->qq		->message),
+									'mi'		=>array('message'=>$jry_wb_login_user['oauth']->mi		->message),
+									'github'	=>array('message'=>$jry_wb_login_user['oauth']->github	->message),
+									'gitee'		=>array('message'=>$jry_wb_login_user['oauth']->gitee	->message)
+									),
 					'compentence'=>$jry_wb_login_user['compentence'],
 					'extern'=>$jry_wb_login_user['extern']
 					);
