@@ -1,1 +1,0 @@
-copy *.css white_mobile.css
