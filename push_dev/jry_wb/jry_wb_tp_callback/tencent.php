@@ -8,23 +8,21 @@
 	$data['lasttime']=jry_wb_get_time();
 	$open_id=$data['openid'];
 	$access_token=$data['access_token'];
+	$conn=jry_wb_connect_database();
 	if($jry_wb_login_user['id']==-1)
 	{
 		$type=4;
 		require(JRY_WB_LOCAL_DIR."/jry_wb_mainpages/do_login.php");
-		$conn=jry_wb_connect_database();
-		$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_qq=?,lasttime=? where id=? ";
-		$st = $conn->prepare($q);
-		$st->bindParam(1,json_encode($data));		
-		$st->bindParam(2,jry_wb_get_time());
-		$st->bindParam(3,$jry_wb_login_user['id']);
+		$st=$conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET oauth=JSON_REPLACE(IF(ISNULL(oauth->\'$.qq\'),JSON_INSERT(IFNULL(oauth,JSON_OBJECT()),\'$.qq\',NULL),oauth),\'$.qq\',CONVERT(?,JSON)),lasttime=? WHERE id=? ');
+		$st->bindValue(1,json_encode($data));		
+		$st->bindValue(2,jry_wb_get_time());
+		$st->bindValue(3,$jry_wb_login_user['id']);
 		$st->execute();			
 		exit();
 	}
-	$conn=jry_wb_connect_database();
-	$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
-	$st->bindParam(1,$open_id);
-	$st->bindParam(2,$access_token);
+	$st=$conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users WHERE oauth->\'$.qq.openid\'=? AND oauth->\'$.qq.access_token\'=? LIMIT 1');
+	$st->bindValue(1,$open_id);
+	$st->bindValue(2,$access_token);
 	$st->execute();
 	foreach($st->fetchAll()as $users);
 	if($users!=NULL)
@@ -39,12 +37,10 @@
 		<?php
 		exit();
 	}
-	$conn=jry_wb_connect_database();
-	$q ="update ".JRY_WB_DATABASE_GENERAL."users set oauth_qq=?,lasttime=? where id=? ";
-	$st = $conn->prepare($q);
-	$st->bindParam(1,json_encode($data));		
-	$st->bindParam(2,jry_wb_get_time());
-	$st->bindParam(3,$jry_wb_login_user['id']);
+	$st=$conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET oauth=JSON_REPLACE(IF(ISNULL(oauth->\'$.qq\'),JSON_INSERT(IFNULL(oauth,JSON_OBJECT()),\'$.qq\',NULL),oauth),\'$.qq\',CONVERT(?,JSON)),lasttime=? WHERE id=? ');
+	$st->bindValue(1,json_encode($data));		
+	$st->bindValue(2,jry_wb_get_time());
+	$st->bindValue(3,$jry_wb_login_user['id']);
 	$st->execute();			
 	jry_wb_print_head("绑定",false,false,false,array('use'),true,false);
 	?>

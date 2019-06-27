@@ -47,11 +47,12 @@
 				'lasttime'=>$user['lasttime'],
 				'lasttime_sync'=>jry_wb_get_time(),
 				'type'=>$user['type'],
-				'use'=>$user['use'],							
-				'oauth_qq'=>(($admin_mode||$user['oauth_show'])?$user['oauth_qq']->message:null),
-				'oauth_mi'=>(($admin_mode||$user['oauth_show'])?$user['oauth_mi']->message:null),
-				'oauth_github'=>(($admin_mode||$user['oauth_show'])?$user['oauth_github']->message:null),
-				'oauth_gitee'=>(($admin_mode||$user['oauth_show'])?$user['oauth_gitee']->message:null),
+				'use'=>$user['use'],
+				'oauth'=>(($admin_mode||$user['oauth_show'])?array(	'qq'		=>array('message'=>$user['oauth']->qq		->message),
+																	'mi'		=>array('message'=>$user['oauth']->mi		->message),
+																	'github'	=>array('message'=>$user['oauth']->github	->message),
+																	'gitee'		=>array('message'=>$user['oauth']->gitee	->message)
+																	):null),
 				'login_addr'=>($user['ip_show']||($admin_mode))?$user['login_addr']:-1,
 				'password'=>($admin_mode)?$user['password']:'',
 				'extern'=>($admin_mode)?json_decode($user['extern']):''

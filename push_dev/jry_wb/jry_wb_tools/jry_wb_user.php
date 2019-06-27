@@ -100,14 +100,8 @@
 		else
 			$user['head']=json_decode($user['head'],true);
 		$user['style']=jry_wb_load_style($user['style_id']);
-		if($user['oauth_qq']!='')
-			$user['oauth_qq']=json_decode($user['oauth_qq']);
-		if($user['oauth_github']!='')
-			$user['oauth_github']=json_decode($user['oauth_github']);	
-		if($user['oauth_mi']!='')
-			$user['oauth_mi']=json_decode($user['oauth_mi']);	
-		if($user['oauth_gitee']!='')
-			$user['oauth_gitee']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth_gitee']));
+		if($user['oauth']!='')
+			$user['oauth']=json_decode(preg_replace('/\\\n/i','<br>',$user['oauth']));
 		if($user['extern']!='')
 			$user['extern']=json_decode($user['extern']);
 		$user['background_music_list']=json_decode($user['background_music_list']==''||$user['id']==-1?'[{"slid": "0", "type": "songlist"}]':$user['background_music_list']);		

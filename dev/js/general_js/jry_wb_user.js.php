@@ -247,31 +247,31 @@ function jry_wb_show_user_full(user,width,height)
 	td.classList.add('h56');
 <?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>
 	td.innerHTML+='QQ:';
-	if(user.oauth_qq==null)
+	if(user.oauth.qq.message==null)
 		td.innerHTML+='无<br>';
 	else
-		td.innerHTML+=user.oauth_qq.nickname+'<img width="40px" src="'+user.oauth_qq.figureurl_qq_2+'"><br>';
+		td.innerHTML+=user.oauth.qq.message.nickname+'<img width="40px" src="'+user.oauth.qq.message.figureurl_qq_2+'"><br>';
 <?php } ?>
 <?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='MI:';
-	if(user.oauth_mi==null)
+	if(user.oauth.mi.message==null)
 		td.innerHTML+='无<br>';
 	else
-		td.innerHTML+=user.oauth_mi.miliaoNick+'<img width="40px" src="'+user.oauth_mi.miliaoIcon_orig+'"><br>';
+		td.innerHTML+=user.oauth.mi.message.miliaoNick+'<img width="40px" src="'+user.oauth.mi.message.miliaoIcon_orig+'"><br>';
 <?php } ?>
 <?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='gayhub:';
-	if(user.oauth_github==null)
+	if(user.oauth.github.message==null)
 		td.innerHTML+='无<br>';
 	else
-		td.innerHTML+=user.oauth_github.name+','+user.oauth_github.login+'<img width="40px" src="'+user.oauth_github.avatar_url+'"><br>';						
+		td.innerHTML+=user.oauth.github.message.name+','+user.oauth.github.message.login+'<img width="40px" src="'+user.oauth.github.message.avatar_url+'"><br>';						
 <?php } ?>
 <?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='码云:';
-	if(user.oauth_gitee==null)
+	if(user.oauth.gitee.message==null)
 		td.innerHTML+='无<br>';
 	else
-		td.innerHTML+=user.oauth_gitee.name+','+user.oauth_gitee.login+'<img width="40px" src="'+user.oauth_gitee.avatar_url+'"><br>';	
+		td.innerHTML+=user.oauth.gitee.message.name+','+user.oauth.gitee.message.login+'<img width="40px" src="'+user.oauth.gitee.message.avatar_url+'"><br>';	
 <?php } ?>
 <?php } ?>
 	jry_wb_beautiful_scroll(jry_wb_beautiful_alert.msgObj);	
@@ -334,16 +334,16 @@ function jry_wb_get_user_head(user)
 		return '<?php echo JRY_WB_DEFULT_WOMAN_PICTURE; ?>';
 	else if(user.head.type=='gravatar')
 		return "http://www.gravatar.com/avatar/"+hex_md5(user.mail)+"?size=80&d=404&r=g";
-	else if(user.head.type=='qq'&&user.oauth_qq!=null)
-		return user.oauth_qq.figureurl_qq_2;
-	else if(user.head.type=='github'&&user.oauth_github!=null)
-		return user.oauth_github.avatar_url;
+	else if(user.head.type=='qq'&&user.oauth.qq.message!=null)
+		return user.oauth.qq.message.figureurl_qq_2;
+	else if(user.head.type=='github'&&user.oauth.github.message!=null)
+		return user.oauth.github.message.avatar_url;
 	else if(user.head.type=='qq')
 		return "https://q2.qlogo.cn/headimg_dl?dst_uin="+user.mail.split('@')[0]+"&spec=100";
 	else if(user.head.type=='gitee')
-		return user.oauth_gitee.avatar_url;	
+		return user.oauth.gitee.message.avatar_url;	
 	else if(user.head.type=='mi')
-		return user.oauth_mi.miliaoIcon_orig;	
+		return user.oauth.mi.message.miliaoIcon_orig;	
 	else if(user.head.type=='url')
 		return user.head.url;
 	else if(user.head.type=='netdisk')

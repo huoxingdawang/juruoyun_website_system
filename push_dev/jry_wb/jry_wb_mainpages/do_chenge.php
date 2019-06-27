@@ -121,6 +121,8 @@
 			$st->bindValue(1,$jry_wb_login_user['id']);
 			$st->bindValue(2,$_COOKIE['code']);
 			$st->execute();			
+			setcookie('id',$jry_wb_login_user['id'],time()+60*60*24*365*1000,'/',JRY_WB_DOMIN,NULL,false);			
+			setcookie('code',$_COOKIE['code'],time()+60*60*24*365*1000,'/',JRY_WB_DOMIN,NULL,false);			
 			echo json_encode(array('code'=>true));
 			exit();		
 		}
@@ -284,14 +286,15 @@
 			else
 				$set_head='';
 			if($_GET['type']=='qq')
-				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_qq=NULL,lasttime=?'.$set_head.' where id=?';
+				$st = $conn->prepare('update '.JRY_WB_DATABASE_GENERAL.'users set oauth=JSON_REPLACE(IF(ISNULL(oauth->\'$.qq\'),JSON_INSERT(IFNULL(oauth,JSON_OBJECT()),\'$.qq\',NULL),oauth),\'$.qq\',NULL),lasttime=? where id=? ');
 			else if($_GET['type']=='github')
-				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_github=NULL,lasttime=?'.$set_head.' where id=?';
+				$st = $conn->prepare('update '.JRY_WB_DATABASE_GENERAL.'users set oauth=JSON_REPLACE(IF(ISNULL(oauth->\'$.github\'),JSON_INSERT(IFNULL(oauth,JSON_OBJECT()),\'$.github\',NULL),oauth),\'$.github\',NULL),lasttime=? where id=? ');
 			else if($_GET['type']=='mi')
-				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_mi=NULL,lasttime=?'.$set_head.' where id=?';
+				$st = $conn->prepare('update '.JRY_WB_DATABASE_GENERAL.'users set oauth=JSON_REPLACE(IF(ISNULL(oauth->\'$.mi\'),JSON_INSERT(IFNULL(oauth,JSON_OBJECT()),\'$.mi\',NULL),oauth),\'$.mi\',NULL),lasttime=? where id=? ');
 			else if($_GET['type']=='gitee')
-				$q ='update '.JRY_WB_DATABASE_GENERAL.'users set oauth_gitee=NULL,lasttime=?'.$set_head.' where id=?';
-			$st = $conn->prepare($q);
+				$st = $conn->prepare('update '.JRY_WB_DATABASE_GENERAL.'users set oauth=JSON_REPLACE(IF(ISNULL(oauth->\'$.gitee\'),JSON_INSERT(IFNULL(oauth,JSON_OBJECT()),\'$.gitee\',NULL),oauth),\'$.gitee\',NULL),lasttime=? where id=? ');
+			else
+				$st = $conn->prepare('update '.JRY_WB_DATABASE_GENERAL.'users set oauth=NULL,lasttime=? where id=? ');
 			$st->bindValue(1,jry_wb_get_time());
 			$st->bindValue(2,$jry_wb_login_user['id']);
 			$st->execute();		

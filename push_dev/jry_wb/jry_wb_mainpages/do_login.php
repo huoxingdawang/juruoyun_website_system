@@ -37,7 +37,7 @@
 	else if($type=='4')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_qq->'$.openid'=? AND oauth_qq->'$.access_token'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth->'$.qq.openid'=? AND oauth->'$.qq.access_token'=? LIMIT 1");
 		$st->bindValue(1,$open_id);
 		$st->bindValue(2,$access_token);
 		$st->execute();
@@ -46,23 +46,23 @@
 	else if($type=='5')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_github->'$.message.node_id'=? LIMIT 1");
-		$st->bindValue(1,$github_id);
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth->'$.github.message.node_id'=? LIMIT 1");
+		$st->bindValue(1,$github_id,PDO::PARAM_INT);
 		$st->execute();
 		$user=$st->fetchAll()[0];
 	}	
 	else if($type=='6')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_mi->'$.message.unionId'=? LIMIT 1");
-		$st->bindValue(1,$unionId);
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth->'$.mi.message.unionId'=? LIMIT 1");
+		$st->bindValue(1,$unionId,PDO::PARAM_INT);
 		$st->execute();
 		$user=$st->fetchAll()[0];
 	}
 	else if($type=='7')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth_gitee->'$.message.id'=? LIMIT 1");
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL."users WHERE oauth->'$.gitee.message.id'=? LIMIT 1");
 		$st->bindValue(1,$gitee_id,PDO::PARAM_INT);
 		$st->execute();
 		$user=$st->fetchAll()[0];		
