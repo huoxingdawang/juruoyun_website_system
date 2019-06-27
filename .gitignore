@@ -1,6 +1,5 @@
-*.sql
 /dev_tools/*.exe
-push_dev/data/font
 *.ffs_db
 */_notes/
 *.mp4
+/push_dev/data/font/*
