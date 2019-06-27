@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `general_users` (
   `tel_show` int(2) NOT NULL DEFAULT '0',
   `ip_show` tinyint(1) NOT NULL DEFAULT '1',
   `oauth_show` tinyint(1) NOT NULL DEFAULT '1',
-  `head_special` varchar(128) NOT NULL DEFAULT '{"mouse_out":{"speed":2,"direction":0,"times":-1},"mouse_on":{"speed":2,"direction":0,"times":-1}}',
+  `head_special` json DEFAULT NULL,
   `mail_show` int(2) NOT NULL DEFAULT '0',
   `word_special_fact` int(1) NOT NULL DEFAULT '1',
   `follow_mouth` int(1) NOT NULL DEFAULT '1',
@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `general_users` (
   `extern` json DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `general_website`;
 CREATE TABLE IF NOT EXISTS `general_website` (
