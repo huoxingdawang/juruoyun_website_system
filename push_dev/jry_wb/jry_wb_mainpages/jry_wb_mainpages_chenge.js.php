@@ -1769,6 +1769,7 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='QQ(oauth2.0)';
+	td.width='20%';
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');
 	if(jry_wb_login_user.oauth.qq.message==null||jry_wb_login_user.oauth.qq.message=='')
@@ -1833,6 +1834,7 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='gayhub(oauth2.0)';
+	td.width='20%';	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');	
 	if(jry_wb_login_user.oauth.github.message==null||jry_wb_login_user.oauth.github.message=='')
@@ -1897,6 +1899,7 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='MI(oauth2.0)';
+	td.width='20%';	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');
 	if(jry_wb_login_user.oauth.mi.message==null||jry_wb_login_user.oauth.mi.message=='')
@@ -1961,6 +1964,7 @@ function showtpin()
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h56');
 	td.innerHTML='码云(oauth2.0)';
+	td.width='20%';	
 	var td=document.createElement("td");tr.appendChild(td);
 	td.classList.add('h55');	
 	if(jry_wb_login_user.oauth.gitee.message==null||jry_wb_login_user.oauth.gitee.message=='')
