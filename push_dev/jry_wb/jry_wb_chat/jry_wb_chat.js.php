@@ -10,6 +10,7 @@ var jry_wb_chat_room=new function()
 	{
 		this.body=body;
 	};
+	var chenge_name_doms=[];
 	var rooms=[];
 	var loading_count=0;
 	var messages=[];
@@ -177,6 +178,9 @@ var jry_wb_chat_room=new function()
 			one.name_dom.innerHTML=data.data.name;
 		else
 			console.warn('nodom');
+		if(now_show==data.data.room)
+			for(var i=0;i<chenge_name_doms.length;i++)
+				chenge_name_doms[i].innerHTML=data.data.name;
 		if(one.head.type=='default'&&one.dom!=undefined)
 			drawhead(one.dom,one,one.head_dom);
 	});
@@ -730,6 +734,7 @@ var jry_wb_chat_room=new function()
 			one.onclick=()=>
 			{
 				window.location.hash=now_show=rooms[i].chat_room_id;
+				chenge_name_doms=[];
 				this.right.innerHTML='';
 				if(last_show_dom!=null)
 					last_show_dom.classList.remove('active');
@@ -737,8 +742,10 @@ var jry_wb_chat_room=new function()
 				last_show_dom=one;
 				var chat_top=document.createElement('div');this.right.appendChild(chat_top);
 				chat_top.classList.add('jry_wb_chat_top');
+				var chat_name=document.createElement('span');chat_top.appendChild(chat_name);
+				chat_name.classList.add('jry_wb_chat_name');
 				if(rooms[i].big)
-					chat_top.innerHTML='聊天室'+rooms[i].name;
+					chat_name.innerHTML=rooms[i].name;
 				else
 				{
 					var id=rooms[i].users[0];
@@ -746,9 +753,95 @@ var jry_wb_chat_room=new function()
 						id=rooms[i].users[1];
 					jry_wb_get_user(id,undefined,(data)=>
 					{
-						chat_top.innerHTML='和'+data.name+'的私聊';				
+						chat_name.innerHTML='和'+data.name+'的私聊';				
 					});
-				}				
+				}
+				chenge_name_doms.push(chat_name);
+				var chat_set=document.createElement('span');chat_top.appendChild(chat_set);
+				chat_set.classList.add('jry_wb_chat_set','jry_wb_icon','jry_wb_icon_icon_shezhi');
+				chat_set.onclick=()=>
+				{
+					var set_alert=new jry_wb_beautiful_alert_function;
+					var title=set_alert.frame("属性",document.body.clientWidth*0.50,document.body.clientHeight*0.75,document.body.clientWidth*1/4,document.body.clientHeight*3/32);
+					var confirm = document.createElement("button"); title.appendChild(confirm);
+					confirm.type="button"; 
+					confirm.innerHTML="关闭"; 
+					confirm.style='float:right;margin-right:20px;';
+					confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");
+					confirm.onclick=function()
+					{
+						set_alert.close();
+					};
+					jry_wb_beautiful_scroll(set_alert.msgObj);
+					var table = document.createElement("table"); set_alert.msgObj.appendChild(table);
+					table.border=1;
+					table.cellspacing=0;
+					table.width='100%';
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='聊天室ID';			td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].chat_room_id;	td.width='*';		td.classList.add('h56');
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='聊天室名字';			td.width='150px';	td.classList.add('h56');
+					var name=document.createElement("td"); tr.appendChild(name);								name.width='*';		name.classList.add('h56');	
+					if(rooms[i].big)
+						name.innerHTML=rooms[i].name;
+					else
+					{
+						var id=rooms[i].users[0];
+						if(id==jry_wb_login_user.id)
+							id=rooms[i].users[1];
+						jry_wb_get_user(id,undefined,(data)=>
+						{
+							name.innerHTML='和'+data.name+'的私聊';				
+						});
+					}
+					chenge_name_doms.push(name);
+					if(rooms[i].id==jry_wb_login_user.id&&rooms[i].big)
+						name.oncontextmenu=(e)=>
+						{
+							jry_wb_beautiful_alert.prompt('请输入新名字',(value)=>
+							{
+								if(value=='')
+									return;
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
+								if(jry_wb_socket.send({'code':true,'type':200008,'data':{'room':rooms[i].chat_room_id,'to_name':value}},false)==false)
+<?php } ?>
+								jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=rename_room',(data)=>
+								{
+									jry_wb_loading_off();
+									data=JSON.parse(data);
+									if(data.code==false)
+									{
+										return;
+									}
+									else				
+										this.sync();
+								},[{'name':'room','value':1},{'name':'to_name','value':value}]);	
+							});
+							e.preventDefault();
+							return false;
+						};
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='聊天室大小';					td.width='150px';	td.classList.add('h56');				
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=(rooms[i].big)?'群聊':'私聊';	td.width='150px';	td.classList.add('h56');
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='创建时间';					td.width='150px';	td.classList.add('h56');				
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].cream_time;			td.width='150px';	td.classList.add('h56');
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后加入时间';				td.width='150px';	td.classList.add('h56');				
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].last_add_time;		td.width='150px';	td.classList.add('h56');
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后发言时间';				td.width='150px';	td.classList.add('h56');				
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].last_say_time;		td.width='150px';	td.classList.add('h56');
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='发言数量';					td.width='150px';	td.classList.add('h56');				
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].say_count;			td.width='150px';	td.classList.add('h56');
+					var tr=document.createElement("tr"); table.appendChild(tr);
+					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='成员';						td.width='150px';	td.classList.add('h56');				
+					var td=document.createElement("td"); tr.appendChild(td);											td.width='150px';	td.classList.add('h56');
+					for(var j=0;j<rooms[i].users.length;j++)
+						jry_wb_get_and_show_user(td,rooms[i].users[j],'auto','left',true);
+				};
 				var message_box=rooms[i].message_box=document.createElement('div');this.right.appendChild(message_box);
 				console.time('message');
 				let cnt=0,all=0;
@@ -775,11 +868,11 @@ var jry_wb_chat_room=new function()
 						input.value='';
 				};
 				message_box.style.height=this.right.clientHeight-input_area.clientHeight-chat_top.clientHeight;
-				input.style.width=message_box.clientWidth-button.clientWidth;
+				input.style.width=message_box.clientWidth-button.clientWidth-20;
 				jry_wb_add_onresize(()=>
 				{
 					message_box.style.height=this.right.clientHeight-input_area.clientHeight-chat_top.clientHeight;
-					input.style.width=message_box.clientWidth-button.clientWidth;					
+					input.style.width=message_box.clientWidth-button.clientWidth-20;					
 				});
 				input.focus();
 				var checkbox=document.createElement('input');input_area.appendChild(checkbox);
