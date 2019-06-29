@@ -179,16 +179,16 @@
 			return JRY_WB_DEFULT_WOMAN_PICTURE;
 		else if($user['head']['type']=='gravatar')
 			return "http://www.gravatar.com/avatar/".md5($user['mail'])."?size=80&d=404&r=g";
-		else if($user['head']['type']=='qq'&&$user['oauth_qq']!='')
-			return $user['oauth_qq']->message->figureurl_qq_2;
-		else if($user['head']['type']=='github'&&$user['oauth_github']!=null)
-			return $user['oauth_github']->message->avatar_url;
+		else if($user['head']['type']=='qq'&&$user['oauth']->qq!=''&&$user['oauth_show'])
+			return $user['oauth']->qq->message->figureurl_qq_2;
+		else if($user['head']['type']=='github'&&$user['oauth']->github!=NULL&&$user['oauth_show'])
+			return $user['oauth']->github->message->avatar_url;
 		else if($user['head']['type']=='qq')
 			return "https://q2.qlogo.cn/headimg_dl?dst_uin=".(explode("@",$user['mail'])[0])."&spec=100";
-		else if($user['head']['type']=='gitee')
-			return $user['oauth_gitee']->message->avatar_url;	
-		else if($user['head']['type']=='mi')
-			return $user['oauth_mi']->message->miliaoIcon_orig;
+		else if($user['head']['type']=='gitee'&&$user['oauth']->gitee!=NULL&&$user['oauth_show'])
+			return $user['oauth']->gitee->message->avatar_url;	
+		else if($user['head']['type']=='mi'&&$user['oauth']->mi!=NULL&&$user['oauth_show'])
+			return $user['oauth']->mi->message->miliaoIcon_orig;
 		else if($user['head']['type']=='url')
 			return $user['head']['url'];
 		else if($user['head']['type']=='netdisk')

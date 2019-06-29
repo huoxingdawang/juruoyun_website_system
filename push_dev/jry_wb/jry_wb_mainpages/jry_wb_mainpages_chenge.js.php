@@ -135,7 +135,7 @@ function show()
 			}
 		}
 		<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>		
-		if(jry_wb_login_user.oauth.qq.message!=null||jry_wb_login_user.mail.includes('@qq.com'))
+		if((jry_wb_login_user.oauth.qq.message!=null&&jry_wb_login_user.oauth_show)||jry_wb_login_user.mail.includes('@qq.com'))
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
@@ -181,7 +181,7 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth.github.message!=null)
+		if(jry_wb_login_user.oauth.github.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
@@ -224,7 +224,7 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth.gitee.message!=null)
+		if(jry_wb_login_user.oauth.gitee.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
@@ -267,7 +267,7 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth.mi.message!=null)
+		if(jry_wb_login_user.oauth.mi.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
