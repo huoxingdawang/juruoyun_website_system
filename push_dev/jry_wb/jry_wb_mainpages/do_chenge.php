@@ -106,9 +106,12 @@
 		}
 		else if($_GET['action']=='setsonglist')
 		{
-			$q ="update ".JRY_WB_DATABASE_GENERAL."users set background_music_list=?,lasttime=? where id=? ";
-			$st = $conn->prepare($q);
-			$st->bindValue(1,urldecode($_POST["data"]));	
+			$data=json_decode(urldecode($_POST["data"]));
+			$result=[];
+			foreach($data as $d)
+				$result[]=(($d->type=='songlist')?array('type'=>$d->type,'slid'=>$d->slid):array('type'=>$d->type,'mid'=>$d->mid));
+			$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET background_music_list=?,lasttime=? WHERE id=? ');
+			$st->bindValue(1,json_encode($result));	
 			$st->bindValue(2,jry_wb_get_time());
 			$st->bindValue(3,$jry_wb_login_user[id]);
 			$st->execute();			

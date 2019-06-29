@@ -1729,7 +1729,9 @@ function showmusiclist()
 	button.style.marginLeft='100px';
 	button.onclick=function()
 	{
-		var ans=background_music_list.slice();
+		var ans=[]
+		for(var i=0;i<background_music_list.length;i++)
+			ans.push((background_music_list[i].type=='songlist')?({'type':background_music_list[i].type,'slid':background_music_list[i].slid}):({'type':background_music_list[i].type,'mid':background_music_list[i].mid}));
 		jry_wb_ajax_load_data('do_chenge.php?action=setsonglist',function(data)
 		{
 			data=JSON.parse(data);
