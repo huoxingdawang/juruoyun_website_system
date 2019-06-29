@@ -63,7 +63,7 @@
 				else if($task->type==200009)
 					jry_wb_chat_set_chat_room_head($conn,$task->user,$task->data->room,$task->data->to_head);
 				else if($task->type==200010)
-					$data=jry_wb_chat_start_between($conn,$task->user,jry_wb_get_user($conn,$task->data));
+					$data=jry_wb_chat_start_between($conn,$task->user,jry_wb_get_user($conn,$task->data,false));
 				else
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			}
