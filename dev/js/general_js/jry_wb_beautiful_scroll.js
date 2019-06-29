@@ -51,7 +51,7 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 		jry_wb_scroll_body_x.style.transitionDuration='1s';	
 	},1000);
 	if(move)
-		jry_wb_scroll_body_y.style.zIndex='9999';
+		jry_wb_scroll_body_y.style.zIndex='10000';
 	var jry_wb_scroll_kuai_y=document.createElement("div");jry_wb_scroll_body_y.appendChild(jry_wb_scroll_kuai_y);
 	jry_wb_scroll_kuai_y.style.height=area.clientHeight/get_all_child_height()*parseInt(jry_wb_scroll_body_y.style.height);			
 	jry_wb_scroll_kuai_y.style.position='absolute';
@@ -450,7 +450,7 @@ jry_wb_add_load(function()
 	jry_wb_scroll_body.style.height=window.innerHeight-Math.max(0,top_toolbar.clientHeight-window.scrollY);
 	jry_wb_scroll_body.style.top=Math.max(0,top_toolbar.clientHeight-window.scrollY);
 	jry_wb_scroll_body.style.opacity='0';
-	jry_wb_scroll_body.style.zIndex='9998';
+	jry_wb_scroll_body.style.zIndex='9999';
 	setTimeout(function()
 	{
 		jry_wb_scroll_body.style.transitionDuration='1s';
