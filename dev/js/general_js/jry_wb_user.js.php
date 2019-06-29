@@ -247,28 +247,28 @@ function jry_wb_show_user_full(user,width,height)
 	td.classList.add('h56');
 <?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>
 	td.innerHTML+='QQ:';
-	if(user.oauth.qq.message==null)
+	if(user.oauth==null||user.oauth.qq==null||user.oauth.qq.message==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth.qq.message.nickname+'<img width="40px" src="'+user.oauth.qq.message.figureurl_qq_2+'"><br>';
 <?php } ?>
 <?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='MI:';
-	if(user.oauth.mi.message==null)
+	if(user.oauth==null||user.oauth.mi==null||user.oauth.mi.message==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth.mi.message.miliaoNick+'<img width="40px" src="'+user.oauth.mi.message.miliaoIcon_orig+'"><br>';
 <?php } ?>
 <?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='gayhub:';
-	if(user.oauth.github.message==null)
+	if(user.oauth==null||user.oauth.github==null||user.oauth.github.message==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth.github.message.name+','+user.oauth.github.message.login+'<img width="40px" src="'+user.oauth.github.message.avatar_url+'"><br>';						
 <?php } ?>
 <?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
 	td.innerHTML+='码云:';
-	if(user.oauth.gitee.message==null)
+	if(user.oauth==null||user.oauth.gitee==null||user.oauth.gitee.message==null)
 		td.innerHTML+='无<br>';
 	else
 		td.innerHTML+=user.oauth.gitee.message.name+','+user.oauth.gitee.message.login+'<img width="40px" src="'+user.oauth.gitee.message.avatar_url+'"><br>';	
