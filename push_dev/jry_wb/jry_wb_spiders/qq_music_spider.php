@@ -3,7 +3,7 @@
 	function jry_wb_qq_music_spider($in_mid)
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare('SELECT * FROM '.constant('spiderdb').'qq_music where mid=?');
+		$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_SPIDERS.'qq_music where mid=?');
 		$st->bindParam(1,$in_mid);
 		$st->execute();
 		$data=$st->fetchAll();
@@ -20,7 +20,7 @@
 			$get_sorce=substr($get_sorce,0,strlen($get_sorce)-1);
 			$get_sorce=json_decode($get_sorce);
 			$data[0]['music_url']=$get_data['music_url']=$get_sorce->url_mid->data->midurlinfo[0]->purl;
-			$st = $conn->prepare('UPDATE '.constant('spiderdb').'qq_music SET `music_url`=?,`lasttime`=? WHERE mid=?');
+			$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_SPIDERS.'qq_music SET `music_url`=?,`lasttime`=? WHERE mid=?');
 			$st->bindParam(1,$get_data['music_url']);
 			$st->bindParam(2,$data[0]['lasttime']=jry_wb_get_time());
 			$st->bindParam(3,$get_data['mid']=$in_mid);
@@ -66,7 +66,7 @@
 			for($i=0;$i<$total;$i++)
 				$get_data['singers'][$i]=array('name'=>$singers[$i]->name,'id'=>$singers[$i]->id);
 			$get_data['singers']=json_encode($get_data['singers']);
-			$st = $conn->prepare('INSERT INTO '.constant('spiderdb').'qq_music (`mid`,`pic_url`,`name`,`album`,`music_url`,`singers`,`lasttime`) VALUES (?,?,?,?,?,?,?)');
+			$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_SPIDERS.'qq_music (`mid`,`pic_url`,`name`,`album`,`music_url`,`singers`,`lasttime`) VALUES (?,?,?,?,?,?,?)');
 			$st->bindParam(1,$get_data['mid']=$in_mid);
 			$st->bindParam(2,$get_data['pic_url']);
 			$st->bindParam(3,$get_data['name']);
