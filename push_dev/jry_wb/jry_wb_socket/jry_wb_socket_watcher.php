@@ -12,7 +12,9 @@
 	$jry_wb_message_queue = msg_get_queue($jry_wb_message_queue_id);
 	echo ("\n".jry_wb_php_cli_color('Watcher OK','green')."\nby ".jry_wb_php_cli_color('juruoyun web system '.JRY_WB_VERSION,'light_green')."\n");
 	$redis=new Redis;
-	$redis->connect('127.0.0.1',6379);	
+	$redis->connect(JRY_WB_REDIS_ADDR,JRY_WB_REDIS_PORT);	
+	if(JRY_WB_REDIS_PASSWORD!='')
+		$redis->auth(JRY_WB_REDIS_PASSWORD);  	
 	$conn=jry_wb_connect_database();
 	$st =$conn->prepare("SELECT * FROM ".JRY_WB_DATABASE_LOG."socket ORDER BY log_socket_id DESC LIMIT ".($argv[1]==''?50:((int)$argv[1])));
 	$st->execute();			
@@ -22,7 +24,7 @@
 		echo $one['data']."\n";
 	while(1)
 	{
-		if($message=$redis->lpop('log'))
+		if($message=$redis->lpop(JRY_WB_REDIS_PREFIX.'log'))
 		{
 			$st =$conn->prepare("INSERT INTO ".JRY_WB_DATABASE_LOG."socket (`data`) VALUES(?)");
 			$st->bindParam(1,$message);

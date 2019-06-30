@@ -15,7 +15,7 @@
 	while(1)
 	{
 		$rel=msg_receive($jry_wb_message_queue,2,$msgtype,1024,$buf);
-		if($task=json_decode($redis->lpop('task')))
+		if($task=json_decode($redis->lpop(JRY_WB_REDIS_PREFIX.'task')))
 		{
 			$task->user=json_decode(json_encode($task->user),true);
 			try

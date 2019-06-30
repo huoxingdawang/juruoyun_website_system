@@ -3,7 +3,9 @@
 	{
 		$jry_wb_message_queue=msg_get_queue(ftok(dirname(__FILE__),'m'));		
 		$redis = new Redis;
-		$redis->connect('127.0.0.1');
-		$redis->rpush('task',json_encode($task));
+		$redis->connect(JRY_WB_REDIS_ADDR,JRY_WB_REDIS_PORT);
+		if(JRY_WB_REDIS_PASSWORD!='')
+			$redis->auth(JRY_WB_REDIS_PASSWORD);  
+		$redis->rpush(JRY_WB_REDIS_PREFIX.'task',json_encode($task));
 		msg_send($jry_wb_message_queue,2,'1');
 	}
