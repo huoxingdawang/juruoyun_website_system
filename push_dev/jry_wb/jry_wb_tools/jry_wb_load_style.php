@@ -32,6 +32,8 @@
 		foreach(explode("/",$dir) as $d)
 			if(($buf=$buf[$d])==NULL)
 				return '';
+		if($buf['disable']==true||$buf[($mobile)?"mobile":"desktop"]=='')
+			return '';
 		return '<link rel="stylesheet" type="text/css" href="'.$style["data"]["base_url"].$buf[($mobile)?"mobile":"desktop"].'" id="'.$dir.'">';
 	}
 	function jry_wb_include_judge_mobile()

@@ -28,10 +28,30 @@
 	},
 	"mainpages":
 	{
+		"add":
+		{
+			"desktop":"",
+			"mobile":""	
+		},
+		"chenge":
+		{
+			"desktop":"",
+			"mobile":""			
+		},
+		"forget":
+		{
+			"desktop":"",
+			"mobile":""			
+		},
 		"index":
 		{
 			"desktop":"default/mainpages/index.css",
-			"mobile":"default/mainpages/index.css"
+			"mobile":"default/mainpages/index.css"			
+		},
+		"login":
+		{
+			"desktop":"",
+			"mobile":""		
 		}
 	},	
 	"netdisk":
