@@ -78,6 +78,9 @@ function jry_wb_highlight(area,code,start)
 		else if(language=='markdown'||language=='md')
 			operator	=[',','.','(',')','[',']','{','}','|','\\','<','>','?','/','!','@','#','$','%','^','&','*','-','=','+','~',';',':'],
 			str			=['"',"'"];
+		else if(language=='json')
+			operator	=[',','[',']','{','}',':'],
+			str			=['"',"'"];			
 		else if(language=='bash')
 			important	=['sudo','apt-get','apt','install','ps','grep','cd','ls','netplan','apply','chmod','restart'],
 			constant	=['openssh-server','apache2','php7.2'];
