@@ -278,6 +278,26 @@ function jry_wb_markdown(area,id,time,text,notitle)
 					this.catalogdoc.push(buf);
 					buf.innerHTML=this.catalog.innerHTML;
 					this.lasttext=null;
+				}
+				else if(j=test(this.text,i,'[@'))
+				{
+					var id='';
+					for(var j=0;(i+j+2)<n&&this.text[i+j+2]!=']'&&j<128;j++)
+						id+=this.text[i+j+2];
+					if(!isNaN(id=parseInt(id)))
+					{
+						i+=(j+2);
+						if(this.lasttext==null)
+							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');						
+						jry_wb_get_and_show_user(this.lasttext,id,'200px',null,true);
+					}
+					else
+					{
+						if(this.lasttext==null)
+							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
+						this.lasttext.innerHTML+='[@';
+						i+=1;
+					}
 				}				
 				else if(this.text[i]=='[')
 				{
@@ -395,26 +415,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						if(this.lasttext==null)
 							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');						
 						var buf=document.createElement("strong");this.lasttext.appendChild(buf);this.lasttext=buf;
-					}
-				}
-				else if(j=test(this.text,i,'[@'))
-				{
-					var id='';
-					for(var j=0;(i+j+2)<n&&this.text[i+j+2]!=']'&&j<128;j++)
-						id+=this.text[i+j+2];
-					if(!isNaN(id=parseInt(id)))
-					{
-						i+=(j+2);
-						if(this.lasttext==null)
-							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');						
-						jry_wb_get_and_show_user(this.lasttext,id,'200px',null,true);
-					}
-					else
-					{
-						if(this.lasttext==null)
-							this.lasttext=document.createElement("span"),this.area.appendChild(this.lasttext),this.lasttext.classList.add('md_normal');
-						this.lasttext.innerHTML+='[@';
-						i+=1;
 					}
 				}
 				else if(j=test(this.text,i,'!['))
