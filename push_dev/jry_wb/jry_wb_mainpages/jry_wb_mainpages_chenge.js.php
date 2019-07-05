@@ -165,7 +165,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='qq';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用QQ的头");
+							jry_wb_beautiful_alert.alert("换头成功","使用QQ的头"+'<br>'+['','用钱创造快乐'].rand());
 						}
 						else
 						{
@@ -208,7 +208,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='github';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用gayhub的头");
+							jry_wb_beautiful_alert.alert("换头成功","使用gayhub的头"+'<br>'+['','全球最大的同性交友网站欢迎您'].rand());
 						}
 						else
 						{
@@ -251,7 +251,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='gitee';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用码云的头");
+							jry_wb_beautiful_alert.alert("换头成功","使用码云的头"+'<br>'+['','蒟蒻云的源码在这上面耶','然而不是马云'].rand());
 						}
 						else
 						{
@@ -294,7 +294,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='mi';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用小米的头<br>小米智能头<br>年轻人的第一个头");
+							jry_wb_beautiful_alert.alert("换头成功","使用小米的头"+'<br>'+['','小米智能头<br>年轻人的第一个头','Do you like mi 4i?','永远相信美好的事情即将发生','Are you OK!'].rand());
 						}
 						else
 						{

@@ -3,7 +3,6 @@
 	include_once("../jry_wb_tools/jry_wb_includes.php");
 ?>
 <?php if(false){ ?><script><?php } ?>
-//jry_wb_include_once_css('jry_wb_chat.css');
 var jry_wb_chat_room=new function()
 {
 	this.init=function(body,status_dom)

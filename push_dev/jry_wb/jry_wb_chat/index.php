@@ -14,6 +14,6 @@
 		jry_wb_chat_room.show_main_button.onclick=function(){};
 	});
 </script>
-<link href="jry_wb_chat.css" type="text/css" rel="stylesheet">
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'chat/index'); ?>
 <div id='chat_body' style="width:100%;height:100%"></div>
 <?php jry_wb_print_tail();?>

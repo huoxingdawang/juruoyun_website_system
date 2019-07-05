@@ -22,7 +22,7 @@
 				echo '<a href=\''.($website['type']==0?JRY_WB_HOST:'').$website[url].$zhuijia.'\' target="'.($website['type']==1?'_blank':'_parent').'">'.$website['show_name'].'</a>';
 	?>	
 </div>
-<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mainpages_index_css_address'];?>'>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'mainpages/index'); ?>
 <table height="200px" width="100%" class="main_table">
 	<tr height="*">
 		<th class="table_left" id="table_left">

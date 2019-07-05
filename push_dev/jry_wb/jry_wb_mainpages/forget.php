@@ -2,6 +2,7 @@
 	include_once('../jry_wb_tools/jry_wb_includes.php');
 	jry_wb_print_head('重置密码',false,false,true);
 ?>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'mainpages/forget'); ?>
 <div class='jry_wb_top_toolbar'>
 	<?php jry_wb_print_logo(false);?>	
 	<?php jry_wb_print_href('login','');?>

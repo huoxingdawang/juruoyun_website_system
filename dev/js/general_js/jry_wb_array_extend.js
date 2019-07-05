@@ -11,6 +11,10 @@ Array.prototype.unique=function()
 	}
 	return res;
 };
+Array.prototype.rand=function()
+{
+	return this[Math.max(0,Math.min(this.length-1,parseInt(Math.random()*this.length)))];
+};
 Array.prototype.max=function(a,ex)
 {
 	if(a=='')

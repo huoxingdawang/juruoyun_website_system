@@ -14,7 +14,7 @@
 <script language="javascript" src="jry_wb_online_judge_show_all.js"></script>
 <script language="javascript" src="jry_wb_online_judge_show_logs.js"></script>
 <script language="javascript" src="jry_wb_online_judge_show_class.js"></script>
-<link rel="stylesheet" type="text/css" href="jry_wb_online_judge.css">
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'online_judge/index'); ?>
 <div id='area'></div>
 <script language="javascript">
 	oj=new jry_wb_online_judge_function(document.getElementById('area'),undefined,JSON.parse('<?php echo json_encode(jry_wb_online_judge_operate_fast_save('get')); ?>'));
