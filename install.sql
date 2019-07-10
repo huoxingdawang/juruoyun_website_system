@@ -1,5 +1,12 @@
-CREATE DATABASE IF NOT EXISTS `juruoyun_rel`;
-USE `juruoyun_rel`;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+DROP DATABASE IF EXISTS `juruoyun_`;
+CREATE DATABASE IF NOT EXISTS `juruoyun_` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+USE `juruoyun_`;
 
 DROP TABLE IF EXISTS `blog_text`;
 CREATE TABLE IF NOT EXISTS `blog_text` (
@@ -12,7 +19,11 @@ CREATE TABLE IF NOT EXISTS `blog_text` (
   `delete` int(1) NOT NULL DEFAULT '0',
   `readingcount` int(32) NOT NULL DEFAULT '0',
   PRIMARY KEY (`blog_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `blog_text`;
+/*!40000 ALTER TABLE `blog_text` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blog_text` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `chat_message`;
 CREATE TABLE IF NOT EXISTS `chat_message` (
@@ -22,7 +33,11 @@ CREATE TABLE IF NOT EXISTS `chat_message` (
   `message` longtext COLLATE utf8_bin NOT NULL,
   `send_time` datetime NOT NULL,
   PRIMARY KEY (`chat_text_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `chat_message`;
+/*!40000 ALTER TABLE `chat_message` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat_message` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `chat_rooms`;
 CREATE TABLE IF NOT EXISTS `chat_rooms` (
@@ -39,7 +54,11 @@ CREATE TABLE IF NOT EXISTS `chat_rooms` (
   `delete` tinyint(1) NOT NULL DEFAULT '0',
   `big` tinyint(1) NOT NULL,
   PRIMARY KEY (`chat_room_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `chat_rooms`;
+/*!40000 ALTER TABLE `chat_rooms` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat_rooms` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `chat_users`;
 CREATE TABLE IF NOT EXISTS `chat_users` (
@@ -49,6 +68,29 @@ CREATE TABLE IF NOT EXISTS `chat_users` (
   `lasttime` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `chat_users`;
+/*!40000 ALTER TABLE `chat_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chat_users` ENABLE KEYS */;
+
+DROP TABLE IF EXISTS `general_bug`;
+CREATE TABLE IF NOT EXISTS `general_bug` (
+  `url` varchar(256) NOT NULL,
+  `device` int(8) NOT NULL,
+  `id` varchar(256) NOT NULL,
+  `bug` text NOT NULL,
+  `time` datetime DEFAULT NULL,
+  `reply` varchar(1024) DEFAULT NULL,
+  `connect` varchar(1024) DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT '0' COMMENT '0:未解决1:正在解决2:已解决',
+  `updatetime` datetime DEFAULT NULL,
+  `ip` varchar(50) DEFAULT NULL,
+  `ua` varchar(1024) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `general_bug`;
+/*!40000 ALTER TABLE `general_bug` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_bug` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `general_invite_code`;
 CREATE TABLE IF NOT EXISTS `general_invite_code` (
@@ -61,12 +103,20 @@ CREATE TABLE IF NOT EXISTS `general_invite_code` (
   PRIMARY KEY (`incite_code_id`,`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+DELETE FROM `general_invite_code`;
+/*!40000 ALTER TABLE `general_invite_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_invite_code` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `general_ip`;
 CREATE TABLE IF NOT EXISTS `general_ip` (
   `ip` varchar(16) NOT NULL,
   `data` json DEFAULT NULL,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `general_ip`;
+/*!40000 ALTER TABLE `general_ip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_ip` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `general_login`;
 CREATE TABLE IF NOT EXISTS `general_login` (
@@ -79,7 +129,11 @@ CREATE TABLE IF NOT EXISTS `general_login` (
   `browser` int(8) unsigned DEFAULT NULL,
   `trust` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `general_login`;
+/*!40000 ALTER TABLE `general_login` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_login` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `general_mail_code`;
 CREATE TABLE IF NOT EXISTS `general_mail_code` (
@@ -88,20 +142,27 @@ CREATE TABLE IF NOT EXISTS `general_mail_code` (
   `time` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DELETE FROM `general_mail_code`;
+/*!40000 ALTER TABLE `general_mail_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_mail_code` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `general_style`;
 CREATE TABLE IF NOT EXISTS `general_style` (
   `style_id` int(32) NOT NULL AUTO_INCREMENT,
   `id` int(32) NOT NULL DEFAULT '0',
   `name` varchar(128) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `note` varchar(1024) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `data` longtext COLLATE utf8_bin NOT NULL,
+  `data` json DEFAULT NULL,
   `update` longtext COLLATE utf8_bin NOT NULL,
   `lasttime` datetime NOT NULL,
   PRIMARY KEY (`style_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 DELETE FROM `general_style`;
+/*!40000 ALTER TABLE `general_style` DISABLE KEYS */;
 INSERT INTO `general_style` (`style_id`, `id`, `name`, `note`, `data`, `update`, `lasttime`) VALUES
-	(1, 1, '蒟蒻云灰色主题', '蒟蒻云默认主题，支持最好，更新最及时', '{\r\n	"desktop_css_address":"default/desktop.css","desktop_css_type":0,\r\n	"general_css_address":"default/general.css","general_css_type":0,\r\n	"mobile_css_address":"default/mobile.css","mobile_css_type":0,\r\n	"mainpages_index_css_address":"default/mainpages/index.css","mainpages_index_css_type":0\r\n}', '[\r\n	{"time":"2018-10-28 16:08:00","data":"随新版主题管理器发布"},\r\n	{"time":"2018-10-29 10:21:00","data":"测试系统更新"}\r\n]', '2019-02-01 10:20:38');
+	(1, 1, '蒟蒻云灰色主题', '蒟蒻云默认主题，支持最好，更新最及时', '{"blog": {"draft": {"mobile": "default/blog/draft.css", "desktop": "default/blog/draft.css"}, "index": {"mobile": "default/blog/index.css", "desktop": "default/blog/index.css"}}, "chat": {"index": {"mobile": "default/chat/index.css", "desktop": "default/chat/index.css"}}, "general": {"mobile": "default/mobile.css", "desktop": "default/desktop.css"}, "netdisk": {"file": {"mobile": "default/netdisk/file.css", "desktop": "default/netdisk/file.css"}, "index": {"mobile": "default/netdisk/index.css", "desktop": "default/netdisk/index.css"}}, "base_url": "", "mainpages": {"add": {"mobile": "", "desktop": ""}, "index": {"mobile": "default/mainpages/index.css", "desktop": "default/mainpages/index.css"}, "login": {"mobile": "", "desktop": ""}, "chenge": {"mobile": "", "desktop": ""}, "forget": {"mobile": "", "desktop": ""}}, "online_judge": {"index": {"mobile": "default/online_judge/index.css", "desktop": "default/online_judge/index.css"}, "show_question": {"mobile": "default/online_judge/show_question.css", "desktop": "default/online_judge/show_question.css"}}}', '[\r\n	{"time":"2018-10-28 16:08:00","data":"随新版主题管理器发布"},\r\n	{"time":"2018-10-29 10:21:00","data":"测试系统更新"}\r\n]', '2019-02-01 10:20:38');
+/*!40000 ALTER TABLE `general_style` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `general_tel_code`;
 CREATE TABLE IF NOT EXISTS `general_tel_code` (
@@ -109,6 +170,10 @@ CREATE TABLE IF NOT EXISTS `general_tel_code` (
   `tel` varchar(50) NOT NULL,
   `code` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `general_tel_code`;
+/*!40000 ALTER TABLE `general_tel_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_tel_code` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `general_users`;
 CREATE TABLE IF NOT EXISTS `general_users` (
@@ -142,8 +207,11 @@ CREATE TABLE IF NOT EXISTS `general_users` (
   `oauth` json DEFAULT NULL,
   `extern` json DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DELETE FROM `general_users`;
+/*!40000 ALTER TABLE `general_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `general_users` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `general_website`;
 CREATE TABLE IF NOT EXISTS `general_website` (
@@ -153,7 +221,9 @@ CREATE TABLE IF NOT EXISTS `general_website` (
   `show_name` varchar(128) COLLATE utf8_bin NOT NULL,
   `show_at_mainpage` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 DELETE FROM `general_website`;
+/*!40000 ALTER TABLE `general_website` DISABLE KEYS */;
 INSERT INTO `general_website` (`url`, `name`, `type`, `show_name`, `show_at_mainpage`) VALUES
 	('http://dev.juruoyun.top/jry_wb/jry_wb_dev/bugreport.php', 'bug', 1, 'BUGreport', 0),
 	('http://dev.juruoyun.top/jry_wb/aboutus/index.php', 'aboutus', 1, '关于我们', 0),
@@ -161,6 +231,7 @@ INSERT INTO `general_website` (`url`, `name`, `type`, `show_name`, `show_at_main
 	('jry_wb_mainpages/chenge.php', 'users', 0, '用户管理', 0),
 	('jry_wb_mainpages/login.php', 'login', 0, '登录', 0),
 	('jry_wb_mainpages/add.php', 'add_user', 0, '注册', 0),
+	('jry_wb_mainpages/help.php', 'help', 0, '帮助中心', 0),
 	('jry_wb_mainpages/forget.php', 'forget', 0, '重置密码', 0),
 	('jry_wb_manage_system/index.php', 'jry_wb_manage_system', 0, '管理员中心', 0),
 	('jry_wb_small_application/index.php', 'smallapp', 0, '小程序', 1),
@@ -171,11 +242,15 @@ INSERT INTO `general_website` (`url`, `name`, `type`, `show_name`, `show_at_main
 	('jry_wb_blog/jry_wb_blog_editor.php', 'blog_editor', 0, '博客编辑器', 0),
 	('jry_wb_blog/index.php', 'blog', 0, '博客', 1),
 	('jry_wb_blog/jry_wb_blog_show.php', 'blog_show', 0, '博客展示', 0),
+	('jry_wb_blog/jry_wb_blog_show_chunjing.php?blog_id=3', 'introduction', 0, '开发组简介', 0),
+	('jry_wb_blog/jry_wb_blog_show_chunjing.php?blog_id=11', 'xieyi', 0, '蒟蒻云用户协议', 0),
+	('jry_wb_blog/jry_wb_blog_show_chunjing.php?blog_id=13', 'zhinan', 0, '用户指南', 0),
 	('jry_wb_netdisk/index.php', 'jry_wb_netdisk', 0, '网盘', 1),
 	('jry_wb_style_control/index.php', 'jry_wb_style_control', 0, '主题管理器', 0),
 	('http://dev.juruoyun.top/jry_wb/jry_wb_dev/showbug.php', 'showbug', 2, 'BUG展示', 0),
 	('jry_wb_chat/index.php', 'chat', 0, '聊天室', 1),
 	('jry_wb_online_judge/index.php#{"action":"ql"}', 'online_judge_all', 0, '在线测评', 1);
+/*!40000 ALTER TABLE `general_website` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `log_blog_reading`;
 CREATE TABLE IF NOT EXISTS `log_blog_reading` (
@@ -187,7 +262,11 @@ CREATE TABLE IF NOT EXISTS `log_blog_reading` (
   `device` int(11) DEFAULT NULL,
   `browser` int(11) DEFAULT NULL,
   PRIMARY KEY (`logid`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `log_blog_reading`;
+/*!40000 ALTER TABLE `log_blog_reading` DISABLE KEYS */;
+/*!40000 ALTER TABLE `log_blog_reading` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `log_browsing_history`;
 CREATE TABLE IF NOT EXISTS `log_browsing_history` (
@@ -200,7 +279,11 @@ CREATE TABLE IF NOT EXISTS `log_browsing_history` (
   `browser` int(11) DEFAULT NULL,
   `ip` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`cnt`)
-) ENGINE=InnoDB AUTO_INCREMENT=292 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `log_browsing_history`;
+/*!40000 ALTER TABLE `log_browsing_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `log_browsing_history` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `log_data`;
 CREATE TABLE IF NOT EXISTS `log_data` (
@@ -210,7 +293,11 @@ CREATE TABLE IF NOT EXISTS `log_data` (
   `type` int(32) DEFAULT NULL,
   `data` longtext COLLATE utf8_bin,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `log_data`;
+/*!40000 ALTER TABLE `log_data` DISABLE KEYS */;
+/*!40000 ALTER TABLE `log_data` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `log_machine`;
 CREATE TABLE IF NOT EXISTS `log_machine` (
@@ -219,12 +306,20 @@ CREATE TABLE IF NOT EXISTS `log_machine` (
   PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+DELETE FROM `log_machine`;
+/*!40000 ALTER TABLE `log_machine` DISABLE KEYS */;
+/*!40000 ALTER TABLE `log_machine` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `log_socket`;
 CREATE TABLE IF NOT EXISTS `log_socket` (
   `log_socket_id` int(32) NOT NULL AUTO_INCREMENT,
   `data` longtext COLLATE utf8_bin,
   PRIMARY KEY (`log_socket_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=301 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `log_socket`;
+/*!40000 ALTER TABLE `log_socket` DISABLE KEYS */;
+/*!40000 ALTER TABLE `log_socket` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `mainpage_bigdeal`;
 CREATE TABLE IF NOT EXISTS `mainpage_bigdeal` (
@@ -234,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `mainpage_bigdeal` (
   `name` char(50) NOT NULL,
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`bigdeal_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `mainpage_hengfu`;
 CREATE TABLE IF NOT EXISTS `mainpage_hengfu` (
@@ -244,14 +339,12 @@ CREATE TABLE IF NOT EXISTS `mainpage_hengfu` (
   `enable` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`hengfu_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `mainpage_tanmu`;
 CREATE TABLE IF NOT EXISTS `mainpage_tanmu` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT,
   `words` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `manage_competence`;
 CREATE TABLE IF NOT EXISTS `manage_competence` (
   `type` int(32) unsigned NOT NULL AUTO_INCREMENT,
@@ -283,14 +376,17 @@ CREATE TABLE IF NOT EXISTS `manage_competence` (
   `setchatroomhead` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
 DELETE FROM `manage_competence`;
+/*!40000 ALTER TABLE `manage_competence` DISABLE KEYS */;
 INSERT INTO `manage_competence` (`type`, `competencename`, `color`, `order`, `or`, `manage`, `manageusers`, `manageadmin`, `managecompentence`, `managehengfu`, `managebigdeal`, `managetanmu`, `manageonlinejudge`, `manageonlinejudgequestion`, `manageonlinejudgeclasses`, `manageonlinejudgeaddquestion`, `editorblog`, `usenetdisk`, `checknetdisk`, `managenetdisk`, `usemailsender`, `useschool`, `usechat`, `addchatroom`, `deletechatroom`, `renamechatroom`, `setchatroomhead`) VALUES
 	(1, '网站主', '00FF00', 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-	(2, '测试者', 'ffe000', 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(2, '测试者', 'ffe000', 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
 	(3, '管理员', '458B00', 2, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	(4, '用户', '66CCFF', 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1),
 	(5, '题库管理员', '458B00', 2, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	(6, '高级题库管理员', '458B00', 2, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+/*!40000 ALTER TABLE `manage_competence` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `manage_list`;
 CREATE TABLE IF NOT EXISTS `manage_list` (
@@ -306,7 +402,9 @@ CREATE TABLE IF NOT EXISTS `manage_list` (
   `run_script` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`order`)
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
 DELETE FROM `manage_list`;
+/*!40000 ALTER TABLE `manage_list` DISABLE KEYS */;
 INSERT INTO `manage_list` (`order`, `father`, `url`, `name`, `competence`, `hash`, `next`, `is_script`, `init_script`, `run_script`) VALUES
 	(1, 'aboutuser', 'jry_wb_manage_system/jry_wb_manage_user.js.php', '用户管理', '["manageusers"]', 'user', NULL, 1, 'jry_wb_manage_user_init', 'jry_wb_manage_user_run'),
 	(2, 'mainpage', 'jry_wb_manage_system/jry_wb_manage_hengfu.js', '横幅', '["managehengfu"]', 'hengfu', NULL, 1, 'jry_wb_manage_hengfu_init', 'jry_wb_manage_hengfu_run'),
@@ -320,6 +418,7 @@ INSERT INTO `manage_list` (`order`, `father`, `url`, `name`, `competence`, `hash
 	(10, 'online_judge', 'jry_wb_online_judge/jry_wb_online_judge_manage.js', '刷新', '["manageonlinejudge"]', '', NULL, 1, 'jry_wb_online_judge_sync_init', 'jry_wb_online_judge_sync_run'),
 	(11, 'online_judge', 'jry_wb_online_judge/jry_wb_online_judge_manage.js', '清空缓存', '["manageonlinejudge"]', '', NULL, 1, 'jry_wb_online_judge_clean_init', 'jry_wb_online_judge_clean_run'),
 	(12, 'online_judge', 'jry_wb_online_judge/jry_wb_online_judge_manage.js', '题目管理', '["manageonlinejudge", "manageonlinejudgequestion"]', 'question', NULL, 1, 'jry_wb_online_judge_manage_question_init', 'jry_wb_online_judge_manage_question_run');
+/*!40000 ALTER TABLE `manage_list` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `netdisk_area`;
 CREATE TABLE IF NOT EXISTS `netdisk_area` (
@@ -337,8 +436,9 @@ CREATE TABLE IF NOT EXISTS `netdisk_area` (
   `upload` tinyint(1) DEFAULT '1',
   `faster` int(11) DEFAULT NULL,
   PRIMARY KEY (`area_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+DELETE FROM `netdisk_area`;
 DROP TABLE IF EXISTS `netdisk_file_list`;
 CREATE TABLE IF NOT EXISTS `netdisk_file_list` (
   `file_id` int(32) unsigned NOT NULL AUTO_INCREMENT,
@@ -359,7 +459,11 @@ CREATE TABLE IF NOT EXISTS `netdisk_file_list` (
   `trust` tinyint(1) NOT NULL DEFAULT '0',
   `extern` json DEFAULT NULL,
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `netdisk_file_list`;
+/*!40000 ALTER TABLE `netdisk_file_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `netdisk_file_list` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `netdisk_group`;
 CREATE TABLE IF NOT EXISTS `netdisk_group` (
@@ -370,10 +474,13 @@ CREATE TABLE IF NOT EXISTS `netdisk_group` (
   `sameareaonly` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 DELETE FROM `netdisk_group`;
+/*!40000 ALTER TABLE `netdisk_group` DISABLE KEYS */;
 INSERT INTO `netdisk_group` (`group_id`, `group_name`, `allow_type`, `lasttime`, `sameareaonly`) VALUES
 	(1, '高级用户', '-1', '2019-01-17 12:30:52', 0),
 	(2, '正常用户', '["jpg", "jpeg", "png", "bmp", "gif"]', '2019-01-17 12:30:54', 1);
+/*!40000 ALTER TABLE `netdisk_group` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `netdisk_share`;
 CREATE TABLE IF NOT EXISTS `netdisk_share` (
@@ -385,7 +492,11 @@ CREATE TABLE IF NOT EXISTS `netdisk_share` (
   `fastdownload` tinyint(1) NOT NULL DEFAULT '0',
   `requesturl` varchar(256) COLLATE utf8_bin NOT NULL DEFAULT '*',
   PRIMARY KEY (`share_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `netdisk_share`;
+/*!40000 ALTER TABLE `netdisk_share` DISABLE KEYS */;
+/*!40000 ALTER TABLE `netdisk_share` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `netdisk_size_package`;
 CREATE TABLE IF NOT EXISTS `netdisk_size_package` (
@@ -394,7 +505,11 @@ CREATE TABLE IF NOT EXISTS `netdisk_size_package` (
   `size` int(32) NOT NULL,
   `endtime` datetime NOT NULL,
   PRIMARY KEY (`size_package_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DELETE FROM `netdisk_size_package`;
+/*!40000 ALTER TABLE `netdisk_size_package` DISABLE KEYS */;
+/*!40000 ALTER TABLE `netdisk_size_package` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `netdisk_users`;
 CREATE TABLE IF NOT EXISTS `netdisk_users` (
@@ -407,6 +522,10 @@ CREATE TABLE IF NOT EXISTS `netdisk_users` (
   `size_uploading` int(32) NOT NULL DEFAULT '0' COMMENT 'KB'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+DELETE FROM `netdisk_users`;
+/*!40000 ALTER TABLE `netdisk_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `netdisk_users` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `online_judge_classes`;
 CREATE TABLE IF NOT EXISTS `online_judge_classes` (
   `class_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -418,6 +537,7 @@ CREATE TABLE IF NOT EXISTS `online_judge_classes` (
   PRIMARY KEY (`class_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
+DELETE FROM `online_judge_classes`;
 DROP TABLE IF EXISTS `online_judge_error`;
 CREATE TABLE IF NOT EXISTS `online_judge_error` (
   `error_id` int(32) NOT NULL AUTO_INCREMENT,
@@ -428,7 +548,11 @@ CREATE TABLE IF NOT EXISTS `online_judge_error` (
   `maxtimes` int(32) NOT NULL DEFAULT '0',
   `extern` json NOT NULL,
   PRIMARY KEY (`error_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `online_judge_error`;
+/*!40000 ALTER TABLE `online_judge_error` DISABLE KEYS */;
+/*!40000 ALTER TABLE `online_judge_error` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `online_judge_logs`;
 CREATE TABLE IF NOT EXISTS `online_judge_logs` (
@@ -441,7 +565,11 @@ CREATE TABLE IF NOT EXISTS `online_judge_logs` (
   `result` json NOT NULL,
   `testconfig` json NOT NULL,
   PRIMARY KEY (`log_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `online_judge_logs`;
+/*!40000 ALTER TABLE `online_judge_logs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `online_judge_logs` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `online_judge_question_list`;
 CREATE TABLE IF NOT EXISTS `online_judge_question_list` (
@@ -459,7 +587,7 @@ CREATE TABLE IF NOT EXISTS `online_judge_question_list` (
   `use` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=646 DEFAULT CHARSET=utf8;
-
+DELETE FROM `online_judge_question_list`;
 DROP TABLE IF EXISTS `smallapp_list`;
 CREATE TABLE IF NOT EXISTS `smallapp_list` (
   `url` char(64) NOT NULL,
@@ -469,10 +597,16 @@ CREATE TABLE IF NOT EXISTS `smallapp_list` (
   `run_script` varchar(128) DEFAULT NULL,
   `hash` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DELETE FROM `smallapp_list`;
+/*!40000 ALTER TABLE `smallapp_list` DISABLE KEYS */;
 INSERT INTO `smallapp_list` (`url`, `name`, `is_script`, `init_script`, `run_script`, `hash`) VALUES
+	('http://plugin.speedtest.cn/#1d2133', '网速测试', 0, NULL, NULL, 'speedtest'),
 	('color.js', '调色板', 1, 'color_init', 'color_run', 'color'),
+	('calc.js', '计算器', 1, 'calc_init', 'calc_run', 'calc'),
+	('calc2.js', '计算器2', 1, 'calc2_init', 'calc2_run', 'calc2'),
 	('message.php', '信息查看', 0, NULL, NULL, 'message');
+/*!40000 ALTER TABLE `smallapp_list` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `spider_163_music`;
 CREATE TABLE IF NOT EXISTS `spider_163_music` (
@@ -485,6 +619,10 @@ CREATE TABLE IF NOT EXISTS `spider_163_music` (
   `lasttime` datetime NOT NULL DEFAULT '1926-08-17 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
+DELETE FROM `spider_163_music`;
+/*!40000 ALTER TABLE `spider_163_music` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spider_163_music` ENABLE KEYS */;
+
 DROP TABLE IF EXISTS `spider_qq_music`;
 CREATE TABLE IF NOT EXISTS `spider_qq_music` (
   `mid` varchar(128) NOT NULL,
@@ -495,3 +633,11 @@ CREATE TABLE IF NOT EXISTS `spider_qq_music` (
   `singers` varchar(1024) DEFAULT NULL,
   `lasttime` datetime NOT NULL DEFAULT '1926-08-17 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DELETE FROM `spider_qq_music`;
+/*!40000 ALTER TABLE `spider_qq_music` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spider_qq_music` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
