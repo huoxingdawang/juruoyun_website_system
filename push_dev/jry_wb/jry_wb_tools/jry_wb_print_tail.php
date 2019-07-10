@@ -26,7 +26,7 @@
 		</div>
 		<script language='javascript'>
 			document.getElementById("buttom_message").style.height=document.getElementById("jry_wb_buttom_right_message").clientHeight;
-			<?php if(JRY_WB_SHOW_VIDEO_SWITCH){?>if(jry_wb_cache.get('showed')<2.0){jry_wb_beautiful_alert.check("有新版本的的宣传视频是否观看",function(){jry_wb_beautiful_alert.openvideo("宣传视频V2.0",(document.body.clientWidth)*0.75,(document.body.clientHeight)*0.75,"http://juruoyun.oss-cn-beijing.aliyuncs.com/video/1080P.mp4",function(){jry_wb_cache.set('showed',2.0);},function(video){return (video.duration-video.currentTime)<=60});jry_wb_beautiful_alert.alert("请观看宣传视频","由于服务器略菜,加载速度会比较慢,请耐心等待<br>在距离结束还有60秒时,关闭按钮会自己弹出");},function(){},"现在就看","等会再看")};<?php } ?>	
+			<?php if(JRY_WB_SHOW_VIDEO_SWITCH){?>if(jry_wb_cache.get('showed')<3.0){jry_wb_beautiful_alert.check("有新版本的的宣传视频是否观看",function(){jry_wb_beautiful_alert.openvideo("宣传视频V2.0",(document.body.clientWidth)*0.75,(document.body.clientHeight)*0.75,"http://juruoyun.oss-cn-beijing.aliyuncs.com/video/1080P.mp4",function(){jry_wb_cache.set('showed',2.0);},function(video){return (video.duration-video.currentTime)<=60});jry_wb_beautiful_alert.alert("请观看宣传视频","由于服务器略菜,加载速度会比较慢,请耐心等待<br>在距离结束还有60秒时,关闭按钮会自己弹出");},function(){},"现在就看","等会再看")};<?php } ?>	
 			<?php if(JRY_WB_WORD_SPECIAL_FACT_SWITCH){?>jry_wb_word_special_fact.word=JSON.parse('<?php echo json_encode($json);?>'.replace(/`/g,"'"));<?php } ?>
 			follow_mouth=null;
 			<?php if($jry_wb_login_user['device']=='pc'&&JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH){ ?>follow_mouth=new jry_wb_follow_mouth(document.body,{'size':4,'speed':10,'dou':1});follow_mouth.close();<?php }?>

@@ -21,11 +21,11 @@
 //控制台字符画js地址
 	define('JRY_WB_CHARACTER_DRAWING_LOGO_ADDRESS'		,'');
 //鼠标点击出字特效
-	define('JRY_WB_WORD_SPECIAL_FACT_SWITCH'			,false);
+	define('JRY_WB_WORD_SPECIAL_FACT_SWITCH'			,true);
 //鼠标跟随特效
-	define('JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH'	,false);
+	define('JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH'	,true);
 //播放宣传视频
-	define('JRY_WB_SHOW_VIDEO_SWITCH'					,false);
+	define('JRY_WB_SHOW_VIDEO_SWITCH'					,true);
 //换title
 	define('JRY_WB_CHENGE_TITLE_SWITCH'					,false);	
 //背景音乐
@@ -54,7 +54,7 @@
 //时区
 	date_default_timezone_set('Asia/Shanghai');
 //debug模式
-	define('JRY_WB_DEBUG_MODE'							,true);
+	define('JRY_WB_DEBUG_MODE'							,false);
 //socket模式	
 	define('JRY_WB_SOCKET_SWITCH'						,false);
 //登录绿币范围
