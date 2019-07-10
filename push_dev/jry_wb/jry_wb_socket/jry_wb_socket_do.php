@@ -15,7 +15,7 @@
 	while(1)
 	{
 		$rel=msg_receive($jry_wb_message_queue,2,$msgtype,1024,$buf);
-		if($task=json_decode($redis->lpop('task')))
+		if($task=json_decode($redis->lpop(JRY_WB_REDIS_PREFIX.'task')))
 		{
 			$task->user=json_decode(json_encode($task->user),true);
 			try
@@ -63,7 +63,7 @@
 				else if($task->type==200009)
 					jry_wb_chat_set_chat_room_head($conn,$task->user,$task->data->room,$task->data->to_head);
 				else if($task->type==200010)
-					$data=jry_wb_chat_start_between($conn,$task->user,jry_wb_get_user($conn,$task->data));
+					$data=jry_wb_chat_start_between($conn,$task->user,jry_wb_get_user($conn,$task->data,false));
 				else
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>000000,'file'=>__FILE__,'line'=>__LINE__)));
 			}

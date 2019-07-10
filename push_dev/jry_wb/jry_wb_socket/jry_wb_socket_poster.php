@@ -11,15 +11,16 @@
 	$jry_wb_message_queue_id=ftok(dirname(__FILE__),'m');
 	$jry_wb_message_queue = msg_get_queue($jry_wb_message_queue_id);	
 	$conn=jry_wb_connect_database();
-	$conn=jry_wb_connect_database();
 	$redis=new Redis;
-	$redis->connect('127.0.0.1');		
+	$redis->connect(JRY_WB_REDIS_ADDR,JRY_WB_REDIS_PORT);	
+	if(JRY_WB_REDIS_PASSWORD!='')
+		$redis->auth(JRY_WB_REDIS_PASSWORD);  	
 	while(1)
 	{
 		try
 		{
 			$rel=msg_receive($jry_wb_message_queue,4,$msgtype,1024,$buf);	
-			if($data=json_decode($redis->lpop('post'),true))
+			if($data=json_decode($redis->lpop(JRY_WB_REDIS_PREFIX.'post'),true))
 			{
 				if($data['from']==null||$data['from']['id']==null||$data['from']['name']==null)
 				{

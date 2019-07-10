@@ -28,6 +28,8 @@
 		fclose($file);
 	}
 ?>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'netdisk/index'); ?>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'netdisk/file'); ?>
 <div class='jry_wb_top_toolbar'></div>
 <script language="javascript" src="jry_wb_nd_index.js"></script>
 <script>

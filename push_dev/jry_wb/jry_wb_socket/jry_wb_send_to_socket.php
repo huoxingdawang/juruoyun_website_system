@@ -41,8 +41,10 @@
 		unset($from['lasttime']);
 		unset($from['color']);
 		$redis = new Redis;
-		$redis->connect('127.0.0.1');
-		$redis->rpush('post',json_encode(array('from'=>$from,'to_id'=>$to_id,'type'=>$type,'data'=>$data,'c_index'=>$c_index)));				
+		$redis->connect(JRY_WB_REDIS_ADDR,JRY_WB_REDIS_PORT);
+		if(JRY_WB_REDIS_PASSWORD!='')
+			$redis->auth(JRY_WB_REDIS_PASSWORD);  		
+		$redis->rpush(JRY_WB_REDIS_PREFIX.'post',json_encode(array('from'=>$from,'to_id'=>$to_id,'type'=>$type,'data'=>$data,'c_index'=>$c_index)));				
 		msg_send($jry_wb_message_queue,4,'1');		
 	}
 ?>

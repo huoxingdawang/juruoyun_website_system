@@ -1,13 +1,13 @@
 <?php 
 	include_once("../jry_wb_tools/jry_wb_includes.php");
-	$st =jry_wb_connect_database()->prepare("DELETE FROM ".constant('blogdb')."text where lasttime<? AND `delete` =1");
+	$st =jry_wb_connect_database()->prepare("DELETE FROM ".JRY_WB_DATABASE_BLOG."text where lasttime<? AND `delete` =1");
 	$st->bindParam(1,date("Y-m-d H;i:s",time()-JRY_WB_LOGIN_TIME));
 	$st->execute();		
 	$action=$_GET['action'];
 	if($action=='get_blog_list')
 	{
 		$conn=jry_wb_connect_database();
-		$q ="SELECT * FROM ".constant('blogdb')."text where lasttime>? ORDER BY lasttime DESC"; 
+		$q ="SELECT * FROM ".JRY_WB_DATABASE_BLOG."text where lasttime>? ORDER BY lasttime DESC"; 
 		$st = $conn->prepare($q);
 		$st->bindParam(1,urldecode($_GET['lasttime']));
 		$st->execute();				
@@ -40,7 +40,7 @@
 	if($action=='get_blog_one')
 	{
 		$conn=jry_wb_connect_database();
-		$st = $conn->prepare("SELECT * FROM ".constant('blogdb')."text where blog_id=?");
+		$st = $conn->prepare("SELECT * FROM ".JRY_WB_DATABASE_BLOG."text where blog_id=?");
 		$st->bindParam(1,$_GET['blog_id']);
 		$st->execute();			
 		foreach($st->fetchAll() as $data);
@@ -61,7 +61,7 @@
 			$st->bindValue(5,jry_wb_get_device(true));
 			$st->bindValue(6,jry_wb_get_browser(true));
 			$st->execute();
-			$st = $conn->prepare("UPDATE ".constant('blogdb')."text SET readingcount = readingcount+1 ,lasttime=? where blog_id = ?");
+			$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_BLOG."text SET readingcount = readingcount+1 ,lasttime=? where blog_id = ?");
 			$st->bindParam(1,jry_wb_get_time());
 			$st->bindParam(2,intval($_GET['blog_id']));
 			$st->execute();			
@@ -74,7 +74,7 @@
 	if($action=='get_draft_list')
 	{
 		$conn=jry_wb_connect_database();
-		$q ="SELECT * FROM ".constant('blogdb')."text where id=? AND lasttime>? ORDER BY lasttime DESC"; 
+		$q ="SELECT * FROM ".JRY_WB_DATABASE_BLOG."text where id=? AND lasttime>? ORDER BY lasttime DESC"; 
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,urldecode($_GET['lasttime']));
@@ -96,7 +96,7 @@
 	if($action=='get_draft_one')
 	{
 		$conn=jry_wb_connect_database();
-		$q ="SELECT * FROM ".constant('blogdb')."text where id=? AND blog_id=? ORDER BY lasttime DESC";
+		$q ="SELECT * FROM ".JRY_WB_DATABASE_BLOG."text where id=? AND blog_id=? ORDER BY lasttime DESC";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$jry_wb_login_user['id']);
 		$st->bindParam(2,$_GET['blog_id']);

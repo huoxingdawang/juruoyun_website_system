@@ -22,9 +22,7 @@
 		global $pid;
 		$pid=pcntl_fork();
 		if($pid==-1)
-		{
 			jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color('Failed!','light_red').' On '.jry_wb_php_cli_color('pcntl_fork','cyan').' At FILE:'.jry_wb_php_cli_color(__FILE__,'yellow').' LINE:'.jry_wb_php_cli_color(__LINE__,'yellow')."\n");
-		}
 		else if ($pid == 0)
 		{
 			$pid=posix_getpid();
@@ -74,9 +72,6 @@
 	for($i=0;$i<($argv[1]==''?2:((int)$argv[1]));$i++)
 		$dos[creat_child('start_socket_do')]=true;
 	$posters[creat_child('start_socket_poster')]=true;
-/*	for($i=0,$n=count($child_list);$i<$n;$i++)
-		msg_send($jry_wb_message_queue,2,'exit');*/
-		
 	while(!empty($child_list))
 		if (($child_pid=pcntl_wait($status))>0)
 		{

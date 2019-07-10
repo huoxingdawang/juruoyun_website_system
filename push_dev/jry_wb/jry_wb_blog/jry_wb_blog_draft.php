@@ -9,7 +9,7 @@
 	<?php jry_wb_print_href('blog');?>	
 	<?php jry_wb_print_href('blog_draft','active');?>	
 </div>
-<link rel="stylesheet" type="text/css" href="jry_wb_blog_draft.css">
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'blog/draft'); ?>
 <script language="javascript" src="jry_wb_blog_draft.js"></script>
 <div id='result'></div>
 <script language="javascript">

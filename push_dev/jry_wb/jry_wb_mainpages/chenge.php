@@ -16,6 +16,7 @@
 		$i++;
 	}
 ?>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'mainpages/chenge'); ?>
 <div class="jry_wb_top_toolbar">
 	<?php jry_wb_print_logo(false);?>	
 	<?php jry_wb_show_user($jry_wb_login_user,true);?>

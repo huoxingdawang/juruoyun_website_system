@@ -37,7 +37,7 @@ function show()
 	tr.onclick=function()
 	{
 		var head_alert=new jry_wb_beautiful_alert_function;
-		var title=head_alert.frame("换头",document.body.clientWidth*0.50,document.body.clientHeight*0.75,document.body.clientWidth*1/4,document.body.clientHeight*3/32);
+		var title=head_alert.frame("换头",document.body.clientWidth*0.80,document.body.clientHeight*0.75,document.body.clientWidth*0.1,document.body.clientHeight*3/32);
 		var Confirm = document.createElement("button"); title.appendChild(Confirm);
 		Confirm.type="button"; 
 		Confirm.innerHTML="关闭"; 
@@ -47,8 +47,9 @@ function show()
 		{
 			head_alert.close();
 		};
-		jry_wb_beautiful_scroll(head_alert.msgObj);
+		var scroll=new jry_wb_beautiful_scroll(head_alert.msgObj);
 		var table=document.createElement("table");head_alert.msgObj.appendChild(table);
+		table.width='100%';
 		var tr=document.createElement("tr"); table.appendChild(tr);
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='类别';
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='效果';
@@ -135,7 +136,7 @@ function show()
 			}
 		}
 		<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>		
-		if(jry_wb_login_user.oauth.qq.message!=null||jry_wb_login_user.mail.includes('@qq.com'))
+		if((jry_wb_login_user.oauth.qq.message!=null&&jry_wb_login_user.oauth_show)||jry_wb_login_user.mail.includes('@qq.com'))
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
@@ -164,7 +165,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='qq';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用QQ的头");
+							jry_wb_beautiful_alert.alert("换头成功","使用QQ的头"+'<br>'+['','用钱创造快乐'].rand());
 						}
 						else
 						{
@@ -181,7 +182,7 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth.github.message!=null)
+		if(jry_wb_login_user.oauth.github.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
@@ -207,7 +208,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='github';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用gayhub的头");
+							jry_wb_beautiful_alert.alert("换头成功","使用gayhub的头"+'<br>'+['','全球最大的同性交友网站欢迎您'].rand());
 						}
 						else
 						{
@@ -224,7 +225,7 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth.gitee.message!=null)
+		if(jry_wb_login_user.oauth.gitee.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
@@ -250,7 +251,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='gitee';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用码云的头");
+							jry_wb_beautiful_alert.alert("换头成功","使用码云的头"+'<br>'+['','蒟蒻云的源码在这上面耶','然而不是马云'].rand());
 						}
 						else
 						{
@@ -267,7 +268,7 @@ function show()
 		}
 		<?php } ?>
 		<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
-		if(jry_wb_login_user.oauth.mi.message!=null)
+		if(jry_wb_login_user.oauth.mi.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var tr=document.createElement("tr"); table.appendChild(tr);
 			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
@@ -293,7 +294,7 @@ function show()
 						{
 							jry_wb_login_user.head.type='mi';
 							jry_wb_update_user(jry_wb_login_user,'head');
-							jry_wb_beautiful_alert.alert("换头成功","使用小米的头<br>小米智能头<br>年轻人的第一个头");
+							jry_wb_beautiful_alert.alert("换头成功","使用小米的头"+'<br>'+['','小米智能头<br>年轻人的第一个头','Do you like mi 4i?','永远相信美好的事情即将发生','Are you OK!'].rand());
 						}
 						else
 						{
@@ -310,7 +311,7 @@ function show()
 		}		
 		<?php } ?>
 		var tr=document.createElement("tr"); table.appendChild(tr);
-		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='外部URL<br>请注意防盗链设置';
+		var td1=document.createElement("td"); tr.appendChild(td1);td1.classList.add('h56');td1.innerHTML='外部URL<br>请注意防盗链设置';
 		var td=document.createElement("td"); tr.appendChild(td);
 		var img2=document.createElement("img");td.appendChild(img2);
 		jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
@@ -320,9 +321,11 @@ function show()
 		input.onkeyup=function()
 		{
 			img2.src=input.value;			
-		}
+		};
+		input.style.width=0;
 		var __url_onerror=false;
 		var td=document.createElement("td"); tr.appendChild(td);
+		input.style.width=tr.clientWidth-td1.clientWidth-td.clientWidth-img2.clientWidth-scroll.jry_wb_scroll_body_y.clientWidth;
 		if(jry_wb_login_user.head.type=='url')
 		{
 			input.value=img2.src=jry_wb_login_user.head.url;
@@ -382,25 +385,31 @@ function show()
 			__url_onerror=true;		
 		}
 		var tr=document.createElement("tr"); table.appendChild(tr);
-		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='网盘<br>请开启图床模式';
-		var td=document.createElement("td"); tr.appendChild(td);
-		var img2=document.createElement("img");td.appendChild(img2);
+		var td1=document.createElement("td"); tr.appendChild(td1);td1.classList.add('h56');td1.innerHTML='网盘<br>请开启图床模式';
+		var td2=document.createElement("td2"); tr.appendChild(td2);
+		var img2=document.createElement("img");td2.appendChild(img2);
 		jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 		img2.src='';
-		var span=document.createElement("span");td.appendChild(span);span.classList.add('h56');span.innerHTML='分享ID:'
-		var input_share_id=document.createElement("input");td.appendChild(input_share_id);
+		var span1=document.createElement("span");td2.appendChild(span1);span1.classList.add('h56');span1.innerHTML='分享ID:'
+		var input_share_id=document.createElement("input");td2.appendChild(input_share_id);
 		input_share_id.classList.add('h56');
-		input_share_id.style.width='100px'
-		var span=document.createElement("span");td.appendChild(span);span.classList.add('h56');span.innerHTML='文件ID:'
-		var input_file_id=document.createElement("input");td.appendChild(input_file_id);
+		input_share_id.style.width=0;
+		var span2=document.createElement("span");td2.appendChild(span2);span2.classList.add('h56');span2.innerHTML='文件ID:'
+		var input_file_id=document.createElement("input");td2.appendChild(input_file_id);
 		input_file_id.classList.add('h56');
-		input_file_id.style.width='100px'
+		input_file_id.style.width=0;
 		input_share_id.onkeyup=input_file_id.onkeyup=function()
 		{
 			img2.src=jry_wb_get_user_head({'head':{'type':'netdisk','share_id':input_share_id.value,'file_id':input_file_id.value}});
 		}
 		var __netdisk_onerror=false;
 		var td=document.createElement("td"); tr.appendChild(td);
+		input_file_id.style.width=input_share_id.style.width=(tr.clientWidth-td1.clientWidth-td.clientWidth-img2.clientWidth-scroll.jry_wb_scroll_body_y.clientWidth-span1.offsetWidth-span2.offsetWidth)/2;
+		if((tr.clientWidth-td1.clientWidth-td.clientWidth-img2.clientWidth-scroll.jry_wb_scroll_body_y.clientWidth-span1.offsetWidth-span1.offsetWidth)/2<100)
+			td2.insertBefore(document.createElement('br'),span1),td2.insertBefore(document.createElement('br'),span2),input_file_id.style.width=(tr.clientWidth-td1.clientWidth-td.clientWidth-scroll.jry_wb_scroll_body_y.clientWidth-span2.offsetWidth),input_share_id.style.width=(tr.clientWidth-td1.clientWidth-td.clientWidth-scroll.jry_wb_scroll_body_y.clientWidth-span1.offsetWidth);
+		
+		
+		
 		if(jry_wb_login_user.head.type=='netdisk')
 		{
 			img2.src=jry_wb_get_user_head(jry_wb_login_user);
@@ -1729,7 +1738,9 @@ function showmusiclist()
 	button.style.marginLeft='100px';
 	button.onclick=function()
 	{
-		var ans=background_music_list.slice();
+		var ans=[]
+		for(var i=0;i<background_music_list.length;i++)
+			ans.push((background_music_list[i].type=='songlist')?({'type':background_music_list[i].type,'slid':background_music_list[i].slid}):({'type':background_music_list[i].type,'mid':background_music_list[i].mid}));
 		jry_wb_ajax_load_data('do_chenge.php?action=setsonglist',function(data)
 		{
 			data=JSON.parse(data);

@@ -24,14 +24,7 @@
 		<link rel='shortcut icon' href='<?php echo JRY_WB_LOGO_ICO_ADDRESS;?>' type='image/x-icon'>
 		<link rel='stylesheet' type='text/css' href='<?php echo JRY_WB_HOST?>jry_wb_css/iconfont.css'>
 		<link rel='stylesheet' type='text/css' href='<?php echo JRY_WB_HOST?>jry_wb_css/colorpicker.css'>
-		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['general_css_address'];?>'>
-	<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='mobile'&&$jry_wb_login_user['device']!='ipad'){?>
-		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>
-	<?php }else if($jry_wb_login_user['jry_wb_test_is_mobile']=='weixin'){?>
-		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['mobile_css_address'];?>'>
-	<?php }else{?>
-		<link rel='stylesheet' type='text/css' href='<?php echo $jry_wb_login_user['style']['data']['desktop_css_address'];?>'>
-	<?php } ?>
+		<?php echo jry_wb_include_css($jry_wb_login_user['style'],'general'); ?>
 		<meta name="description" content="<?php echo JRY_WB_DESCRIPTION;?>;由李俊彦开发的蒟蒻云网站系统(<?php echo JRY_WB_VERSION?>)强力驱动,strong powered by 'jry web system(<?php echo JRY_WB_VERSION?>)' which is developed by lijunyan;<?php echo $jry_wb_description;?>">
 		<meta name="keywords" content="<?php echo JRY_WB_NAME?>,蒟蒻云网站系统,juruoyun web system,<?php echo JRY_WB_KEYWORDS;?>,<?php echo $jry_wb_keywords;?>">
 		<meta name="robots" content="noarchive">

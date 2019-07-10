@@ -1,4 +1,3 @@
-//此文档相对独立不依赖缓存数据全部由后台直接提供
 function  jry_wb_online_judge_show_question_function(area) 
 {
 	this.area=area;

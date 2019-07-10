@@ -87,9 +87,18 @@
 }
 .jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_top
 {
-    font-size: 16px;
     color: #000;
     background: #666;	
+	font-size:25px;	
+}
+.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_top .jry_wb_chat_name
+{
+	font-size:25px;
+}
+.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_set
+{
+	font-size:25px;
+	
 }
 .jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one
 {

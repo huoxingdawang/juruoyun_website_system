@@ -9,7 +9,7 @@
 	<?php jry_wb_print_href('blog','active');?>
 	<?php if($jry_wb_login_user[id]!=-1&&$jry_wb_login_user['compentence']['editorblog'])jry_wb_print_href('blog_draft');?>
 </div>
-<link rel="stylesheet" type="text/css" href="jry_wb_blog_index.css">
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'blog/index'); ?>
 <script language="javascript" src="jry_wb_blog_index.js"></script>
 <div id='all'></div>
 <script language="javascript">

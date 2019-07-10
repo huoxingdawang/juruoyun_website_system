@@ -106,9 +106,12 @@
 		}
 		else if($_GET['action']=='setsonglist')
 		{
-			$q ="update ".JRY_WB_DATABASE_GENERAL."users set background_music_list=?,lasttime=? where id=? ";
-			$st = $conn->prepare($q);
-			$st->bindValue(1,urldecode($_POST["data"]));	
+			$data=json_decode(urldecode($_POST["data"]));
+			$result=[];
+			foreach($data as $d)
+				$result[]=(($d->type=='songlist')?array('type'=>$d->type,'slid'=>$d->slid):array('type'=>$d->type,'mid'=>$d->mid));
+			$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET background_music_list=?,lasttime=? WHERE id=? ');
+			$st->bindValue(1,json_encode($result));	
 			$st->bindValue(2,jry_wb_get_time());
 			$st->bindValue(3,$jry_wb_login_user[id]);
 			$st->execute();			
@@ -185,7 +188,7 @@
 			}
 			else if($_GET['type']=='qq')
 			{
-				if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth_qq']!='')
+				if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth']->qq!=NULL)
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"qq"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -198,7 +201,7 @@
 			}
 			else if($_GET['type']=='github')
 			{
-				if($jry_wb_login_user['oauth_github']!='')
+				if($jry_wb_login_user['oauth']->github!=NULL)
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"github"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -211,7 +214,7 @@
 			}
 			else if($_GET['type']=='mi')
 			{
-				if($jry_wb_login_user['oauth_mi']!='')
+				if($jry_wb_login_user['oauth']->mi!=NULL)
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"mi"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -224,7 +227,7 @@
 			}
 			else if($_GET['type']=='gitee')
 			{
-				if($jry_wb_login_user['oauth_gitee']!='')
+				if($jry_wb_login_user['oauth']->gitee!=NULL)
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"gitee"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -479,6 +482,25 @@
 			$st->bindValue(5,jry_wb_get_time());
 			$st->bindValue(6,$jry_wb_login_user['id']);
 			$st->execute();
+			if(urldecode($_POST["oauth_show"])==0&&($jry_wb_login_user['head']['type']=='qq'||$jry_wb_login_user['head']['type']=='gitee'||$jry_wb_login_user['head']['type']=='github'||$jry_wb_login_user['head']['type']=='mi'))
+			{
+				if($jry_wb_login_user['sex']==0&&$jry_wb_login_user['head']!='default_head_woman')
+				{
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"default_head_woman"}\',lasttime=? where id=?';
+					$st = $conn->prepare($q);
+					$st->bindValue(1,jry_wb_get_time());
+					$st->bindValue(2,$jry_wb_login_user['id']);
+					$st->execute();
+				}
+				else if(($jry_wb_login_user['sex']==1||$jry_wb_login_user['sex']==2)&&$jry_wb_login_user['head']!='default_head_man')
+				{
+					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"default_head_man"}\',lasttime=? where id=?';
+					$st = $conn->prepare($q);
+					$st->bindValue(1,jry_wb_get_time());
+					$st->bindValue(2,$jry_wb_login_user['id']);
+					$st->execute();
+				}				
+			}
 			echo json_encode(array('code'=>true,'head_special'=>$head_special));				
 			exit();			
 		}
