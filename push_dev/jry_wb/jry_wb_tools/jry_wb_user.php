@@ -85,7 +85,7 @@
 			else if($user['tel_show']==1)
 				$user['tel']=substr_replace($user['tel'],'***********',0,11);
 		}
-		if($user['head_special']!='')
+		if($user['head_special']!=''&&$user['head_special']!=NULL)
 			$user['head_special']=json_decode($user['head_special']);
 		else
 			$user['head_special']=json_decode('{"mouse_out":{"speed":2,"direction":0,"times":-1},"mouse_on":{"speed":2,"direction":0,"times":-1}}');
