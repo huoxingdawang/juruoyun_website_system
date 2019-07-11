@@ -1,6 +1,6 @@
 <?php
 	include_once("../jry_wb_tools/jry_wb_includes.php");
-	function jry_wb_get_user($conn,$id,$host_mode)
+	function jry_wb_get_user($conn,$id,$host_mode=false)
 	{
 		if($id=='')
 			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users ORDER BY id DESC LIMIT 1');

@@ -54,6 +54,8 @@ var jry_wb_chat_room=new function()
 		if(data.from!=jry_wb_login_user.id)
 		{
 			var one=rooms.find(function(a){return a.chat_room_id==data.data.room});
+			if(one==undefined)
+				return ;
 			one.users.push(parseInt(data.from));
 			one.lasttime=data.data.lasttime;
 			jry_wb_cache.set('chat_rooms',rooms,undefined,data.data.lasttime);		
@@ -70,7 +72,7 @@ var jry_wb_chat_room=new function()
 			setTimeout(function()
 			{
 				jry_wb_socket.send({'code':true,'type':200006,'data':{'room':data.data.room}});	
-			},500);				
+			},2000);				
 		}
 	});
 	jry_wb_socket.add_listener(200002,(data)=>
@@ -530,8 +532,9 @@ var jry_wb_chat_room=new function()
 						{
 							return;
 						}
-						else				
-							serchcallback(data.data[0]);
+						else
+							if(data.data[0]!=undefined)
+								serchcallback(data.data[0]);
 					},[{'name':'room','value':parseInt(input.value)}]);
 <?php } ?>
 				if(parseInt(input.value)!=jry_wb_login_user.id)

@@ -1,7 +1,7 @@
 <?php
-	cli_set_process_title('jry_wb_socket_poster');
 	include_once("jry_wb_cli_includes.php");
 	include_once("../jry_wb_chat/jry_wb_chat_includes.php");
+	cli_set_process_title(JRY_WB_REDIS_PREFIX.'jry_wb_socket_poster');
 	if((!jry_wb_test_is_cli_mode())){header('HTTP/1.1 404 Not Found');header("status: 404 Not Found");include('../../404.php');exit();}
 	if(JRY_WB_SOCKET_SWITCH!==true)
 	{

@@ -1,7 +1,7 @@
 <?php
-	cli_set_process_title('jry_wb_socket_watcher');
 	include_once("jry_wb_cli_includes.php");
 	include_once("../jry_wb_chat/jry_wb_chat_includes.php");
+	cli_set_process_title(JRY_WB_REDIS_PREFIX.'jry_wb_socket_watcher');
 	if((!jry_wb_test_is_cli_mode())){header('HTTP/1.1 404 Not Found');header("status: 404 Not Found");include('../../404.php');exit();}
 	if(JRY_WB_SOCKET_SWITCH!==true)
 	{
@@ -14,7 +14,8 @@
 	$redis=new Redis;
 	$redis->connect(JRY_WB_REDIS_ADDR,JRY_WB_REDIS_PORT);	
 	if(JRY_WB_REDIS_PASSWORD!='')
-		$redis->auth(JRY_WB_REDIS_PASSWORD);  	
+		$redis->auth(JRY_WB_REDIS_PASSWORD); 
+	echo ("Queue length:\ntask\t:".$redis->lLen(JRY_WB_REDIS_PREFIX.'task')."\nlog\t:".$redis->lLen(JRY_WB_REDIS_PREFIX.'log')."\npost\t:".$redis->lLen(JRY_WB_REDIS_PREFIX.'post')."\n");	
 	$conn=jry_wb_connect_database();
 	$st =$conn->prepare("SELECT * FROM ".JRY_WB_DATABASE_LOG."socket ORDER BY log_socket_id DESC LIMIT ".($argv[1]==''?50:((int)$argv[1])));
 	$st->execute();			
