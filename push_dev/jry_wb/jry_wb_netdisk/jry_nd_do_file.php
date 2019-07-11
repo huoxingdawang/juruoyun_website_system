@@ -146,6 +146,7 @@
 		}		
 	}
 	try{jry_wb_check_compentence(NULL,array('use','usenetdisk'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	
+	$user['nd_ei']=jry_wb_get_netdisk_information_by_id($user['id']);	
 	if($action=='pre_check')
 	{
  		try
