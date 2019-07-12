@@ -1,3 +1,8 @@
+<?php
+	header("content-type: application/x-javascript");
+	include_once("../jry_wb_configs/jry_wb_config_netdisk.php");
+?>
+<?php if(false){ ?><script><?php } ?>
 function jry_wb_nd_show_files(checker)
 {
 	var flag=false;
@@ -38,9 +43,15 @@ function jry_wb_nd_show_files(checker)
 					if(jry_nd_file_list[i].isdir)
 						jry_wb_nd_show_files_by_dir(jry_nd_file_list[i].dir+jry_nd_file_list[i].name+'/');
 					else if(jry_nd_file_list[i].type=='jpg'||jry_nd_file_list[i].type=='jpeg'||jry_nd_file_list[i].type=='png'||jry_nd_file_list[i].type=='bmp')
-						jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
+						if(<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>!=-1&&jry_nd_file_list[i].size<<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>)
+							jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
+						else
+							jry_wb_beautiful_alert.check('这个文件的打开要消耗高速流量，是否继续',function(){jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));},function(){},'打开','放弃');
 					else if(jry_nd_file_list[i].type=='mp4'||jry_nd_file_list[i].type=='flv')	
-						jry_wb_beautiful_alert.openvideo(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''),'');
+						if(<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>!=-1&&jry_nd_file_list[i].size<<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>)
+							jry_wb_beautiful_alert.openvideo(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''),'');
+						else
+							jry_wb_beautiful_alert.check('这个文件的打开要消耗高速流量，是否继续',function(){jry_wb_beautiful_alert.openvideo(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''),'');},function(){},'打开','放弃');
 					else
 						one.oncontextmenu(event);
 				}
@@ -608,3 +619,4 @@ function jry_wb_nd_show_files(checker)
 	right_body_scroll=new jry_wb_beautiful_scroll(document_list,true);
 	return flag;
 }
+<?php if(false){ ?></script><?php } ?>
