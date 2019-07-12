@@ -482,7 +482,7 @@
 			$st->bindValue(5,jry_wb_get_time());
 			$st->bindValue(6,$jry_wb_login_user['id']);
 			$st->execute();
-			if(urldecode($_POST["oauth_show"])==0&&($jry_wb_login_user['head']['type']=='qq'||$jry_wb_login_user['head']['type']=='gitee'||$jry_wb_login_user['head']['type']=='github'||$jry_wb_login_user['head']['type']=='mi'))
+			if((urldecode($_POST["mail_show"])==0&&($jry_wb_login_user['head']['type']=='gravatar'))||(urldecode($_POST["oauth_show"])==0&&($jry_wb_login_user['head']['type']=='qq'||$jry_wb_login_user['head']['type']=='gitee'||$jry_wb_login_user['head']['type']=='github'||$jry_wb_login_user['head']['type']=='mi')))
 			{
 				if($jry_wb_login_user['sex']==0&&$jry_wb_login_user['head']!='default_head_woman')
 				{
