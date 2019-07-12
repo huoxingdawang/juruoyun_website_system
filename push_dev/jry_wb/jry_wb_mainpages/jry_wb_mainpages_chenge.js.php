@@ -92,11 +92,11 @@ function show()
 				});
 			};
 		}
-		if(jry_wb_gravatar_user_head!=null)
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gravatar';
+		var td=document.createElement("td"); tr.appendChild(td);
+		if(jry_wb_gravatar_user_head!=null&&jry_wb_login_user.mail_show==2)
 		{
-			var tr=document.createElement("tr"); table.appendChild(tr);
-			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gravatar';
-			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 			img2.src=jry_wb_gravatar_user_head;
@@ -135,12 +135,16 @@ function show()
 				};
 			}
 		}
+		else if(jry_wb_gravatar_user_head!=null)		
+			td.classList.add('h56'),td.innerHTML='<a href="#showshow">权限缺失:显示不码的邮箱,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else
+			td.classList.add('h56'),td.innerHTML='<a href="#showmail">信息缺失:带有gravatar的邮箱绑定,请前往邮箱绑定</a>',td.onclick=function(){head_alert.close();showmail();};
 		<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>		
-		if((jry_wb_login_user.oauth.qq.message!=null&&jry_wb_login_user.oauth_show)||jry_wb_login_user.mail.includes('@qq.com'))
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
+		var td=document.createElement("td"); tr.appendChild(td);
+		if((jry_wb_login_user.oauth.qq.message!=null&&jry_wb_login_user.oauth_show)||(jry_wb_login_user.mail.includes('@qq.com')&&jry_wb_login_user.mail_show==2))
 		{
-			var tr=document.createElement("tr"); table.appendChild(tr);
-			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='QQ';
-			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 			if(jry_wb_login_user.oauth.qq.message!=null)
@@ -180,13 +184,19 @@ function show()
 				};
 			}
 		}
+		else if((jry_wb_login_user.oauth.qq.message!=null&&!jry_wb_login_user.oauth_show))
+			td.classList.add('h56'),td.innerHTML='<a href="#showshow">权限缺失:显示第三方绑定,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else if(jry_wb_login_user.mail.includes('@qq.com'))		
+			td.classList.add('h56'),td.innerHTML='<a href="#showshow">权限缺失:显示不码的邮箱,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else
+			td.classList.add('h56'),td.innerHTML='<a href="#tpin">信息缺失:请前往第三方接入绑定账号</a>',td.onclick=function(){head_alert.close();showtpin();};	
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITHUB_OAUTH_CLIENT_ID!=''){ ?>
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
+		var td=document.createElement("td"); tr.appendChild(td);
 		if(jry_wb_login_user.oauth.github.message!=null&&jry_wb_login_user.oauth_show)
 		{
-			var tr=document.createElement("tr"); table.appendChild(tr);
-			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='gayhub';
-			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 			img2.src=jry_wb_login_user.oauth.github.message.avatar_url;
@@ -223,13 +233,17 @@ function show()
 				};
 			}
 		}
+		else if(jry_wb_login_user.oauth.github.message!=null)
+			td.classList.add('h56'),td.innerHTML='<a href="#showshow">权限缺失:显示第三方绑定,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else
+			td.classList.add('h56'),td.innerHTML='<a href="#tpin">信息缺失:请前往第三方接入绑定账号</a>',td.onclick=function(){head_alert.close();showtpin();};
 		<?php } ?>
 		<?php if(JRY_WB_TP_GITEE_OAUTH_CLIENT_ID!=''){ ?>
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
+		var td=document.createElement("td"); tr.appendChild(td);
 		if(jry_wb_login_user.oauth.gitee.message!=null&&jry_wb_login_user.oauth_show)
 		{
-			var tr=document.createElement("tr"); table.appendChild(tr);
-			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='码云';
-			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 			img2.src=jry_wb_login_user.oauth.gitee.message.avatar_url;
@@ -266,13 +280,17 @@ function show()
 				};
 			}
 		}
+		else if(jry_wb_login_user.oauth.gitee.message!=null)
+			td.classList.add('h56'),td.innerHTML='<a href="#showshow">权限缺失:显示第三方绑定,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else
+			td.classList.add('h56'),td.innerHTML='<a href="#tpin">信息缺失:请前往第三方接入绑定账号</a>',td.onclick=function(){head_alert.close();showtpin();};	
 		<?php } ?>
 		<?php if(JRY_WB_TP_MI_OAUTH_CLIENT_ID!=''){ ?>
+		var tr=document.createElement("tr"); table.appendChild(tr);
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
+		var td=document.createElement("td"); tr.appendChild(td);
 		if(jry_wb_login_user.oauth.mi.message!=null&&jry_wb_login_user.oauth_show)
 		{
-			var tr=document.createElement("tr"); table.appendChild(tr);
-			var td=document.createElement("td"); tr.appendChild(td);td.classList.add('h56');td.innerHTML='MI';
-			var td=document.createElement("td"); tr.appendChild(td);
 			var img2=document.createElement("img");td.appendChild(img2);
 			jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.height=80;img2.width=80;
 			img2.src=jry_wb_login_user.oauth.mi.message.miliaoIcon_orig;
@@ -308,7 +326,11 @@ function show()
 					});
 				};
 			}
-		}		
+		}
+		else if(jry_wb_login_user.oauth.mi.message!=null)
+			td.classList.add('h56'),td.innerHTML='<a href="#showshow">权限缺失:显示第三方绑定,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else
+			td.classList.add('h56'),td.innerHTML='<a href="#tpin">信息缺失:请前往第三方接入绑定账号</a>',td.onclick=function(){head_alert.close();showtpin();};		
 		<?php } ?>
 		var tr=document.createElement("tr"); table.appendChild(tr);
 		var td1=document.createElement("td"); tr.appendChild(td1);td1.classList.add('h56');td1.innerHTML='外部URL<br>请注意防盗链设置';
