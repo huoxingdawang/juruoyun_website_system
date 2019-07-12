@@ -173,7 +173,7 @@
 			else if($_GET['type']=='gravatar')
 			{
 				$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404');
-				if (preg_match("|200|", $headers[0])) 
+				if($jry_wb_login_user['mail_show']==2&&preg_match("|200|", $headers[0])) 
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"gravatar"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -188,7 +188,7 @@
 			}
 			else if($_GET['type']=='qq')
 			{
-				if(strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com'||$jry_wb_login_user['oauth']->qq!=NULL)
+				if(($jry_wb_login_user['mail_show']==2&&strtolower(array_pop(explode("@",$jry_wb_login_user['mail'])))=='qq.com')||($jry_wb_login_user['oauth']->qq!=NULL&&$jry_wb_login_user['oauth_show']))
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"qq"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -201,7 +201,7 @@
 			}
 			else if($_GET['type']=='github')
 			{
-				if($jry_wb_login_user['oauth']->github!=NULL)
+				if($jry_wb_login_user['oauth']->github!=NULL&&$jry_wb_login_user['oauth_show'])
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"github"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -214,7 +214,7 @@
 			}
 			else if($_GET['type']=='mi')
 			{
-				if($jry_wb_login_user['oauth']->mi!=NULL)
+				if($jry_wb_login_user['oauth']->mi!=NULL&&$jry_wb_login_user['oauth_show'])
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"mi"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -227,7 +227,7 @@
 			}
 			else if($_GET['type']=='gitee')
 			{
-				if($jry_wb_login_user['oauth']->gitee!=NULL)
+				if($jry_wb_login_user['oauth']->gitee!=NULL&&$jry_wb_login_user['oauth_show'])
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"gitee"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
