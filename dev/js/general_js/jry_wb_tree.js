@@ -14,9 +14,10 @@ function jry_wb_tree(area,text,check,callback)
 	};
 	this.root.check=this.check;
 	this.openedall=false;
-	this.add = function(father,name,value,check)
+	this.add = function(father,name,value,check,do_update)
 	{
 		check=check==undefined?true:check;
+		do_update=do_update==undefined?true:do_update;
 		if(father==this.root)
 		{
 			var one = document.createElement('ul');father.appendChild(one);
@@ -92,7 +93,8 @@ function jry_wb_tree(area,text,check,callback)
 		};	
 		one.children[0].children[1].onclick = function()
 		{
-			update(this,false);	
+			if(do_update)
+				update(this,false);	
 			if(typeof callback=='function')
 				callback();
 		};

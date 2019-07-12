@@ -32,7 +32,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 	var tree=new jry_wb_tree(div,"请选中一个文件",true);
 	confirm.onclick=function()
 	{
-		var checked=tree.get_checked(true);
+		var checked=tree.get_checked(!oneonly);
 		if(checked.length==0)
 		{
 			jry_wb_beautiful_right_alert.alert('请选中一个文件');
@@ -42,9 +42,9 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 		{
 			jry_wb_beautiful_right_alert.alert('请选中一个文件');
 			return ;
-		}
+		}		
 		for(var i=0;i<checked.length;i++)
-			if(checked[i]=file_list.find(function(a){return a.file_id==checked[i]})==undefined)
+			if((checked[i]=file_list.find(function(a){return a.file_id==checked[i]}))==undefined)
 				checked[i]={'isdir':true,id:jry_wb_login_user.id,'file_id':0,'father':0,'name':'/'};
 		if(dironly&&oneonly)
 			if(!checked[0].isdir)
@@ -54,7 +54,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 		select_mesage_lock=false;
 		alerter.close();
 	};
-	var root=tree.add(tree.root,'/',0);
+	var root=tree.add(tree.root,'/',0,undefined,!oneonly);
 	function add_one(i)
 	{
 		if(added[i]===true)
@@ -66,7 +66,7 @@ function jry_wb_nd_alert_list(callback,oneonly,dironly)
 			tree_father=file_list[i].tree=add_one(file_list.indexOf(father));
 		else
 			tree_father=father.tree;
-		file_list[i].tree=tree.add(tree_father,file_list[i].name+(file_list[i].isdir?'':('.'+file_list[i].type)),file_list[i].file_id);
+		file_list[i].tree=tree.add(tree_father,file_list[i].name+(file_list[i].isdir?'':('.'+file_list[i].type)),file_list[i].file_id,undefined,!oneonly);
 		file_list[i].added=true;
 		added[i]=true;
 		return file_list[i].tree;
