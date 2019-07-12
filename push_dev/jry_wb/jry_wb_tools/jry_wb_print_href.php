@@ -4,8 +4,10 @@
 	{
 		global $jry_wb_website_map;
 		jry_wb_load_website_map();
-		$i=0;
-		for(;$jry_wb_website_map[$i]['name']!=$name;$i++);
+		$i=0;$n=count($jry_wb_website_map);
+		for(;$jry_wb_website_map[$i]['name']!=$name&&$i<=$n;$i++);
+		if($i==$n)
+			return '';
 		$website=$jry_wb_website_map[$i];
 		if(!$return)
 		{
