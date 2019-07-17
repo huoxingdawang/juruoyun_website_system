@@ -5,14 +5,23 @@
 	use OSS\Core\OssException;
 	if($jry_wb_login_user['id']!=-1)
 		jry_wb_get_netdisk_information($conn);
-	$action=$_GET['action'];
 	$conn=jry_wb_connect_database();
+	$_get=$_GET;
+	if($_GET['data']!='')
+	{
+		$buf=json_decode($_GET['data']);
+		$_get['file_id']=$buf->file_id;
+		$_get['key']=$buf->key;
+		$_get['share_id']=$buf->share_id;
+		$_get['action']=$buf->action;
+	}
+	$action=$_get['action'];
 	if($action=='open'||$action=='download')
 	{
 		try
 		{
 			$share_mode=false;
-			if(($share=jry_nd_database_get_share_strict($conn,$_GET['share_id'],$_GET['key']==''?'':$_GET['key'],$_GET['file_id']))!=false)
+			if(($share=jry_nd_database_get_share_strict($conn,$_get['share_id'],$_get['key']==''?'':$_get['key'],$_get['file_id']))!=false)
 			{
 				$share_mode=true;
 				$file=$share['file'];
@@ -21,9 +30,9 @@
 			}
 			if(!$share_mode)
 			{
-				if($_GET['share_id']!='')
+				if($_get['share_id']!='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));					
-				if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_GET['file_id']))===null)
+				if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_get['file_id']))===null)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
 				if(($area=jry_nd_database_get_area($conn,$file['area']))===null)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));
@@ -348,8 +357,8 @@
 		}
 		else if($action=='add_size')
 		{
-			$size=(int)$_GET['size'];
-			$time=(int)$_GET['time'];
+			$size=(int)$_get['size'];
+			$time=(int)$_get['time'];
 			$size=max(0,$size);
 			$time=max(0,$time);
 			if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_SIZE*$time),constant('jry_wb_log_type_green_money_pay_nd_size')))
@@ -358,7 +367,7 @@
 		}
 		else if($action=='add_fast_size')
 		{
-			$size=(int)$_GET['size'];
+			$size=(int)$_get['size'];
 			$size=max(0,$size);
 			if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_FAST_SIZE),constant('jry_wb_log_type_green_money_pay_nd_size')))
 				jry_nd_database_operate_user_fast($conn,$jry_wb_login_user,$size);
