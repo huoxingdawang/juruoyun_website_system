@@ -325,7 +325,7 @@
 	{
 		try
 		{
-			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],$_POST['name'],$_POST['type']);
+			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],str_replace('/37','&',str_replace('/43','+',$_POST['name'])),$_POST['type']);
 		}
 		catch (jry_wb_exception $e)
 		{
