@@ -5,14 +5,23 @@
 	use OSS\Core\OssException;
 	if($jry_wb_login_user['id']!=-1)
 		jry_wb_get_netdisk_information($conn);
-	$action=$_GET['action'];
 	$conn=jry_wb_connect_database();
+	$_get=$_GET;
+	if($_GET['data']!='')
+	{
+		$buf=json_decode($_GET['data']);
+		$_get['file_id']=$buf->file_id;
+		$_get['key']=$buf->key;
+		$_get['share_id']=$buf->share_id;
+		$_get['action']=$buf->action;
+	}
+	$action=$_get['action'];
 	if($action=='open'||$action=='download')
 	{
 		try
 		{
 			$share_mode=false;
-			if(($share=jry_nd_database_get_share_strict($conn,$_GET['share_id'],$_GET['key']==''?'':$_GET['key'],$_GET['file_id']))!=false)
+			if(($share=jry_nd_database_get_share_strict($conn,$_get['share_id'],$_get['key']==''?'':$_get['key'],$_get['file_id']))!=false)
 			{
 				$share_mode=true;
 				$file=$share['file'];
@@ -21,9 +30,9 @@
 			}
 			if(!$share_mode)
 			{
-				if($_GET['share_id']!='')
+				if($_get['share_id']!='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>230000,'file'=>__FILE__,'line'=>__LINE__)));					
-				if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_GET['file_id']))===null)
+				if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_get['file_id']))===null)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
 				if(($area=jry_nd_database_get_area($conn,$file['area']))===null)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));
@@ -146,10 +155,10 @@
 	}
 	try{jry_wb_check_compentence(NULL,array('use','usenetdisk'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	
 	$user['nd_ei']=jry_wb_get_netdisk_information_by_id($user['id']);	
-	if($action=='pre_check')
+ 	try
 	{
- 		try
-		{			
+		if($action=='pre_check')
+		{
 			if($_POST['size']==''||$_POST['name']==''||$_POST['father']=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200004,'file'=>__FILE__,'line'=>__LINE__)));
 			if(!jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
@@ -179,17 +188,9 @@
 			}
 			jry_nd_database_operate_user_used_uploading($conn,$jry_wb_login_user,0,$_POST['size']);
 			jry_nd_database_operate_area_size($conn,$area,$_POST['size']);	
+			echo json_encode(array('login'=>true,'code'=>true,'area'=>$area['area_id'],'file_id'=>$file_id,'method'=>$area['type'],'extern_message'=>$extern_message));
 		}
-		catch (jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}
-		echo json_encode(array('login'=>true,'code'=>true,'area'=>$area['area_id'],'file_id'=>$file_id,'method'=>$area['type'],'extern_message'=>$extern_message));
-	}
-	else if($action=='upload')
-	{
-		try
+		else if($action=='upload')
 		{
 			if(jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
 			{
@@ -216,17 +217,9 @@
 			}
 			else
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
+			echo json_encode(array('code'=>true));
 		}
-		catch (jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
-		}	
-		echo json_encode(array('code'=>true));
-	}
-	else if($action=='merge')
-	{
-		try
+		else if($action=='merge')
 		{
 			if(jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
 			{
@@ -300,130 +293,112 @@
 			}
 			else
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
-		}
-		catch (jry_wb_exception $e)
-		{
-			echo $e->getMessage();
-			exit();
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'size_used'=>$jry_wb_login_user['nd_ei']['size_used']));
 		}		
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'size_used'=>$jry_wb_login_user['nd_ei']['size_used']));
-	}
-	else if($action=='new_dir')
-	{
-		try
+		else if($action=='new_dir')
 		{
-			$file_id=jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father'],$_POST['name']);
+			$file_id=jry_nd_direct_new_dir($conn,$jry_wb_login_user,$_POST['father'],$_POST['name']);	
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time(),'file_id'=>$file_id));
 		}
-		catch (jry_wb_exception $e)
+		else if($action=='rename')
 		{
-			echo $e->getMessage();
-			exit();
-		}			
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time(),'file_id'=>$file_id));
-	}
-	else if($action=='rename')
-	{
-		try
-		{
-			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],$_POST['name'],$_POST['type']);
+			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],str_replace('/37','&',str_replace('/43','+',$_POST['name'])),$_POST['type']);		
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 		}
-		catch (jry_wb_exception $e)
+		else if($action=='move')
 		{
-			echo $e->getMessage();
-			exit();
-		}			
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}
-	else if($action=='move')
-	{
-		if(($to=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['to']))===null)
-		{
-			echo (json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));
-			exit();
-		}			
-		$files=json_decode($_POST['file_id']);
-		foreach($files as $file_id)
-		{
-			try
+			if(($to=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['to']))===null)
 			{
-				jry_nd_direct_move_file_id($conn,$jry_wb_login_user,$file_id,$to);
-			}catch (jry_wb_exception $e){}
-		}
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}
-	else if($action=='delete')
-	{
-		$files=json_decode($_POST['file_id']);
-		$conn=jry_wb_connect_database();
-		foreach($files as $file)
-		{
-			try
+				echo (json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));
+				exit();
+			}			
+			$files=json_decode($_POST['file_id']);
+			foreach($files as $file_id)
 			{
-				jry_nd_direct_delete_file_id($conn,$jry_wb_login_user,$file);
-			}catch (jry_wb_exception $e){}
+				try
+				{
+					jry_nd_direct_move_file_id($conn,$jry_wb_login_user,$file_id,$to);
+				}catch (jry_wb_exception $e){}
+			}
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 		}
-		echo json_encode(array('login'=>true,'lasttime'=>jry_wb_get_time(),'code'=>true,'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'size_used'=>$jry_wb_login_user['nd_ei']['size_used']));	
-	}
-	else if($action=='share')
-	{
-		if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
+		else if($action=='delete')
 		{
-			echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
-			exit();
+			$files=json_decode($_POST['file_id']);
+			$conn=jry_wb_connect_database();
+			foreach($files as $file)
+			{
+				try
+				{
+					jry_nd_direct_delete_file_id($conn,$jry_wb_login_user,$file);
+				}catch (jry_wb_exception $e){}
+			}
+			echo json_encode(array('login'=>true,'lasttime'=>jry_wb_get_time(),'code'=>true,'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'size_used'=>$jry_wb_login_user['nd_ei']['size_used']));	
 		}
-		jry_nd_direct_share($conn,$jry_wb_login_user,$file);
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}
-	else if($action=='unshare')
-	{
-		if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
+		else if($action=='share')
 		{
-			echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
-			exit();
+			if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
+			{
+				echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
+				exit();
+			}
+			jry_nd_direct_share($conn,$jry_wb_login_user,$file);
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 		}
-		jry_nd_direct_unshare($conn,$jry_wb_login_user,$file);
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		else if($action=='unshare')
+		{
+			if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
+			{
+				echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
+				exit();
+			}
+			jry_nd_direct_unshare($conn,$jry_wb_login_user,$file);
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		}
+		else if($action=='add_size')
+		{
+			$size=(int)$_get['size'];
+			$time=(int)$_get['time'];
+			$size=max(0,$size);
+			$time=max(0,$time);
+			if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_SIZE*$time),constant('jry_wb_log_type_green_money_pay_nd_size')))
+				jry_nd_database_add_user_size($conn,$jry_wb_login_user,$size,date('Y-m-d H:i:s',strtotime($time.' months',time())));
+			echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'green_money'=>$jry_wb_login_user['green_money']));
+		}
+		else if($action=='add_fast_size')
+		{
+			$size=(int)$_get['size'];
+			$size=max(0,$size);
+			if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_FAST_SIZE),constant('jry_wb_log_type_green_money_pay_nd_size')))
+				jry_nd_database_operate_user_fast($conn,$jry_wb_login_user,$size);
+			echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'fast_size'=>$jry_wb_login_user['nd_ei']['fast_size'],'green_money'=>$jry_wb_login_user['green_money']));		
+		}	
+		else if($action=='allow_share_fast')
+		{
+			jry_nd_database_allow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		}
+		else if($action=='disallow_share_fast')
+		{
+			jry_nd_database_disallow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		}
+		else if($action=='delete_share_key')
+		{
+			jry_nd_database_delete_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		}
+		else if($action=='chenge_share_key')
+		{
+			jry_nd_database_chenge_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
+			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
+		}	
+		else
+			echo json_encode(array('code'=>false,'reason'=>000000));		
 	}
-	else if($action=='add_size')
+	catch (jry_wb_exception $e)
 	{
-		$size=(int)$_GET['size'];
-		$time=(int)$_GET['time'];
-		$size=max(0,$size);
-		$time=max(0,$time);
-		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_SIZE*$time),constant('jry_wb_log_type_green_money_pay_nd_size')))
-			jry_nd_database_add_user_size($conn,$jry_wb_login_user,$size,date('Y-m-d H:i:s',strtotime($time.' months',time())));
-		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'size_total'=>$jry_wb_login_user['nd_ei']['size_total'],'green_money'=>$jry_wb_login_user['green_money']));
-	}
-	else if($action=='add_fast_size')
-	{
-		$size=(int)$_GET['size'];
-		$size=max(0,$size);
-		if($ok=jry_wb_set_green_money($conn,$jry_wb_login_user,-($size/JRY_ND_PRICE_FAST_SIZE),constant('jry_wb_log_type_green_money_pay_nd_size')))
-			jry_nd_database_operate_user_fast($conn,$jry_wb_login_user,$size);
-		echo json_encode(array('code'=>$ok,'reason'=>300002,'lasttime'=>jry_wb_get_time(),'fast_size'=>$jry_wb_login_user['nd_ei']['fast_size'],'green_money'=>$jry_wb_login_user['green_money']));		
-	}	
-	else if($action=='allow_share_fast')
-	{
-		jry_nd_database_allow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}
-	else if($action=='disallow_share_fast')
-	{
-		jry_nd_database_disallow_share_fast($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}
-	else if($action=='delete_share_key')
-	{
-		jry_nd_database_delete_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}
-	else if($action=='chenge_share_key')
-	{
-		jry_nd_database_chenge_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
-		echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
-	}	
-	else
-	{
-		echo json_encode(array('code'=>false,'reason'=>000000));
+		echo $e->getMessage();
+		exit();
 	}
 ?>
