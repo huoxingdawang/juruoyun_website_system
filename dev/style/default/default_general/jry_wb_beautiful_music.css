@@ -12,7 +12,7 @@
 {
 	color:fuchsia;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_picture
+.jry_wb_beautiful_music_body .picture
 {
 	width:100px;
 	height:100px;
@@ -22,7 +22,7 @@
 	border-radius:5px;
 	box-shadow:5px 5px 6px #666666;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_picture_jiao
+.jry_wb_beautiful_music_body .picture_jiao
 {
 	width:20px;
 	height:20px;
@@ -31,7 +31,7 @@
 	position:absolute;
 	font-size:20px;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_picture_mode
+.jry_wb_beautiful_music_body .picture_mode
 {
 	width:40px;
 	height:20px;
@@ -41,7 +41,7 @@
 	font-size:16px;
 	color:deepskyblue;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_controls
+.jry_wb_beautiful_music_body .controls
 {
 	width:215px;
 	height:30px;
@@ -49,7 +49,7 @@
 	left:80px;
 	position:absolute;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_controls .jry_wb_beautiful_music_start_button
+.jry_wb_beautiful_music_body .controls .start_button
 {
 	width:10%;
 	color:#66ccff;
@@ -57,13 +57,13 @@
 	position:absolute;
 	left:0px;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_controls .jry_wb_beautiful_music_progress_bar
+.jry_wb_beautiful_music_body .controls .progress_bar
 {
 	position:absolute;
 	float:left;
 	left:10%;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_controls .jry_wb_beautiful_music_voice_bar
+.jry_wb_beautiful_music_body .controls .voice_bar
 {
 	font-size:15px;
 	max-width:7.5% !important;
@@ -73,7 +73,7 @@
 	top:20px;
 	display:none;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_controls .jry_beautiful_music_volume_button
+.jry_wb_beautiful_music_body .controls .volume_button
 {
 	width:10%;
 	color:#66ccff;
@@ -81,7 +81,7 @@
 	position:absolute;
 	left:75%;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_controls .jry_beautiful_music_cycle_button
+.jry_wb_beautiful_music_body .controls .cycle_button
 {
 	width:10%;
 	color:#66ccff;
@@ -89,7 +89,16 @@
 	position:absolute;
 	left:85%;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_list_area
+.jry_wb_beautiful_music_body .controls .lyric_button
+{
+	width:10%;
+	color:#66ccff;
+	font-size:20px;
+	position:absolute;
+	left:0;
+	top:20px;
+}
+.jry_wb_beautiful_music_body .list_area
 {
 	position:absolute;
 	top:75px;
@@ -100,7 +109,7 @@
     border-bottom-left-radius: 25px;
 	position:relative;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_list_area .jry_wb_beautiful_music_list_area_song
+.jry_wb_beautiful_music_body .list_area .song
 {
 	width:300px;
     border-bottom-right-radius: 25px;
@@ -109,7 +118,7 @@
 	overflow-y:hidden;
 	overflow-x:hidden;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_list_area .jry_wb_beautiful_music_list_area_song .jry_wb_beautiful_music_list_area_song_one
+.jry_wb_beautiful_music_body .list_area .song .one
 {
 	font-size:25px;
 	color:#66ccff;
@@ -117,7 +126,28 @@
     width: 280px;
 	height:30px;
 }
-.jry_wb_beautiful_music_body .jry_wb_beautiful_music_list_area .jry_wb_beautiful_music_list_area_song .active
+.jry_wb_beautiful_music_body .list_area .song .active
+{
+	background-color:lightcyan;
+	border-radius:4px;	
+}
+.jry_wb_beautiful_music_body .list_area .lyric
+{
+	width:300px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+	padding-left:10px;
+	overflow-y:hidden;
+	overflow-x:hidden;
+}
+.jry_wb_beautiful_music_body .list_area .lyric .one
+{
+	font-size:25px;
+	color:#66ccff;
+    overflow-y:hidden;
+    width: 280px;
+}
+.jry_wb_beautiful_music_body .list_area .lyric .active
 {
 	background-color:lightcyan;
 	border-radius:4px;	

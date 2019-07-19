@@ -11,12 +11,11 @@
 	$jry_wb_description='';
 	$conn=jry_wb_connect_database();
 	function jry_wb_pretreatment($conn,&$user,$cookie,$ip,$user_agent=NULL)
-	{
+	{		
 		global $jry_wb_socket_mode;
 		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];
-		$q="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where time<? AND trust=0";
-		$st=$conn->prepare($q);
+		$st=$conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'login where time<? AND trust=0');
 		$st->bindValue(1,date("Y-m-d H:i:s",time()-JRY_WB_LOGIN_TIME));
 		$st->execute();
 		$user=NULL;
