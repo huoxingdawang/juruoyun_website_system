@@ -479,7 +479,9 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						if(this.text[i+j+1]=='(')
 						{
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
-								href+=this.text[i+j+k+2];						
+								href+=this.text[i+j+k+2];	
+							if(k<256&&((buf=href.split(',')).length>=2)&&!isNaN(parseInt(buf[0]))&&!isNaN(parseInt(buf[1])))
+								href=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
