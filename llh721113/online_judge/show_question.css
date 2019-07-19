@@ -1,0 +1,17 @@
+.jry_wb_online_judge_show_question{border-spacing: 0px;overflow:hidden;}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_left_div
+{
+	width:61%;overflow-y:hidden;overflow-x:hidden;
+	float:left;
+}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div
+{
+	width:39%;overflow-y:hidden;overflow-x:hidden;
+	float:left;
+}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_submit{}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_reast{color:#ff0000;}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_source{color:#ff0000;}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_reason{}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_maxtimes{color:#ff0000;}
+.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_times{}
