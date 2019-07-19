@@ -1,0 +1,33 @@
+.md_normal {color:white;word-break:break-all;}
+.md_normal strong{color:white;word-break:break-all;}
+.md_normal em{color:white;}
+.md_normal .line_m{text-decoration:line-through}
+.md_cite{font-size:20px;color:white;}
+.md_link{font-size:20px;}
+.md_link:link{}
+.md_link:visited{}
+.md_link:hover{}
+.md_link:active{}
+.md_normal .md_finish{color:#23dd07;}
+.md_normal .md_unfinish{color:#ddcc00;}
+.md_hr{background-color:blue;height:2px;border:none;}
+.md_toc_ul{-webkit-padding-start:0px;}
+.md_toc_li{-webkit-padding-start:40px;}
+.md_a{font-size:30px;}
+.md_media_font{font-size:20px;color:red;}
+.md_title{font-size:42px;color:red;}
+.md_normal{font-size:20px;color:white;}
+.md_time_and_user{font-size:30px;color:white;}
+.md_h_1{font-size:40px;color:red;}
+.md_h_2{font-size:37px;color:red;}
+.md_h_3{font-size:35px;color:red;}
+.md_h_4{font-size:32px;color:red;}
+.md_h_5{font-size:28px;color:red;}
+.md_h_6{font-size:24px;color:red;}
+.md_h_7{font-size:20px;color:red;}
+i{color:white;}
+b{color:white;}
+sub{color:white;}
+sup{color:white;}
+kbd{color:white;}
+.md_img{width:50%;}
