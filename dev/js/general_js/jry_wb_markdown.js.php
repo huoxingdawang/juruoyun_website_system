@@ -479,7 +479,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						if(this.text[i+j+1]=='(')
 						{
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
-								href+=this.text[i+j+k+2];
+								href+=this.text[i+j+k+2];						
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
@@ -489,7 +489,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 								div.align="center";
 								var video=document.createElement("video");div.appendChild(video);
 								video.src=href;
-								video.setAttribute('onclick','jry_wb_beautiful_alert.openvideo("'+word+'",(document.body.clientWidth-100),(document.body.clientHeight-100),"'+href+'",function(){return true;},function(){return true;});');
 								new jry_wb_beautiful_video(video);
 								var br=document.createElement("br");div.appendChild(br);
 								var a=document.createElement("a");div.appendChild(a);
@@ -527,6 +526,8 @@ function jry_wb_markdown(area,id,time,text,notitle)
 						{
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
 								href+=this.text[i+j+k+2];
+							if(k<256&&((buf=href.split(',')).length>=2)&&!isNaN(parseInt(buf[0]))&&!isNaN(parseInt(buf[1])))
+								href=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);									
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
