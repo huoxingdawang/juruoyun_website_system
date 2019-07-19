@@ -1,0 +1,331 @@
+.jry_wb_netdisk_body
+{
+	width:100%;
+	height:100%;
+	position:relative;
+	moz-user-select: -moz-none; 
+	-moz-user-select: none; 
+	-o-user-select:none; 
+	-khtml-user-select:none; 
+	-webkit-user-select:none; 
+	-ms-user-select:none; 
+	user-select:none;	
+}
+/*左侧*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body
+{
+	width:300px;
+    height: 100%;
+    float: left;
+	position:relative;
+}
+/*返回按钮*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_back
+{
+    font-size: 18px;
+    color: #ffffff;
+    background: #34A853;
+    padding: 4px;
+    border-radius: 8px;
+	transition: all .5s;
+	max-width:300px;
+	overflow:hidden;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_back:after
+{
+	content: "\e656";
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_back:hover
+{
+	opacity:0.5;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_back:link{color:#f2f2f2}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_back:visited{color:#f2f2f2}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_back:active{color:#f2f2f2}
+/*用户头像*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_head
+{
+	position:absolute;
+	transition: all .5s;
+	top:60px;
+	left:100px;
+	width:100px;
+	height:100px;
+	border-radius:50px;
+}
+/*用户昵称*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_name
+{
+	position:absolute;
+	top:159px;
+	font-size:25px;
+	left:0px;
+	transition: all .5s;	
+	text-align:center;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_name a
+{
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:0px;
+	padding-bottom:0px;
+	transition: all .5s;
+	border-radius:5px;
+	color:#fff;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_name a:hover
+{
+	box-shadow:3px 3px 1px 0px #888;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_name a:link{color:#f2f2f2}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_name a:visited{color:#f2f2f2}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_name a:active{color:#f2f2f2}
+/*分割线*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_hr
+{
+	width:100%;
+	height:2px;
+	background: linear-gradient( 
+	to right, 
+	rgba(0,0,0,0) 0%, 
+	rgba(0,0,0,0) 10%, 
+	rgba(35,198,200,0.3) 20%, 
+	rgba(35,198,200,0.4) 30%, 
+	rgba(35,198,200,0.5) 40%, 
+	rgba(35,198,200,0.8) 50%,
+	rgba(35,198,200,0.5) 60%, 
+	rgba(35,198,200,0.4) 70%, 
+	rgba(35,198,200,0.3) 80%, 
+	rgba(0,0,0,0) 90%,
+	rgba(0,0,0,0) 100%);
+	position:absolute;
+    top:225px;
+	transition: all .5s;
+    width:300px;
+} 
+/*按钮栏*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_button_bar
+{
+	position:absolute;
+    top:230px;
+    width:300px;	
+	height:30px;
+	transition: all .5s;
+}
+/*按钮*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_button_bar button
+{
+	font-size:20px;
+	transition: all .5s;
+	background:#0094ff;
+    border: none;
+    color: white;
+    text-align: center;	
+	margin-left:3px;
+	margin-right:3px;
+	margin-top:0px;
+	margin-bottom:0px
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_button_bar button:hover
+{
+	background:#70a7d0;
+}
+/*详细信息*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message
+{
+	transition: all .5s;
+	position:absolute;
+    top:260px;
+    width:300px;
+	min-height:300px;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message .empty
+{
+	font-size:200px;
+	width:100%;
+	text-align:center;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message .empty_text
+{
+	font-size:50px;
+	width:100%;
+	text-align:center;
+	
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message table tr td
+{
+	transition: all .5s;
+	font-size:20px;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_message .progress
+{
+	height:20px;
+}
+/*进度条*/
+.jry_wb_netdisk_body .jry_wb_netdisk_left_body .jry_wb_netdisk_progress
+{
+	transition: all .5s;
+	position:absolute;
+	height:18px;
+	top:200px;
+	left:75px;
+}
+/*右侧*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body
+{
+    height: 100%;
+    float: left;
+	position:relative;
+}
+/*顶部工具栏*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool
+{	
+	height:125px;
+	background:#bce784;
+	width:100%;
+	position:absolute;
+	top:0px;
+	box-shadow: 10px 10px 5px #888888;
+}
+/*顶部工具栏的导航*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .top_lan
+{
+	position:absolute;
+	top:0px;
+    height:20px;
+	opacity:0.95;	
+}
+/*顶部工具栏的导航的按钮*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .top_lan_button
+{
+	float:left;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:2px;
+    padding-bottom:2px;
+	font-size:16px;
+	height:20px;
+	transition: all .5s;
+    position: relative;	
+	
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .top_lan_button:after
+{
+    content: "";
+    width: 0;
+    height: 1px;
+    background: blue;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transition: all .2s;
+}
+
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .top_lan_button:hover:after
+{
+   left: 0%;
+   width: 100%;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .top_lan_button:hover
+{
+	opacity:0.75;
+	background:#a5d862;	
+}
+/*顶部工具栏的主要部分*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan
+{
+	position:absolute;
+	top:20px;
+    height:80px;
+	width:100%;
+	opacity:0.95;	
+}
+/*顶部工具栏的主要部分的按钮*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .upload{color:#1cb522;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .fresh{color:#5dd39e;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .new_dir{color:#34baa7;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .move{color:#525174;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .delete{color:#513b56;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .sort{color:#1cb522;}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .mid_lan_button
+{
+	float:left;
+	font-size:70px;
+	position:relative;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .mid_lan_button:after
+{
+    content: "";
+    width: 0;
+    height: 1px;
+    background: blue;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transition: all .2s;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .mid_lan_button:hover:after
+{
+   left: 0%;
+   width: 100%;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .mid_lan .mid_lan_button:hover
+{
+	opacity:0.75;
+	background:#a5d862;	
+}
+/*顶部工具栏的底部的上一个按钮*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .shangyige
+{
+	position:absolute;
+	top:100px;
+	height:25px;
+	font-size:25px;
+	left:0px;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .shangyige:hover
+{
+	opacity:0.75;
+	background:#a5d862;
+}
+/*顶部工具栏的底部的上一级按钮*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .shangyiji
+{
+	position:absolute;
+	top:100px;
+	height:25px;
+	font-size:25px;
+	left:25px;
+}
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .shangyiji:hover
+{
+	opacity:0.75;
+	background:#a5d862;
+}
+/*顶部工具栏的底部的地址栏输入*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .dir_input
+{
+	position:absolute;
+	top:100px;
+    height:25px;
+    margin:0px;
+	left:50px;
+}
+/*顶部工具栏的底部的搜索框输入*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_tool .serch_input
+{
+	position:absolute;
+	top:100px;
+	right:0px;
+    height:25px;
+    margin:0px;
+	width:250px;
+	transition: all .5s;
+}
+/*文件展示*/
+.jry_wb_netdisk_body .jry_wb_netdisk_right_body .jry_wb_netdisk_document
+{
+	position:absolute;
+	width:100%;
+	top:130px;
+}
