@@ -1,9 +1,6 @@
 attrib ..\..\..\push_dev\jry_wb\jry_wb_css\default\desktop.css-r /s
 attrib ..\..\..\push_dev\jry_wb\jry_wb_css\default\mobile.css-r /s
-attrib ..\..\..\push_dev\jry_wb\jry_wb_css\default\general.css-r /s
-copy default_desktop\*.css ..\..\..\push_dev\jry_wb\jry_wb_css\default\desktop.css
-copy default_mobile\*.css ..\..\..\push_dev\jry_wb\jry_wb_css\default\mobile.css
-copy default_general\*.css ..\..\..\push_dev\jry_wb\jry_wb_css\default\general.css
+copy /b default_general\*.css+default_desktop\*.css ..\..\..\push_dev\jry_wb\jry_wb_css\default\desktop.css
+copy /b default_general\*.css+default_mobile\*.css ..\..\..\push_dev\jry_wb\jry_wb_css\default\mobile.css
 attrib ..\..\..\push_dev\jry_wb\jry_wb_css\default\desktop.css+r /s
 attrib ..\..\..\push_dev\jry_wb\jry_wb_css\default\mobile.css+r /s
-attrib ..\..\..\push_dev\jry_wb\jry_wb_css\default\general.css+r /s

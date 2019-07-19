@@ -25,12 +25,9 @@
 .md_h_5{font-size:28px;color:red;}
 .md_h_6{font-size:24px;color:red;}
 .md_h_7{font-size:20px;color:red;}
-.md_img:hover{width:90%;}
-.md_img
-{
-	width:50%;
-	transition:width 2s, height 2s;
-	-moz-transition:width 2s, height 2s, -moz-transform 2s; /* Firefox 4 */
-	-webkit-transition:width 2s, height 2s, -webkit-transform 2s; /* Safari and Chrome */
-	-o-transition:width 2s, height 2s, -o-transform 2s; /* Opera */
-}
+i{color:white;}
+b{color:white;}
+sub{color:white;}
+sup{color:white;}
+kbd{color:white;}
+.md_img{width:50%;}
