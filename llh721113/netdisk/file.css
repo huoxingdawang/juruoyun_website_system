@@ -1,0 +1,103 @@
+.jry_wb_netdisk_file
+{
+	float:left;
+	width:140px;
+	height:160px;
+	text-align:center;
+	position:relative;
+	transition:all .3s;
+	moz-user-select: -moz-none; 
+	-moz-user-select: none; 
+	-o-user-select:none; 
+	-khtml-user-select:none; 
+	-webkit-user-select:none; 
+	-ms-user-select:none; 
+	user-select:none;	
+	
+}
+.jry_wb_netdisk_file:hover
+{
+	opacity:0.75;
+	background:#aaaaaa;
+	box-shadow:0px 10px 5px #888888;
+	border-radius:7px;
+	z-index: 10;
+}
+.jry_wb_netdisk_file_active
+{
+	opacity:0.75;
+	background:#aaaaaa;
+	box-shadow:0px 10px 5px #555555;
+	border-radius:7px;
+}
+.jry_wb_netdisk_file .uploading_and_trust
+{
+	opacity:1;
+	background:#00000000;
+	position:absolute;
+	left:90px;
+	top:100px;
+	font-size:32px;
+	width:32px;
+	height:32px;
+}
+.jry_wb_netdisk_file .share
+{
+	opacity:1;
+	background:#00000000;
+	position:absolute;
+	left:58px;
+	top:100px;
+	font-size:32px;
+	width:32px;
+	height:32px;
+}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type
+{
+	font-size:125px;
+	position:absolute;
+	left:0px;
+	top:0px;	
+}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_doc		{color:#4285F4;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_ppt		{color:#EA4335;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_xls		{color:#34A853;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_pdf		{color:#FBBC05;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_pic		{color:#6628dc;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_music	{color:#6628dc;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_video	{color:#6628dc;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_code		{color:#98e832;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_txt		{color:#66ccff;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_zip		{color:#40b3ce;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_program	{color:#ffff00;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_unknow	{color:#000000;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_type_dir		{color:#efde19;}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_name
+{
+    font-size:20px;
+    position:absolute;
+    top:130px;
+    left:0px;
+    text-align:center;
+    width:125px;
+	color:white;
+	background:#354a65;
+	border-radius: 5px;
+}
+.jry_wb_netdisk_file .jry_wb_netdisk_file_name:hover
+{
+	box-shadow: #2b3c52 2px 2px 10px 3px ;
+}
+.jry_wb_netdisk_right_menu
+{
+	width:200px;
+	background:#666;
+	position:fixed;
+	overflow:hidden;
+	z-index:11;
+}
+.jry_wb_netdisk_right_menu .jry_wb_netdisk_right_menu_text
+{
+	color:black;
+	font-size:30px;
+}

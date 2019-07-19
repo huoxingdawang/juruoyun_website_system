@@ -1,0 +1,17 @@
+.main_table{border-spacing: 0px;}
+.main_table .table_left{	background-color:#F8F8A8;width:200px;}
+.main_table .table_left .event_normal{color:#ff0000;font-size:20px;}
+.main_table .table_left .event_event{color:#ff0000;font-size:25px;}
+.main_table .table_left .event_time{color:#ff0000;font-size:30px;}
+.main_table .table_mid{background-color:#99FFB0;}
+.main_table .table_mid marquee{color:#ff3333;font-size:50px;}
+.main_table .table_right{background-color:#F8F8A8;width:200px;}
+.main_table .table_right .welcome_new{color:#ff0000;font-size:20px;}
+.main_buttom{text-align:center;}
+.main_buttom h1{}
+.main_buttom h1 a{}
+.main_buttom h1 a:link{}
+.main_buttom h1 a:visited{}
+.main_buttom h1 a:hover{}
+.main_buttom h1 a:active{} 
+
