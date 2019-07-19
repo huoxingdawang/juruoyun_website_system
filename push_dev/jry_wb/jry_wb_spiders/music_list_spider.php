@@ -13,9 +13,9 @@
 				
 			}
 			else if($one['type']=='qq')
-				array_push($ans,jry_wb_qq_music_spider($one['mid']));
+				$ans[]=jry_wb_qq_music_spider($one['mid']);
 			else if($one['type']=='163')
-				array_push($ans,jry_wb_163_music_spider($one['mid']));
+				$ans[]=jry_wb_163_music_spider($one['mid']);
 			else
 			{
 				
