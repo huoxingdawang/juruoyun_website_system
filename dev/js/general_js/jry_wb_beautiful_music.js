@@ -119,10 +119,10 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 		{
 			if(this.lyric_area.style.display=='')
 			{
-				this.beautiful_scroll.scrollto(0,0);
 				this.lyric_area.style.display='none';
 				if(typeof this.song_list_area!='undefined')
 					this.song_list_area.style.display='',lyric_button.classList.add('jry_wb_icon_ci'),lyric_button.classList.remove('jry_wb_icon_tubiao');			
+				this.beautiful_scroll.scrollto(0,0);
 			}
 			else
 			{
@@ -131,11 +131,6 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 					this.song_list_area.style.display='none',lyric_button.classList.remove('jry_wb_icon_ci'),lyric_button.classList.add('jry_wb_icon_tubiao');
 				this.beautiful_scroll.scrollto(0,(this.last_lyric_highlight==undefined?0:this.last_lyric_highlight.offsetTop)-this.list_area.clientHeight/3);
 			}
-		};
-		body.onmousemove=()=>
-		{
-			if(this.lyric_area.style.display!='')
-				this.beautiful_scroll.scrollto(0,(this.last_lyric_highlight==undefined?0:this.last_lyric_highlight.offsetTop)-this.list_area.clientHeight/3);
 		};
 	} 
 	this.cycle_button_update=()=>
@@ -172,7 +167,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 			if(this.last_lyric_highlight!=undefined)
 				this.last_lyric_highlight.classList.remove('active');
 			(this.last_lyric_highlight=lyric.d).classList.add('active');
-			this.beautiful_scroll.scrollto(0,(this.last_lyric_highlight.offsetTop)-this.list_area.clientHeight/3);
+			if(this.lyric_area.style.display=='')
+				this.beautiful_scroll.scrollto(0,(this.last_lyric_highlight.offsetTop)-this.list_area.clientHeight/3);
 		}
 	};
 	audio.onplay=function()
