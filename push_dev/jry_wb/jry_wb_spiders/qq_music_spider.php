@@ -28,6 +28,7 @@
 			$data[0]['pic_url']		='http://imgcache.qq.com/music/photo/album_300/'.$album_id%100 .'/300_albumpic_'.$album_id.'_0.jpg';
 			$data[0]['name']		=$get_sorce->data_mid->data->tracks[0]->name;
 			$data[0]['album']		=$get_sorce->data_mid->data->tracks[0]->album->name;
+			$data[0]['singers']		=array();
 			foreach($get_sorce->data_mid->data->tracks[0]->singer as $one)$data[0]['singers'][]=array('name'=>$one->name,'id'=>$one->id);
 			$data[0]['singers']		=json_encode($data[0]['singers']);
 			if($data[0]['lyric']=='')
@@ -48,16 +49,15 @@
 			if($flag)
 				$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_SPIDERS.'qq_music (`pic_url`,`name`,`album`,`music_url`,`singers`,`lasttime`,`lyric`,`mid`) VALUES (?,?,?,?,?,?,?,?)');
 			else
-				$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_SPIDERS.'qq_music SET `pic_url`=?,`name`=?,`album`=?,`music_url`=?,`singers`=?,`lasttime`=?,`lyric` WHERE `mid`=?');
-				
-			$st->bindParam(1,$data[0]['pic_url']);
-			$st->bindParam(2,$data[0]['name']);
-			$st->bindParam(3,$data[0]['album']);
-			$st->bindParam(4,$data[0]['music_url']);
-			$st->bindParam(5,$data[0]['singers']);
-			$st->bindParam(6,$data[0]['lasttime']=jry_wb_get_time());
-			$st->bindParam(7,$data[0]['lyric']);
-			$st->bindParam(8,$data[0]['mid']=$in_mid);
+				$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_SPIDERS.'qq_music SET `pic_url`=?,`name`=?,`album`=?,`music_url`=?,`singers`=?,`lasttime`=?,`lyric`=? WHERE `mid`=?');
+			$st->bindValue(1,$data[0]['pic_url']);
+			$st->bindValue(2,$data[0]['name']);
+			$st->bindValue(3,$data[0]['album']);
+			$st->bindValue(4,$data[0]['music_url']);
+			$st->bindValue(5,$data[0]['singers']);
+			$st->bindValue(6,$data[0]['lasttime']=jry_wb_get_time());
+			$st->bindValue(7,$data[0]['lyric']);
+			$st->bindValue(8,$data[0]['mid']=$in_mid);
 			$st->execute();
 		}
 		return array('mid'=>$data[0]['mid'],'type'=>'qq','pic_url'=>$data[0]['pic_url'],'name'=>$data[0]['name'],'album'=>$data[0]['album'],'music_url'=>$data[0]['music_url'],'singers'=>json_decode($data[0]['singers']),'lasttime'=>$data[0]['lasttime'],'lyric'=>$data[0]['lyric']);
