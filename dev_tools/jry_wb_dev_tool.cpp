@@ -86,6 +86,28 @@ int main()
 			f2.close();			
 			printf("OK old:%lld byte,now:%lld byte,lose:%lld byte,parse ratio:%lf%%\n>",yuan_total,xin_total,yuan_total-xin_total,(double)(yuan_total-xin_total)/yuan_total*100);
 		}
+		else if(strcmp(cmd,"exit")==0)
+			return 0;
+		else if(strcmp(cmd,"synctest0")==0)
+		{
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_test0.juruoyun.top.ffs_batch");
+			printf("finish......\n>");
+		}
+		else if(strcmp(cmd,"syncdev")==0)
+		{
+			
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_dev.juruoyun.top.ffs_batch");
+			printf("finish......\n>");
+		}
+		else if(strcmp(cmd,"sync")==0)
+		{
+			
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_test0.juruoyun.top.ffs_batch");
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_dev.juruoyun.top.ffs_batch");
+			printf("finish......\n>");
+		}		
+		else if(strcmp(cmd,""))
+			printf(">");
 		else
 			printf("Use 'help' to get help.\n>");
 	}
