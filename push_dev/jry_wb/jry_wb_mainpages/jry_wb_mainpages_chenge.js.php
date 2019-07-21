@@ -2263,7 +2263,13 @@ function showextern()
 <?php } ?>
 <?php if(JRY_WB_INVITE_CODE){ ?>
 var invitecode_data=[];
-jry_wb_sync_data_with_server('invitecode','do_chenge.php?action=getinvitecode&lasttime='+jry_wb_cache.get_last_time('invitecode'),null,function(a){return a.incite_code_id==this.buf.incite_code_id},function(data){invitecode_data=data;jry_wb_cache.set_last_time('invitecode',data.max('lasttime','date'));if(window.location.hash=='#invitecode')showinvitecode();},function(a,b){return a.incite_code_id-b.incite_code_id});
+jry_wb_sync_data_with_server('invitecode','do_chenge.php?action=getinvitecode',null,function(data)
+{
+	invitecode_data=data;
+	if(window.location.hash=='#invitecode')
+		showinvitecode();
+	return data.max('lasttime','date');
+},function(a,b){return a.incite_code_id-b.incite_code_id});
 function showinvitecode()
 {
 	window.location.hash='invitecode';
@@ -2342,7 +2348,13 @@ function showinvitecode()
 			if(data.code)
 			{
 				jry_wb_beautiful_alert.alert('创建成功','',function(){});
-				jry_wb_sync_data_with_server('invitecode','do_chenge.php?action=getinvitecode&lasttime='+jry_wb_cache.get_last_time('invitecode'),null,function(a){return a.incite_code_id==this.buf.incite_code_id},function(data){invitecode_data=data;jry_wb_cache.set_last_time('invitecode',data.max('lasttime','date'));if(window.location.hash=='#invitecode')showinvitecode();},function(a,b){return a.incite_code_id-b.incite_code_id});
+				jry_wb_sync_data_with_server('invitecode','do_chenge.php?action=getinvitecode',null,function(data)
+				{
+					invitecode_data=data;
+					if(window.location.hash=='#invitecode')
+						showinvitecode();
+					return data.max('lasttime','date');
+				},function(a,b){return a.incite_code_id-b.incite_code_id});
 			}
 			else
 			{
@@ -2357,7 +2369,13 @@ function showinvitecode()
 }
 <?php } ?>
 var log_data=[];
-jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog&lasttime='+jry_wb_cache.get_last_time('log'),null,function(a){return a.log_id==this.buf.log_id},function(data){log_data=data;jry_wb_cache.set_last_time('log',data.max('time','date'));if(window.location.hash=='#log')showlog();},function(a,b){return b.log_id-a.log_id});
+jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog',null,function(data)
+{
+	log_data=data;
+	if(window.location.hash=='#log')
+		showlog();
+	return data.max('time','date');
+},function(a,b){return b.log_id-a.log_id});
 function showlog()
 {
 	window.location.hash='log';

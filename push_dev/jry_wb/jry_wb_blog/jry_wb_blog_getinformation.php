@@ -13,6 +13,7 @@
 		$st->execute();				
 		$data=$st->fetchAll();
 		$total=count($data);
+		$json=array();		
 		for($i=0;$i<$total;$i++)
 		{
 			if($data[$i]['ifshow'])
@@ -34,7 +35,7 @@
 									);				
 			}
 		}
-		echo json_encode($json);	
+		echo json_encode(array('code'=>true,'data'=>$json));	
 		exit();
 	} 
 	if($action=='get_blog_one')
@@ -81,6 +82,7 @@
 		$st->execute();				
 		$data=$st->fetchAll();
 		$total=count($data);
+		$json=array();
 		for($i=0;$i<$total;$i++)
 		{
 			$json[$i]=	array(	'blog_id'=>$data[$i]['blog_id'],
@@ -90,7 +92,7 @@
 								'show'=>$data[$i]['ifshow']
 								);
 		}
-		echo json_encode($json);	
+		echo json_encode(array('code'=>true,'data'=>$json));	
 		exit();
 	} 	
 	if($action=='get_draft_one')

@@ -88,7 +88,7 @@
 	{
 		header("Content-Type: application/vnd.ms-excel");
 		Header("Accept-Ranges:bytes");
-		Header("Content-Disposition:attachment;filename=".JRY_WB_NAME."用户列表".jry_wb_get_time().".xls");
+		Header("Content-Disposition:attachment;filename=".JRY_WB_NAME." user table".jry_wb_get_time().".xls");
 		header("Pragma: no-cache");
 		header("Expires: 0");		
 		echo '

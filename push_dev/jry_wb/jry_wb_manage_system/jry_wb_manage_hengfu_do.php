@@ -15,7 +15,7 @@
 	else if($action=='delete')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("DELETE FROM ".JRY_WB_DATABASE_MAINPAGE."hengfu WHERE hengfu_id=? LIMIT 1;");
+		$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_MAINPAGE."hengfu SET `delete`=1,words='' WHERE hengfu_id=? LIMIT 1;");
 		$st->bindParam(1,$hengfu_id);
 		$st->execute();	
 		echo json_encode(array('code'=>true,'hengfu_id'=>$hengfu_id));		
@@ -32,9 +32,8 @@
 	else if($action=='add'&&$_POST['words']!='')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_MAINPAGE."hengfu (`words`,`id`) VALUES (?,?);");
+		$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_MAINPAGE."hengfu (`words`) VALUES (?);");
 		$st->bindParam(1,$_POST['words']);
-		$st->bindParam(2,$jry_wb_login_user['id']);
 		$st->execute();
 		echo json_encode(array('code'=>true));
 	}

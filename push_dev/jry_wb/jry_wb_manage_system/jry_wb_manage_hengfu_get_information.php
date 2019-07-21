@@ -10,7 +10,7 @@
 		$i=0;
 		$json=array();
 		foreach($st->fetchAll()as $hengfu)
-				array_push($json,array('hengfu_id'=>(int)$hengfu['hengfu_id'],'words'=>$hengfu['words'],'enable'=>$hengfu['enable']));
-		echo json_encode($json);
+				array_push($json,array('hengfu_id'=>(int)$hengfu['hengfu_id'],'delete'=>$hengfu['delete'],'words'=>$hengfu['words'],'enable'=>$hengfu['enable']));
+		echo json_encode(array('code'=>true,'data'=>$json));
 	}
 ?>

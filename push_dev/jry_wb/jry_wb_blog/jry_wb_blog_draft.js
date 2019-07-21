@@ -4,14 +4,11 @@ function jry_wb_blog_draft_function(all_div)
 }
 jry_wb_blog_draft_function.prototype.data_get=function()
 {
-	jry_wb_sync_data_with_server("blog_draft",'jry_wb_blog_getinformation.php?action=get_draft_list&lasttime='+jry_wb_cache.get_last_time("blog_draft"),null,function(a){return a.blog_id==this.buf.blog_id},(data)=>
+	jry_wb_sync_data_with_server("blog_draft",'jry_wb_blog_getinformation.php?action=get_draft_list',null,(data)=>
 	{
 		this.data=data;
-		if(this.data==null||this.data.length==0)
-			jry_wb_cache.set_last_time('blog_draft','1926-08-17 00:00:00');
-		else
-			jry_wb_cache.set_last_time('blog_draft',this.data[0].lasttime);
 		this.showall();
+		return (this.data==null||this.data.length==0)?'1926-08-17 00:00:00':this.data[0].lasttime;
 	},function(a,b){return jry_wb_compare_time(b.lasttime,a.lasttime)}); 
 }
 jry_wb_blog_draft_function.prototype.showall=function()

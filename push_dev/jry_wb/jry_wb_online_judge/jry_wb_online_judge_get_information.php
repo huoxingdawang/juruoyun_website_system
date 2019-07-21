@@ -17,13 +17,13 @@
 				$manager[$one['class_id']]=true;
 		}
 		if($action=='question_list')
-			echo json_encode(jry_wb_online_judge_get_question_list($conn,$_GET['lasttime'],$manager,$jry_wb_login_user));
+			echo json_encode(array('code'=>true,'data'=>jry_wb_online_judge_get_question_list($conn,$_GET['lasttime'],$manager,$jry_wb_login_user)));
 		else if($action=='logs')
-			echo json_encode(jry_wb_online_judge_get_logs($conn,$_GET['lasttime']));
+			echo json_encode(array('code'=>true,'data'=>jry_wb_online_judge_get_logs($conn,$_GET['lasttime'])));
 		else if($action=='classes')
-			echo json_encode(jry_wb_online_judge_get_classes($conn,$_GET['lasttime']));
+			echo json_encode(array('code'=>true,'data'=>jry_wb_online_judge_get_classes($conn,$_GET['lasttime'])));
 		else if($action=='error')
-			echo json_encode(jry_wb_online_judge_get_error($conn,$jry_wb_login_user,$_GET['lasttime']));
+			echo json_encode(array('code'=>true,'data'=>jry_wb_online_judge_get_error($conn,$jry_wb_login_user,$_GET['lasttime'])));
 	}
 	catch(jry_wb_exception $e)
 	{
