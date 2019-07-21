@@ -4,11 +4,11 @@ function jry_wb_blog_index_function(all_div)
 }
 jry_wb_blog_index_function.prototype.get_cache=function()
 {
-	jry_wb_sync_data_with_server("blog_all",'jry_wb_blog_getinformation.php?action=get_blog_list&lasttime='+jry_wb_cache.get_last_time("blog_all"),null,function(a){return a.blog_id==this.buf.blog_id},(data)=>
+	jry_wb_sync_data_with_server("blog_all",'jry_wb_blog_getinformation.php?action=get_blog_list&lasttime='+jry_wb_cache.get_last_time("blog_all"),null,(data)=>
 	{
 		this.data=data;
-		jry_wb_cache.set_last_time('blog_all',this.data[0].lasttime);
 		this.showall();
+		return this.data[0].lasttime;
 	},function(a,b){return jry_wb_compare_time(b.lasttime,a.lasttime)}); 
 }
 jry_wb_blog_index_function.prototype.showall=function()

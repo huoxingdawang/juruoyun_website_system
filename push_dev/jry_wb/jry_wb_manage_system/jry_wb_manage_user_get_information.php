@@ -14,7 +14,7 @@
 		$json=array();
 		foreach($st->fetchAll()as $users)
 			$json[]=array('id'=>(int)$users['id'],'use'=>$users['use'],'name'=>$users['name']);
-		echo json_encode($json);
+		echo json_encode(array('code'=>true,'data'=>$json));
 	}
 	
 ?>

@@ -21,5 +21,5 @@
 		}
 		$json[]=array('type'=>$type,'data'=>$one);
 	}
-	echo json_encode($json);
+	echo json_encode(array('code'=>true,'data'=>$json));
 ?>

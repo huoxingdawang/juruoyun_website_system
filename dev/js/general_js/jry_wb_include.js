@@ -1,6 +1,8 @@
 jry_wb_include_once_script_cnt=0;
 function jry_wb_include_once_script(src,callback)
 {
+	if(typeof callback!='function')
+		callback=function(){};
 	src = jry_wb_get_path(src);
 	var test = document.getElementsByTagName('script');
 	var flag = false;
@@ -15,8 +17,7 @@ function jry_wb_include_once_script(src,callback)
 	{
 		jry_wb_loading_off();
 		jry_wb_include_once_script_cnt--;
-		if(typeof callback=='function')
-			callback();
+		callback();
 	};
 	return false;
 }

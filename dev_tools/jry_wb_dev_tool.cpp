@@ -27,8 +27,8 @@ using namespace std;
 void listfiles(const char * dir,void(*callback)(char*),const char * type);
 void parsecode(char *dir1);
 char s[1024*1024];
-char dir[200]={"D:\\mydocument\\science\\PHP\\jry_webserve_dev\\dev\\js\\general_js"};
-char out_dir[200]={"D:\\mydocument\\science\\PHP\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
+char dir[200]={"D:\\mydocument\\science\\juruoyun\\jry_webserve_dev\\dev\\js\\general_js"};
+char out_dir[200]={"D:\\mydocument\\science\\juruoyun\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
 char cmd[200];
 U LL yuan_total,xin_total;
 int main()

@@ -27,24 +27,27 @@ var jry_wb_chat_room=new function()
 		if(data.from!=jry_wb_login_user.id)
 			jry_wb_music_alert.play();
 		var buf={'chat_room_id':data.data.room,'chat_text_id':data.data.chat_text_id,'id':data.from,'message':data.data.message,'send_time':data.data.send_time};
-		messages=jry_wb_sync_data_with_array('chat_messages',[buf],function(a){return a.chat_text_id==this.buf.chat_text_id},function(a,b){return b.send_time.to_time()-a.send_time.to_time();});
-		jry_wb_cache.set_last_time('chat_messages',messages[0].send_time);
-		var one=rooms.find(function(a){return a.chat_room_id==data.data.room});
-		if(now_show==data.data.room)
+		jry_wb_sync_data_with_array('chat_messages',[buf],(mess)=>
 		{
-			show_one_chat_message(one.message_box,buf);
-			this.message_scroll.scrollto(0,this.message_scroll.get_all_child_height());
-		}
-		jry_wb_get_user(data.from,false,function(data)
-		{
-			one.lastsay_dom.innerHTML=data.name+':'+buf.message.slice(0,50);
-			var parentNode=one.dom.parentNode;
-			if(parentNode.children[1]!=one.dom)
+			messages=mess.sort(function(a,b){return b.send_time.to_time()-a.send_time.to_time();});
+			jry_wb_indexeddb_set_lasttime('chat_messages',messages[0].send_time);
+			var one=rooms.find(function(a){return a.chat_room_id==data.data.room});
+			if(now_show==data.data.room)
 			{
-				parentNode.removeChild(one.dom);
-				parentNode.insertBefore(one.dom,parentNode.children[1]);
+				show_one_chat_message(one.message_box,buf);
+				this.message_scroll.scrollto(0,this.message_scroll.get_all_child_height());
 			}
-		});		
+			jry_wb_get_user(data.from,false,function(data)
+			{
+				one.lastsay_dom.innerHTML=data.name+':'+buf.message.slice(0,50);
+				var parentNode=one.dom.parentNode;
+				if(parentNode.children[1]!=one.dom)
+				{
+					parentNode.removeChild(one.dom);
+					parentNode.insertBefore(one.dom,parentNode.children[1]);
+				}
+			});			
+		});
 	});
 	jry_wb_socket.add_listener(200001,(data)=>
 	{
@@ -132,16 +135,19 @@ var jry_wb_chat_room=new function()
 	{
 		if(loading_count>0)
 			loading_count--;
-		messages=jry_wb_sync_data_with_array('chat_messages',data.data,function(a){return a.chat_text_id==this.buf.chat_text_id},function(a,b){return b.send_time.to_time()-a.send_time.to_time();});
-		if(messages.length==0)
-			jry_wb_cache.set_last_time('chat_messages','1926-08-17 00:00:00');
-		else
-			jry_wb_cache.set_last_time('chat_messages',messages[0].send_time);
-<?php if(JRY_WB_DEBUG_MODE){ ?>		
-		console.log('消息',messages);
-<?php } ?>		
-		if(loading_count==0)
-			this.show_chat_rooms(true);
+		jry_wb_sync_data_with_array('chat_messages',data.data,(data)=>
+		{
+			messages=data.sort(function(a,b){return b.send_time.to_time()-a.send_time.to_time();});
+			if(messages.length==0)
+				jry_wb_indexeddb_set_lasttime('chat_messages','1926-08-17 00:00:00');
+			else
+				jry_wb_indexeddb_set_lasttime('chat_messages',messages[0].send_time);
+	<?php if(JRY_WB_DEBUG_MODE){ ?>		
+			console.log('消息',messages);
+	<?php } ?>		
+			if(loading_count==0)
+				this.show_chat_rooms(true);
+		});
 	});
 	jry_wb_socket.add_listener(200007,(data)=>
 	{
@@ -154,19 +160,22 @@ var jry_wb_chat_room=new function()
 						serchcallback(room);
 			return ;
 		}
-		rooms=jry_wb_sync_data_with_array('chat_rooms',data.data,function(a){return a.chat_room_id==this.buf.chat_room_id},function(a,b){return b.lasttime.to_time()-a.lasttime.to_time();});
-		if(rooms.length==0)
-			jry_wb_cache.set_last_time('chat_rooms','1926-08-17 00:00:00');
-		else
-			jry_wb_cache.set_last_time('chat_rooms',rooms[0].lasttime);
-<?php if(JRY_WB_DEBUG_MODE){ ?>		
-		console.log('房间',rooms);
-<?php } ?>
-		var buf=[];
-		for(var i=0;i<rooms.length;i++)
-			buf[buf.length]=rooms[i].chat_room_id;
-		if(loading_count>0)			
-			jry_wb_socket.send({'code':true,'type':200006,'data':{'room':buf,'lasttime':jry_wb_cache.get_last_time('chat_messages')}});
+		jry_wb_sync_data_with_array('chat_rooms',data.data,(data)=>
+		{
+			rooms=data.sort(function(a,b){return b.lasttime.to_time()-a.lasttime.to_time();});
+			if(rooms.length==0)
+				jry_wb_indexeddb_set_lasttime('chat_rooms','1926-08-17 00:00:00');
+			else
+				jry_wb_indexeddb_set_lasttime('chat_rooms',rooms[0].lasttime);
+	<?php if(JRY_WB_DEBUG_MODE){ ?>		
+			console.log('房间',rooms);
+	<?php } ?>
+			var buf=[];
+			for(var i=0;i<rooms.length;i++)
+				buf[buf.length]=rooms[i].chat_room_id;
+			if(loading_count>0)			
+				jry_wb_socket.send({'code':true,'type':200006,'data':{'room':buf,'lasttime':jry_wb_cache.get_last_time('chat_messages')}});
+		});
 	});
 	jry_wb_socket.add_listener(200008,(data)=>
 	{
@@ -226,9 +235,11 @@ var jry_wb_chat_room=new function()
 		loading_count++;
 		var newdata=false;
 		if(sync_cnt==0)
-			var newdata=true;	
+			var newdata=true;
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>			
 		else if(jry_wb_socket.status==1)
 			return;
+<?php } ?>
 		sync_cnt++;
 		console.time('chat_sync');
 <?php if(JRY_WB_SOCKET_SWITCH){ ?>
@@ -246,41 +257,33 @@ var jry_wb_chat_room=new function()
 				}
 				loading_count++;
 				jry_wb_sync_data_with_server('chat_rooms',jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=get_room',[{'name':'room','value':JSON.stringify(data.data)},{'name':'lasttime','value':jry_wb_cache.get_last_time('chat_rooms')}],
-				function(a){return a.chat_room_id==this.buf.chat_room_id},
 				(data,newd)=>
 				{
 					newdata|=newd;
 					console.log(newd);
 					rooms=data;
-					if(rooms.length==0)
-						jry_wb_cache.set_last_time('chat_rooms','1926-08-17 00:00:00');
-					else
-						jry_wb_cache.set_last_time('chat_rooms',rooms[0].lasttime);	
 <?php if(JRY_WB_DEBUG_MODE){ ?>		
 					console.log('房间',rooms);
 <?php } ?>
 					loading_count--;
 					if(loading_count==0&&newdata)
 						this.show_chat_rooms(true);
+					return (rooms.length==0)?'1926-08-17 00:00:00':rooms[0].lasttime;					
 				},function(a,b){return b.lasttime.to_time()-a.lasttime.to_time();});
 				loading_count++;
 				jry_wb_sync_data_with_server('chat_messages',jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=get_message',[{'name':'room','value':JSON.stringify(data.data)},{'name':'lasttime','value':jry_wb_cache.get_last_time('chat_messages')}],
-				function(a){return a.chat_text_id==this.buf.chat_text_id},
 				(data,newd)=>
 				{
 					newdata|=newd;			
 					console.log(newd);
 					messages=data;
-					if(messages.length==0)
-						jry_wb_cache.set_last_time('chat_messages','1926-08-17 00:00:00');
-					else
-						jry_wb_cache.set_last_time('chat_messages',messages[0].send_time);	
 <?php if(JRY_WB_DEBUG_MODE){ ?>		
 					console.log('信息',messages);
 <?php } ?>
 					loading_count--;
 					if(loading_count==0&&newdata)
 						this.show_chat_rooms(true);
+					return (messages.length==0)?'1926-08-17 00:00:00':messages[0].send_time;
 				},function(a,b){return b.send_time.to_time()-a.send_time.to_time();});			
 			});			
 <?php if(JRY_WB_SOCKET_SWITCH){ ?>
@@ -349,7 +352,9 @@ var jry_wb_chat_room=new function()
 			},[{'name':'room','value':room},{'name':'message','value':message}]);
 	}
 	setInterval(()=>{
+<?php if(JRY_WB_SOCKET_SWITCH){ ?>		
 		if(jry_wb_socket.status!=1)
+<?php } ?>
 		{
 			this.sync();
 		}

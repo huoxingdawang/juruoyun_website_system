@@ -10,22 +10,8 @@ var jry_wb_manage_user=new function()
 jry_wb_manage_user.sync=function()
 {
 	if(jry_wb_login_user.compentence.managecompentence)
-		jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',(data)=>{
-			var buf=JSON.parse(data);
-			if(buf!=null)
-				if(buf.code==false)
-				{
-					if(buf.reason==100000)
-						jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-					else if(buf.reason==100001)
-						jry_wb_beautiful_alert.alert("权限缺失","缺少"+buf.extern,"window.location.href=''");
-					else
-						jry_wb_beautiful_alert.alert("错误"+buf.reason,"请联系开发组");
-					return ;
-				}
-			data=buf;
-			data.sort(function (a,b){return a.type-b.type;});
-			jry_wb_cache.set('competence',data);
+		jry_wb_sync_data_with_server('manage_competence',"jry_wb_manage_competence_get_information.php",null,(data)=>
+		{
 			this.competence=data;
 			for(var i=0;i<this.competence.length;i++)
 				for(var k=0,nn=this.competence[i].data.length;k<nn;k++)
@@ -34,14 +20,14 @@ jry_wb_manage_user.sync=function()
 						this.competence[i].name=this.competence[i].data[k].value;
 						break;
 					}			
-			jry_wb_loading_off();	
-		});	
-	jry_wb_sync_data_with_server('user_list',"jry_wb_manage_user_get_information.php?action=list",null,function(a){return a.id==this.buf.id},(data)=>
+		},function(a,b){return a.type-b.type});		
+	jry_wb_sync_data_with_server('manage_user_list',"jry_wb_manage_user_get_information.php?action=list",null,(data)=>
 	{
 		this.all=data;
 		for(var i=0,n=this.all.length;i<n;i++)
 			this.reload[this.all[i]]=true;
 		this.showall();
+		return data.max('lasttime','date');
 	},function(a,b){return a.id-b.id});
 }
 jry_wb_manage_user.showall=function()
@@ -64,7 +50,7 @@ jry_wb_manage_user.showall=function()
 	one.onclick=(event)=>
 	{
 		this.sync();
-		for(var i=0,n=this.reload.length;i<n;i++)
+		for(var i=0,n=this.all.length;i<n;i++)
 			this.reload[i]=true;
 	};
 	var one=document.createElement('div');list.appendChild(one);
@@ -84,20 +70,16 @@ jry_wb_manage_user.showall=function()
 		else
 			one.classList.add(('jry_wb_left_toolbar_left_list_'+(i%2+1)));
 		one.innerHTML=this.all[i].id+':'+this.all[i].name;
-		jry_wb_get_user(this.all[i].id,this.reload[this.all[i].id],()=>{jry_wb_loading_off();},undefined,true);
-		this.reload[this.all[i].id]=false;
 		one.onclick=(event)=>
 		{
 			var id=parseInt(event.target.innerHTML);
 			if(this.lasthighlight!=null)
 				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
 			this.lasthighlight=event.target;	
-			event.target.classList.add('jry_wb_left_toolbar_left_list_active');
-			jry_wb_get_user(id,this.reload[id],()=>
+			event.target.classList.add('jry_wb_left_toolbar_left_list_active'); 
+			jry_wb_get_user(id,this.reload[id],(user)=>
 			{
 				this.reload[id]=false;
-				var data=jry_wb_cache.get('jry_wb_manage_user_cache');
-				var user=data.find(function (a){return a.id==id});
 				var show=event.target.parentNode.parentNode.nextElementSibling;
 				jry_wb_loading_off();
 				show.innerHTML='';

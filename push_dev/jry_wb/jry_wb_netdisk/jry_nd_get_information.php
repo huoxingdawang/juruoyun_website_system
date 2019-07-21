@@ -37,7 +37,7 @@
 								'fast'=>$data[$i]['fast'],
 								'type'=>$data[$i]['type'],
 								'lasttime'=>$data[$i]['lasttime']);
-			echo json_encode($ans);
+			echo json_encode(array('code'=>true,'data'=>$ans));
 		}
 		exit();
 	}
@@ -58,7 +58,7 @@
 								'group_name'=>$data[$i]['group_name'],
 								'jry_nd_group_type'=>$data[$i]['jry_nd_group_type'],
 								'lasttime'=>$data[$i]['lasttime']);
-			echo json_encode($ans);
+			echo json_encode(array('code'=>true,'data'=>$ans));
 		}
 		exit();
 	}
@@ -72,11 +72,6 @@
 		$ans=[];
 		$data=$st->fetchAll();
 		$n=count($data);
-		if($n==0)
-		{
-			echo json_encode(null);		
-			exit();
-		}
 		for($i=0;$i<$n;$i++)
 			$ans[$i]=array(	'file_id'=>$data[$i]['file_id'],
 							'id'=>$data[$i]['id'],
@@ -95,7 +90,7 @@
 							'self_share'=>$data[$i]['self_share'],
 							'share_list'=>json_decode($data[$i]['share_list']),
 							'lasttime'=>$data[$i]['lasttime']);
-		echo json_encode($ans);		
+		echo json_encode(array('code'=>true,'data'=>$ans));		
 		exit();
 	}
 	if($action=='share')
@@ -112,7 +107,7 @@
 							'fastdownload'=>$data['fastdownload'],
 							'requesturl'=>$data['requesturl'],
 							'lasttime'=>$data['lasttime']);
-		echo json_encode($ans);		
+		echo json_encode(array('code'=>true,'data'=>$ans));		
 		exit();
 	}
 	if($action=='share_list')
@@ -128,7 +123,7 @@
 							'fastdownload'=>$data['fastdownload'],
 							'requesturl'=>$data['requesturl'],
 							'lasttime'=>$data['lasttime']);
-		echo json_encode($ans);		
+		echo json_encode(array('code'=>true,'data'=>$ans));		
 		exit();
 	}	
 ?>

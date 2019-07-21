@@ -1,28 +1,6 @@
 function jry_wb_manage_competence_function()
 {
 }
-jry_wb_manage_competence_function.prototype.doforsync=function(data)
-{
-	var buf=JSON.parse(data);
-	if(buf!=null)
-		if(buf.login==false)
-		{
-			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
-			return ;	
-		}	
-	data=buf;
-	data.sort(function (a,b){return a.type-b.type;});
-	jry_wb_cache.set('competence',data);
-	this.all=data;
-	for(var i=0;i<this.all.length;i++)
-		for(var k=0,nn=this.all[i].data.length;k<nn;k++)
-			if(this.all[i].data[k].name=="competencename")
-			{
-				this.all[i].name=this.all[i].data[k].value;
-				break;
-			}		
-	jry_wb_loading_off();	
-}
 jry_wb_manage_competence_function.prototype.showall=function()
 {
 	this.area.innerHTML='';
@@ -38,11 +16,21 @@ jry_wb_manage_competence_function.prototype.showall=function()
 	one.style.width='100%';
 	one.classList.add('jry_wb_left_toolbar_left_list_1');
 	one.innerHTML='重载';
-	one.onclick=function(event){jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',function (data)
+	one.onclick=function(event)
 	{
-		jry_wb_manage_competence.doforsync(data);
-		jry_wb_manage_competence.showall();
-	});}
+		jry_wb_sync_data_with_server('manage_competence',"jry_wb_manage_competence_get_information.php",null,(data)=>
+		{
+			this.all=data;
+			for(var i=0;i<this.all.length;i++)
+				for(var k=0,nn=this.all[i].data.length;k<nn;k++)
+					if(this.all[i].data[k].name=="competencename")
+					{
+						this.all[i].name=this.all[i].data[k].value;
+						break;
+					}
+			this.showall();
+		},function(a,b){return a.type-b.type});			
+	};
 	one=null;
 	
 	var one=document.createElement('div');list.appendChild(one);
@@ -131,7 +119,7 @@ jry_wb_manage_competence_function.prototype.showall=function()
 		});
 	};
 	one=null;	
-	for(var i=0,n=this.all.length;i<n;i++)
+	for(let i=0,n=this.all.length;i<n;i++)
 	{
 		var one=document.createElement('div');list.appendChild(one);
 		one.style.width='100%';
@@ -144,20 +132,15 @@ jry_wb_manage_competence_function.prototype.showall=function()
 			this.lasthighlight=event.target;	
 			event.target.classList.add('jry_wb_left_toolbar_left_list_active');
 			var type=event.target.innerHTML;
-			var all=jry_wb_cache.get('competence');	
 			var data=null;
 			var show=event.target.parentNode.nextElementSibling;
-			for(var i=0,n=all.length;i<n;i++)
-				if(all[i]!=null)
-					if(all[i].type==type)
-						data=all[i];
+			data=this.all[i];
 			if(data.data==null)
 				return;
-			all=null;type=null;
 			show.innerHTML='';
-			all = document.createElement('table');show.appendChild(all);
-			all.setAttribute('border','1');
-			var tr=document.createElement('tr');all.appendChild(tr);
+			var body = document.createElement('table');show.appendChild(body);
+			body.setAttribute('border','1');
+			var tr=document.createElement('tr');body.appendChild(tr);
 			tr.width='100%';
 			var td=document.createElement('td');tr.appendChild(td);
 			td.width='30%';td.classList.add('h56');
@@ -167,31 +150,31 @@ jry_wb_manage_competence_function.prototype.showall=function()
 			td.width='30%';td.classList.add('h56');
 			td.innerHTML=data.type;
 			td=null;		
-			for(var i=0,n=data.data.length;i<n;i++)
+			for(var j=0,n=data.data.length;j<n;j++)
 			{
-				var tr=document.createElement('tr');all.appendChild(tr);
+				var tr=document.createElement('tr');body.appendChild(tr);
 				tr.width='100%';
 				var td1=document.createElement('td');tr.appendChild(td1);
 				td1.width='30%';td1.classList.add('h56');
-				td1.innerHTML=data.data[i].name;
+				td1.innerHTML=data.data[j].name;
 				var td=document.createElement('td');tr.appendChild(td);
 				td.width='*';
 				var input=document.createElement('input');td.appendChild(input);
-				input.id=data.data[i].name;
+				input.id=data.data[j].name;
 				input.classList.add('h56');
-				input.value=data.data[i].value;
-				if(data.data[i].name=='color')
+				input.value=data.data[j].value;
+				if(data.data[j].name=='color')
 				{
 					jry_wb_manage_system_color_picker_area=input;
-					tr.style.backgroundColor=data.data[i].value;
-					color_picker_area.style.backgroundColor=color_picker_value.value=data.data[i].value;
+					tr.style.backgroundColor=data.data[j].value;
+					color_picker_area.style.backgroundColor=color_picker_value.value=data.data[j].value;
 					input.onkeyup=input.onchange=function()
 					{
 						color_picker_area.style.backgroundColor=color_picker_value.value=this.parentNode.parentNode.style.backgroundColor=this.value; 
 					}
 				}	
 			}
-			var tr=document.createElement('tr');all.appendChild(tr);
+			var tr=document.createElement('tr');body.appendChild(tr);
 			tr.width='100%';
 			var td=document.createElement('td');tr.appendChild(td);
 			td.setAttribute('colspan','2');td.align='center';
@@ -199,27 +182,25 @@ jry_wb_manage_competence_function.prototype.showall=function()
 			button.id=data.type;
 			button.innerHTML='修改';
 			button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
-			button.onclick=function (event)
+			button.onclick=(event)=>
 			{
 				var type=event.target.id;
-				var all_=jry_wb_cache.get('competence');
-				var all=all_.find(function(a){return a.type==type});
-				var all_id=all_.indexOf(all);
+				var all=this.all[i];
 				var inputs=document.getElementsByTagName('input');
 				var flag=false;
-				for(var i=0,n=inputs.length;i<n;i++)
+				for(var k=0,n=inputs.length;k<n;k++)
 				{	
-					var j=all.data.find(function(a){return a.name==inputs[i].id});
+					var j=all.data.find(function(a){return a.name==inputs[k].id});
 					var jj=all.data.indexOf(j);
 					if(j!=null)
 					{
-						if(j.value!=inputs[i].value)
+						if(j.value!=inputs[k].value)
 						{	
 							if(all.data[jj].name=='competencename'||all.data[jj].name=='color')
-								all.data[jj].value=inputs[i].value;
+								all.data[jj].value=inputs[k].value;
 							else
-								all.data[jj].value=parseInt(inputs[i].value);
-							jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=chenge&name='+inputs[i].id+'&value='+inputs[i].value+'&type='+type,function(data)
+								all.data[jj].value=parseInt(inputs[k].value);
+							jry_wb_ajax_load_data('jry_wb_manage_competence_do.php?method=chenge&name='+inputs[k].id+'&value='+inputs[k].value+'&type='+type,function(data)
 							{
 								jry_wb_loading_off();
 								data=JSON.parse(data);
@@ -242,8 +223,7 @@ jry_wb_manage_competence_function.prototype.showall=function()
 				}
 				if(!flag)
 					jry_wb_beautiful_right_alert.alert('没有改变',2000,'auto','warn');
-				all_.splice(all_id,1,all)
-				jry_wb_cache.set('competence',all_);			
+				jry_wb_indexeddb.transaction(['manage_competence'],'readwrite').objectStore('manage_competence').put(all);
 			}
 			td=null;
 			window.scrollTo(window.scrollX,0);
@@ -258,6 +238,17 @@ function jry_wb_manage_competence_init(area,mode)
 {
 	jry_wb_manage_competence=new jry_wb_manage_competence_function();
 	jry_wb_manage_competence.area=area;
-	jry_wb_ajax_load_data('jry_wb_manage_competence_get_information.php',function (data){jry_wb_manage_competence.doforsync(data);jry_wb_manage_competence.showall();});	
+	jry_wb_sync_data_with_server('manage_competence',"jry_wb_manage_competence_get_information.php",null,(data)=>
+	{
+		jry_wb_manage_competence.all=data;
+		for(var i=0;i<jry_wb_manage_competence.all.length;i++)
+			for(var k=0,nn=jry_wb_manage_competence.all[i].data.length;k<nn;k++)
+				if(jry_wb_manage_competence.all[i].data[k].name=="competencename")
+				{
+					jry_wb_manage_competence.all[i].name=jry_wb_manage_competence.all[i].data[k].value;
+					break;
+				}
+		jry_wb_manage_competence.showall();
+	},function(a,b){return a.type-b.type});
 }
 function jry_wb_manage_competence_run(area){jry_wb_manage_competence.area=area;jry_wb_manage_competence.showall();}
