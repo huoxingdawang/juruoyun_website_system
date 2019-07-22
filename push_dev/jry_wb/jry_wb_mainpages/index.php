@@ -67,7 +67,7 @@
 		<?php }?>jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?action=new',function (data)
 		{
 			var data=JSON.parse(data);
-			jry_wb_indexeddb.transaction(['user'],'readwrite').objectStore('user').add(data);
+				jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['user'],'readwrite').objectStore('user').add(data);});
 			jry_wb_loading_off();
 			jry_wb_show_user(document.getElementById('newuser'),data);	
 		},null,false);

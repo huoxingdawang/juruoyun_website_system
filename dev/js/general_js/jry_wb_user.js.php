@@ -61,41 +61,44 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 	jry_wb_getting_user[i]=id;
 	jry_wb_getting_user_call_back[i]=[];
 	jry_wb_getting_user_call_back[i].push(callback);
-	var re=jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).get(id);
-	re.onsuccess=function()
+	jry_wb_add_on_indexeddb_open(function()
 	{
-		var user=this.result;
-		if(user!=undefined&&(!reload)&&user.lasttime_sync!=''&&jry_wb_compare_time(new Date(),user.lasttime_sync)<1000*60*60*2)
+		var re=jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).get(id);
+		re.onsuccess=function()
 		{
-			var aaa=jry_wb_getting_user.indexOf(id);
-			if(aaa!=-1)
+			var user=this.result;
+			if(user!=undefined&&(!reload)&&user.lasttime_sync!=''&&jry_wb_compare_time(new Date(),user.lasttime_sync)<1000*60*60*2)
 			{
-				jry_wb_getting_user.splice(aaa,1);
-				for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
-					jry_wb_getting_user_call_back[aaa][i](user);
-				jry_wb_getting_user_call_back.splice(aaa,1);
+				var aaa=jry_wb_getting_user.indexOf(id);
+				if(aaa!=-1)
+				{
+					jry_wb_getting_user.splice(aaa,1);
+					for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
+						jry_wb_getting_user_call_back[aaa][i](user);
+					jry_wb_getting_user_call_back.splice(aaa,1);
+				}
+				return;			
 			}
-			return;			
-		}
-		if(user==undefined) 
-			user={lasttime:"1926-08-17 00:00:00"};
-		jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?id='+id+'&lasttime='+user.lasttime+'&admin_mode='+admin_mode,function (data)
-		{
-			var data=JSON.parse(data);
-			if(data.id==-1&&data.use==1)
-				data=user,data.lasttime_sync=new Date();
-			jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).put(data);
-			var aaa=jry_wb_getting_user.indexOf(id);
-			if(aaa!=-1)
+			if(user==undefined) 
+				user={lasttime:"1926-08-17 00:00:00"};
+			jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?id='+id+'&lasttime='+user.lasttime+'&admin_mode='+admin_mode,function (data)
 			{
-				jry_wb_getting_user.splice(aaa,1);
-				for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
-					jry_wb_getting_user_call_back[aaa][i](data);
-				jry_wb_getting_user_call_back.splice(aaa,1);
-			}
-			jry_wb_loading_off();		
-		});
-	};
+				var data=JSON.parse(data);
+				if(data.id==-1&&data.use==1)
+					data=user,data.lasttime_sync=new Date();
+				jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).put(data);
+				var aaa=jry_wb_getting_user.indexOf(id);
+				if(aaa!=-1)
+				{
+					jry_wb_getting_user.splice(aaa,1);
+					for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
+						jry_wb_getting_user_call_back[aaa][i](data);
+					jry_wb_getting_user_call_back.splice(aaa,1);
+				}
+				jry_wb_loading_off();		
+			});
+		};
+	});
 }
 function jry_wb_show_user(addr,user,width,float,inline,direct)
 {

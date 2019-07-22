@@ -223,7 +223,7 @@ jry_wb_manage_competence_function.prototype.showall=function()
 				}
 				if(!flag)
 					jry_wb_beautiful_right_alert.alert('没有改变',2000,'auto','warn');
-				jry_wb_indexeddb.transaction(['manage_competence'],'readwrite').objectStore('manage_competence').put(all);
+				jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['manage_competence'],'readwrite').objectStore('manage_competence').put(all)});
 			}
 			td=null;
 			window.scrollTo(window.scrollX,0);

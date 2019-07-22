@@ -35,8 +35,11 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,callback,sort_cmp)
 }
 function jry_wb_sync_data_with_array(syncname,data,callback)
 {
-	var re=jry_wb_indexeddb.transaction([syncname],'readwrite').objectStore(syncname);
-	for(var i=0,n=data.length;i<n;i++)
-		re.put(data[i]);
-	jry_wb_indexeddb_get_all(syncname,callback);
+	jry_wb_add_on_indexeddb_open(function()
+	{
+		var re=jry_wb_indexeddb.transaction([syncname],'readwrite').objectStore(syncname);
+		for(var i=0,n=data.length;i<n;i++)
+			re.put(data[i]);
+		jry_wb_indexeddb_get_all(syncname,callback);
+	});
 }

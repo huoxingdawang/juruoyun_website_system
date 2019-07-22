@@ -200,7 +200,7 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	var top_toolbar_logs=document.getElementById('top_toolbar_logs');
 	if(top_toolbar_logs!=undefined)
 		top_toolbar_logs.onclick=()=>{this.hash_prevent=false;};
-	this.sync();
+	jry_wb_add_on_indexeddb_open(()=>{this.sync()});
 }
 jry_wb_online_judge_function.prototype.sync=function()
 {

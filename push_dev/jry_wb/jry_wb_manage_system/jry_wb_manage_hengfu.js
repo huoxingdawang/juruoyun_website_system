@@ -2,12 +2,15 @@ function jry_wb_manage_hengfu_load_data(area)
 {
 	jry_wb_sync_data_with_server('manage_hengfu',"jry_wb_manage_hengfu_get_information.php?action=list",null,function(data)
 	{
-		jry_wb_manage_hengfu_data=data;
-		var re=jry_wb_indexeddb.transaction(['manage_hengfu'],'readwrite').objectStore('manage_hengfu');
-		for(var i=0;i<jry_wb_manage_hengfu_data.length;i++)
-			if(jry_wb_manage_hengfu_data[i].delete)
-				re.delete(jry_wb_manage_hengfu_data[i].hengfu_id),jry_wb_manage_hengfu_data.splice(i,1),i--;		
-		jry_wb_manage_hengfu_run(area);
+		jry_wb_add_on_indexeddb_open(function()
+		{
+			jry_wb_manage_hengfu_data=data;
+			var re=jry_wb_indexeddb.transaction(['manage_hengfu'],'readwrite').objectStore('manage_hengfu');
+			for(var i=0;i<jry_wb_manage_hengfu_data.length;i++)
+				if(jry_wb_manage_hengfu_data[i].delete)
+					re.delete(jry_wb_manage_hengfu_data[i].hengfu_id),jry_wb_manage_hengfu_data.splice(i,1),i--;		
+			jry_wb_manage_hengfu_run(area);
+		});
 	},function(a,b){return a.hengfu_id-b.hengfu_id});
 }
 function jry_wb_manage_hengfu_init(area,mode)

@@ -1,4 +1,16 @@
 var jry_wb_indexeddb;
+window.onindexeddbopen=function(){jry_wb_beautiful_right_alert.alert('数据库连接建立成功',2000,'auto','ok');};
+function jry_wb_add_on_indexeddb_open(func)
+{
+	if(jry_wb_indexeddb!=undefined)
+		return func();
+	var old_onindexeddbopen=window.onindexeddbopen;
+	window.onindexeddbopen=function()
+	{
+		old_onindexeddbopen();
+		func();
+	};
+}
 (function()
 {
 	var request=window.indexedDB.open('jry_wb',7);
@@ -6,9 +18,11 @@ var jry_wb_indexeddb;
 	request.onsuccess=function(event)
 	{
 		jry_wb_indexeddb=request.result;
+		window.onindexeddbopen();
 	};
 	request.onupgradeneeded=function(event)
 	{
+		jry_wb_beautiful_right_alert.alert('数据库升级中',1000,'auto','warn');
 		jry_wb_indexeddb=request.result;
 		if(!jry_wb_indexeddb.objectStoreNames.contains('ip')) 
 			jry_wb_indexeddb.createObjectStore('ip',{keyPath:'data.ip'});		
@@ -57,33 +71,41 @@ var jry_wb_indexeddb;
 		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_hengfu')) 
 			jry_wb_indexeddb.createObjectStore('manage_hengfu',{keyPath:'hengfu_id'});
 		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_tanmu')) 
-			jry_wb_indexeddb.createObjectStore('manage_tanmu',{keyPath:'tanmu_id'});		
+			jry_wb_indexeddb.createObjectStore('manage_tanmu',{keyPath:'tanmu_id'});
+		jry_wb_beautiful_right_alert.alert('数据库升级完成',1000,'auto','ok');
+		window.onindexeddbopen();
 	}
 }());
 function jry_wb_indexeddb_set_lasttime(key,time)
 {
-	jry_wb_indexeddb.transaction(['lasttime'],'readwrite').objectStore('lasttime').put({'key':key,'time':time});
+	jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['lasttime'],'readwrite').objectStore('lasttime').put({'key':key,'time':time});});
 }
 function jry_wb_indexeddb_get_lasttime(key,callback)
 {
-	var re=jry_wb_indexeddb.transaction(['lasttime'],'readwrite').objectStore('lasttime').get(key);
-	re.onsuccess=function()
+	jry_wb_add_on_indexeddb_open(function()
 	{
-		if(this.result==undefined)
-			return callback(new Date('1926-08-17 00:00:00'));
-		callback(new Date(this.result.time));
-	};
+		var re=jry_wb_indexeddb.transaction(['lasttime'],'readwrite').objectStore('lasttime').get(key);
+		re.onsuccess=function()
+		{
+			if(this.result==undefined)
+				return callback(new Date('1926-08-17 00:00:00'));
+			callback(new Date(this.result.time));
+		};
+	});
 }
 function jry_wb_indexeddb_get_all(db_name,callback)
 {
-	var re=jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).openCursor();
-	var data=[];
-	re.onsuccess=function()
-	{
-		var cursor=event.target.result;
-		if (cursor)
-			data.push(cursor.value),cursor.continue();
-		else
-			callback(data);
-	};	
+	jry_wb_add_on_indexeddb_open(function()
+	{	
+		var re=jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).openCursor();
+		var data=[];
+		re.onsuccess=function()
+		{
+			var cursor=event.target.result;
+			if (cursor)
+				data.push(cursor.value),cursor.continue();
+			else
+				callback(data);
+		};
+	});	
 }
