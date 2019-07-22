@@ -131,11 +131,11 @@ function jry_wb_show_user(addr,user,width,float,inline,direct)
 	}
 	adder.style.background="#"+user.color;
 	if(user.show!=null)
-		adder.innerHTML = user.show;
+		adder.innerHTML=user.show.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 	else
 	{
 		var span = document.createElement("span");adder.appendChild(span);
-		span.innerHTML = user.name;
+		span.innerHTML=user.name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 		span.setAttribute('name','jry_wb_user_name_'+user.id);
 		var img = document.createElement("img");
 		jry_wb_set_user_head_special(user,img);
@@ -274,9 +274,9 @@ function jry_wb_show_user_intext(addr,user)
 	else if((user==null)||(user.show==null&&user.name==null&&user.head==null))
 		{user={color:666666,show:'用户已消失'};flag = true;}
 	if(addr==undefined)
-		document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name+'</span>');
+		document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>');
 	else
-		addr.onclick='jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)',addr.name='jry_wb_user_name_'+user.id,addr.style.background='#'+user.color,addr.classList.add('jry_wb_show_user_intext'),addr.innerHTML=user.name;
+		addr.onclick='jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)',addr.name='jry_wb_user_name_'+user.id,addr.style.background='#'+user.color,addr.classList.add('jry_wb_show_user_intext'),addr.innerHTML=user.name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 function jry_wb_get_and_show_user(addr,id,width,float,inline)
 {
