@@ -159,7 +159,7 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 		var song=null,lyric=null;
 		if(this.song_list!=null)
 			if((song=this.song_list.find(function(a){return audio.src==a.music_url}))!=null&&song.lyric!=null&&song.lyric.length!=undefined)
-				for(var i=0;i<song.lyric.length&&(i+1==song.lyric.length||song.lyric[i+1].t<audio.currentTime);i++,lyric=song.lyric[i]);
+				for(var i=0,lyric=song.lyric[i];i<song.lyric.length&&(i+1==song.lyric.length||song.lyric[i+1].t<audio.currentTime);i++,lyric=song.lyric[i]);
 		if(lyric!=undefined&&lyric.d!=undefined)
 		{
 			if(lyric.d.className.includes('active'))
