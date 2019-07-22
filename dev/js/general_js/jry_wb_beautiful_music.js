@@ -301,7 +301,7 @@ jry_wb_beautiful_music.prototype.show_lyric=function(lyric)
 {
 	if(typeof lyric!='undefined')
 		for(let j=0,m=lyric.length;j<m;j++)
-			if(lyric[j].w!='')
+			if(lyric[j].w!=''&&typeof lyric[j].w!='undefined')
 			{
 				var one=document.createElement("div");this.lyric_area.appendChild(one);
 				one.classList.add('one');

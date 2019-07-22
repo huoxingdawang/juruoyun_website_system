@@ -23,11 +23,37 @@ function jry_wb_get_songs_by_mid(list)
 				jry_wb_loading_off();
 			},null,false);
 			var a=jry_wb_cache.get("qq_music_spider_cache").find(function(a){ return a.mid==mid});
+			if(typeof a.lyric=='string')
+			{
+				a.lyric=a.lyric.split('\n');
+				for(var k=0,o=a.lyric.length;k<o;a.lyric[k]={'t':t,'w':a.lyric[k].split(']')[1]},k++)
+					if(a.lyric[k]!='')
+						for(var j=0,c=a.lyric[k].split(']')[0].split('[')[1].split(':'),m=c.length,t=0;j<m;j++)
+							t+=Math.pow(60,m-j-1)*c[j];
+					else
+						continue;
+				for(var k=0;k<a.lyric.length;k++)
+					if(typeof a.lyric[k].w=='undefined'||a.lyric[k].w=='')
+						a.lyric.splice(k,1),k--;
+			}		
 			return {'name':a.name,'music_url':a.music_url,'type':'qq','pic_url':a.pic_url,'mid':mid,'lyric':a.lyric};
 		}
 		else
 		{
 			var a=cache.find(function(a){ return a.mid==mid});
+			if(typeof a.lyric=='string')
+			{
+				a.lyric=a.lyric.split('\n');
+				for(var k=0,o=a.lyric.length;k<o;a.lyric[k]={'t':t,'w':a.lyric[k].split(']')[1]},k++)
+					if(a.lyric[k]!='')
+						for(var j=0,c=a.lyric[k].split(']')[0].split('[')[1].split(':'),m=c.length,t=0;j<m;j++)
+							t+=Math.pow(60,m-j-1)*c[j];
+					else
+						continue;
+				for(var k=0;k<a.lyric.length;k++)
+					if(typeof a.lyric[k].w=='undefined'||a.lyric[k].w=='')
+						a.lyric.splice(k,1),k--;
+			}	
 			return {'name':a.name,'music_url':a.music_url,'type':'qq','pic_url':a.pic_url,'mid':mid,'lyric':a.lyric};
 		}
 	};
@@ -46,13 +72,40 @@ function jry_wb_get_songs_by_mid(list)
 				jry_wb_cache.set("163_music_spider_cache",cache);
 				jry_wb_loading_off();
 			},null,false);
-			var a=jry_wb_cache.get("163_music_spider_cache").find(function(a){ return a.mid==mid});
-			return {'name':a.name,'music_url':a.music_url,'type':'163','pic_url':a.pic_url,'mid':mid};
+			var a=jry_wb_cache.get("163_music_spider_cache").find(function(a){ return a.mid==mid});	
+			if(typeof a.lyric=='string')
+			{
+				a.lyric=a.lyric.split('\n');
+				for(var k=0,o=a.lyric.length;k<o;a.lyric[k]={'t':t,'w':a.lyric[k].split(']')[1]},k++)
+					if(a.lyric[k]!='')
+						for(var j=0,c=a.lyric[k].split(']')[0].split('[')[1].split(':'),m=c.length,t=0;j<m;j++)
+							t+=Math.pow(60,m-j-1)*c[j];
+					else
+						continue;
+				for(var k=0;k<a.lyric.length;k++)
+					if(typeof a.lyric[k].w=='undefined'||a.lyric[k].w=='')
+						a.lyric.splice(k,1),k--;
+					
+			}				
+			return {'name':a.name,'music_url':a.music_url,'type':'163','pic_url':a.pic_url,'mid':mid,'lyric':a.lyric};
 		}
 		else
 		{
 			var a=cache.find(function(a){ return a.mid==mid});
-			return {'name':a.name,'music_url':a.music_url,'type':'163','pic_url':a.pic_url,'mid':mid};
+			if(typeof a.lyric=='string')
+			{
+				a.lyric=a.lyric.split('\n');
+				for(var k=0,o=a.lyric.length;k<o;a.lyric[k]={'t':t,'w':a.lyric[k].split(']')[1]},k++)
+					if(a.lyric[k]!='')
+						for(var j=0,c=a.lyric[k].split(']')[0].split('[')[1].split(':'),m=c.length,t=0;j<m;j++)
+							t+=Math.pow(60,m-j-1)*c[j];
+					else
+						continue;
+				for(var k=0;k<a.lyric.length;k++)
+					if(typeof a.lyric[k].w=='undefined'||a.lyric[k].w=='')
+						a.lyric.splice(k,1),k--;
+			}			
+			return {'name':a.name,'music_url':a.music_url,'type':'163','pic_url':a.pic_url,'mid':mid,'lyric':a.lyric};
 		}		
 	};	
 	this.get_list=function(slid)
@@ -78,11 +131,7 @@ function jry_wb_get_songs_by_mid(list)
 				{
 					ans.data.push({'mid':a.data[i].mid,'type':a.data[i].type});
 					if(a.data[i].type=='qq')
-					{
-						a.data[i].lyric=a.data[i].lyric.split('\n');
-						for(var k=0,o=a.data[i].lyric.length;k<o;a.data[i].lyric[k]={'t':t,'w':a.data[i].lyric[k].split(']')[1]},k++)
-							for(var j=0,c=a.data[i].lyric[k].split(']')[0].split('[')[1].split(':'),m=c.length,t=0;j<m;j++)
-								t+=Math.pow(60,m-j-1)*c[j];						
+					{						
 						var b=cache_qq.find(function(aaa){ return aaa.mid==a.data[i].mid});
 						if(b!=null)
 							cache_qq.splice(b,1);
