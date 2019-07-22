@@ -221,7 +221,7 @@ jry_wb_online_judge_function.prototype.sync=function()
 		else
 			jry_wb_indexeddb_get_all('oj_question_list',(data)=>
 			{
-				this.question_list=data;
+				this.question_list=data.sort(function(a,b){return a.question_id-b.question_id});
 				this.loadingcount--;
 				if(this.loadingcount==0)
 					this.aftersync();				
@@ -230,7 +230,7 @@ jry_wb_online_judge_function.prototype.sync=function()
 	this.loadingcount++;
 	jry_wb_indexeddb_get_lasttime('oj_logs',(time)=>
 	{
-		if(this.fastsave.question_list	.to_time()-time>0)
+		if(this.fastsave.question_list.to_time()-time>0)
 		{
 			jry_wb_sync_data_with_server('oj_logs',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=logs',null,(data)=>
 			{
@@ -239,12 +239,12 @@ jry_wb_online_judge_function.prototype.sync=function()
 				if(this.loadingcount==0)
 					this.aftersync();
 				return data.max('lasttime','date');
-			},function(a,b){return a.log_id-b.log_id});
+			},function(a,b){return b.log_id-a.log_id});
 		}
 		else
 			jry_wb_indexeddb_get_all('oj_logs',(data)=>
 			{
-				this.logs=data;
+				this.logs=data.sort(function(a,b){return b.log_id-a.log_id});
 				this.loadingcount--;
 				if(this.loadingcount==0)
 					this.aftersync();				
