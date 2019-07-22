@@ -1,5 +1,5 @@
 var jry_wb_indexeddb;
-window.onindexeddbopen=function(){jry_wb_beautiful_right_alert.alert('数据库连接建立成功',2000,'auto','ok');};
+window.onindexeddbopen=function(){jry_wb_beautiful_right_alert.alert('数据库连接建立成功',500,'auto','ok');};
 function jry_wb_add_on_indexeddb_open(func)
 {
 	if(jry_wb_indexeddb!=undefined)
