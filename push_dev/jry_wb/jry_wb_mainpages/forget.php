@@ -1,5 +1,6 @@
 <?php
 	include_once('../jry_wb_tools/jry_wb_includes.php');
+	session_start();
 	jry_wb_print_head('重置密码',false,false,true);
 ?>
 <?php echo jry_wb_include_css($jry_wb_login_user['style'],'mainpages/forget'); ?>

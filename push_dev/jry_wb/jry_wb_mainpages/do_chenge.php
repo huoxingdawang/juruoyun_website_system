@@ -1,6 +1,7 @@
 <?php
 	include_once("../jry_wb_tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");		
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
+	session_start();
 	$conn=jry_wb_connect_database();
 	$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where time<?');
 	$st->bindValue(1,date("Y-m-d H:i:s",time()-12*60*60));

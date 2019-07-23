@@ -59,6 +59,7 @@ int main()
 		{
 			yuan_total=xin_total=0;
 			FILE *out=fopen(out_dir,"w");
+			fprintf(out,"<?php $etag=%d;?>",clock());
 			fclose(out);
 			listfiles(dir,parsecode,"*");
 

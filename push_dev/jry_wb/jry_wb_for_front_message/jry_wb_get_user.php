@@ -22,9 +22,10 @@
 						));
 		exit();		
 	}
-	if((strtotime($user['lasttime'])-strtotime(urldecode($_GET['lasttime'])))<=0)
+	header('Etag: '.$user['lasttime']);
+	if((strtotime($user['lasttime'])-strtotime(urldecode($_SERVER['HTTP_IF_NONE_MATCH'])))<=0)
 	{
-		echo json_encode(array('id'=>-1,'use'=>1));
+		header('HTTP/1.1 304');  
 		exit();
 	}
 	if($_GET['action']=='new')
