@@ -20,7 +20,7 @@ function jry_wb_ajax_load_data(url,func,array,yibu)
 		xmlhttp.abort();
 		jry_wb_beautiful_alert.alert("网络异常","请您刷新页面或稍后再试");
 		jry_wb_loading_off();
-	},20000);
+	},3*60*1000);
 	xmlhttp.onreadystatechange = function()
 	{
 		if (xmlhttp.readyState==4)
