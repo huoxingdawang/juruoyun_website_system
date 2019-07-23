@@ -16,9 +16,12 @@ var jry_wb_get_songs_by_mid=new function()
 						jry_wb_loading_off();
 						data=JSON.parse(data);
 						data.lyric=data.lyric.split('\n');
-						for(var k=0,o=data.lyric.length;k<o;data.lyric[k]={'t':t,'w':data.lyric[k].split(']')[1]},k++)
-							for(var j=0,a=data.lyric[k].slice(1,-1).split(':'),m=a.length,t=0;j<m;j++)
+						for(var k=0,o=data.lyric.length,t=0;k<o;data.lyric[k]={'t':t,'w':data.lyric[k].split(']')[1]},k++,t=0)
+							for(var j=0,a=data.lyric[k].split(']')[0].slice(1).split(':'),m=a.length,t=0;j<m;j++)
 								t+=Math.pow(60,m-j-1)*a[j];
+						for(var j=0;j<data.lyric.length;j++)
+							if(typeof data.lyric[j].w=='undefined'||data.lyric[j].w==''||isNaN(data.lyric[j].t))
+								data.lyric.splice(j,1),j--;
 						jry_wb_indexeddb.transaction(['qq_music'],'readwrite').objectStore('qq_music').put(data);
 						callback(data);
 					});				
@@ -44,10 +47,12 @@ var jry_wb_get_songs_by_mid=new function()
 						jry_wb_loading_off();
 						data=JSON.parse(data);
 						data.lyric=data.lyric.split('\n');
-						for(var k=0,o=data.lyric.length;k<o;data.lyric[k]={'t':t,'w':data.lyric[k].split(']')[1]},k++)
-							
-							for(var j=0,a=data.lyric[k].slice(1,-1).split(':'),m=a.length,t=0;j<m;j++)
+						for(var k=0,o=data.lyric.length,t=0;k<o;data.lyric[k]={'t':t,'w':data.lyric[k].split(']')[1]},k++,t=0)							
+							for(var j=0,a=data.lyric[k].split(']')[0].slice(1).split(':'),m=a.length,t=0;j<m;j++)
 								t+=Math.pow(60,m-j-1)*a[j];
+						for(var j=0;j<data.lyric.length;j++)
+							if(typeof data.lyric[j].w=='undefined'||data.lyric[j].w==''||isNaN(data.lyric[j].t))
+								data.lyric.splice(j,1),j--;							
 						jry_wb_indexeddb.transaction(['163_music'],'readwrite').objectStore('163_music').put(data);
 						callback(data);
 					});				
@@ -65,7 +70,7 @@ var jry_wb_get_songs_by_mid=new function()
 			return;		
 		jry_wb_add_on_indexeddb_open(function()
 		{
-			var re=jry_wb_indexeddb.transaction(['songlist'],'readwrite').objectStore('songlist').get(slid);
+			var re=jry_wb_indexeddb.transaction(['songlist'],'readwrite').objectStore('songlist').get(parseInt(slid));
 			re.onsuccess=function()
 			{
 				if(this.result==undefined)
@@ -82,9 +87,12 @@ var jry_wb_get_songs_by_mid=new function()
 						{
 							ans.data.push({'mid':data.data[i].mid,'type':data.data[i].type});
 							data.data[i].lyric=data.data[i].lyric.split('\n');
-							for(var k=0,o=data.data[i].lyric.length;k<o;data.data[i].lyric[k]={'t':t,'w':data.data[i].lyric[k].split(']')[1]},k++)
-								for(var j=0,a=data.data[i].lyric[k].slice(1,-1).split(':'),m=a.length,t=0;j<m;j++)
+							for(var k=0,o=data.data[i].lyric.length,t=0;k<o;data.data[i].lyric[k]={'t':t,'w':data.data[i].lyric[k].split(']')[1]},k++,t=0)
+								for(var j=0,a=data.data[i].lyric[k].split(']')[0].slice(1).split(':'),m=a.length,t=0;j<m;j++)
 									t+=Math.pow(60,m-j-1)*a[j];
+							for(var j=0;j<data.data[i].lyric.length;j++)
+								if(typeof data.data[i].lyric[j].w=='undefined'||data.data[i].lyric[j].w==''||isNaN(data.data[i].lyric[j].t))
+									data.data[i].lyric.splice(j,1),j--;								
 							if(data.data[i].type=='qq')
 								jry_wb_indexeddb.transaction(['qq_music'],'readwrite').objectStore('qq_music').put(data.data[i]);
 							else if(data.data[i].type=='163')
@@ -118,16 +126,14 @@ var jry_wb_get_songs_by_mid=new function()
 	};
 	this.get=function(list,callback)
 	{
-		var ans=new Array();
+		var ans=[];
 		var loading_cnt=list.length;
-		for(var i=0,n=list.length;i<n;i++)
+		for(let i=0,n=list.length;i<n;i++)
 			if(list[i].type=='qq')
 				this.get_qq(list[i].mid,function(data){ans.push(data);if((--loading_cnt)==0)callback(ans);});
 			else if(list[i].type=='163')
 				this.get_163(list[i].mid,function(data){ans.push(data);if((--loading_cnt)==0)callback(ans);});
 			else if(list[i].type=='songlist')
 				this.get_list(list[i].slid,function(data){ans=ans.concat(data.data);if((--loading_cnt)==0)callback(ans);});
-			else if(list[i].type=='test')
-				ans.push(list[i]);
 	};
 };
