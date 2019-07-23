@@ -23,9 +23,7 @@
 //鼠标点击出字特效
 	define('JRY_WB_WORD_SPECIAL_FACT_SWITCH'			,true);
 //鼠标跟随特效
-	define('JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH'	,true);
-//播放宣传视频
-	define('JRY_WB_SHOW_VIDEO_SWITCH'					,true);
+	define('JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH'	,false);
 //换title
 	define('JRY_WB_CHENGE_TITLE_SWITCH'					,false);	
 //背景音乐

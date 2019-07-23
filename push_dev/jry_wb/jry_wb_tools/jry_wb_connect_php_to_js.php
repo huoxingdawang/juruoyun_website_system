@@ -7,8 +7,7 @@
 		'jry_wb_logo':'<?php echo JRY_WB_LOGO_PICTURE_ADDRESS; ?>',
 		'jry_wb_data_host':'<?php echo JRY_WB_DATA_HOST; ?>',
 		'jry_wb_index_page':'<?php echo jry_wb_print_href("home","","",true) ?>',
-		'jry_wb_chenge_page':'<?php echo jry_wb_print_href("users","","",true) ?>',
-		'jry_wb_background_music_switch':parseInt('<?php echo JRY_WB_BACKGROUND_MUSIC_SWITCH; ?>')
+		'jry_wb_chenge_page':'<?php echo jry_wb_print_href("users","","",true) ?>'
 	};
 	var jry_wb_login_user=JSON.parse(decodeURI('<?php
 		$data=array('id'=>$jry_wb_login_user['id'],

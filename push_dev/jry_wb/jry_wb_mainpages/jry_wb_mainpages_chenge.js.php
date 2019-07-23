@@ -1693,24 +1693,35 @@ function showmusiclist()
 	button.onclick=function()
 	{
 		var buf={'type':select.value,'mid':input.value,'slid':input.value};
-		var data=jry_wb_get_songs_by_mid([buf]);
-		if(data[0].name!='')
-			if(background_music_list.findIndex(function(a){return (a.type==buf.type)&&((a.type=='songlist')?a.slid==buf.slid:a.mid==buf.mid);})==-1)
-				tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf)),background_music_list.push(data[0]);
+		jry_wb_get_songs_by_mid.get([buf],function(data)
+		{
+			if(data[0].name!='')
+				jry_wb_get_songs_by_mid.get(jry_wb_login_user.background_music_list,function(list)
+				{
+					if(list.findIndex(function(a){return (a.type==buf.type)&&((a.type=='songlist')?a.slid==buf.slid:a.mid==buf.mid);})==-1)
+						tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf)),list.push(data[0]);
+					else
+						jry_wb_beautiful_alert.alert("操作失败","因为已经有了");
+				});
 			else
-				jry_wb_beautiful_alert.alert("操作失败","因为已经有了");
-		else
-			jry_wb_beautiful_alert.alert("操作失败","不存在的歌曲");
+				jry_wb_beautiful_alert.alert("操作失败","不存在的歌曲");
+		});		
 	}
-	for(var i=0,n=background_music_list.length;i<n;i++)
+	for(let i=0,n=background_music_list.length;i<n;i++)
 	{
 		var buf={'type':background_music_list[i].type,'mid':background_music_list[i].mid,'slid':background_music_list[i].slid};
-		var data=jry_wb_get_songs_by_mid([buf]);
-		if(background_music_list[i].type=='songlist')
-			for(var j=0,nn=data.length,a=tree.add(tree.root,"歌单"+background_music_list[i].slid,JSON.stringify(buf));j<nn;j++)
-				tree.add(a,data[j].name+'@'+data[j].type,'',false);
-		else
-			tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf));
+		let tree_node=tree.add(tree.root,'','');
+		jry_wb_get_songs_by_mid.get([buf],function(data)
+		{
+			if(background_music_list[i].type=='songlist')
+			{
+				tree.update(tree_node,"歌单"+background_music_list[i].slid,JSON.stringify(buf))
+				for(var j=0,nn=data.length;j<nn;j++)
+					tree.add(tree_node,data[j].name+'@'+data[j].type,'',false);
+			}
+			else
+				tree.update(tree_node,data[0].name+'@'+data[0].type,JSON.stringify(buf));
+		});
 	}
 	tree.openall();
 	var tr=document.createElement("tr");table.appendChild(tr);	
