@@ -176,6 +176,11 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 		start_button.classList.remove('jry_wb_icon_bofang');
 		start_button.classList.add("jry_wb_icon_zantingtingzhi");
 		jry_wb_midia_control_all.onplay(audio);
+		if(this.song_list!=null)
+		{
+			var i=parseInt(this.lastone.value);
+			this.set_background_picture(this.song_list[i].pic_url,this.song_list[i].type);		
+		}
 	};
 	audio.onabort=()=>
 	{
@@ -310,7 +315,7 @@ jry_wb_beautiful_music.prototype.show_lyric=function(lyric)
 				lyric[j].d=one;
 			}
 };
-jry_wb_beautiful_music.prototype.push_song_list = function(list,highlighturl)
+jry_wb_beautiful_music.prototype.push_song_list=function(list,highlighturl)
 {
 	if(list!=null)
 		this.song_list = list;
@@ -325,6 +330,9 @@ jry_wb_beautiful_music.prototype.push_song_list = function(list,highlighturl)
 	}
 	else
 		this.song_list_area.innerHTML='';
+	
+	
+	
 	for(var i = 0,n = this.song_list.length;i<n;i++)
 	{
 		var one = document.createElement("div");this.song_list_area.appendChild(one);

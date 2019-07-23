@@ -58,22 +58,14 @@ var jry_wb_cache=new function()
 	};
 	this.check_if_delete=function(key)
 	{
-		return !(key=='showed'||key=='index_note'||key=='background_music'||key=='jry_wb_tree_note');
+		return !(key=='background_music');
 	};
 	this.delete_all=function()
 	{
-		var showed = jry_wb_cache.get('showed');
-		var index_note = jry_wb_cache.get('index_note');
-		var background_music_playing = jry_wb_cache.get('background_music_playing');
 		var background_music = jry_wb_cache.get('background_music');
-		var jry_wb_tree_note = jry_wb_cache.get('jry_wb_tree_note');
 		localStorage.clear();
 		sessionStorage.clear();
-		jry_wb_cache.set('showed',showed);
-		jry_wb_cache.set('index_note',index_note);
-		jry_wb_cache.set('background_music_playing',background_music_playing);
 		jry_wb_cache.set('background_music',background_music);
-		jry_wb_cache.set('jry_wb_tree_note',jry_wb_tree_note);
 	};
 	this.size=function(longtime)
 	{

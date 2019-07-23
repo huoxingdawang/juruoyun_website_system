@@ -13,7 +13,7 @@ function jry_wb_add_on_indexeddb_open(func)
 }
 (function()
 {
-	var request=window.indexedDB.open('jry_wb',7);
+	var request=window.indexedDB.open('jry_wb',8);
 	request.onerror=function(event){console.error('indexedDB open error');};
 	request.onsuccess=function(event)
 	{
@@ -72,6 +72,12 @@ function jry_wb_add_on_indexeddb_open(func)
 			jry_wb_indexeddb.createObjectStore('manage_hengfu',{keyPath:'hengfu_id'});
 		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_tanmu')) 
 			jry_wb_indexeddb.createObjectStore('manage_tanmu',{keyPath:'tanmu_id'});
+		if(!jry_wb_indexeddb.objectStoreNames.contains('qq_music')) 
+			jry_wb_indexeddb.createObjectStore('qq_music',{keyPath:'mid'});
+		if(!jry_wb_indexeddb.objectStoreNames.contains('163_music')) 
+			jry_wb_indexeddb.createObjectStore('163_music',{keyPath:'mid'});
+		if(!jry_wb_indexeddb.objectStoreNames.contains('songlist')) 
+			jry_wb_indexeddb.createObjectStore('songlist',{keyPath:'slid'});		
 		jry_wb_beautiful_right_alert.alert('数据库升级完成',1000,'auto','ok');
 		window.onindexeddbopen();
 	}
