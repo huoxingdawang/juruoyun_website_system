@@ -4,6 +4,7 @@
 	class jry_wb_exception extends Exception{};		
 	include_once(dirname(dirname(__FILE__)).'/jry_wb_configs/jry_wb_config_includes.php');
 	
+	
 	include_once('jry_wb_database.php');
 	include_once('jry_wb_check_compentence.php');
 	include_once('jry_wb_user.php');

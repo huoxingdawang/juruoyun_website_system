@@ -28,7 +28,7 @@
 		<th class="table_left" id="table_left">
 			<div id="date">
 				<?php 
-					$st=jry_wb_connect_database()->prepare('select * from '.JRY_WB_DATABASE_MAINPAGE.'bigdeal WHERE `enable`=1 order by rand() limit 1');
+					$st=jry_wb_connect_database()->prepare('select * from '.JRY_WB_DATABASE_MAINPAGE.'bigdeal WHERE `enable`=1 and `delete`=0 order by rand() limit 1');
 					$st->execute();
 					foreach($st->fetchAll()as $big_deal);
 				?>
@@ -45,7 +45,7 @@
 		<th width="*" class="table_mid">
 			<marquee scrollAmount=20 >
 				<?php
-					$st=jry_wb_connect_database()->prepare('select * from  '.JRY_WB_DATABASE_MAINPAGE.'hengfu  WHERE `enable`=1 order by rand() limit 1');
+					$st=jry_wb_connect_database()->prepare('select * from  '.JRY_WB_DATABASE_MAINPAGE.'hengfu  WHERE `enable`=1 and `delete`=0 order by rand() limit 1');
 					$st->execute();
 					echo $st->fetchAll()[0]['words'];
 				?>
@@ -60,14 +60,12 @@
 </table>
 <script language="javascript">
 	var last;
-	jry_wb_add_load(function(){
-		jry_wb_beautiful_right_alert.alert("开发组不想接到关于本站太丑的投诉<br>开发组已经知道此问题但由于非技术原因无法解决<br>如果您愿意使她变得更美观一些，或您知道有人愿意让她美观一点<br>请联系开发组<br>感谢",10000,'auto','');
-		<?php if($jry_wb_login_user['jry_wb_test_is_mobile']=='disktop'){?>
-		if(!jry_wb_cache.get('index_note')){jry_wb_beautiful_right_alert.alert('F1新建首页<br>F2打开个人中心<br>F3或B打开百度<br>F4或L打开洛咕???<br>P打开POJ<br>A打开阿里云<br>BI打开B站<br>更多参见用户指南',30000,'auto','warn');jry_wb_cache.set('index_note',true);}
-		<?php }?>jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?action=new',function (data)
+	jry_wb_add_load(function()
+	{
+		jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?action=new',function (data)
 		{
 			var data=JSON.parse(data);
-			jry_wb_indexeddb.transaction(['user'],'readwrite').objectStore('user').add(data);
+				jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['user'],'readwrite').objectStore('user').add(data);});
 			jry_wb_loading_off();
 			jry_wb_show_user(document.getElementById('newuser'),data);	
 		},null,false);

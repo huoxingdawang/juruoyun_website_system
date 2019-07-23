@@ -9,7 +9,7 @@
 		<div id='__zhanwei'></div>
 		<?php
 			$conn=jry_wb_connect_database();
-			$st=$conn->prepare('SELECT words FROM '.JRY_WB_DATABASE_MAINPAGE.'tanmu  ORDER BY rand() LIMIT 20'); 
+			$st=$conn->prepare('SELECT words FROM '.JRY_WB_DATABASE_MAINPAGE.'tanmu WHERE `delete`=0 ORDER BY rand() LIMIT 20'); 
 			$st->execute(); 
 			$data=$st->fetchAll();
 			$total=count($data);

@@ -2,12 +2,15 @@ function jry_wb_manage_tanmu_load_data(area)
 {
 	jry_wb_sync_data_with_server('manage_tanmu',"jry_wb_manage_tanmu_get_information.php?action=list",null,function(data)
 	{
-		jry_wb_manage_tanmu_data=data;
-		var re=jry_wb_indexeddb.transaction(['manage_tanmu'],'readwrite').objectStore('manage_tanmu');
-		for(var i=0;i<jry_wb_manage_tanmu_data.length;i++)
-			if(jry_wb_manage_tanmu_data[i].delete)
-				re.delete(jry_wb_manage_tanmu_data[i].tanmu_id),jry_wb_manage_tanmu_data.splice(i,1),i--;
-		jry_wb_manage_tanmu_run(area);
+		jry_wb_add_on_indexeddb_open(function()
+		{
+			jry_wb_manage_tanmu_data=data;
+			var re=jry_wb_indexeddb.transaction(['manage_tanmu'],'readwrite').objectStore('manage_tanmu');
+			for(var i=0;i<jry_wb_manage_tanmu_data.length;i++)
+				if(jry_wb_manage_tanmu_data[i].delete)
+					re.delete(jry_wb_manage_tanmu_data[i].tanmu_id),jry_wb_manage_tanmu_data.splice(i,1),i--;
+			jry_wb_manage_tanmu_run(area);
+		});
 	},function(a,b){return a.tanmu_id-b.tanmu_id});
 }
 function jry_wb_manage_tanmu_init(area,mode)

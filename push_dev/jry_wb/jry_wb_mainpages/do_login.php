@@ -1,5 +1,6 @@
 <?php
 	include_once("../jry_wb_tools/jry_wb_includes.php");
+	session_start();
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 	{
 		$id=$_POST['id'];

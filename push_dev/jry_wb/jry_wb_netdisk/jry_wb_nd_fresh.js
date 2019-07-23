@@ -42,7 +42,7 @@ function jry_wb_nd_fresh(qiangzhi)
 			});	
 	});
 	if(!jry_nd_share_mode_flag)
-		jry_wb_nd_fresh_file_list(qiangzhi);
+		jry_wb_nd_fresh_file_list(qiangzhi,function(){if(jry_nd_load_count==0)jry_wb_nd_show_files_by_dir(decodeURI(document.location.hash)!=''?decodeURI(document.location.hash).split('#')[1]:'/');});
 	if(!jry_nd_share_mode_flag)
-		jry_wb_nd_fresh_share_list(qiangzhi);	
+		jry_wb_nd_fresh_share_list(qiangzhi,function(){if(jry_nd_load_count==0)jry_wb_nd_show_files_by_dir(decodeURI(document.location.hash)!=''?decodeURI(document.location.hash).split('#')[1]:'/');});	
 }

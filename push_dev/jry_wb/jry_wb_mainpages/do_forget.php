@@ -1,5 +1,6 @@
 <?php
 	include_once("../jry_wb_tools/jry_wb_includes.php");
+	session_start();
 	$action=$_GET['action'];
 	$conn=jry_wb_connect_database();
 	try
