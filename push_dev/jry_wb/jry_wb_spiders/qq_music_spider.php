@@ -44,7 +44,7 @@
 				$get_sorce=substr($get_sorce,7);
 				$get_sorce=substr($get_sorce,0,-1);
 				$get_sorce=json_decode($get_sorce);
-				$data[0]['lyric']		=str_replace('&#58;',':',str_replace('&#10;',"\n",str_replace('&#46;','.',str_replace('&#45;','-',str_replace('&#32;',' ',$get_sorce->lyric)))));
+				$data[0]['lyric']		=str_replace('&#41;',')',str_replace('&#39;',"'",str_replace('&#40;','(',str_replace('&#38;apos&#59;',"'",str_replace('&#58;',':',str_replace('&#10;',"\n",str_replace('&#46;','.',str_replace('&#45;','-',str_replace('&#32;',' ',$get_sorce->lyric)))))))));
 			}
 			if($flag)
 				$st = $conn->prepare('INSERT INTO '.JRY_WB_DATABASE_SPIDERS.'qq_music (`pic_url`,`name`,`album`,`music_url`,`singers`,`lasttime`,`lyric`,`mid`) VALUES (?,?,?,?,?,?,?,?)');
