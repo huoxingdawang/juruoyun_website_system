@@ -1,8 +1,6 @@
 function jry_wb_tree(area,text,check,callback)
 {
 	this.check=check==undefined?true:check;
-	if(jry_wb_cache.get('jry_wb_tree_note')!=true)
-		jry_wb_cache.set('jry_wb_tree_note',true),jry_wb_beautiful_right_alert.alert(text==null?'右键全部展开/合并树形图':text);
 	this.root = document.createElement('div');area.appendChild(this.root);
 	this.root.classList.add('jry_wb_tree_root');
 	this.root.oncontextmenu=(event)=>{
