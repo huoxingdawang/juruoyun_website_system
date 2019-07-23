@@ -130,10 +130,10 @@ var jry_wb_get_songs_by_mid=new function()
 		var loading_cnt=list.length;
 		for(let i=0,n=list.length;i<n;i++)
 			if(list[i].type=='qq')
-				this.get_qq(list[i].mid,function(data){ans.push(data);if((--loading_cnt)==0)callback(ans);});
+				this.get_qq(list[i].mid,function(data){data.order=i;ans.push(data);if((--loading_cnt)==0)callback(ans.sort(function(a,b){return a.order-b.order}));});
 			else if(list[i].type=='163')
-				this.get_163(list[i].mid,function(data){ans.push(data);if((--loading_cnt)==0)callback(ans);});
+				this.get_163(list[i].mid,function(data){data.order=i;ans.push(data);if((--loading_cnt)==0)callback(ans.sort(function(a,b){return a.order-b.order}));});
 			else if(list[i].type=='songlist')
-				this.get_list(list[i].slid,function(data){ans=ans.concat(data.data);if((--loading_cnt)==0)callback(ans);});
+				this.get_list(list[i].slid,function(data){for(var j=0;j<data.data.length;j++)data.data[j].order=i,ans.push(data.data[j]);if((--loading_cnt)==0)callback(ans.sort(function(a,b){return a.order-b.order}));});
 	};
 };
