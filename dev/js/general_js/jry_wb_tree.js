@@ -12,6 +12,11 @@ function jry_wb_tree(area,text,check,callback)
 	};
 	this.root.check=this.check;
 	this.openedall=false;
+	this.update=function(node,name,value)
+	{
+		node.children[0].children[2].innerHTML=name;
+		node.children[0].children[0].value=node.children[0].children[1].value=value;
+	};
 	this.add = function(father,name,value,check,do_update)
 	{
 		check=check==undefined?true:check;
@@ -40,7 +45,8 @@ function jry_wb_tree(area,text,check,callback)
 			input.style.display='none',one.check=false;
 		else
 			one.check=true;
-		self.innerHTML+=name;
+		var name_dom=document.createElement('span');self.appendChild(name_dom);
+		name_dom.innerHTML=name;
 		var child = document.createElement('li');one.appendChild(child);
 		child.classList.add('jry_wb_tree_one_body_children');
 		child.style.display='none';

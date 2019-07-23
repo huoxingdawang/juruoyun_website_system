@@ -56,7 +56,9 @@ var jry_wb_get_songs_by_mid=new function()
 					callback(this.result);
 			};
 		});
-	};	
+	};
+	var get_qq=this.get_qq;
+	var get_163=this.get_163;
 	this.get_list=function(slid,callback)
 	{
 		if(typeof callback!='function')
@@ -76,7 +78,7 @@ var jry_wb_get_songs_by_mid=new function()
 						ans.slid=data.slid;
 						ans.makerid=data.makerid;
 						ans.data=new Array();
-						for(var i=0;i<data.length;i++)
+						for(var i=0;i<data.data.length;i++)
 						{
 							ans.data.push({'mid':data.data[i].mid,'type':data.data[i].type});
 							data.data[i].lyric=data.data[i].lyric.split('\n');
@@ -85,7 +87,7 @@ var jry_wb_get_songs_by_mid=new function()
 									t+=Math.pow(60,m-j-1)*a[j];
 							if(data.data[i].type=='qq')
 								jry_wb_indexeddb.transaction(['qq_music'],'readwrite').objectStore('qq_music').put(data.data[i]);
-							else if(this.result.data[i].type=='163')
+							else if(data.data[i].type=='163')
 								jry_wb_indexeddb.transaction(['163_music'],'readwrite').objectStore('163_music').put(data.data[i]);
 						}
 						jry_wb_indexeddb.transaction(['songlist'],'readwrite').objectStore('songlist').put(ans);
@@ -97,19 +99,19 @@ var jry_wb_get_songs_by_mid=new function()
 					var loading_cnt=this.result.data.length;
 					for(let i=0,n=this.result.data.length;i<n;i++)
 						if(this.result.data[i].type=='qq')
-							this.get_qq(this.result.data[i].mid,function(data)
-							{
-								this.result.data[i]=data;
-								if(--loading_cnt)
-									callback(this.result);
-							});
-						else if(this.result.data[i].type=='163')
-							this.get_163(this.result.data[i].mid,function(data)
+							get_qq(this.result.data[i].mid,(data)=>
 							{
 								this.result.data[i]=data;
 								if((--loading_cnt)==0)
 									callback(this.result);
 							});
+						else if(this.result.data[i].type=='163')
+							get_163(this.result.data[i].mid,(data)=>
+							{
+								this.result.data[i]=data;
+								if((--loading_cnt)==0)
+									callback(this.result);
+							});							
 				}
 			};
 		});

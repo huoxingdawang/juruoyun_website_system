@@ -17,7 +17,7 @@ var jry_wb_background_music = new function()
 		if(!inited)
 		{
 			if(typeof jry_wb_login_user!='undefined')
-				jry_wb_get_songs_by_mid.get(jry_wb_login_user.background_music_list,(data)=>{this.song_list=data});
+				jry_wb_background_music.push_song_list(jry_wb_login_user.background_music_list);
 			this.backgroundmusic_icon=document.createElement("p");jry_wb_right_tools.add(this.backgroundmusic_icon);
 			this.backgroundmusic_icon.id='jry_wb_left_button_backgroundmusic_icon';
 			this.backgroundmusic_icon.classList.add('jry_wb_icon_changpian','jry_wb_icon');
@@ -161,8 +161,9 @@ var jry_wb_background_music = new function()
 	this.push_song_list=function(list_old)
 	{
 		if(!jry_wb_test_is_pc())return;		
-		this.song_list=jry_wb_get_songs_by_mid.get(list_old,function()
+		jry_wb_get_songs_by_mid.get(list_old,(data)=>
 		{
+			this.song_list=data;
 			this.beautiful.push_song_list(this.song_list,this.playing==null?'':this.playing.music_url);			
 		});
 	};
@@ -178,7 +179,7 @@ var jry_wb_background_music = new function()
 		if(this.audio==undefined)return undefined;
 		return (currenttime==undefined?this.audio.currentTime:(this.audio.currentTime=currenttime));
 	};
-	this.status=function (status)
+	this.status=function(status)
 	{
 		if(!jry_wb_test_is_pc())return;	
 		if(this.audio==undefined)return undefined;
