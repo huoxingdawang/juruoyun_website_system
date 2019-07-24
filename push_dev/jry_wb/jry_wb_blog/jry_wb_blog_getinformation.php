@@ -21,6 +21,8 @@
 				$json[$i]=	array(	'blog_id'=>$data[$i]['blog_id'],
 									'title'=>$data[$i]['title'],
 									'lasttime'=>$data[$i]['lasttime'],
+									'last_modify_time'=>$data[$i]['last_modify_time'],
+									'last_read_time'=>$data[$i]['last_read_time'],
 									'show'=>$data[$i]['ifshow'],
 									'delete'=>$data[$i]['delete'],
 									'id'=>$data[$i]['id']
@@ -50,6 +52,8 @@
 			echo json_encode(array(	'blog_id'=>$data['blog_id'],
 									'data'=>json_decode($data['data']),
 									'lasttime'=>$data['lasttime'],
+									'last_modify_time'=>$data['last_modify_time'],
+									'last_read_time'=>$data['last_read_time'],
 									'ifshow'=>$data['ifshow'],
 									'delete'=>$data['delete'],
 									'id'=>$data['id']
@@ -62,13 +66,18 @@
 			$st->bindValue(5,jry_wb_get_device(true));
 			$st->bindValue(6,jry_wb_get_browser(true));
 			$st->execute();
-			$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_BLOG."text SET readingcount = readingcount+1 ,lasttime=? where blog_id = ?");
+			$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_BLOG."text SET readingcount = readingcount+1 ,lasttime=?,last_read_time=? where blog_id = ?");
 			$st->bindParam(1,jry_wb_get_time());
-			$st->bindParam(2,intval($_GET['blog_id']));
+			$st->bindParam(2,jry_wb_get_time());
+			$st->bindParam(3,intval($_GET['blog_id']));
 			$st->execute();			
 		}
 		else
-			echo json_encode(array('blog_id'=>$data['blog_id'],'ifshow'=>$data['ifshow']));
+		{
+			header('HTTP/1.1 404 Not Found'); 
+			header("status: 404 Not Found"); 
+			include('../../404.php');
+		}			
 		exit();
 	}
 	try{jry_wb_check_compentence();}catch(jry_wb_exception $e){echo $e->getMessage();exit();}
@@ -87,6 +96,8 @@
 		{
 			$json[$i]=	array(	'blog_id'=>$data[$i]['blog_id'],
 								'title'=>$data[$i]['title'],
+								'last_modify_time'=>$data[$i]['last_modify_time'],
+								'last_read_time'=>$data[$i]['last_read_time'],
 								'lasttime'=>$data[$i]['lasttime'],
 								'delete'=>$data[$i]['delete'],
 								'show'=>$data[$i]['ifshow']
@@ -108,6 +119,8 @@
 								'title'=>$data['title'],
 								'delete'=>$data['delete'],
 								'data'=>json_decode($data['data']),
+								'last_modify_time'=>$data['last_modify_time'],
+								'last_read_time'=>$data['last_read_time'],
 								'lasttime'=>$data['lasttime'],
 								'show'=>$data['ifshow']
 								));			

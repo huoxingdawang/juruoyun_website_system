@@ -18,7 +18,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 	this.delete_flag=false;	
 	this.strong_flag=false;
 	this.id=id;
-	var allow_html=['a','audio','b','br','div','em','i','img','kbd','p','span','sub','sup'];
+	var allow_html=['audio','a','b','br','div','em','iframe','i','img','kbd','p','span','sub','sup'];
 	var disallow_attribute=['onclick','onmouseover','onmousedown','onmouseenter','onmouseleave','onmousemove','onmouseout','onmouseover','onmousewheel','ondrag','ondrop','onfocus'];
 	function test(text,i,word)
 	{

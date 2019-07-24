@@ -28,22 +28,26 @@ jry_wb_add_onresize(function()
 		all.style.margin="0px 0px";
 	}
 });
-jry_wb_set_shortcut([jry_wb_keycode_alt,jry_wb_keycode_l],function(){jry_wb_beautiful_right_alert.alert("已打开草稿箱列表",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('blog_draft','','',true);?>');});
-jry_wb_set_shortcut([jry_wb_keycode_alt,jry_wb_keycode_b],function(){jry_wb_beautiful_right_alert.alert("已打开博客列表",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('blog','','',true);?>');});
-
-jry_wb_add_load(function(){
-	jry_wb_ajax_load_data("jry_wb_blog_getinformation.php?action=get_blog_one&blog_id=<?php echo $_GET['blog_id']?>",function(data){
-		jry_wb_loading_off();
-		data=JSON.parse(data);
-		if(!data.ifshow||data.delete||data.data==null)
-		{
-			jry_wb_ajax_load_data("http://<?php echo $_SERVER['HTTP_HOST'];?>/404.php?url=http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']?>",function(data){document.write(data);});
-			return;
-		}
-		markdown=new jry_wb_markdown(document.getElementById("result"),data.id,data.lasttime,(data.data));
-		document.title+='|'+markdown.title;
-		window.onresize();
-	});
+</script>
+<script type="text/javascript">
+jry_wb_add_on_indexeddb_open(function()
+{
+	var re=jry_wb_indexeddb.transaction(['blog_text'],'readwrite').objectStore('blog_text').get(parseInt(jry_wb_get_get().blog_id));
+	re.onsuccess=function()
+	{
+		if(this.result!=undefined&&jry_wb_get_get().reload=='0')
+			markdown=new jry_wb_markdown(document.getElementById("result"),this.result.id,this.result.lasttime,(this.result.data));
+		else
+			jry_wb_ajax_load_data("jry_wb_blog_getinformation.php?action=get_blog_one&blog_id="+jry_wb_get_get().blog_id,function(data)
+			{
+				jry_wb_loading_off();
+				data=JSON.parse(data);
+				markdown=new jry_wb_markdown(document.getElementById("result"),data.id,data.lasttime,(data.data));
+				jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['blog_text'],'readwrite').objectStore('blog_text').put(data);});
+				document.title+='|'+markdown.title;
+				window.onresize();
+			});
+	};
 });
 </script>
 <?php jry_wb_print_tail();?>

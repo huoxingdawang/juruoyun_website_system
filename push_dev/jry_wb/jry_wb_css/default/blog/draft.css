@@ -1,5 +1,14 @@
-.jry_wb_blog_draft_one_body{margin: 5px 0px 30px; background-color: rgb(204, 204, 204); overflow: hidden;}
+.jry_wb_blog_draft_one_body {margin: 5px 0px 30px;background-color: rgb(204, 204, 204); overflow: hidden;}
 .jry_wb_blog_draft_one_body_show{background-color: rgb(110, 197, 72);}
-.jry_wb_blog_draft_one_body .jry_wb_blog_draft_one_id{min-width:200px;}
-.jry_wb_blog_draft_one_body .jry_wb_blog_draft_one_time{padding: 5px; min-width: 300px;}
-.jry_wb_blog_draft_one_body .jry_wb_blog_draft_one_title{}
+.jry_wb_blog_draft_one_body .id{font-size:30px;color:#33F;min-width:200px;float:left;}
+.jry_wb_blog_draft_one_body .id:link{color:#33F}
+.jry_wb_blog_draft_one_body .id:visited{color:#33F}
+.jry_wb_blog_draft_one_body .id:hover{color:#33F}
+.jry_wb_blog_draft_one_body .id:active{color:#33F}
+.jry_wb_blog_draft_one_body .time{font-size:30px;color:#33F;padding: 5px; min-width: 300px;float:left;}
+.jry_wb_blog_draft_one_body .title{font-size:30px;color:#33F;width:300px;float:left;}
+.jry_wb_blog_draft_one_body .title:link{color:#33F}
+.jry_wb_blog_draft_one_body .title:visited{color:#33F}
+.jry_wb_blog_draft_one_body .title:hover{color:#33F}
+.jry_wb_blog_draft_one_body .title:active{color:#33F}
+.jry_wb_blog_draft_one_body .button{}
