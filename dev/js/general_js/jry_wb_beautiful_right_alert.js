@@ -13,7 +13,7 @@ function jry_wb_beautiful_right_alert_function()
 	this.alert = function(message,time,width,type)  
 	{
 		if (!this.inited)  
-			this.init () ;
+			return jry_wb_add_load(()=>{this.alert(message,time,width,type);});
 		time = time==null?2000:time;
 		width = width==null?'auto':width;
 		var one = document.createElement ("div");this.bgObj.appendChild(one); 

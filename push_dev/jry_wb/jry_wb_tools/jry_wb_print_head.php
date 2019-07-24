@@ -6,7 +6,8 @@
 		global $jry_wb_login_user; 
 		include("jry_wb_save_browsing_history.php");
 		global $jry_wb_keywords; 
-		global $jry_wb_description; 
+		global $jry_wb_description;
+		session_start();
 		if($setweb)
 			$_SESSION['url']='http://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];	
 		if($out==false)

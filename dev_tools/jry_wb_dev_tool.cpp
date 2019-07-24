@@ -27,8 +27,8 @@ using namespace std;
 void listfiles(const char * dir,void(*callback)(char*),const char * type);
 void parsecode(char *dir1);
 char s[1024*1024];
-char dir[200]={"D:\\mydocument\\science\\PHP\\jry_webserve_dev\\dev\\js\\general_js"};
-char out_dir[200]={"D:\\mydocument\\science\\PHP\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
+char dir[200]={"D:\\mydocument\\science\\juruoyun\\jry_webserve_dev\\dev\\js\\general_js"};
+char out_dir[200]={"D:\\mydocument\\science\\juruoyun\\jry_webserve_dev\\push_dev\\jry_wb\\jry_wb_js\\jry_wb_core_js.js.php"};
 char cmd[200];
 U LL yuan_total,xin_total;
 int main()
@@ -59,6 +59,7 @@ int main()
 		{
 			yuan_total=xin_total=0;
 			FILE *out=fopen(out_dir,"w");
+			fprintf(out,"<?php $etag=%d;?>",clock());
 			fclose(out);
 			listfiles(dir,parsecode,"*");
 
@@ -86,6 +87,28 @@ int main()
 			f2.close();			
 			printf("OK old:%lld byte,now:%lld byte,lose:%lld byte,parse ratio:%lf%%\n>",yuan_total,xin_total,yuan_total-xin_total,(double)(yuan_total-xin_total)/yuan_total*100);
 		}
+		else if(strcmp(cmd,"exit")==0)
+			return 0;
+		else if(strcmp(cmd,"synctest0")==0)
+		{
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_test0.juruoyun.top.ffs_batch");
+			printf("finish......\n>");
+		}
+		else if(strcmp(cmd,"syncdev")==0)
+		{
+			
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_dev.juruoyun.top.ffs_batch");
+			printf("finish......\n>");
+		}
+		else if(strcmp(cmd,"sync")==0)
+		{
+			
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_test0.juruoyun.top.ffs_batch");
+			system("FreeFileSync.exe D:\\mydocument\\Documents\\sync_set\\sync_with_dev.juruoyun.top.ffs_batch");
+			printf("finish......\n>");
+		}		
+		else if(strcmp(cmd,""))
+			printf(">");
 		else
 			printf("Use 'help' to get help.\n>");
 	}

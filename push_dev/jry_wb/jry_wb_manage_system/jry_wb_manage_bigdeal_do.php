@@ -16,7 +16,7 @@
 	else if($action=='delete')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("DELETE FROM ".JRY_WB_DATABASE_MAINPAGE."bigdeal WHERE bigdeal_id=? LIMIT 1;");
+		$st = $conn->prepare("UPDATE ".JRY_WB_DATABASE_MAINPAGE."bigdeal SET `delete`=1,name='' WHERE bigdeal_id=? LIMIT 1;");
 		$st->bindParam(1,$bigdeal_id);
 		$st->execute();			
 		echo json_encode(array('code'=>true,'bigdeal_id'=>$bigdeal_id));
@@ -33,10 +33,9 @@
 	else if($action=='add'&&$_POST['name']!=''&&$_POST['time']!='')
 	{
 		@$conn=jry_wb_connect_database();
-		$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_MAINPAGE."bigdeal (`name`,`time`,`id`) VALUES (?,?,?);");
+		$st = $conn->prepare("INSERT INTO ".JRY_WB_DATABASE_MAINPAGE."bigdeal (`name`,`time`) VALUES (?,?);");
 		$st->bindParam(1,$_POST['name']);
 		$st->bindParam(2,$_POST['time']);
-		$st->bindParam(3,$jry_wb_login_user['id']);		
 		$st->execute();
 		echo json_encode(array('code'=>true,'bigdeal_id'=>$bigdeal_id));
 	}

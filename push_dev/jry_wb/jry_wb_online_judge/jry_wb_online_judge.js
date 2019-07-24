@@ -200,16 +200,105 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	var top_toolbar_logs=document.getElementById('top_toolbar_logs');
 	if(top_toolbar_logs!=undefined)
 		top_toolbar_logs.onclick=()=>{this.hash_prevent=false;};
-	this.sync();
+	jry_wb_add_on_indexeddb_open(()=>{this.sync()});
 }
 jry_wb_online_judge_function.prototype.sync=function()
 {
-	if(this.fastsave.question_list	.to_time()-jry_wb_cache.get_last_time('oj_question_list')	.to_time()>0)	this.loadingcount++,jry_wb_sync_data_with_server('oj_question_list'	,jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=question_list&lasttime='+jry_wb_cache.get_last_time('oj_question_list')	,null,function(a){return a.question_id	==this.buf.question_id}	,(data)=>{this.question_list=data;jry_wb_cache.set_last_time('oj_question_list'	,new Date(data.max('lasttime','date')));this.loadingcount--;if(this.loadingcount==0)this.aftersync();},function(a,b){return a.question_id-b.question_id});	else this.question_list	=jry_wb_cache.get('oj_question_list');
-	if(this.fastsave.logs			.to_time()-jry_wb_cache.get_last_time('oj_logs')			.to_time()>0)	this.loadingcount++,jry_wb_sync_data_with_server('oj_logs'			,jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=logs&lasttime='			+jry_wb_cache.get_last_time('oj_logs')			,null,function(a){return a.log_id		==this.buf.log_id}		,(data)=>{this.logs			=data;jry_wb_cache.set_last_time('oj_logs'			,new Date(data.max('lasttime','date')));this.loadingcount--;if(this.loadingcount==0)this.aftersync();},function(a,b){return b.log_id-a.log_id});			else this.logs			=jry_wb_cache.get('oj_logs');
-	if(this.fastsave.classes		.to_time()-jry_wb_cache.get_last_time('oj_classes')			.to_time()>0)	this.loadingcount++,jry_wb_sync_data_with_server('oj_classes'		,jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=classes&lasttime='		+jry_wb_cache.get_last_time('oj_classes')		,null,function(a){return a.class_id		==this.buf.class_id}	,(data)=>{this.classes		=data;jry_wb_cache.set_last_time('oj_classes'		,new Date(data.max('lasttime','date')));this.loadingcount--;if(this.loadingcount==0)this.aftersync();});													else this.classes		=jry_wb_cache.get('oj_classes');
-	if(jry_wb_login_user.id!=-1)																				this.loadingcount++,jry_wb_sync_data_with_server('oj_error'			,jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=error&lasttime='		+jry_wb_cache.get_last_time('oj_error')			,null,function(a){return a.error_id		==this.buf.error_id}	,(data)=>{this.error		=data;jry_wb_cache.set_last_time('oj_error'			,new Date(data.max('lasttime','date')));this.loadingcount--;if(this.loadingcount==0)this.aftersync();});
-	if(this.loadingcount==0)
-		this.aftersync();
+	this.loadingcount++;
+	jry_wb_indexeddb_get_lasttime('oj_question_list',(time)=>
+	{
+		if(this.fastsave.question_list	.to_time()-time>0)
+		{
+			jry_wb_sync_data_with_server('oj_question_list',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=question_list',null,(data)=>
+			{
+				this.question_list=data;
+				this.loadingcount--;
+				if(this.loadingcount==0)
+					this.aftersync();
+				return data.max('lasttime','date');
+			},function(a,b){return a.question_id-b.question_id});
+		}
+		else
+			jry_wb_indexeddb_get_all('oj_question_list',(data)=>
+			{
+				this.question_list=data.sort(function(a,b){return a.question_id-b.question_id});
+				this.loadingcount--;
+				if(this.loadingcount==0)
+					this.aftersync();				
+			});
+	});
+	this.loadingcount++;
+	jry_wb_indexeddb_get_lasttime('oj_logs',(time)=>
+	{
+		if(this.fastsave.question_list.to_time()-time>0)
+		{
+			jry_wb_sync_data_with_server('oj_logs',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=logs',null,(data)=>
+			{
+				this.logs=data;
+				this.loadingcount--;
+				if(this.loadingcount==0)
+					this.aftersync();
+				return data.max('lasttime','date');
+			},function(a,b){return b.log_id-a.log_id});
+		}
+		else
+			jry_wb_indexeddb_get_all('oj_logs',(data)=>
+			{
+				this.logs=data.sort(function(a,b){return b.log_id-a.log_id});
+				this.loadingcount--;
+				if(this.loadingcount==0)
+					this.aftersync();				
+			});
+	});	
+	this.loadingcount++;
+	jry_wb_indexeddb_get_lasttime('oj_classes',(time)=>
+	{
+		if(this.fastsave.question_list	.to_time()-time>0)
+		{
+			jry_wb_sync_data_with_server('oj_classes',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=classes',null,(data)=>
+			{
+				this.classes=data;
+				this.loadingcount--;
+				if(this.loadingcount==0)
+					this.aftersync();
+				return data.max('lasttime','date');
+			},function(a,b){return a.class_id-b.class_id});
+		}
+		else
+			jry_wb_indexeddb_get_all('oj_classes',(data)=>
+			{
+				this.classes=data;
+				this.loadingcount--;
+				if(this.loadingcount==0)
+					this.aftersync();				
+			});
+	});	
+	if(jry_wb_login_user.id!=-1)	
+	{
+		this.loadingcount++;
+		jry_wb_indexeddb_get_lasttime('oj_error',(time)=>
+		{
+			if(this.fastsave.question_list	.to_time()-time>0)
+			{
+				jry_wb_sync_data_with_server('oj_error',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=error',null,(data)=>
+				{
+					this.error=data;
+					this.loadingcount--;
+					if(this.loadingcount==0)
+						this.aftersync();
+					return data.max('lasttime','date');
+				},function(a,b){return a.error_id-b.error_id});
+			}
+			else
+				jry_wb_indexeddb_get_all('oj_error',(data)=>
+				{
+					this.error=data;
+					this.loadingcount--;
+					if(this.loadingcount==0)
+						this.aftersync();				
+				});
+		});
+	}
 };
 jry_wb_online_judge_function.prototype.get_question_by_question_id=function(question_id)
 {

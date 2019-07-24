@@ -48,22 +48,9 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 		reload = false;
 	if(admin_mode==null)
 		admin_mode=false;
-	var cache_name="users";
+	var db_name='user';
 	if(admin_mode)
-		cache_name="jry_wb_manage_user_cache";
-	var data = jry_wb_cache.get(cache_name);
-	if(data!=null)
-		var user=data.find(function (a){ return a.id==id});
-	else
-		var user=null;
-	if(user!=null&&(!reload)&&user.lasttime_sync!=''&&jry_wb_compare_time(new Date(),user.lasttime_sync)<1000*60*60*2)
-	{
-		if( typeof callback=='function')
-			callback(user);		
-		return;
-	}
-	if(user==null) 
-		user={lasttime:"1926-08-17 00:00:00"};
+		db_name='manage_user';
 	var aaa=jry_wb_getting_user.indexOf(id);
 	if(aaa!=-1)
 	{
@@ -73,41 +60,45 @@ function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
 	var i=jry_wb_getting_user.length;
 	jry_wb_getting_user[i]=id;
 	jry_wb_getting_user_call_back[i]=[];
-	jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?id='+id+'&lasttime='+user.lasttime+'&admin_mode='+admin_mode,function (data_)
+	jry_wb_getting_user_call_back[i].push(callback);
+	jry_wb_add_on_indexeddb_open(function()
 	{
-		var buf = JSON.parse(data_);
-		var data = jry_wb_cache.get(cache_name); 
-		if(buf.id==-1)
+		var re=jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).get(id);
+		re.onsuccess=function()
 		{
-			buf=data.find(function (a){return a.id==id});
-			buf.lasttime_sync=new Date();
-		}
-		if(data==null)
-		{
-			data = new Array();
-			data.push(buf);
-		}
-		else if(buf!=null)
-		{
-			var now = data.find(function(a){return a.id==buf.id});
-			if(now==null)
-				data.push(buf);
-			else
-				data.splice(now,1,buf);
-		}
-		jry_wb_cache.set(cache_name,data);
-		if( typeof callback=='function')
-			callback(buf);
-		var aaa=jry_wb_getting_user.indexOf(id);
-		if(aaa!=-1)
-		{
-			jry_wb_getting_user.splice(aaa,1);
-			for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
-				jry_wb_getting_user_call_back[aaa][i](buf);
-			jry_wb_getting_user_call_back.splice(aaa,1);
-		}
-		jry_wb_loading_off();		
-	},null,yibu);
+			var user=this.result;
+			if(user!=undefined&&(!reload)&&user.lasttime_sync!=''&&jry_wb_compare_time(new Date(),user.lasttime_sync)<1000*60*60*2)
+			{
+				var aaa=jry_wb_getting_user.indexOf(id);
+				if(aaa!=-1)
+				{
+					jry_wb_getting_user.splice(aaa,1);
+					for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
+						jry_wb_getting_user_call_back[aaa][i](user);
+					jry_wb_getting_user_call_back.splice(aaa,1);
+				}
+				return;			
+			}
+			if(user==undefined) 
+				user={lasttime:"1926-08-17 00:00:00"};
+			jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?id='+id+'&lasttime='+user.lasttime+'&admin_mode='+admin_mode,function (data)
+			{
+				var data=JSON.parse(data);
+				if(data.id==-1&&data.use==1)
+					data=user,data.lasttime_sync=new Date();
+				jry_wb_indexeddb.transaction([db_name],'readwrite').objectStore(db_name).put(data);
+				var aaa=jry_wb_getting_user.indexOf(id);
+				if(aaa!=-1)
+				{
+					jry_wb_getting_user.splice(aaa,1);
+					for(var i=0;i<jry_wb_getting_user_call_back[aaa].length;i++)
+						jry_wb_getting_user_call_back[aaa][i](data);
+					jry_wb_getting_user_call_back.splice(aaa,1);
+				}
+				jry_wb_loading_off();		
+			});
+		};
+	});
 }
 function jry_wb_show_user(addr,user,width,float,inline,direct)
 {
@@ -140,11 +131,11 @@ function jry_wb_show_user(addr,user,width,float,inline,direct)
 	}
 	adder.style.background="#"+user.color;
 	if(user.show!=null)
-		adder.innerHTML = user.show;
+		adder.innerHTML=user.show.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 	else
 	{
 		var span = document.createElement("span");adder.appendChild(span);
-		span.innerHTML = user.name;
+		span.innerHTML=user.name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 		span.setAttribute('name','jry_wb_user_name_'+user.id);
 		var img = document.createElement("img");
 		jry_wb_set_user_head_special(user,img);
@@ -283,9 +274,9 @@ function jry_wb_show_user_intext(addr,user)
 	else if((user==null)||(user.show==null&&user.name==null&&user.head==null))
 		{user={color:666666,show:'用户已消失'};flag = true;}
 	if(addr==undefined)
-		document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name+'</span>');
+		document.write('<span onclick="jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)" name="jry_wb_user_name_'+user.id+'" style="background:#'+user.color+';" class="jry_wb_show_user_intext">'+user.name.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>');
 	else
-		addr.onclick='jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)',addr.name='jry_wb_user_name_'+user.id,addr.style.background='#'+user.color,addr.classList.add('jry_wb_show_user_intext'),addr.innerHTML=user.name;
+		addr.onclick='jry_wb_get_and_show_user_full('+user.id+',document.body.clientWidth*0.75,document.body.clientHeight*0.75)',addr.name='jry_wb_user_name_'+user.id,addr.style.background='#'+user.color,addr.classList.add('jry_wb_show_user_intext'),addr.innerHTML=user.name.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 function jry_wb_get_and_show_user(addr,id,width,float,inline)
 {

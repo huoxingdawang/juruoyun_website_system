@@ -34,7 +34,7 @@ var jry_wb_background_music = new function()
 				timer=timer_close=null;
 				if(!jry_wb_test_is_pc())
 					timer_close=setTimeout(()=>{this.backgroundmusic_control.style.display="none";clearTimeout(timer);},10000);				
-				this.beautiful.beautiful_scroll.style.height=this.beautiful.list_area.clientHeight-parseFloat(getComputedStyle(this.beautiful.list_area,false)['border-bottom-right-radius']);
+				this.beautiful.beautiful_scroll.jry_wb_scroll_body_y.style.height=this.beautiful.list_area.clientHeight-parseFloat(getComputedStyle(this.beautiful.list_area,false)['border-bottom-right-radius']);
 				this.backgroundmusic_control.style.display="";
 				this.backgroundmusic_control.style.top=parseInt(this.backgroundmusic_icon.style.top)-this.backgroundmusic_control.clientHeight*0.5;
 			};

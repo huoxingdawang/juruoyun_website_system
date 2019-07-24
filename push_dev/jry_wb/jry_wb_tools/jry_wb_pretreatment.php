@@ -5,18 +5,16 @@
 		header("Location:".JRY_WB_HOST);
 		exit();
 	}
-	session_start();
 	//预处理
 	$jry_wb_keywords='';
 	$jry_wb_description='';
 	$conn=jry_wb_connect_database();
 	function jry_wb_pretreatment($conn,&$user,$cookie,$ip,$user_agent=NULL)
-	{
+	{		
 		global $jry_wb_socket_mode;
 		if($user_agent===NULL)
 			$user_agent=$_SERVER["HTTP_USER_AGENT"];
-		$q="DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where time<? AND trust=0";
-		$st=$conn->prepare($q);
+		$st=$conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'login where time<? AND trust=0');
 		$st->bindValue(1,date("Y-m-d H:i:s",time()-JRY_WB_LOGIN_TIME));
 		$st->execute();
 		$user=NULL;
@@ -62,7 +60,6 @@
 			$user['id']=-1;
 			$user['style']=jry_wb_load_style(($user['style_id']=1));
 			$user['background_music_list']=	json_decode('[{"slid": "0", "type": "songlist"}]');		
-			$_SESSION['language']=$user['language']=JRY_WB_DEFAULT_LANGUAGE;
 			setcookie('id',-1,time()-1,'/',JRY_WB_DOMIN,NULL,false);
 			setcookie('code','',time()-1,'/',JRY_WB_DOMIN,NULL,true);
 		}

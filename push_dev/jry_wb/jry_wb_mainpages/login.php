@@ -4,6 +4,7 @@
 	include_once("../jry_wb_configs/jry_wb_tp_gitee_oauth_config.php");
 	include_once("../jry_wb_configs/jry_wb_tp_mi_oauth_config.php");	
 	include_once("../jry_wb_configs/jry_wb_tp_qq_oauth_config.php");
+	session_start();
 	if((!JRY_WB_HOST_SWITCH)&&$_COOKIE['password']!=NULL&&$_COOKIE['id']!=NULL&&(!$_GET['debug']))
 	{
 		$conn=jry_wb_connect_database();

@@ -5,12 +5,12 @@
 	if($action=='list')
 	{
 		$conn2=jry_wb_connect_database();
-		$st = $conn2->prepare('SELECT * FROM '.JRY_WB_DATABASE_MAINPAGE.'tanmu ORDER BY id');
+		$st = $conn2->prepare('SELECT * FROM '.JRY_WB_DATABASE_MAINPAGE.'tanmu ORDER BY tanmu_id');
 		$st->execute();
 		$i=0;
 		$json=array();
-		foreach($st->fetchAll()as $hengfu)
-				array_push($json,array('id'=>(int)$hengfu['id'],'words'=>$hengfu['words']));
-		echo json_encode($json);
+		foreach($st->fetchAll()as $tanmu)
+				array_push($json,array('tanmu_id'=>(int)$tanmu['tanmu_id'],'delete'=>$tanmu['delete'],'words'=>$tanmu['words']));
+		echo json_encode(array('code'=>true,'data'=>$json));
 	}
 ?>

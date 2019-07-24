@@ -20,10 +20,30 @@ function jry_wb_online_judge_manage_function(area)
 }
 jry_wb_online_judge_manage_function.prototype.sync=function()
 {
-	this.loadingcount++,jry_wb_sync_data_with_server('oj_manage_question_list'	,jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=question_list&admin_mode=1&lasttime='	+jry_wb_cache.get_last_time('oj_manage_question_list')	,null,function(a){return a.question_id	==this.buf.question_id}	,(data)=>{this.question_list=data;jry_wb_cache.set_last_time('oj_manage_question_list'	,new Date(data.max('lasttime','date')));this.loadingcount--;if(this.loadingcount==0)this.aftersync();},function(a,b){return a.question_id-b.question_id});
-	this.loadingcount++,jry_wb_sync_data_with_server('oj_classes'				,jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=classes&lasttime='						+jry_wb_cache.get_last_time('oj_classes')				,null,function(a){return a.class_id		==this.buf.class_id}	,(data)=>{this.classes		=data;jry_wb_cache.set_last_time('oj_classes'				,new Date(data.max('lasttime','date')));this.loadingcount--;if(this.loadingcount==0)this.aftersync();});	
-	if(this.loadingcount==0)
-		this.aftersync();
+	this.loadingcount++;
+	jry_wb_indexeddb_get_lasttime('oj_classes',(time)=>
+	{
+		jry_wb_sync_data_with_server('oj_classes',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=classes',null,(data)=>
+		{
+			this.classes=data;
+			this.loadingcount--;
+			if(this.loadingcount==0)
+				this.aftersync();
+			return data.max('lasttime','date');
+		},function(a,b){return a.class_id-b.class_id});
+	});	
+	this.loadingcount++;
+	jry_wb_indexeddb_get_lasttime('oj_manage_question_list',(time)=>
+	{
+		jry_wb_sync_data_with_server('oj_manage_question_list',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=question_list&admin_mode=1',null,(data)=>
+		{
+			this.question_list=data;
+			this.loadingcount--;
+			if(this.loadingcount==0)
+				this.aftersync();
+			return data.max('lasttime','date');
+		},function(a,b){return a.class_id-b.class_id});
+	});		
 };
 jry_wb_online_judge_manage_function.prototype.get_classes_by_question=function(question)
 {

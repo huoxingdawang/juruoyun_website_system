@@ -77,7 +77,8 @@ function  jry_wb_online_judge_show_question_function(area)
 			left_div.classList.add('jry_wb_online_judge_show_question_left_div');
 			var qtitle=document.createElement("div");left_div.appendChild(qtitle);
 			qtitle.classList.add('h56');
-			qtitle.innerHTML="#"+data.question.question_id+":"+data.question.question;
+			
+			new jry_wb_markdown(qtitle,data.question.id,data.question.lasttime,data.question.question,true);
 			
 			if(data.question.question_type==1)
 			{

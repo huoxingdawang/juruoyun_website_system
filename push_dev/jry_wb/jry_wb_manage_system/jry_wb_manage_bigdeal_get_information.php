@@ -9,7 +9,7 @@
 		$i=0;
 		$json=array();
 		foreach($st->fetchAll()as $bigdeal)
-			$json[]=array('bigdeal_id'=>(int)$bigdeal['bigdeal_id'],'name'=>$bigdeal['name'],'time'=>$bigdeal['time'],'enable'=>$bigdeal['enable']);
-		echo json_encode($json);
+			$json[]=array('bigdeal_id'=>(int)$bigdeal['bigdeal_id'],'name'=>$bigdeal['name'],'delete'=>$bigdeal['delete'],'time'=>$bigdeal['time'],'enable'=>$bigdeal['enable']);
+		echo json_encode(array('code'=>true,'data'=>$json));
 	}
 ?>

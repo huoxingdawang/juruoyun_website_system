@@ -1,7 +1,24 @@
 <?php
 	header("content-type: application/x-javascript");
-	include_once("../jry_wb_tools/jry_wb_includes.php");
-	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");	
+	header('Etag: '.$etag);
+	if($_SERVER['HTTP_IF_NONE_MATCH']==$etag)  
+	{
+		header('HTTP/1.1 304');  
+		exit();  
+	}
+	include_once("../jry_wb_configs/jry_wb_config_user_extern_message.php");
+	include_once(dirname(dirname(__FILE__)).'/jry_wb_configs/jry_wb_config_includes.php');
+	if(!JRY_WB_DEBUG_MODE)
+	{
+		if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+		{
+			header('Last-Modified: '.$_SERVER['HTTP_IF_MODIFIED_SINCE'],true,304);
+			exit();
+		}
+		header("Cache-Control: private, max-age=10800, pre-check=10800");
+		header("Pragma: private");
+		header("Expires: " . date(DATE_RFC822,strtotime(" 2 day")));			
+	}
 ?>
 <?php if(false){ ?><script><?php } ?>
 if(typeof jry_wb_message=='undefined')

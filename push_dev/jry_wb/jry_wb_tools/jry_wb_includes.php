@@ -3,6 +3,8 @@
 	$jry_wb_start_time=microtime(true);	
 	class jry_wb_exception extends Exception{};		
 	include_once(dirname(dirname(__FILE__)).'/jry_wb_configs/jry_wb_config_includes.php');
+	
+	
 	include_once('jry_wb_database.php');
 	include_once('jry_wb_check_compentence.php');
 	include_once('jry_wb_user.php');
@@ -31,9 +33,8 @@
 	
 	if(JRY_WB_MAIL_SWITCH!='')
 		include_once('jry_wb_mail.php');
-//	if(JRY_WB_SHORT_MESSAGE_SWITCH)
-//		include_once('');
-	include_once('SignatureHelper.php');
+	if(JRY_WB_SHORT_MESSAGE_SWITCH!='')
+		include_once('jry_wb_short_message.php');
 	
 	include_once('jry_wb_load_style.php');
 	include_once('jry_wb_pretreatment.php');

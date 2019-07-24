@@ -1,6 +1,17 @@
 function jry_wb_manage_tanmu_load_data(area)
 {
-	jry_wb_sync_data_with_server('',"jry_wb_manage_tanmu_get_information.php?action=list",null,function(a){return a.id==this.buf.id},function(data){jry_wb_manage_tanmu_data=data;jry_wb_manage_tanmu_run(area);},function(a,b){return a.id-b.id});
+	jry_wb_sync_data_with_server('manage_tanmu',"jry_wb_manage_tanmu_get_information.php?action=list",null,function(data)
+	{
+		jry_wb_add_on_indexeddb_open(function()
+		{
+			jry_wb_manage_tanmu_data=data;
+			var re=jry_wb_indexeddb.transaction(['manage_tanmu'],'readwrite').objectStore('manage_tanmu');
+			for(var i=0;i<jry_wb_manage_tanmu_data.length;i++)
+				if(jry_wb_manage_tanmu_data[i].delete)
+					re.delete(jry_wb_manage_tanmu_data[i].tanmu_id),jry_wb_manage_tanmu_data.splice(i,1),i--;
+			jry_wb_manage_tanmu_run(area);
+		});
+	},function(a,b){return a.tanmu_id-b.tanmu_id});
 }
 function jry_wb_manage_tanmu_init(area,mode)
 {
@@ -23,7 +34,7 @@ function jry_wb_manage_tanmu_run(area)
 		var input= document.createElement('input');td.appendChild(input);
 		input.value=jry_wb_manage_tanmu_data[i].words;
 		input.classList.add('h56');
-		input.name=jry_wb_manage_tanmu_data[i].id
+		input.name=jry_wb_manage_tanmu_data[i].tanmu_id
 		var td = document.createElement('td');tr.appendChild(td);
 		var chenge= document.createElement('button');td.appendChild(chenge);
 		chenge.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_warn');
@@ -44,7 +55,7 @@ function jry_wb_manage_tanmu_run(area)
 					jry_wb_beautiful_right_alert.alert('修改失败,因为'+data.reasion,2000,'auto','ok');	
 				}
 				jry_wb_loading_off();
-			},[{'name':'words','value':input.value},{'name':'id','value':input.name}]);
+			},[{'name':'words','value':input.value},{'name':'tanmu_id','value':input.name}]);
 		};
 		var td = document.createElement('td');tr.appendChild(td);
 		var del= document.createElement('button');td.appendChild(del);
@@ -66,7 +77,7 @@ function jry_wb_manage_tanmu_run(area)
 					jry_wb_beautiful_right_alert.alert('删除失败,因为'+data.reasion,2000,'auto','ok');	
 				}
 				jry_wb_loading_off();
-			},[{'name':'id','value':input.name}]);			
+			},[{'name':'tanmu_id','value':input.name}]);			
 		};
 		input.style.width=(width-chenge.clientWidth-del.clientWidth)*0.9;
 	}

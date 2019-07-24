@@ -1,6 +1,17 @@
 function jry_wb_manage_bigdeal_load_data(area)
 {
-	jry_wb_sync_data_with_server('',"jry_wb_manage_bigdeal_get_information.php?action=list",null,function(a){return a.bigdeal_id==this.buf.bigdeal_id},function(data){jry_wb_manage_bigdeal_data=data;jry_wb_manage_bigdeal_run(area);},function(a,b){return a.bigdeal_id-b.bigdeal_id});
+	jry_wb_sync_data_with_server('manage_bigdeal',"jry_wb_manage_bigdeal_get_information.php?action=list",null,function(data)
+	{
+		jry_wb_add_on_indexeddb_open(function()
+		{
+			jry_wb_manage_bigdeal_data=data;
+			var re=jry_wb_indexeddb.transaction(['manage_bigdeal'],'readwrite').objectStore('manage_bigdeal');
+			for(var i=0;i<jry_wb_manage_bigdeal_data.length;i++)
+				if(jry_wb_manage_bigdeal_data[i].delete)
+					re.delete(jry_wb_manage_bigdeal_data[i].bigdeal_id),jry_wb_manage_bigdeal_data.splice(i,1),i--;			
+			jry_wb_manage_bigdeal_run(area);
+		});
+	},function(a,b){return a.bigdeal_id-b.bigdeal_id});
 }
 function jry_wb_manage_bigdeal_init(area,mode)
 {

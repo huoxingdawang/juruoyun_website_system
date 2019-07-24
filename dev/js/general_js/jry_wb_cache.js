@@ -1,6 +1,6 @@
-var jry_wb_cache=
+var jry_wb_cache=new function()
 {
-	set:function(name,data,longtime,time)
+	this.set=function(name,data,longtime,time)
 	{
 		if(time==undefined)
 			time=jry_wb_get_server_time();
@@ -13,8 +13,8 @@ var jry_wb_cache=
 			localStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));
 		else 
 			sessionStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));
-	},
-	set_last_time:function(name,time,longtime)
+	};
+	this.set_last_time=function(name,time,longtime)
 	{
 		if(longtime==null)
 			longtime = true;
@@ -23,8 +23,8 @@ var jry_wb_cache=
 			localStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));
 		else
 			sessionStorage.setItem(name,JSON.stringify({lasttime:time,data:data}));	
-	},
-	get:function(name)
+	};
+	this.get=function(name)
 	{
 		var buf = JSON.parse(localStorage.getItem(name));
 		if(buf==null)
@@ -34,8 +34,8 @@ var jry_wb_cache=
 		if(buf.data==null||( typeof buf.data=="object"&&buf.data.length==0))
 			return null;
 		return buf.data;
-	},
-	get_last_time:function(name,qiangzhi)
+	};
+	this.get_last_time=function(name,qiangzhi)
 	{
 		if(qiangzhi)
 			return '1926-08-17 00:00:00';
@@ -50,24 +50,23 @@ var jry_wb_cache=
 			return buf.lasttime.to_time().s();
 		else
 			return new Date(buf.lasttime).s();
-	},
-	delete:function(name)
+	};
+	this.delete=function(name)
 	{
 		localStorage.removeItem(name);	
 		sessionStorage.removeItem(name);
-	},
-	check_if_delete:function(key)
+	};
+	this.check_if_delete=function(key)
 	{
-		return !(key=='showed'||key=='index_note'||key=='background_music'||key=='jry_wb_tree_note'||key=='ip');
-	},
-	delete_all:function()
+		return !(key=='showed'||key=='index_note'||key=='background_music'||key=='jry_wb_tree_note');
+	};
+	this.delete_all=function()
 	{
 		var showed = jry_wb_cache.get('showed');
 		var index_note = jry_wb_cache.get('index_note');
 		var background_music_playing = jry_wb_cache.get('background_music_playing');
 		var background_music = jry_wb_cache.get('background_music');
 		var jry_wb_tree_note = jry_wb_cache.get('jry_wb_tree_note');
-		var ip = jry_wb_cache.get('ip');
 		localStorage.clear();
 		sessionStorage.clear();
 		jry_wb_cache.set('showed',showed);
@@ -75,9 +74,8 @@ var jry_wb_cache=
 		jry_wb_cache.set('background_music_playing',background_music_playing);
 		jry_wb_cache.set('background_music',background_music);
 		jry_wb_cache.set('jry_wb_tree_note',jry_wb_tree_note);
-		jry_wb_cache.set('ip',ip);
-	},
-	size:function(longtime)
+	};
+	this.size=function(longtime)
 	{
 		if(longtime==null)
 			longtime = true;
@@ -89,5 +87,5 @@ var jry_wb_cache=
 			for(var i = 0;i<sessionStorage.length;i++)
 				count+=sessionStorage.getItem(sessionStorage.key(i)).length+sessionStorage.key(i).length;			
 		return count;
-	}
+	};
 };

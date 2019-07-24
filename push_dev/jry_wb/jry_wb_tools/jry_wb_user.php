@@ -25,7 +25,6 @@
 			if(count($datas)==0)
 				return NULL;				
 		}
-		$_SESSION['language']=$user['language'];
 		$user['compentence']=$datas[0];
 		$user['color']=$user['compentence']['color'];
 		$user['competencename']=[$user['compentence']['competencename']];

@@ -37,11 +37,13 @@ function jry_wb_markdown(area,id,time,text,notitle)
 			text=(text);
 		if(text==this.text&&!force)
 			return;
+		this.text=text;
+		if(this.text[0]!='-')
+			return this.area.innerHTML=this.text.replace(/</g,'&lt;').replace(/>/g,'&gt;');
 <?php if(JRY_WB_DEBUG_MODE){ ?>console.time('jry_wb_markdown');<?php } ?>
 		var start=new Date();
 		this.father.removeChild(this.area);
 <?php if(JRY_WB_DEBUG_MODE){ ?>if(typeof console.timeLog!='undefined')console.timeLog('jry_wb_markdown');<?php } ?>
-		this.text=text;
 		this.area.innerHTML='';
 		this.catalog.innerHTML='';
 		this.autonum=false;
@@ -56,6 +58,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		var buf=document.createElement('div');
 		var title_flag=false;
 		var title_flag_enable=true;
+			
 		for(var i=0,n=this.text.length;i<n;i++)
 		{
 			if(this.text[i]=='-'&&this.text[i+1]=='-'&&this.text[i+2]=='-')
