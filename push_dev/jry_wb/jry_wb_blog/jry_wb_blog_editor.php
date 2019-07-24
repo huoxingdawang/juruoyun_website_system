@@ -30,10 +30,6 @@ function do_text(text)
 	else
 		return document.getElementById('oriContent').value=text;
 }
-jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_p],function(){jry_wb_beautiful_right_alert.alert("已打开图床",3000,'auto','ok');	window.open('http://juruoyun.top/mywork/picturebed/index.php');});
-jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_l],function(){jry_wb_beautiful_right_alert.alert("已打开草稿箱列表",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('blog_draft','','',true);?>');});
-jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_b],function(){jry_wb_beautiful_right_alert.alert("已打开博客列表",3000,'auto','ok');window.open('<?php echo jry_wb_print_href('blog','','',true);?>');});
-jry_wb_set_shortcut([jry_wb_keycode_control,jry_wb_keycode_s],save);
 push_pull=document.getElementById('push_pull');
 jry_wb_add_load(function ()
 {
@@ -57,7 +53,7 @@ jry_wb_add_load(function ()
 			jry_wb_ajax_load_data("http://<?php echo $_SERVER['HTTP_HOST'];?>/404.php?url=http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']?>",function(data){document.write(data);});
 			return;
 		}	
-		var d1 = data.lasttime;
+		var d1 = data.last_modify_time;
 		blog_id=data.blog_id;
 		show=data.show;
 		if(show)
@@ -70,20 +66,26 @@ jry_wb_add_load(function ()
 			push_pull.setAttribute('onclick','push()');
 			push_pull.innerHTML='发布';
 		}
-		var d2 = jry_wb_cache.get_last_time("blog_"+blog_id);
-		if(jry_wb_compare_time(d1,d2)<0) 
+		jry_wb_add_on_indexeddb_open(function()
 		{
-			do_text(jry_wb_ajax_get_text(jry_wb_cache.get("blog_"+blog_id)));
-			jry_wb_beautiful_right_alert.alert('已成功从本地复原',4000,'auto','ok');
-		}
-		else
-		{
-			do_text(jry_wb_ajax_get_text(data.data));
-			jry_wb_beautiful_right_alert.alert('已成功从服务器'+data.lasttime+'复原',4000,'auto','ok');
-		}
-		setTimeout(convert,100);
-		jry_wb_beautiful_right_alert.alert("每隔5分钟自动保存",5000,'auto','warn');
-		setInterval("autosave()",1000);
+			var re=jry_wb_indexeddb.transaction(['blog_draft_text'],'readwrite').objectStore('blog_draft_text').get(blog_id);
+			re.onsuccess=function()
+			{
+				if(this.result!=undefined&&jry_wb_compare_time(d1,this.result.last_modify_time)<0)
+				{					
+					do_text(jry_wb_ajax_get_text(this.result.text));
+					jry_wb_beautiful_right_alert.alert('已成功从本地复原',4000,'auto','ok');
+				}
+				else
+				{
+					do_text(jry_wb_ajax_get_text(data.data));
+					jry_wb_beautiful_right_alert.alert('已成功从服务器'+data.last_modify_time+'复原',4000,'auto','ok');
+				}
+				setTimeout(convert,100);
+				jry_wb_beautiful_right_alert.alert("每隔5分钟自动保存",5000,'auto','warn');
+				setInterval("autosave()",1000);
+			};
+		});		
 	});
 	document.getElementById('buttom_message').style.display='none';	
 });
@@ -102,7 +104,7 @@ function convert()
 {
 	timer=null;
 	var text=do_text();
-	jry_wb_cache.set('blog_'+blog_id,text);
+	jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['blog_draft_text'],'readwrite').objectStore('blog_draft_text').put({'blog_id':blog_id,'text':text,'last_modify_time':jry_wb_get_server_time()})});
 	jry_wb_beautiful_right_alert.alert('保存到本地 at '+jry_wb_get_server_time(),500,'auto');
 	if(typeof markdown=='undefined')
 		markdown=new jry_wb_markdown(document.getElementById("result"),jry_wb_login_user.id,jry_wb_get_server_time().s(),text);
@@ -163,15 +165,15 @@ function chenge_ziti()
 }
 function save()
 {
-	jry_wb_ajax_load_data('jry_wb_blog_save.php?action=save_as_draft&blog_id='+blog_id+'&title='+markdown.title,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录保存失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失保存失败",10000,'auto','error');return;}else jry_wb_beautiful_right_alert.alert('已保存为 '+data.message,1000,'auto','ok')},Array({'name':'data','value':JSON.stringify(do_text())}));
+	jry_wb_ajax_load_data('jry_wb_blog_do.php?action=save_as_draft&blog_id='+blog_id+'&title='+markdown.title,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录保存失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失保存失败",10000,'auto','error');return;}else jry_wb_beautiful_right_alert.alert('已保存为 '+data.message,1000,'auto','ok')},Array({'name':'data','value':JSON.stringify(do_text())}));
 }
 function push()
 {
-	jry_wb_ajax_load_data('jry_wb_blog_save.php?action=push&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录发布失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失发布失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功发布'+data.message,1000,'auto','ok');push_pull.innerHTML='收回';push_pull.setAttribute('onclick','pull()');}});
+	jry_wb_ajax_load_data('jry_wb_blog_do.php?action=push&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录发布失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失发布失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功发布'+data.message,1000,'auto','ok');push_pull.innerHTML='收回';push_pull.setAttribute('onclick','pull()');}});
 }
 function pull()
 {
-	jry_wb_ajax_load_data('jry_wb_blog_save.php?action=pull&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录收回失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失收回失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功收回'+data.message,1000,'auto','ok');push_pull.innerHTML='发布';push_pull.setAttribute('onclick','push()');}});
+	jry_wb_ajax_load_data('jry_wb_blog_do.php?action=pull&blog_id='+blog_id,function(data){jry_wb_loading_off();data=JSON.parse(data);if(data.code==false){if(data.reason==100000)jry_wb_beautiful_right_alert.alert('因为没有登录收回失败',10000,'auto','error');else if(data.reason==100001)jry_wb_beautiful_right_alert.alert("因为'"+data.extern+"'权限缺失收回失败",10000,'auto','error');return;}else{jry_wb_beautiful_right_alert.alert('已成功收回'+data.message,1000,'auto','ok');push_pull.innerHTML='发布';push_pull.setAttribute('onclick','push()');}});
 }
 var top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];
 if(top_toolbar==undefined)

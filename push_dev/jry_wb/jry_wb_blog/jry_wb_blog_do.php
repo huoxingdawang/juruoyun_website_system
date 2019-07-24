@@ -8,13 +8,14 @@
 	if($action=='save_as_draft')
 	{
 		$conn=jry_wb_connect_database();
-		$q ="UPDATE ".JRY_WB_DATABASE_BLOG."text SET `data` = ? , lasttime = ? ,title=? where blog_id = ? and id=?";
+		$q ="UPDATE ".JRY_WB_DATABASE_BLOG."text SET `data` = ? , lasttime = ?, last_modify_time = ? ,title=? where blog_id = ? and id=?";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$_POST['data']);
  		$st->bindParam(2,jry_wb_get_time());
-		$st->bindParam(3,urldecode($_GET['title']));
-		$st->bindParam(4,intval($_GET['blog_id']));
-		$st->bindParam(5,$jry_wb_login_user['id']);
+ 		$st->bindParam(3,jry_wb_get_time());
+		$st->bindParam(4,urldecode($_GET['title']));
+		$st->bindParam(5,intval($_GET['blog_id']));
+		$st->bindParam(6,$jry_wb_login_user['id']);
 		$st->execute();
 		echo json_encode(array('login'=>true,'message'=>intval($_GET['blog_id']).':'.urldecode($_GET['title'])));
 	}
