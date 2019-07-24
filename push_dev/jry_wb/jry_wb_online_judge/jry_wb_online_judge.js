@@ -230,7 +230,7 @@ jry_wb_online_judge_function.prototype.sync=function()
 	this.loadingcount++;
 	jry_wb_indexeddb_get_lasttime('oj_logs',(time)=>
 	{
-		if(this.fastsave.question_list.to_time()-time>0)
+		if(this.fastsave.logs.to_time()-time>0)
 		{
 			jry_wb_sync_data_with_server('oj_logs',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=logs',null,(data)=>
 			{
@@ -253,7 +253,7 @@ jry_wb_online_judge_function.prototype.sync=function()
 	this.loadingcount++;
 	jry_wb_indexeddb_get_lasttime('oj_classes',(time)=>
 	{
-		if(this.fastsave.question_list	.to_time()-time>0)
+		if(this.fastsave.classes.to_time()-time>0)
 		{
 			jry_wb_sync_data_with_server('oj_classes',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=classes',null,(data)=>
 			{
@@ -278,7 +278,7 @@ jry_wb_online_judge_function.prototype.sync=function()
 		this.loadingcount++;
 		jry_wb_indexeddb_get_lasttime('oj_error',(time)=>
 		{
-			if(this.fastsave.question_list	.to_time()-time>0)
+			if(true)
 			{
 				jry_wb_sync_data_with_server('oj_error',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=error',null,(data)=>
 				{
