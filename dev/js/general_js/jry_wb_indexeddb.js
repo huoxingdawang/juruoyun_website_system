@@ -1,5 +1,8 @@
 var jry_wb_indexeddb;
-window.onindexeddbopen=function(){jry_wb_beautiful_right_alert.alert('数据库连接建立成功',500,'auto','ok');};
+window.indexedDB=window.indexedDB||window.mozIndexedDB||window.webkitIndexedDB||window.msIndexedDB;
+window.IDBTransaction=window.IDBTransaction||window.webkitIDBTransaction||window.msIDBTransaction||{READ_WRITE:"readwrite"};
+window.IDBKeyRange=window.IDBKeyRange||window.webkitIDBKeyRange||window.msIDBKeyRange;
+window.onindexeddbopen=function(){jry_wb_beautiful_right_alert.alert('思维联络成功!',500,'auto','ok');};
 function jry_wb_add_on_indexeddb_open(func)
 {
 	if(jry_wb_indexeddb!=undefined)
@@ -11,77 +14,45 @@ function jry_wb_add_on_indexeddb_open(func)
 		func();
 	};
 }
-(function()
+var jry_wb_indexeddb_restart_cnt=0;
+function jry_wb_indexeddb_init()
 {
 	var request=window.indexedDB.open('jry_wb',8);
-	request.onerror=function(event){console.error('indexedDB open error');};
+	var timer=null;
+	var update_flag=false;
+	request.onerror=function(event)
+	{
+		jry_wb_beautiful_right_alert.alert('思维联络失败!',1000,'auto','error');
+		jry_wb_indexeddb_restart_cnt++;
+		if(jry_wb_indexeddb_restart_cnt<10)
+			setTimeout(jry_wb_indexeddb_init,1000);
+		else
+			jry_wb_beautiful_alert.alert('思维混乱了!','尝试刷新一下康康？');			
+	};
 	request.onsuccess=function(event)
 	{
 		jry_wb_indexeddb=request.result;
+		if(update_flag)
+			jry_wb_beautiful_right_alert.alert('思维升级完成!',1000,'auto','ok');			
 		window.onindexeddbopen();
 	};
 	request.onupgradeneeded=function(event)
 	{
-		jry_wb_beautiful_right_alert.alert('数据库升级中',1000,'auto','warn');
+		update_flag=true;
+		jry_wb_beautiful_right_alert.alert('思维升级中......',1000,'auto','warn');
 		jry_wb_indexeddb=request.result;
-		if(!jry_wb_indexeddb.objectStoreNames.contains('ip')) 
-			jry_wb_indexeddb.createObjectStore('ip',{keyPath:'data.ip'});		
-		if(!jry_wb_indexeddb.objectStoreNames.contains('user')) 
-			jry_wb_indexeddb.createObjectStore('user',{keyPath:'id'});		
-		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_user')) 
-			jry_wb_indexeddb.createObjectStore('manage_user',{keyPath:'id'});		
-		if(!jry_wb_indexeddb.objectStoreNames.contains('lasttime')) 
-			jry_wb_indexeddb.createObjectStore('lasttime',{keyPath:'key'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('invitecode')) 
-			jry_wb_indexeddb.createObjectStore('invitecode',{keyPath:'incite_code_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('log')) 
-			jry_wb_indexeddb.createObjectStore('log',{keyPath:'log_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('oj_question_list')) 
-			jry_wb_indexeddb.createObjectStore('oj_question_list',{keyPath:'question_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('oj_manage_question_list')) 
-			jry_wb_indexeddb.createObjectStore('oj_manage_question_list',{keyPath:'question_id'});		
-		if(!jry_wb_indexeddb.objectStoreNames.contains('oj_logs')) 
-			jry_wb_indexeddb.createObjectStore('oj_logs',{keyPath:'log_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('oj_classes')) 
-			jry_wb_indexeddb.createObjectStore('oj_classes',{keyPath:'class_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('oj_error')) 
-			jry_wb_indexeddb.createObjectStore('oj_error',{keyPath:'question_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('blog_all')) 
-			jry_wb_indexeddb.createObjectStore('blog_all',{keyPath:'blog_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('blog_draft')) 
-			jry_wb_indexeddb.createObjectStore('blog_draft',{keyPath:'blog_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('chat_rooms')) 
-			jry_wb_indexeddb.createObjectStore('chat_rooms',{keyPath:'chat_room_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('chat_messages')) 
-			jry_wb_indexeddb.createObjectStore('chat_messages',{keyPath:'chat_text_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('nd_group')) 
-			jry_wb_indexeddb.createObjectStore('nd_group',{keyPath:'group_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('nd_area')) 
-			jry_wb_indexeddb.createObjectStore('nd_area',{keyPath:'area_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('nd_file_list')) 
-			jry_wb_indexeddb.createObjectStore('nd_file_list',{keyPath:'file_id'});	
-		if(!jry_wb_indexeddb.objectStoreNames.contains('nd_share_list')) 
-			jry_wb_indexeddb.createObjectStore('nd_share_list',{keyPath:'share_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_user_list')) 
-			jry_wb_indexeddb.createObjectStore('manage_user_list',{keyPath:'id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_competence')) 
-			jry_wb_indexeddb.createObjectStore('manage_competence',{keyPath:'type'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_bigdeal')) 
-			jry_wb_indexeddb.createObjectStore('manage_bigdeal',{keyPath:'bigdeal_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_hengfu')) 
-			jry_wb_indexeddb.createObjectStore('manage_hengfu',{keyPath:'hengfu_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('manage_tanmu')) 
-			jry_wb_indexeddb.createObjectStore('manage_tanmu',{keyPath:'tanmu_id'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('qq_music')) 
-			jry_wb_indexeddb.createObjectStore('qq_music',{keyPath:'mid'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('163_music')) 
-			jry_wb_indexeddb.createObjectStore('163_music',{keyPath:'mid'});
-		if(!jry_wb_indexeddb.objectStoreNames.contains('songlist')) 
-			jry_wb_indexeddb.createObjectStore('songlist',{keyPath:'slid'});		
-		jry_wb_beautiful_right_alert.alert('数据库升级完成',1000,'auto','ok');
-		window.onindexeddbopen();
+		var creat_list=[{'name':'user'				,'key':'id'}			,{'name':'manage_user'				,'key':'id'}			,{'name':'lasttime'		,'key':'key'}			,{'name':'invitecode'		,'key':'incite_code_id'}	,{'name':'log'				,'key':'log_id'},
+						{'name':'oj_question_list'	,'key':'question_id'}	,{'name':'oj_manage_question_list'	,'key':'question_id'}	,{'name':'oj_logs'		,'key':'log_id'}		,{'name':'oj_classes'		,'key':'class_id'}			,{'name':'oj_error'			,'key':'error_id'},
+						{'name':'blog_all'			,'key':'blog_id'}		,{'name':'blog_draft'				,'key':'blog_id'}		,{'name':'chat_rooms'	,'key':'chat_room_id'}	,{'name':'chat_messages'	,'key':'chat_text_id'}		,{'name':'nd_group'			,'key':'group_id'},
+						{'name':'nd_area'			,'key':'area_id'}		,{'name':'nd_file_list'				,'key':'file_id'}		,{'name':'nd_share_list','key':'share_id'}		,{'name':'manage_user_list'	,'key':'id'}				,{'name':'manage_competence','key':'type'},
+						{'name':'manage_bigdeal'	,'key':'bigdeal_id'}	,{'name':'manage_hengfu'			,'key':'hengfu_id'}		,{'name':'manage_tanmu'	,'key':'tanmu_id'}		,{'name':'qq_music'			,'key':'mid'}				,{'name':'163_music'		,'key':'mid'},
+						{'name':'songlist'			,'key':'slid'}];
+		for(var i=0,n=creat_list.length;i<n;i++)
+			if(!jry_wb_indexeddb.objectStoreNames.contains(creat_list[i].name)) 
+				jry_wb_indexeddb.createObjectStore(creat_list[i].name,{keyPath:creat_list[i].key});
 	}
-}());
+};
+jry_wb_indexeddb_init();
 function jry_wb_indexeddb_set_lasttime(key,time)
 {
 	jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['lasttime'],'readwrite').objectStore('lasttime').put({'key':key,'time':time});});
