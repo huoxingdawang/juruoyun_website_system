@@ -37,7 +37,7 @@ var jry_wb_get_songs_by_mid=new function()
 			return;		
 		jry_wb_add_on_indexeddb_open(function()
 		{
-			var re=jry_wb_indexeddb.transaction(['163_music'],'readwrite').objectStore('163_music').get(mid);
+			var re=jry_wb_indexeddb.transaction(['163_music'],'readwrite').objectStore('163_music').get(parseInt(mid));
 			re.onsuccess=function()
 			{
 				if(this.result==undefined||((jry_wb_get_server_time()-new Date(this.result.lasttime.replace(/\-/g, "/")))>(1000*60*60*0.25)))
@@ -47,6 +47,7 @@ var jry_wb_get_songs_by_mid=new function()
 						jry_wb_loading_off();
 						data=JSON.parse(data);
 						data.lyric=data.lyric.split('\n');
+						data.mid=parseInt(data.mid);
 						for(var k=0,o=data.lyric.length,t=0;k<o;data.lyric[k]={'t':t,'w':data.lyric[k].split(']')[1]},k++,t=0)							
 							for(var j=0,a=data.lyric[k].split(']')[0].slice(1).split(':'),m=a.length,t=0;j<m;j++)
 								t+=Math.pow(60,m-j-1)*a[j];
@@ -85,7 +86,7 @@ var jry_wb_get_songs_by_mid=new function()
 						ans.data=new Array();
 						for(var i=0;i<data.data.length;i++)
 						{
-							ans.data.push({'mid':data.data[i].mid,'type':data.data[i].type});
+							ans.data.push({'mid':data.data[i].type=='163'?parseInt(data.data[i].mid):data.data[i].mid,'type':data.data[i].type});
 							data.data[i].lyric=data.data[i].lyric.split('\n');
 							for(var k=0,o=data.data[i].lyric.length,t=0;k<o;data.data[i].lyric[k]={'t':t,'w':data.data[i].lyric[k].split(']')[1]},k++,t=0)
 								for(var j=0,a=data.data[i].lyric[k].split(']')[0].slice(1).split(':'),m=a.length,t=0;j<m;j++)
@@ -96,7 +97,7 @@ var jry_wb_get_songs_by_mid=new function()
 							if(data.data[i].type=='qq')
 								jry_wb_indexeddb.transaction(['qq_music'],'readwrite').objectStore('qq_music').put(data.data[i]);
 							else if(data.data[i].type=='163')
-								jry_wb_indexeddb.transaction(['163_music'],'readwrite').objectStore('163_music').put(data.data[i]);
+								data.data[i].mid=parseInt(data.data[i].mid),jry_wb_indexeddb.transaction(['163_music'],'readwrite').objectStore('163_music').put(data.data[i]);
 						}
 						jry_wb_indexeddb.transaction(['songlist'],'readwrite').objectStore('songlist').put(ans);
 						callback(data);

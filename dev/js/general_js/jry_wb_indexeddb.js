@@ -17,7 +17,7 @@ function jry_wb_add_on_indexeddb_open(func)
 var jry_wb_indexeddb_restart_cnt=0;
 function jry_wb_indexeddb_init()
 {
-	var request=window.indexedDB.open('jry_wb',9);
+	var request=window.indexedDB.open('jry_wb',10);
 	var timer=null;
 	var update_flag=false;
 	request.onerror=function(event)
