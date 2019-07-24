@@ -78,7 +78,7 @@ function jry_wb_indexeddb_get_all(db_name,callback)
 		var data=[];
 		re.onsuccess=function()
 		{
-			var cursor=event.target.result;
+			var cursor=this.result;
 			if (cursor)
 				data.push(cursor.value),cursor.continue();
 			else
