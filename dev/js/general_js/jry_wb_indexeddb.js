@@ -17,7 +17,7 @@ function jry_wb_add_on_indexeddb_open(func)
 var jry_wb_indexeddb_restart_cnt=0;
 function jry_wb_indexeddb_init()
 {
-	var request=window.indexedDB.open('jry_wb',10);
+	var request=window.indexedDB.open('jry_wb',11);
 	var timer=null;
 	var update_flag=false;
 	request.onerror=function(event)
@@ -46,7 +46,7 @@ function jry_wb_indexeddb_init()
 						{'name':'blog_list'			,'key':'blog_id'}		,{'name':'blog_draft_list'			,'key':'blog_id'}		,{'name':'chat_rooms'	,'key':'chat_room_id'}	,{'name':'chat_messages'	,'key':'chat_text_id'}		,{'name':'nd_group'			,'key':'group_id'},
 						{'name':'nd_area'			,'key':'area_id'}		,{'name':'nd_file_list'				,'key':'file_id'}		,{'name':'nd_share_list','key':'share_id'}		,{'name':'manage_user_list'	,'key':'id'}				,{'name':'manage_competence','key':'type'},
 						{'name':'manage_bigdeal'	,'key':'bigdeal_id'}	,{'name':'manage_hengfu'			,'key':'hengfu_id'}		,{'name':'manage_tanmu'	,'key':'tanmu_id'}		,{'name':'qq_music'			,'key':'mid'}				,{'name':'163_music'		,'key':'mid'},
-						{'name':'songlist'			,'key':'slid'}			,{'name':'blog_text'				,'key':'blog_id'}		,{'name':'blog_draft_text'	,'key':'blog_id'}];
+						{'name':'songlist'			,'key':'slid'}			,{'name':'blog_text'				,'key':'blog_id'}		,{'name':'blog_draft_text'	,'key':'blog_id'}	,{'name':'ip'	,'key':'data.ip'}];
 		for(var i=0,n=creat_list.length;i<n;i++)
 			if(!jry_wb_indexeddb.objectStoreNames.contains(creat_list[i].name)) 
 				jry_wb_indexeddb.createObjectStore(creat_list[i].name,{keyPath:creat_list[i].key});
