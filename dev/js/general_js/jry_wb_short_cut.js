@@ -91,6 +91,9 @@ function jry_wb_set_shortcut(code,func)
 	var ctrl	=code.indexOf(jry_wb_keycode_control);	if(ctrl!=-1)	code.splice(ctrl,1)	,ctrl	=true;else ctrl=false;
 	var alt		=code.indexOf(jry_wb_keycode_alt);		if(alt!=-1)		code.splice(alt,1)	,alt	=true;else alt=false;
 	var shift	=code.indexOf(jry_wb_keycode_shift);	if(shift!=-1)	code.splice(shift,1),shift	=true;else shift=false;
+	for(var i=0;i<jry_wb_short_cut_list.length;i++)
+		if(jry_wb_short_cut_list[i].ctrl==ctrl&&jry_wb_short_cut_list[i].alt==alt&&jry_wb_short_cut_list[i].shift==shift&&jry_wb_short_cut_list[i].code.toString()==code.toString())
+			return jry_wb_short_cut_list[i].func=func;
 	jry_wb_short_cut_list.push({'ctrl':ctrl,'alt':alt,'shift':shift,'code':code,'func':func});
 	jry_wb_short_cut_list.sort(function(a,b){return b.code.length-a.code.length});
 }
@@ -100,7 +103,7 @@ window.onkeyup=function(e)
 {
 	e=window.event||e;
 	if(jry_wb_short_cut_timer!=null)clearTimeout(jry_wb_short_cut_timer);
-	jry_wb_short_cut_timer=setTimeout(function(){jry_wb_short_cut_timer=null;jry_wb_short_cut_key_buf=[]},500);
+	jry_wb_short_cut_timer=setTimeout(function(){jry_wb_short_cut_timer=null;jry_wb_short_cut_key_buf=[];},500);
 	jry_wb_short_cut_key_buf.push(e.keyCode);
 	jry_wb_short_cut_key_buf=jry_wb_short_cut_key_buf.sort();
 	var ctrl	=jry_wb_short_cut_key_buf.indexOf(jry_wb_keycode_control);	if(ctrl!=-1)	jry_wb_short_cut_key_buf.splice(ctrl,1)	,ctrl	=true;else ctrl=false;
@@ -108,5 +111,5 @@ window.onkeyup=function(e)
 	var shift	=jry_wb_short_cut_key_buf.indexOf(jry_wb_keycode_shift);	if(shift!=-1)	jry_wb_short_cut_key_buf.splice(shift,1),shift	=true;else shift=false;	
 	for(var i=0;i<jry_wb_short_cut_list.length;i++)
 		if(jry_wb_short_cut_list[i].ctrl==e.ctrlKey&&jry_wb_short_cut_list[i].alt==e.altKey&&jry_wb_short_cut_list[i].shift==e.shiftKey&&jry_wb_short_cut_list[i].code.toString()==jry_wb_short_cut_key_buf.toString())
-			return setTimeout(function(){jry_wb_short_cut_list[i].func(e)},1),e.preventDefault(),false;
+			return setTimeout(function(){if(jry_wb_short_cut_timer!=null)clearTimeout(jry_wb_short_cut_timer);jry_wb_short_cut_timer=null;jry_wb_short_cut_key_buf=[];jry_wb_short_cut_list[i].func(e)},1),e.preventDefault(),false;
 };

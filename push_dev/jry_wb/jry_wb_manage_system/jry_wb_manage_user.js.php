@@ -6,6 +6,7 @@
 <?php if(false){ ?><script><?php } ?>
 var jry_wb_manage_user=new function()
 {
+	this.top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];	
 }
 jry_wb_manage_user.sync=function()
 {
@@ -33,17 +34,19 @@ jry_wb_manage_user.sync=function()
 jry_wb_manage_user.showall=function()
 {
 	this.area.innerHTML='';
-	var all = document.createElement('table');this.area.appendChild(all);
+	var all = document.createElement('div');this.area.appendChild(all);
 	all.width='100%';all.height='100%';
 	all.classList.add("jry_wb_left_toolbar");
-	var tr=document.createElement('tr');all.appendChild(tr);
-	tr.width='100%';tr.height='100%';
-	tr.classList.add("jry_wb_left_toolbar_left");
-	var td = document.createElement('td');tr.appendChild(td);
-	td.setAttribute('valign','top');
-	td.style.width='150px';
-	var list = document.createElement('div');td.appendChild(list);
+	var list = document.createElement('div');all.appendChild(list);
+	list.classList.add("jry_wb_left_toolbar_left");	
 	list.style.width='150px';
+	list.style.float='left';
+	var right_body=document.createElement('div');all.appendChild(right_body);
+	right_body.classList.add("jry_wb_left_toolbar_right");	
+	right_body.style.float='left';
+	all.style.height=list.style.height=right_body.style.height=document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight);
+	right_body.style.position=list.style.position='relative';
+	right_body.style.width=all.clientWidth-list.clientWidth;
 	var one=document.createElement('div');list.appendChild(one);
 	one.classList.add('jry_wb_left_toolbar_left_list_default');
 	one.innerHTML='重载';
@@ -60,9 +63,9 @@ jry_wb_manage_user.showall=function()
 	{
 		window.open(jry_wb_message.jry_wb_host+'jry_wb_manage_system/jry_wb_manage_user_do.php?action=print')
 	};
-	for(var i=0,n=this.all.length;i<n;i++)
+	for(let i=0,n=this.all.length;i<n;i++)
 	{
-		var one=document.createElement('div');list.appendChild(one);
+		let one=document.createElement('div');list.appendChild(one);
 		one.style="text-overflow: ellipsis; overflow:hidden;";
 		one.style.width='';
 		if(!this.all[i].use)
@@ -70,20 +73,29 @@ jry_wb_manage_user.showall=function()
 		else
 			one.classList.add(('jry_wb_left_toolbar_left_list_'+(i%2+1)));
 		one.innerHTML=this.all[i].id+':'+this.all[i].name;
+		this.all[i].button=one;
 		one.onclick=(event)=>
 		{
-			var id=parseInt(event.target.innerHTML);
+			let id=this.all[i].id;
+			if(i!=0)
+				jry_wb_set_shortcut(jry_wb_keycode_left,(e)=>{this.all[i-1].button.onclick(e);});
+			else
+				jry_wb_set_shortcut(jry_wb_keycode_left,(e)=>{});
+			if(i!=this.all.length-1)
+				jry_wb_set_shortcut(jry_wb_keycode_right,(e)=>{this.all[i+1].button.onclick(e);});
+			else
+				jry_wb_set_shortcut(jry_wb_keycode_right,(e)=>{});
 			if(this.lasthighlight!=null)
 				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
-			this.lasthighlight=event.target;	
-			event.target.classList.add('jry_wb_left_toolbar_left_list_active'); 
+			this.lasthighlight=this.all[i].button;	
+			this.all[i].button.classList.add('jry_wb_left_toolbar_left_list_active'); 
+			this.list_scroll.scrollto(0,this.all[i].button.offsetTop-this.all[0].button.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));			
 			jry_wb_get_user(id,this.reload[id],(user)=>
 			{
-				this.reload[id]=false;
-				var show=event.target.parentNode.parentNode.nextElementSibling;
 				jry_wb_loading_off();
-				show.innerHTML='';
-				var one=document.createElement("table");show.appendChild(one);
+				this.reload[id]=false;
+				right_body.innerHTML='';
+				var one=document.createElement("table");right_body.appendChild(one);
 				one.border=1;
 				one.width='100%';
 				jry_wb_show_tr_no_input(one,'ID',user.id);
@@ -92,7 +104,6 @@ jry_wb_manage_user.showall=function()
 				button.type="button";button.innerHTML="昵称不合法";button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");button.name=user.id;
 				button.onclick=(event)=>
 				{
-					var id=parseInt(event.target.name); 
 					this.reload[id]=true;
 					jry_wb_ajax_load_data('jry_wb_manage_user_do.php?action=name_not_ok&id='+id,(data)=>
 					{
@@ -233,7 +244,6 @@ jry_wb_manage_user.showall=function()
 					button.type="button";button.innerHTML="提醒绑邮箱";button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");button.name=user.id;
 					button.onclick=(event)=>
 					{
-						var id=parseInt(event.target.name); 
 						this.reload[id]=true;
 						jry_wb_ajax_load_data('jry_wb_manage_user_do.php?action=bangyouxiang&id='+id,function(data)
 						{
@@ -387,13 +397,12 @@ jry_wb_manage_user.showall=function()
 				button.type="button";button.innerHTML="修改";button.className="jry_wb_button jry_wb_button_size_big jry_wb_color_ok";button.name=user.id;
 				button.onclick=(event)=>
 				{
-					var id=parseInt(event.target.name); 
 					this.reload[id]=true;
-					var inputs=event.target.parentNode.parentNode.parentNode.getElementsByTagName('input');
+					var inputs=right_body.getElementsByTagName('input');
 					var out=new Array();
 					for(var i=0,n=inputs.length;i<n;i++)
 						out.push({'name':inputs[i].name,'value':inputs[i].value});
-					var inputs=event.target.parentNode.parentNode.parentNode.getElementsByTagName('select');
+					var inputs=right_body.getElementsByTagName('select');
 					var type_buf=[];
 					for(var i=0,n=inputs.length;i<n;i++)
 						if(inputs[i].name=='type')
@@ -426,10 +435,10 @@ jry_wb_manage_user.showall=function()
 				window.scrollTo(window.scrollX,0);
 			},undefined,true);
 		}
-		window.onresize();
 	}
-	var one = document.createElement('td');tr.appendChild(one);
-	one.width='*';one.setAttribute('valign','top');	
+	this.list_scroll=new jry_wb_beautiful_scroll(list);	
+	this.all[0].button.onclick();
+	window.onresize();
 }
 function jry_wb_manage_user_init(area,mode)
 {
