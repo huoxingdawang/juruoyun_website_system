@@ -9,7 +9,7 @@
 		'jry_wb_index_page':'<?php echo jry_wb_print_href("home","","",true) ?>',
 		'jry_wb_chenge_page':'<?php echo jry_wb_print_href("users","","",true) ?>'
 	};
-	var jry_wb_login_user=JSON.parse(decodeURI('<?php
+	var jry_wb_login_user=JSON.parse(decodeURI("<?php
 		$data=array('id'=>$jry_wb_login_user['id'],
 					'head_special'=>$jry_wb_login_user['head_special'],
 					'color'=>$jry_wb_login_user['color'],		
@@ -44,7 +44,7 @@
 					'compentence'=>$jry_wb_login_user['compentence'],
 					'extern'=>$jry_wb_login_user['extern']
 					);
-		echo (json_encode($data));?>'));
+		echo str_replace('"','\\"',(json_encode($data)));?>"));
 	jry_wb_login_user.zhushi=jry_wb_login_user.zhushi.replace(/<br>/g,'\n');
 	jry_wb_login_user.id=parseInt(jry_wb_login_user.id);
 	jry_wb_time_different=(new Date()-new Date('<?php  echo jry_wb_get_time();?>'.replace(/\-/g, "/")));
