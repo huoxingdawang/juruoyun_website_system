@@ -63,6 +63,14 @@ jry_wb_manage_user.showall=function()
 	{
 		window.open(jry_wb_message.jry_wb_host+'jry_wb_manage_system/jry_wb_manage_user_do.php?action=print')
 	};
+	var one=document.createElement('div');list.appendChild(one);
+	one.classList.add('jry_wb_left_toolbar_left_list_default');
+	one.innerHTML='预加载';
+	one.onclick=(event)=>
+	{
+		for(var i=0;i<this.all.length;i++)
+			this.all[i].button.onclick();
+	};	
 	for(let i=0,n=this.all.length;i<n;i++)
 	{
 		let one=document.createElement('div');list.appendChild(one);
@@ -94,6 +102,12 @@ jry_wb_manage_user.showall=function()
 			{
 				jry_wb_loading_off();
 				this.reload[id]=false;
+				if(this.lasthighlight!=null)
+					this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
+				var buf=this.all.find(function(a){return a.id==id});
+				this.lasthighlight=buf.button;	
+				buf.button.classList.add('jry_wb_left_toolbar_left_list_active'); 
+				this.list_scroll.scrollto(0,buf.button.offsetTop-this.all[0].button.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));					
 				right_body.innerHTML='';
 				var one=document.createElement("table");right_body.appendChild(one);
 				one.border=1;
