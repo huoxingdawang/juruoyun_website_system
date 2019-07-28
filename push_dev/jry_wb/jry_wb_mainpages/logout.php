@@ -12,6 +12,6 @@
 	jry_wb_echo_log(constant('jry_wb_log_type_logout'),'by self');
 ?>
 <script language=javascript>
-	jry_wb_cache.delete_all();
+	jry_wb_indexeddb_clear();
 	jry_wb_beautiful_alert.alert("登出成功","登出成功","<?php echo $url?>");
 </script>

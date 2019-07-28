@@ -40,6 +40,7 @@
 	<noscript><div style="background-color:#000; font-size:50px; color:#FFFFFF; width:100%; height:100%;"><div style="font-size:200px; color:#F00;" align="center">WARNING!<br></div><div style="font-size:50px; color:#F00;" align="center">You are useing browsers with out JS.<br>Please stop now!<br>:-(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-:</div><div style="font-size:25px; color:#F00;" align="center"></div></div></noscript>
 	<script type='text/javascript'>jry_wb_onbody_function_data();if (!navigator.cookieEnabled){document.body.innerHTML+='<div style="background-color:#000; font-size:50px; color:#FFFFFF; width:100%; height:100%;"><div style="font-size:200px; color:#F00;" align="center">WARNING!<br></div><div style="font-size:50px; color:#F00;" align="center">You are useing browsers with out Cookie.<br>Please stop now!<br>:-(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-:</div><div style="font-size:25px; color:#F00;" align="center"></div></div>';}</script>
 	<?php ob_flush();
+		if($jry_wb_login_user['id']!=$_COOKIE['id']) echo '<script>jry_wb_add_on_indexeddb_open(jry_wb_indexeddb_clear);</script>';
 		if($checklogin)
 		{
 			try{jry_wb_check_compentence(NULL,$compentence);}

@@ -60,7 +60,8 @@
 			$user['id']=-1;
 			$user['style']=jry_wb_load_style(($user['style_id']=1));
 			$user['background_music_list']=	json_decode('[{"slid": "0", "type": "songlist"}]');		
-			setcookie('id',-1,time()-1,'/',JRY_WB_DOMIN,NULL,false);
+			setcookie('id',-1,time()+60*60*24*365*1000,'/',JRY_WB_DOMIN,NULL,false);
+			setcookie('id',-1,time()-1,'/',jry_wb_get_domain(),NULL,false);
 			setcookie('code','',time()-1,'/',JRY_WB_DOMIN,NULL,true);
 		}
 	}
