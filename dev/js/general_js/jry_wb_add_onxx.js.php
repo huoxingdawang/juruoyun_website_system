@@ -57,14 +57,14 @@ jry_wb_add_onbody(function()
 	jry_wb_loading_progress=new jry_wb_progress_bar(document.body,"100%",0,"",function(x){},function(x){},"progress_bar",'',true,false,'ok');
 	jry_wb_loading_progress.progress_body.style.position='fixed';
 	if(jry_wb_loading_count>0)
-		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update(jry_wb_loading_count/jry_wb_loading_count_max,'');
+		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');
 });
 function jry_wb_loading_on()
 {
 	jry_wb_loading_count++;
 	jry_wb_loading_count_max++;
 	if(jry_wb_loading_progress!=undefined)
-		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update(jry_wb_loading_count/jry_wb_loading_count_max,'');
+		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');
 }
 function jry_wb_loading_off()
 {
@@ -72,7 +72,7 @@ function jry_wb_loading_off()
 	if(jry_wb_loading_count<=0)
 		jry_wb_loading_count_max=0;
 	if(jry_wb_loading_progress!=undefined)
-		jry_wb_loading_progress.progress_body.style.height=(jry_wb_loading_count<=0?'0px':'2px'),jry_wb_loading_progress.update(jry_wb_loading_count/jry_wb_loading_count_max,'');		
+		jry_wb_loading_progress.progress_body.style.height=(jry_wb_loading_count<=0?'0px':'2px'),jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');		
 }
 function jry_wb_add_onresize(func) 
 {  
