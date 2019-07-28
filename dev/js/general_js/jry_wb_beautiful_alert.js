@@ -52,23 +52,23 @@ function  jry_wb_beautiful_alert_function()
 		var txt = document.createElement("input");this.msgObj.appendChild(txt);
 		txt.classList.add("jry_wb_beautiful_alert_text","h56");
 		txt = null;
-		var buttom = document.createElement("div");this.msgObj.appendChild(buttom); 
-		buttom.classList.add("jry_wb_beautiful_alert_button");
-		buttom.style="width:100%;buttom:0px;text-align:center;";
-		var Confirm = document.createElement("input");buttom.appendChild(Confirm);  
-		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
-		Confirm.type='button'; 
-		Confirm.value="确认"; 
-		Confirm.style.bottom = 0;
-		Confirm.onclick = function(event)
+		var button = document.createElement("div");this.msgObj.appendChild(button); 
+		button.classList.add("jry_wb_beautiful_alert_button");
+		button.style="width:100%;button:0px;text-align:center;";
+		var confirm = document.createElement("input");button.appendChild(confirm);  
+		confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+		confirm.type='button'; 
+		confirm.value="确认"; 
+		confirm.style.bottom = 0;
+		confirm.onclick = function(event)
 		{
-			var value = Confirm.parentNode.parentNode.getElementsByTagName('input')[0].value;
+			var value = confirm.parentNode.parentNode.getElementsByTagName('input')[0].value;
 			if(value!='')
 				func(value);
 			else
 				jry_wb_beautiful_right_alert.alert('未执行操作',2000,'auto');
-			document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 
-			document.body.removeChild(Confirm.parentNode.parentNode);
+			document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 
+			document.body.removeChild(confirm.parentNode.parentNode);
 			window.onmousewheel=buff;
 			if(document.addEventListener)
 				document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -83,14 +83,14 @@ function  jry_wb_beautiful_alert_function()
 		if(wordn==null)
 			wordn='取消';
 		this.frame(msgtitle,400,200,(document.body.clientWidth-400)/2,(document.body.clientHeight-400)/2,true);
-		var buttom = document.createElement("div");this.msgObj.appendChild(buttom);
-		buttom.classList.add("jry_wb_beautiful_alert_button");
-		buttom.style="width:100%;buttom:0px;text-align:center;"; 
-		var Confirm = document.createElement("input"); 
-		Confirm.type="button"; 
-		Confirm.value=wordy; 
-		Confirm.style.bottom = 0;
-		Confirm.onclick = function(event)
+		var button = document.createElement("div");this.msgObj.appendChild(button);
+		button.classList.add("jry_wb_beautiful_alert_button");
+		button.style="width:100%;button:0px;text-align:center;"; 
+		var confirm = document.createElement("input"); 
+		confirm.type="button"; 
+		confirm.value=wordy; 
+		confirm.style.bottom = 0;
+		confirm.onclick = function(event)
 		{
 			document.body.removeChild(event.target.parentNode.parentNode.previousSibling); 
 			document.body.removeChild(event.target.parentNode.parentNode); 
@@ -100,14 +100,14 @@ function  jry_wb_beautiful_alert_function()
 			jry_wb_beautiful_scroll_run_flag=false;
 			funcy();
 		};
-		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
-		buttom.appendChild(Confirm);    
-		Confirm = null;
-		var Confirm = document.createElement("input");buttom.appendChild(Confirm);  
-		Confirm.type="button"; 
-		Confirm.value=wordn; 
-		Confirm.style.bottom = 0;
-		Confirm.onclick = function(event)
+		confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+		button.appendChild(confirm);    
+		confirm = null;
+		var confirm = document.createElement("input");button.appendChild(confirm);  
+		confirm.type="button"; 
+		confirm.value=wordn; 
+		confirm.style.bottom = 0;
+		confirm.onclick = function(event)
 		{
 			document.body.removeChild(event.target.parentNode.parentNode.previousSibling); 
 			document.body.removeChild(event.target.parentNode.parentNode);
@@ -117,8 +117,8 @@ function  jry_wb_beautiful_alert_function()
 			jry_wb_beautiful_scroll_run_flag=false;
 			funcn();
 		};
-		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_error");
-		Confirm = null;
+		confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_error");
+		confirm = null;
 		msgbutton = null;
 		this.msgObj.onmousewheel=function(event){ return false;};
 	};
@@ -129,13 +129,13 @@ function  jry_wb_beautiful_alert_function()
 		txt.classList.add("jry_wb_beautiful_alert_text");
 		txt.innerHTML=msgbody; 
 		txt = null;
-		var buttom = document.createElement("div");this.msgObj.appendChild(buttom);   
-		buttom.classList.add("jry_wb_beautiful_alert_button");
-		buttom.style="width:100%;buttom:0px;text-align:center;"; 
-		var Confirm = document.createElement("input");buttom.appendChild(Confirm);  
-		Confirm.setAttribute("type","button"); 
-		Confirm.setAttribute("value","确认"); 
-		Confirm.style.bottom = 0;
+		var button = document.createElement("div");this.msgObj.appendChild(button);   
+		button.classList.add("jry_wb_beautiful_alert_button");
+		button.style="width:100%;button:0px;text-align:center;"; 
+		var confirm = document.createElement("input");button.appendChild(confirm);  
+		confirm.setAttribute("type","button"); 
+		confirm.setAttribute("value","确认"); 
+		confirm.style.bottom = 0;
 		old_onkeyup=window.onkeyup;
 		window.onkeyup=function(e)
 		{
@@ -143,15 +143,15 @@ function  jry_wb_beautiful_alert_function()
 				e  =  window.event;
 			var keycode=(e.keyCode||e.which);
 			if(keycode==jry_wb_keycode_enter)
-				Confirm.onclick(e);
+				confirm.onclick(e);
 			return false;
 		};
 		if( typeof func==='function')
 		{
-			Confirm.onclick = function(event)
+			confirm.onclick = function(event)
 			{
-				document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 
-				document.body.removeChild(Confirm.parentNode.parentNode);
+				document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 
+				document.body.removeChild(confirm.parentNode.parentNode);
 				window.onmousewheel=buff;
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -162,10 +162,10 @@ function  jry_wb_beautiful_alert_function()
 		}
 		else
 		{
-			Confirm.onclick = function(event)
+			confirm.onclick = function(event)
 			{
-				document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 	
-				document.body.removeChild(Confirm.parentNode.parentNode);
+				document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 	
+				document.body.removeChild(confirm.parentNode.parentNode);
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
 				jry_wb_beautiful_scroll_run_flag=false;
@@ -174,7 +174,7 @@ function  jry_wb_beautiful_alert_function()
 					eval(func);
 			};		
 		}
-		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
+		confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");
 		this.msgObj.onmousewheel=function(event){ return false;};
 	};
 	this.open = function(msgtitle,width,height,url,func)
@@ -194,16 +194,16 @@ function  jry_wb_beautiful_alert_function()
 			window.onresize();					
 		};
 		txt = null; 
-		var Confirm = document.createElement("button");title.appendChild(Confirm); 
-		Confirm.type="button"; 
-		Confirm.innerHTML="关闭"; 
-		Confirm.style='float:right;margin-right:20px;';
+		var confirm = document.createElement("button");title.appendChild(confirm); 
+		confirm.type="button"; 
+		confirm.innerHTML="关闭"; 
+		confirm.style='float:right;margin-right:20px;';
 		if( typeof func==='function')
 		{
-			Confirm.onclick = function(event)
+			confirm.onclick = function(event)
 			{
-				document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 
-				document.body.removeChild(Confirm.parentNode.parentNode);
+				document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 
+				document.body.removeChild(confirm.parentNode.parentNode);
 				window.onmousewheel=buff;
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -213,10 +213,10 @@ function  jry_wb_beautiful_alert_function()
 		}
 		else
 		{
-			Confirm.onclick = function(event)
+			confirm.onclick = function(event)
 			{
-				document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 	
-				document.body.removeChild(Confirm.parentNode.parentNode);
+				document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 	
+				document.body.removeChild(confirm.parentNode.parentNode);
 				window.onmousewheel=buff;
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -225,7 +225,7 @@ function  jry_wb_beautiful_alert_function()
 					eval(func);
 			};		
 		}
-		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");
+		confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");
 		new jry_wb_beautiful_scroll(this.msgObj);
 	};
 	this.openvideo = function(msgtitle,width,height,url,func,show_close_button)
@@ -270,17 +270,17 @@ function  jry_wb_beautiful_alert_function()
 			{
 				if(title.getElementsByTagName("button").length!=0)
 					return;
-				var Confirm = document.createElement("button");title.appendChild(Confirm);
-				Confirm.type="button"; 
-				Confirm.innerHTML="关闭"; 
-				Confirm.style='float:right;margin-right:20px;';
+				var confirm = document.createElement("button");title.appendChild(confirm);
+				confirm.type="button"; 
+				confirm.innerHTML="关闭"; 
+				confirm.style='float:right;margin-right:20px;';
 				if( typeof func==='function')
 				{
-					Confirm.onclick = function(event)
+					confirm.onclick = function(event)
 					{
 						jry_wb_midia_control_all.onpause(video);
-						document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 
-						document.body.removeChild(Confirm.parentNode.parentNode);
+						document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 
+						document.body.removeChild(confirm.parentNode.parentNode);
 						window.onmousewheel=buff;
 						if(document.addEventListener)
 							document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -290,10 +290,10 @@ function  jry_wb_beautiful_alert_function()
 				}
 				else
 				{
-					Confirm.onclick = function(event)
+					confirm.onclick = function(event)
 					{
-						document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 	
-						document.body.removeChild(Confirm.parentNode.parentNode);
+						document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 	
+						document.body.removeChild(confirm.parentNode.parentNode);
 						window.onmousewheel=buff;
 						if(document.addEventListener)
 							document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -303,7 +303,7 @@ function  jry_wb_beautiful_alert_function()
 							eval(func);
 					};			
 				}
-				Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");   
+				confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");   
 			}
 		};
 		video.ontimeupdate();
@@ -331,16 +331,16 @@ function  jry_wb_beautiful_alert_function()
 		else
 			txt.src = url+'&size='+parseInt(width);
 		div.appendChild(txt);
-		var Confirm = document.createElement("button"); title.appendChild(Confirm);
-		Confirm.type="button"; 
-		Confirm.innerHTML="关闭"; 
-		Confirm.style='float:right;margin-right:20px;';
+		var confirm = document.createElement("button"); title.appendChild(confirm);
+		confirm.type="button"; 
+		confirm.innerHTML="关闭"; 
+		confirm.style='float:right;margin-right:20px;';
 		if( typeof func==='function')
 		{
-			Confirm.onclick = function(event)
+			confirm.onclick = function(event)
 			{
-				document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 
-				document.body.removeChild(Confirm.parentNode.parentNode);
+				document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 
+				document.body.removeChild(confirm.parentNode.parentNode);
 				window.onmousewheel=buff;
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -351,10 +351,10 @@ function  jry_wb_beautiful_alert_function()
 		}
 		else
 		{
-			Confirm.onclick = function(event)
+			confirm.onclick = function(event)
 			{
-				document.body.removeChild(Confirm.parentNode.parentNode.previousSibling); 	
-				document.body.removeChild(Confirm.parentNode.parentNode);
+				document.body.removeChild(confirm.parentNode.parentNode.previousSibling); 	
+				document.body.removeChild(confirm.parentNode.parentNode);
 				window.onmousewheel=buff;
 				if(document.addEventListener)
 					document.addEventListener('DOMMouseScroll',window.onmousewheel,false);		
@@ -364,7 +364,7 @@ function  jry_wb_beautiful_alert_function()
 					eval(func);
 			};
 		}
-		Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");
+		confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");
 		new jry_wb_beautiful_scroll(this.msgObj);
 		old_onwheel=this.msgObj.onmousewheel;
 		this.msgObj.onmousewheel=(e)=>
