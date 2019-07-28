@@ -29,7 +29,7 @@ jry_wb_add_onresize(function()
 		all.style.margin="0px 0px";
 	}
 });
-jry_wb_add_load(function()
+jry_wb_add_onload(function()
 {
 	blog_draft=new jry_wb_blog_draft_function(document.getElementById("result"));
 	blog_draft.data_get();

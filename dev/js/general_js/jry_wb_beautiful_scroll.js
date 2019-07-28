@@ -435,7 +435,7 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 	this.jry_wb_scroll_body_y=jry_wb_scroll_body_y;
 	this.jry_wb_scroll_body_x=jry_wb_scroll_body_x;
 }
-jry_wb_add_load(function()
+jry_wb_add_onload(function()
 {
 	var timer1=null;/*鼠标离开*/
 	var timer4=null;/*点击动画*/

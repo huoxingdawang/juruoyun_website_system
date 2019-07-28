@@ -9,11 +9,11 @@ function jry_wb_beautiful_right_alert_function()
 		this.bgObj.className='jry_wb_beautiful_alert';
 		this.inited = true;
 	};
-	jry_wb_add_load (()=>{this.init();});
+	jry_wb_add_onload (()=>{this.init();});
 	this.alert = function(message,time,width,type)  
 	{
 		if (!this.inited)  
-			return jry_wb_add_load(()=>{this.alert(message,time,width,type);});
+			return jry_wb_add_onload(()=>{this.alert(message,time,width,type);});
 		time = time==null?2000:time;
 		width = width==null?'auto':width;
 		var one = document.createElement ("div");this.bgObj.appendChild(one); 

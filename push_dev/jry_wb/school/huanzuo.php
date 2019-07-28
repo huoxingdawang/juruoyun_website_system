@@ -17,7 +17,7 @@
 </textarea>
 </div>
 <script language="javascript">
-jry_wb_add_load(function(){
+jry_wb_add_onload(function(){
 	seat = new seat_function(JSON.parse(document.getElementById('test').value),document.getElementById('zuowei'));
 	seat.show();
 	jry_wb_set_shortcut([jry_wb_keycode_enter],function()

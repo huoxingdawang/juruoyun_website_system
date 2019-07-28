@@ -29,7 +29,7 @@
 			<?php if(JRY_WB_WORD_SPECIAL_FACT_SWITCH){?>jry_wb_word_special_fact.word=JSON.parse('<?php echo json_encode($json);?>'.replace(/`/g,"'"));<?php } ?>
 			follow_mouth=null;
 			<?php if($jry_wb_login_user['device']=='pc'&&JRY_WB_FOLLOW_MOUTH_SPECIAL_FACT_SWITCH){ ?>follow_mouth=new jry_wb_follow_mouth(document.body,{'size':4,'speed':10,'dou':1});follow_mouth.close();<?php }?>
-			jry_wb_add_load(function ()
+			jry_wb_add_onload(function ()
 			{
 				jry_wb_set_shortcut([jry_wb_keycode_up],function(){window.scrollTo(window.scrollX,0);window.onmousewheel();});
 				jry_wb_set_shortcut([jry_wb_keycode_down],function(){window.scrollTo(window.scrollX,document.body.scrollHeight-document.body.clientHeight);window.onmousewheel();});

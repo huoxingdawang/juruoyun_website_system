@@ -43,7 +43,7 @@ jry_wb_add_onresize(function()
 		all.style.width=width;
 		all.style.margin="0px 0px";
 	}
-});jry_wb_add_load(function ()
+});jry_wb_add_onload(function ()
 {
 	jry_wb_ajax_load_data("../jry_wb_blog/jry_wb_blog_getinformation.php?action=get_blog_one&blog_id=<?php echo $_GET['blog_id']; ?>",function(data){
 		jry_wb_loading_off();

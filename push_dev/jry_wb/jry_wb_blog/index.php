@@ -28,7 +28,7 @@ jry_wb_add_onresize(function()
 		all.style.margin="0px 0px";
 	}
 });
-jry_wb_add_load(function()
+jry_wb_add_onload(function()
 {
 	blog_index=new jry_wb_blog_index_function(document.getElementById("all"));
 	blog_index.get_cache();

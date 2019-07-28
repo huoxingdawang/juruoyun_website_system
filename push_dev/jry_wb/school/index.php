@@ -14,7 +14,7 @@
 <a target="" href="huanzuo.php"><h56>天意换座位系统在线版</h56></a>
 <script language="javascript" src="school_showallschool.js"></script>
 <script language="javascript">
-jry_wb_add_load(function()
+jry_wb_add_onload(function()
 {
 	school_all=new school_showallschool_function(document.getElementById("schoolall"));
 	jry_wb_ajax_load_data('school_getinformation.php?action=schoolall',function (data){school_all.dofordata(data);school_all.show(false,false)});

@@ -49,6 +49,6 @@ var jry_wb_right_tools = new function()
 		this.body.style.right=0;		
 	};
 	jry_wb_add_onresize(()=>{this.fresh();});
-	jry_wb_add_load(()=>{this.init()});
+	jry_wb_add_onload(()=>{this.init()});
 };
 <?php if(false){ ?></script><?php } ?>

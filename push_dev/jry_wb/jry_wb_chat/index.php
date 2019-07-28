@@ -5,7 +5,7 @@
 <div class='jry_wb_top_toolbar'></div>
 <script language="javascript" src="jry_wb_chat.js.php"></script>
 <script>
-	jry_wb_add_load(function()
+	jry_wb_add_onload(function()
 	{
 		document.getElementsByClassName('jry_wb_top_toolbar')[0].style.display='none';
 		document.getElementById('buttom_message').style.display='none';

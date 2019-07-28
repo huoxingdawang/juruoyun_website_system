@@ -87,7 +87,7 @@ var jry_wb_socket = new function()
 	var onclose=()=>
 	{
 		if(typeof this.connect_icon=='undefined')
-			jry_wb_add_load(()=>
+			jry_wb_add_onload(()=>
 			{
 				this.connect_icon.classList.remove('jry_wb_icon_shujulianjie','jry_wb_color_ok_font');				
 				this.connect_icon.classList.add('jry_wb_icon_duankailianjie','jry_wb_color_warn_font','jry_wb_color_normal_font');
@@ -102,7 +102,7 @@ var jry_wb_socket = new function()
 	{
 		this.send({'code':true,'type':100001,'data':{'add':listener_type}});		
 		if(typeof this.connect_icon=='undefined')
-			jry_wb_add_load(()=>
+			jry_wb_add_onload(()=>
 			{	
 				this.connect_icon.classList.add('jry_wb_icon_shujulianjie','jry_wb_color_ok_font');	
 				this.connect_icon.classList.remove('jry_wb_icon_duankailianjie','jry_wb_color_warn_font','jry_wb_color_normal_font');
@@ -136,7 +136,7 @@ var jry_wb_socket = new function()
 		}		
 	};
 	start();
-	jry_wb_add_load(()=>
+	jry_wb_add_onload(()=>
 	{
 		if(jry_wb_login_user==undefined||jry_wb_login_user.id<=0||jry_wb_login_user.id=='')
 			return;		

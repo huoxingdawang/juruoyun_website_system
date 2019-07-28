@@ -32,7 +32,7 @@
 				}
 				return true;
 			}
-			jry_wb_add_load(function(){document.getElementById('url').value=document.referrer});
+			jry_wb_add_onload(function(){document.getElementById('url').value=document.referrer});
 		</script>
 <?php }
 	else

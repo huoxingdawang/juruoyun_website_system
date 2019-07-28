@@ -308,7 +308,7 @@ var jry_wb_chat_room=new function()
 		}
 <?php } ?>
 	};
-	jry_wb_add_load(()=>{this.sync();});
+	jry_wb_add_onload(()=>{this.sync();});
 	this.delete_sync=function()
 	{
 		jry_wb_cache.delete('chat_rooms');

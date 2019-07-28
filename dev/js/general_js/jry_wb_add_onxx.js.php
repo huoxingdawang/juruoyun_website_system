@@ -30,7 +30,7 @@ if(typeof jry_wb_save_browsing_history=='undefined')
 if(typeof jry_wb_time_different=='undefined')
 	jry_wb_time_different=0;
 jry_wb_onload_function_data=null;
-function jry_wb_add_load(func) 
+function jry_wb_add_onload(func) 
 {  
   	var oldonload = jry_wb_onload_function_data;  
   	if(typeof jry_wb_onload_function_data!='function') 
@@ -39,17 +39,40 @@ function jry_wb_add_load(func)
 		jry_wb_onload_function_data=function(){if(oldonload)oldonload();func();};
 	return func;
 }
-var __loading_count=1;
+jry_wb_onbody_function_data=null;
+function jry_wb_add_onbody(func) 
+{  
+  	var oldonbody=jry_wb_onbody_function_data;  
+  	if(typeof jry_wb_onbody_function_data!='function') 
+		jry_wb_onbody_function_data=func;
+	else 
+		jry_wb_onbody_function_data=function(){if(oldonload)oldonload();func();};
+	return func;
+}
+var jry_wb_loading_count=1;
+var jry_wb_loading_count_max=1;
+var jry_wb_loading_progress=undefined;
+jry_wb_add_onbody(function()
+{
+	jry_wb_loading_progress=new jry_wb_progress_bar(document.body,"100%",0,"",function(x){},function(x){},"progress_bar",'',true,false,'ok');
+	jry_wb_loading_progress.progress_body.style.position='fixed';
+	if(jry_wb_loading_count>0)
+		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update(jry_wb_loading_count/jry_wb_loading_count_max,'');
+});
 function jry_wb_loading_on()
 {
-	__loading_count++;
-	document.getElementById('__LOAD').style.display='';
+	jry_wb_loading_count++;
+	jry_wb_loading_count_max++;
+	if(jry_wb_loading_progress!=undefined)
+		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update(jry_wb_loading_count/jry_wb_loading_count_max,'');
 }
 function jry_wb_loading_off()
 {
-	__loading_count--;
-	if(__loading_count<=0)
-		document.getElementById('__LOAD').style.display='none';
+	jry_wb_loading_count--;
+	if(jry_wb_loading_count<=0)
+		jry_wb_loading_count_max=0;
+	if(jry_wb_loading_progress!=undefined)
+		jry_wb_loading_progress.progress_body.style.height=(jry_wb_loading_count<=0?'0px':'2px'),jry_wb_loading_progress.update(jry_wb_loading_count/jry_wb_loading_count_max,'');		
 }
 function jry_wb_add_onresize(func) 
 {  
@@ -97,7 +120,7 @@ function jry_wb_add_onscroll(func)
 	return func;
 }
 jry_wb_onclick_flag=false;
-/*jry_wb_add_load(function()
+/*jry_wb_add_onload(function()
 {
 	window.ontouchstart=function(event)
 	{
