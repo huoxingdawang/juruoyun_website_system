@@ -18,6 +18,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 	this.delete_flag=false;	
 	this.strong_flag=false;
 	this.id=id;
+	this.netdisk_src=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php';
 	var allow_html=['audio','a','b','br','div','em','iframe','i','img','kbd','p','span','sub','sup'];
 	var disallow_attribute=['onclick','onmouseover','onmousedown','onmouseenter','onmouseleave','onmousemove','onmouseout','onmouseover','onmousewheel','ondrag','ondrop','onfocus'];
 	function test(text,i,word)
@@ -58,7 +59,6 @@ function jry_wb_markdown(area,id,time,text,notitle)
 		var buf=document.createElement('div');
 		var title_flag=false;
 		var title_flag_enable=true;
-			
 		for(var i=0,n=this.text.length;i<n;i++)
 		{
 			if(this.text[i]=='-'&&this.text[i+1]=='-'&&this.text[i+2]=='-')
@@ -116,6 +116,13 @@ function jry_wb_markdown(area,id,time,text,notitle)
 					else if(buf=='false')
 						this.autonum=false;
 				}
+				else if(j=test(this.text,i,'netdisk_src:'))
+				{
+					i+=j;
+					this.netdisk_src='';
+					for(;i<n&&this.text[i]!='\n'&&this.text[i]!='-';i++)
+						this.netdisk_src+=this.text[i];
+				}				
 			}
 			else
 			{
@@ -435,7 +442,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
 								href+=this.text[i+j+k+2];
 							if(k<256&&((buf=href.split(',')).length>=2)&&!isNaN(parseInt(buf[0]))&&!isNaN(parseInt(buf[1])))
-								href=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);
+								href=this.netdisk_src+'?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
@@ -484,7 +491,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
 								href+=this.text[i+j+k+2];	
 							if(k<256&&((buf=href.split(',')).length>=2)&&!isNaN(parseInt(buf[0]))&&!isNaN(parseInt(buf[1])))
-								href=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);
+								href=this.netdisk_src+'?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
@@ -532,7 +539,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 							for(var k=0;(i+j+k+2)<n&&this.text[i+j+k+2]!=')'&&k<256;k++)
 								href+=this.text[i+j+k+2];
 							if(k<256&&((buf=href.split(',')).length>=2)&&!isNaN(parseInt(buf[0]))&&!isNaN(parseInt(buf[1])))
-								href=jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);									
+								href=this.netdisk_src+'?action=open&share_id='+buf[0]+'&file_id='+buf[1]+(buf[2]==undefined?'':'&fast='+buf[2]);									
 							if(k<256&&(test(href,0,'http://')||test(href,0,'https://')))
 							{
 								i+=j;
