@@ -50,7 +50,7 @@ function  jry_wb_beautiful_alert_function()
 	{
 		this.frame(msgtitle,400,200,(document.body.clientWidth-400)/2,(document.body.clientHeight-400)/2);
 		var txt = document.createElement("input");this.msgObj.appendChild(txt);
-		txt.classList.add("jry_wb_beautiful_alert_text","h56");
+		txt.classList.add("jry_wb_beautiful_alert_text");
 		txt = null;
 		var button = document.createElement("div");this.msgObj.appendChild(button); 
 		button.classList.add("jry_wb_beautiful_alert_button");
