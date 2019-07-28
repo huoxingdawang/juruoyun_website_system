@@ -36,12 +36,12 @@ function jry_wb_indexeddb_init()
 			jry_wb_beautiful_right_alert.alert('思维升级完成!',1000,'auto','ok');			
 		window.onindexeddbopen();
 	};
-	var creat_list=[{'name':'user'				,'key':'id'}			,{'name':'manage_user'				,'key':'id'}			,{'name':'lasttime'		,'key':'key'}			,{'name':'invitecode'		,'key':'incite_code_id'}	,{'name':'log'				,'key':'log_id'},
-					{'name':'oj_question_list'	,'key':'question_id'}	,{'name':'oj_manage_question_list'	,'key':'question_id'}	,{'name':'oj_logs'		,'key':'log_id'}		,{'name':'oj_classes'		,'key':'class_id'}			,{'name':'oj_error'			,'key':'error_id'},
-					{'name':'blog_list'			,'key':'blog_id'}		,{'name':'blog_draft_list'			,'key':'blog_id'}		,{'name':'chat_rooms'	,'key':'chat_room_id'}	,{'name':'chat_messages'	,'key':'chat_text_id'}		,{'name':'nd_group'			,'key':'group_id'},
-					{'name':'nd_area'			,'key':'area_id'}		,{'name':'nd_file_list'				,'key':'file_id'}		,{'name':'nd_share_list','key':'share_id'}		,{'name':'manage_user_list'	,'key':'id'}				,{'name':'manage_competence','key':'type'},
-					{'name':'manage_bigdeal'	,'key':'bigdeal_id'}	,{'name':'manage_hengfu'			,'key':'hengfu_id'}		,{'name':'manage_tanmu'	,'key':'tanmu_id'}		,{'name':'qq_music'			,'key':'mid'}				,{'name':'163_music'		,'key':'mid'},
-					{'name':'songlist'			,'key':'slid'}			,{'name':'blog_text'				,'key':'blog_id'}		,{'name':'blog_draft_text'	,'key':'blog_id'}	,{'name':'ip'	,'key':'data.ip'}];
+	var creat_list=[{'name':'user'				,'key':'id'}			,{'name':'manage_user'				,'key':'id'}			,{'name':'lasttime'			,'key':'key'}			,{'name':'invitecode'		,'key':'incite_code_id'}	,{'name':'log'				,'key':'log_id'},
+					{'name':'oj_question_list'	,'key':'question_id'}	,{'name':'oj_manage_question_list'	,'key':'question_id'}	,{'name':'oj_logs'			,'key':'log_id'}		,{'name':'oj_classes'		,'key':'class_id'}			,{'name':'oj_error'			,'key':'error_id'},
+					{'name':'blog_list'			,'key':'blog_id'}		,{'name':'blog_draft_list'			,'key':'blog_id'}		,{'name':'chat_rooms'		,'key':'chat_room_id'}	,{'name':'chat_messages'	,'key':'chat_text_id'}		,{'name':'nd_group'			,'key':'group_id'},
+					{'name':'nd_area'			,'key':'area_id'}		,{'name':'nd_file_list'				,'key':'file_id'}		,{'name':'nd_share_list'	,'key':'share_id'}		,{'name':'manage_user_list'	,'key':'id'}				,{'name':'manage_competence','key':'type'},
+					{'name':'manage_bigdeal'	,'key':'bigdeal_id'}	,{'name':'manage_hengfu'			,'key':'hengfu_id'}		,{'name':'manage_tanmu'		,'key':'tanmu_id'}		,{'name':'qq_music'			,'key':'mid'}				,{'name':'163_music'		,'key':'mid'},
+					{'name':'songlist'			,'key':'slid'}			,{'name':'blog_text'				,'key':'blog_id'}		,{'name':'blog_draft_text'	,'key':'blog_id'}		,{'name':'ip'				,'key':'data.ip'}];
 	request.onupgradeneeded=function(event)
 	{
 		update_flag=true;
@@ -52,6 +52,29 @@ function jry_wb_indexeddb_init()
 				jry_wb_indexeddb.createObjectStore(creat_list[i].name,{keyPath:creat_list[i].key});
 	}
 };
+function jry_wb_indexeddb_clear()
+{
+	var clear_list=[{'name':'manage_user'				,'key':'id'}			,{'name':'lasttime'			,'key':'key'}			,{'name':'invitecode'		,'key':'incite_code_id'}	,{'name':'log'			,'key':'log_id'},
+					{'name':'oj_manage_question_list'	,'key':'question_id'}	,{'name':'oj_error'			,'key':'error_id'},
+					{'name':'blog_draft_list'			,'key':'blog_id'}		,{'name':'chat_rooms'		,'key':'chat_room_id'}	,{'name':'chat_messages'	,'key':'chat_text_id'},
+					{'name':'nd_area'					,'key':'area_id'}		,{'name':'nd_file_list'		,'key':'file_id'}		,{'name':'nd_share_list'	,'key':'share_id'}		,{'name':'manage_user_list'	,'key':'id'}				,{'name':'manage_competence','key':'type'},
+					{'name':'manage_bigdeal'			,'key':'bigdeal_id'}	,{'name':'manage_hengfu'	,'key':'hengfu_id'}		,{'name':'manage_tanmu'		,'key':'tanmu_id'},
+					{'name':'blog_draft_text'			,'key':'blog_id'}];
+	for(let i=0;i<clear_list.length;i++)
+	{
+		jry_wb_loading_on();
+		jry_wb_beautiful_right_alert.alert('正在清空个人隐私相关表'+clear_list[i].name,500+Math.random()*500,'auto');
+		let re=jry_wb_indexeddb.transaction([clear_list[i].name],'readwrite').objectStore(clear_list[i].name);
+		re.openCursor().onsuccess=function()
+		{
+			var cursor=this.result;
+			if (cursor)
+				re.delete(cursor.value[clear_list[i].key]),cursor.continue();
+			else
+				jry_wb_beautiful_right_alert.alert('清空表'+clear_list[i].name+'成功',1000+Math.random()*1000,'auto','ok'),jry_wb_loading_off();
+		};	
+	}
+}
 jry_wb_indexeddb_init();
 function jry_wb_indexeddb_set_lasttime(key,time)
 {
