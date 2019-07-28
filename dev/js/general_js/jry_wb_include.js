@@ -38,3 +38,23 @@ function jry_wb_include_once_css(src)
 	};
 	return false;
 }
+function jry_wb_include_css(srcc)
+{
+	src=srcc.split('/');
+	var data=jry_wb_login_user.style.data;
+	for(var i=0;i<src.length&&data!=undefined;i++)
+		data=data[src[i]];
+	if(data==undefined)
+		return;
+	var old=document.getElementById(srcc);
+	jry_wb_loading_on();
+	var mylink=document.createElement('link');document.head.appendChild(mylink);
+	mylink.href=(jry_wb_login_user.style.data.base_url==''?jry_wb_message.jry_wb_host+'jry_wb_css/':jry_wb_login_user.style.data.base_url)+(jry_wb_test_is_pc()?data.desktop:data.mobile);mylink.type='text/css';mylink.rel='stylesheet';
+	mylink.onload=function()
+	{
+		jry_wb_loading_off();
+		if(old!=undefined)
+			old.remove();
+	};
+	mylink.id=srcc;
+}
