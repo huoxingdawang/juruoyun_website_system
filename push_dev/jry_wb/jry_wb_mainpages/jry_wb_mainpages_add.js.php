@@ -48,7 +48,7 @@ vcodesrc.onclick=function(){vcodesrc.src=jry_wb_message.jry_wb_host+'jry_wb_tool
 	<?php }else{ ?>
 <?php  echo $one['key']; ?>=document.getElementById('<?php  echo $one['key']; ?>');	
 <?php }} ?>	
-jry_wb_add_load(function(){vcode.style.width=td2.clientWidth-25-vcodesrc.clientWidth;});
+jry_wb_add_onload(function(){vcode.style.width=td2.clientWidth-25-vcodesrc.clientWidth;});
 var get=JSON.parse(jry_wb_cache.get('add'));
 if(get!=null)
 {

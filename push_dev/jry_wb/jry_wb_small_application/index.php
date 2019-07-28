@@ -10,7 +10,7 @@
 <div id="_top"></div>
 <div  style="width:100%;" class="jry_wb_left_toolbar" id="body"></div>
 <script language="javascript">
-jry_wb_add_load(function()
+jry_wb_add_onload(function()
 {
 	var area=document.getElementById('body');
 	var left_body=document.createElement('div');area.appendChild(left_body);

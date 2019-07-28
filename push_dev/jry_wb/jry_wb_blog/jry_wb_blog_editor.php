@@ -31,7 +31,7 @@ function do_text(text)
 		return document.getElementById('oriContent').value=text;
 }
 push_pull=document.getElementById('push_pull');
-jry_wb_add_load(function ()
+jry_wb_add_onload(function ()
 {
 	if(!(!jry_wb_word_special_fact))
 		jry_wb_word_special_fact.switch=false;

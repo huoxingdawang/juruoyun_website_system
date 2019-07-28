@@ -86,7 +86,7 @@
 <script language="javascript" src="jry_wb_nd_file.js"></script>
 <script language="javascript" src="jry_wb_nd_area.js"></script>
 <script>
-	jry_wb_add_load(function()
+	jry_wb_add_onload(function()
 	{
 		document.getElementsByClassName('jry_wb_top_toolbar')[0].style.display='none';
 		document.getElementById('buttom_message').style.display='none';

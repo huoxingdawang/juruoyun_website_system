@@ -44,10 +44,11 @@
 	if($action=='new')
 	{
 		$conn=jry_wb_connect_database();
-		$q ="INSERT INTO ".JRY_WB_DATABASE_BLOG."text (`id`,`lasttime`) VALUES (?,?)";
+		$q ="INSERT INTO ".JRY_WB_DATABASE_BLOG."text (`id`,`lasttime`,`last_modify_time`) VALUES (?,?,?)";
 		$st = $conn->prepare($q);
 		$st->bindParam(1,$jry_wb_login_user['id']); 
 		$st->bindParam(2,jry_wb_get_time());
+		$st->bindParam(3,jry_wb_get_time());
 		$st->execute();
 		echo json_encode(array('login'=>true,'message'=>'OK'));
 	}

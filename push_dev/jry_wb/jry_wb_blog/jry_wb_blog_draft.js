@@ -30,7 +30,7 @@ jry_wb_blog_draft_function.prototype.showall=function()
 			else
 			{						
 				jry_wb_beautiful_right_alert.alert('已新建',1000,'auto','ok');
-				this_.data_get();
+				this.data_get();
 				jry_wb_beautiful_right_alert.alert('正在重载',1000,'auto');
 			}
 		});				

@@ -35,7 +35,7 @@
 				<span class="event_normal">距</span><span class="event_event"><?php echo $big_deal['name']?></span><span class="event_normal">还有</span>
 				<br>
 				<span class="event_time" id="bigdeal"></span>
-				<script language="javascript">jry_wb_add_load(function(){jry_wb_show_time("<?php echo $big_deal['time']?>","bigdeal")});</script>
+				<script language="javascript">jry_wb_add_onload(function(){jry_wb_show_time("<?php echo $big_deal['time']?>","bigdeal")});</script>
 			</div>
 			<div id="ssr" style='display:none;'>
 				<?php ?>
@@ -60,7 +60,7 @@
 </table>
 <script language="javascript">
 	var last;
-	jry_wb_add_load(function()
+	jry_wb_add_onload(function()
 	{
 		jry_wb_ajax_load_data(jry_wb_message.jry_wb_get_message+'jry_wb_get_user.php?action=new',function (data)
 		{
