@@ -162,45 +162,45 @@ function jry_wb_show_user_full(user,width,height)
 	jry_wb_beautiful_alert.msgObj.align="center";
 	var table = document.createElement("table");jry_wb_beautiful_alert.msgObj.appendChild(table);table.classList.add('jry_wb_show_user_full');
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('id')		;td.innerHTML='ID';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('id_v')	;td.innerHTML=user.id;
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('id')		;td.innerHTML='ID';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('id_v')	;td.innerHTML=user.id;
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('name')	;td.innerHTML='昵称';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('name_v')	;td.innerHTML=user.name.toString().replace(/</g,'&lt;').replace(/>/g,'&gt;');	
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('name')	;td.innerHTML='昵称';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('name_v')	;td.innerHTML=user.name.toString().replace(/</g,'&lt;').replace(/>/g,'&gt;');	
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('head')	;td.innerHTML='头像';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('head_v')	;td.width='*'		;td.style.overflow="hidden";var img=document.createElement("img");td.appendChild(img);jry_wb_set_user_head_special(user,img);/*img.classList.add('');*/
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('head')	;td.innerHTML='头像';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('head_v')	;td.style.overflow="hidden";var img=document.createElement("img");td.appendChild(img);jry_wb_set_user_head_special(user,img);/*img.classList.add('');*/
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('grm')	;td.innerHTML='绿币';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('grm_v')	;td.innerHTML=user.green_money;	
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('grm')	;td.innerHTML='绿币';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('grm_v')	;td.innerHTML=user.green_money;	
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('erd')	;td.innerHTML='注册日期';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('erd_v')	;td.innerHTML=user.enroldate;	
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('erd')	;td.innerHTML='注册日期';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('erd_v')	;td.innerHTML=user.enroldate;	
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('cptn')	;td.innerHTML='权限组';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('cptn_v')	;td.innerHTML=user.competencename;	
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('cptn')	;td.innerHTML='权限组';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('cptn_v')	;td.innerHTML=user.competencename;	
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('sex')	;td.innerHTML='性别';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('sex_v')	;td.innerHTML=(user.sex==0?'女':(user.sex==1?'男':(user.sex==2?'女装大佬':'咱也不知道，咱也不敢问')));
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('sex')	;td.innerHTML='性别';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('sex_v')	;td.innerHTML=(user.sex==0?'女':(user.sex==1?'男':(user.sex==2?'女装大佬':'咱也不知道，咱也不敢问')));
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('tel')	;td.innerHTML='电话';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('tel_v')	;td.innerHTML=user.tel;
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tel')	;td.innerHTML='电话';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tel_v')	;td.innerHTML=user.tel;
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('mail');	td.innerHTML='邮箱';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('mail_v');td.innerHTML=user.mail;
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('mail');	td.innerHTML='邮箱';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('mail_v');td.innerHTML=user.mail;
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('use');	td.innerHTML='使用情况';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('use_v');	td.innerHTML=(user.use==0?'禁止':'正常');	
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('use');	td.innerHTML='使用情况';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('use_v');	td.innerHTML=(user.use==0?'禁止':'正常');	
 	if(user.zhushi!=''&&user.zhushi!=null)
 	{
 		var tr=document.createElement("tr");table.appendChild(tr);
-		var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('zhushi');td.innerHTML='签名';
-		var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('zhushi_v');		
+		var td=document.createElement("td");tr.appendChild(td);td.classList.add('zhushi');td.innerHTML='签名';
+		var td=document.createElement("td");tr.appendChild(td);td.classList.add('zhushi_v');		
 		new jry_wb_markdown(td,user.id,0,(user.zhushi),false);
 	}
 	var tr=document.createElement("tr");table.appendChild(tr);
-	var td=document.createElement("td");tr.appendChild(td);td.width='250px'	;td.classList.add('login');td.innerHTML='登录信息';
-	var td=document.createElement("td");tr.appendChild(td);td.width='*'		;td.classList.add('login_v');		
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('login');td.innerHTML='登录信息';
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('login_v');		
 	if(user.login_addr==-1)
 		td.innerHTML='该用户的隐私策略不允许展示';
 	else

@@ -26,30 +26,30 @@
 }
 .jry_wb_show_user_full				{width:75%;border-right:1px solid #000;border-bottom:1px solid #000;}
 .jry_wb_show_user_full td			{border-left:1px solid #000;border-top:1px solid #000;}
-.jry_wb_show_user_full .id			{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .id			{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .id_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .name		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .name		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .name_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .head		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .head		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .head_v		{font-size:30px;color:#33F;}
 .jry_wb_show_user_full .head_v img	{width:80px;height:80px;}
-.jry_wb_show_user_full .grm			{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .grm			{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .grm_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .erd			{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .erd			{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .erd_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .cptn		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .cptn		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .cptn_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .sex			{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .sex			{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .sex_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .tel			{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .tel			{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .tel_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .mail		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .mail		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .mail_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .use			{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .use			{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .use_v		{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .zhushi		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .zhushi		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .zhushi_v	{font-size:30px;color:#33F;}
-.jry_wb_show_user_full .login		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .login		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .login_v		{font-size:30px;color:#33F;}
 .jry_wb_show_user_full .login_v .country	{font-size:30px;color:#33F;}
 .jry_wb_show_user_full .login_v .region		{font-size:30px;color:#33F;}
@@ -57,5 +57,5 @@
 .jry_wb_show_user_full .login_v .time		{font-size:30px;color:#33F;border-left: 3px solid #33F;}
 .jry_wb_show_user_full .login_v .device		{font-size:30px;color:#33F;border-left: 3px solid #33F;}
 .jry_wb_show_user_full .login_v .browser	{font-size:30px;color:#33F;border-left: 3px solid #33F;}
-.jry_wb_show_user_full .tpin		{font-size:30px;color:#33F;}
+.jry_wb_show_user_full .tpin		{font-size:30px;color:#33F;width:250px;}
 .jry_wb_show_user_full .tpin_v		{font-size:30px;color:#33F;}

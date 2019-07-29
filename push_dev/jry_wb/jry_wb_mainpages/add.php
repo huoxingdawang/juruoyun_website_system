@@ -4,7 +4,7 @@
 	jry_wb_print_head("注册",false,false,true);
 	if(!JRY_WB_HOST_SWITCH&&$_GET['debug']!=1)
 	{
-		?><script>window.location="<?php echo JRY_WB_HOST_ADDRESS?>mainpages/add.php"</script><?php
+		?><script>window.location="<?php echo JRY_WB_HOST_ADDRESS?>jry_wb_mainpages/add.php"</script><?php
 		exit();
 	}
 ?>

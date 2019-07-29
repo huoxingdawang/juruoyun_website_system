@@ -41,3 +41,15 @@ function jry_wb_show_tr_with_input(table,name,id,value,type,onclick,width)
 	tr.appendChild(td);	
 	return td;
 }
+	var tr = document.createElement("tr");table.appendChild(tr);
+	var td = document.createElement("td");tr.appendChild(td);td.classList.add('');td.innerHTML = name;
+	var td = document.createElement("td");tr.appendChild(td);td.classList.add('');
+	var input = document.createElement("input");td.appendChild(input);input.classList.add('');	
+	input.name=input.id='';
+	input.type='';
+	input.value=''.toString();
+	input.onclick = onclick;
+	jry_wb_set_delate_special_one(input);
+	td.appendChild(input);	
+	tr.appendChild(td);	
+	return td;

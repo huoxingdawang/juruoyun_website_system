@@ -329,7 +329,24 @@
 		}		
 		else if($_GET['action']=='mail')
 		{
-			if(JRY_WB_MAIL_SWITCH=='')
+			if(JRY_WB_CHECK_MAIL_SWITCH&&JRY_WB_MAIL_SWITCH!='')
+			{
+				jry_wb_print_head("用户管理|邮箱绑定",true,false,false,array(),true,false);	
+				$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where code=?');
+				$st->bindValue(1,$_GET['code']);
+				$st->execute();		
+				foreach($st->fetchAll()as $code);
+				if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码','','self.location=document.referrer;');</script><?php	exit();}
+				$mail=$code['mail'];
+				if(!jry_wb_test_mail($mail)){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误','self.location=document.referrer;');</script><?php	exit();}
+				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=?');
+				$st->bindValue(1,$mail);
+				$st->execute();
+				foreach($st->fetchAll()as $users)
+				if($users['id']!=''&&$users['id']!=$jry_wb_login_user['id']){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写非重复信息','邮箱重复'	,'self.location=document.referrer;');</script>		<?php	exit();}
+			}
+			else
 			{
 				$mail=$_POST['mail'];
 				if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
@@ -349,65 +366,48 @@
 				if(count($st->fetchAll())!=0)
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100015,'file'=>__FILE__,'line'=>__LINE__)));		
 			}
-			else
-			{
-				jry_wb_print_head("用户管理|邮箱绑定",true,false,false,array(),true,false);	
-				$_SESSION['url']='http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"];	
-				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'mail_code where code=?');
-				$st->bindValue(1,$_GET['code']);
-				$st->execute();		
-				foreach($st->fetchAll()as $code);
-				if($code==null){?><script language=javascript>jry_wb_beautiful_alert.alert('不合法的验证码','','self.location=document.referrer;');</script><?php	exit();}
-				$mail=$code['mail'];
-				if(!jry_wb_test_mail($mail)){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写正确信息','邮箱错误','self.location=document.referrer;');</script><?php	exit();}
-				$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where mail=?');
-				$st->bindValue(1,$mail);
-				$st->execute();
-				foreach($st->fetchAll()as $users)
-				if($users['id']!=''&&$users['id']!=$jry_wb_login_user['id']){?><script language=javascript>jry_wb_beautiful_alert.alert('请填写非重复信息','邮箱重复'	,'self.location=document.referrer;');</script>		<?php	exit();}
-			}
 			$set_head='';
-			if($jry_wb_login_user['head']=='gravatar')
-			{
-				$uri = 'http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
-				$headers = @get_headers($uri);
-				if (preg_match("|200|", $headers[0]))
+			if(JRY_WB_CHECK_GRAVATAR)
+				if($jry_wb_login_user['head']=='gravatar')
 				{
-					$jry_wb_gravatar_user_head='';
-					$set_head='';
-				}
-				else
-				{
-					if($jry_wb_login_user['sex']==0)
-						$set_head=' ,head=\'{"type":"default_head_woman"}\' ';					
+					$uri = 'http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
+					$headers = @get_headers($uri);
+					if (preg_match("|200|", $headers[0]))
+					{
+						$jry_wb_gravatar_user_head='';
+						$set_head='';
+					}
 					else
-						$set_head=' ,head=\'{"type":"default_head_man"}\' ';					
-					$jry_wb_gravatar_user_head=$uri;
+					{
+						if($jry_wb_login_user['sex']==0)
+							$set_head=' ,head=\'{"type":"default_head_woman"}\' ';					
+						else
+							$set_head=' ,head=\'{"type":"default_head_man"}\' ';					
+						$jry_wb_gravatar_user_head=$uri;
+					}
 				}
-			}
-			else
-			{
-				$uri = 'http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
-				$headers = @get_headers($uri);
-				if (preg_match("|200|", $headers[0]))
-					$jry_wb_gravatar_user_head=$uri;
 				else
-					$jry_wb_gravatar_user_head='';
-			}			
-			$q ="update ".JRY_WB_DATABASE_GENERAL."users set mail=?,lasttime=?".$set_head." where id=? ";
-			$st = $conn->prepare($q);
+				{
+					$uri = 'http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
+					$headers = @get_headers($uri);
+					if (preg_match("|200|", $headers[0]))
+						$jry_wb_gravatar_user_head=$uri;
+					else
+						$jry_wb_gravatar_user_head='';
+				}
+			else
+				$jry_wb_gravatar_user_head='http://www.gravatar.com/avatar/'.md5($_POST['mail']).'?d=404';
+			$st = $conn->prepare('update '.JRY_WB_DATABASE_GENERAL.'users set mail=?,lasttime=?'.$set_head.' where id=? ');
 			$st->bindValue(1,($jry_wb_login_user['mail']=$mail));
 			$st->bindValue(2,jry_wb_get_time());
 			$st->bindValue(3,$jry_wb_login_user['id']);
 			$st->execute();
-			if(JRY_WB_MAIL_SWITCH=='')
-			{
-				echo json_encode(array('code'=>true,'mail'=>$mail,'jry_wb_gravatar_user_head'=>$jry_wb_gravatar_user_head,'head'=>($set_head==''?'':($jry_wb_login_user['sex']==0?JRY_WB_DEFULT_WOMAN_PICTURE:JRY_WB_DEFULT_MAN_PICTURE))));
-			}
-			else
+			if(JRY_WB_CHECK_MAIL_SWITCH&&JRY_WB_MAIL_SWITCH!='')
 			{
 				?><script language=javascript>jry_wb_beautiful_alert.alert("修改成功","","window.location.href='chenge.php'");</script><?php
-			}			 
+			}
+			else
+				echo json_encode(array('code'=>true,'mail'=>$mail,'jry_wb_gravatar_user_head'=>$jry_wb_gravatar_user_head,'head'=>($set_head==''?'':($jry_wb_login_user['sex']==0?JRY_WB_DEFULT_WOMAN_PICTURE:JRY_WB_DEFULT_MAN_PICTURE))));
 			exit();
 		}
 		else if($_GET['action']=='tel')
@@ -507,7 +507,7 @@
 		{
 			$psw1=$_POST["password1"];
 			$psw2=$_POST["password2"];
-			$psw_yuan=md5($_POST["password_yuan"]);
+			$psw_yuan=md5($_POST["password_old"]);
 			if(strlen($psw1)<8)	
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100012,'file'=>__FILE__,'line'=>__LINE__)));		
 			if($psw1!=$psw2)
