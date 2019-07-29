@@ -173,8 +173,7 @@
 			}
 			else if($_GET['type']=='gravatar')
 			{
-				$headers = @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404');
-				if($jry_wb_login_user['mail_show']==2&&preg_match("|200|", $headers[0])) 
+				if((!JRY_WB_CHECK_GRAVATAR)||($jry_wb_login_user['mail_show']==2&&preg_match("|200|", @get_headers('http://www.gravatar.com/avatar/' .md5($jry_wb_login_user['mail']). '?d=404')[0]))) 
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=\'{"type":"gravatar"}\',lasttime=? where id=?';
 					$st = $conn->prepare($q);
@@ -241,8 +240,7 @@
 			}		
 			else if($_GET['type']=='url')
 			{
-				$headers=@get_headers(urldecode($_POST['url']));
-				if (preg_match("|200|", $headers[0])) 
+				if (preg_match("|200|",@get_headers(urldecode($_POST['url']))[0])) 
 				{
 					$q ='update '.JRY_WB_DATABASE_GENERAL.'users set head=?,lasttime=? where id=?';
 					$st = $conn->prepare($q);
