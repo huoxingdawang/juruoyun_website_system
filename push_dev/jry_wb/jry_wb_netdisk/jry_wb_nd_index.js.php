@@ -22,13 +22,13 @@
 	}
 ?>
 <?php if(false){ ?><script><?php } ?>
-var jry_nd_group=[];
-var jry_nd_area=[];
-var jry_nd_file_list=[];
-var jry_nd_load_count=3;
-var jry_nd_upload_count=0;
-var jry_nd_upload_list=[];
-var jry_nd_selected_list=[];
+if(typeof jry_nd_group=='undefined')			var jry_nd_group=[];
+if(typeof jry_nd_area=='undefined')				var jry_nd_area=[];
+if(typeof jry_nd_file_list=='undefined')		var jry_nd_file_list=[];
+if(typeof jry_nd_load_count=='undefined')		var jry_nd_load_count=3;
+if(typeof jry_nd_upload_count=='undefined')		var jry_nd_upload_count=0;
+if(typeof jry_nd_upload_list=='undefined')		var jry_nd_upload_list=[];
+if(typeof jry_nd_selected_list=='undefined')	var jry_nd_selected_list=[];
 jry_wb_right_meau=null;
 if(typeof jry_nd_share_mode_flag=='undefined')
 	var jry_nd_share_mode_flag=false;
@@ -133,11 +133,6 @@ function jry_wb_netdisk_show_index(body)
 				upload_refresh_timer=null;
 			}
 			message.innerHTML='';
-			var div=document.createElement('div');message.appendChild(div);
-			div.classList.add('h56');
-			div.innerHTML='来自';
-			jry_wb_get_and_show_user(div,jry_nd_share_mode_id,null,null,true);
-			div.innerHTML+='的'+jry_wb_message.jry_wb_name+'网盘分享';
 		}			
 	}
 	error_mesage_button.onclick=function()
