@@ -1442,7 +1442,7 @@ function showmusiclist()
 				jry_wb_get_songs_by_mid.get(jry_wb_login_user.background_music_list,function(list)
 				{
 					if(list.findIndex(function(a){return (a.type==buf.type)&&((a.type=='songlist')?a.slid==buf.slid:a.mid==buf.mid);})==-1)
-						tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf)),list.push(data[0]);
+						tree.add(tree.root,data[0].name+'@'+data[0].type,JSON.stringify(buf)),background_music_list.push(data[0]);
 					else
 						jry_wb_beautiful_alert.alert("操作失败","因为已经有了");
 				});
