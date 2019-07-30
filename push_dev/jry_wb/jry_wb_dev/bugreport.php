@@ -11,9 +11,9 @@
 		</div>
 		<form method="post" action="bugreport.php?action=save">
 		<table>
-			<tr><td><h55>出现BUG的位置</h55></td><td><input name="url" id="url" value="" class="h56" style="width:1000px;"></td></tr>
-			<tr><td><h55>您的联系方式(注明是邮箱还是QQ还是电话)</h55></td><td><input name="connect" id="connect" value="" class="h56" style="width:1000px;"></td></tr>
-			<tr><td valign="top"><h55>出现BUG的现象</h55></td><td><textarea id="bugmeaasge" name="bugmeaasge" class="h56" rows="20"></textarea></td></tr>
+			<tr><td>出现BUG的位置</td><td><input name="url" id="url" value="" style="width:1000px;"></td></tr>
+			<tr><td>您的联系方式(注明是邮箱还是QQ还是电话)</td><td><input name="connect" id="connect" value="" style="width:1000px;"></td></tr>
+			<tr><td valign="top">出现BUG的现象</td><td><textarea id="bugmeaasge" name="bugmeaasge" rows="20"></textarea></td></tr>
 			<tr><td colspan="2" align="center"><input onclick="return check();" id="submit" name="submit" class="jry_wb_button jry_wb_button_size_big jry_wb_color_ok" type="submit" value="提交"></td></tr>
 		</table>
 		</form>
