@@ -705,7 +705,7 @@ function showchenge()
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('language');td.innerHTML='惯用语';
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('language_v');
-	var language=document.createElement("select");td.appendChild(language);language.classList.add('language_v');language.type='radio';language.value=1;
+	var language=document.createElement("select");td.appendChild(language);language.type='radio';language.value=1;
 	var languages=Array('zh-CN');
 	for(var i=0;i<languages.length;i++)
 	{
@@ -718,7 +718,7 @@ function showchenge()
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('style');td.innerHTML='配色';
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('style_v');
-	var style_id=document.createElement("select");td.appendChild(style_id);style_id.classList.add('style_v');style_id.value=1;
+	var style_id=document.createElement("select");td.appendChild(style_id);style_id.value=1;
 	for(var i=0;i<style.length;i++)
 	{
 		var option=document.createElement("option");style_id.appendChild(option);
@@ -1189,9 +1189,8 @@ function showshow()
 	
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tel');td.innerHTML='电话';
-	var td=document.createElement("td");tr.appendChild(td);	
-	var tel_show=document.createElement("select");td.appendChild(tel_show);	
-	tel_show.name=tel_show.id='tel_show';tel_show.classList.add('tel_v');
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tel_v');
+	var tel_show=document.createElement("select");td.appendChild(tel_show);
 	for(var i=0,n=options.length;i<n;i++)
 	{
 		var option=document.createElement('option');tel_show.appendChild(option);	
@@ -1203,9 +1202,8 @@ function showshow()
 
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('mail');td.innerHTML='邮箱';
-	var td=document.createElement("td");tr.appendChild(td);	
-	var mail_show=document.createElement("select");td.appendChild(mail_show);	
-	mail_show.name=mail_show.id='mail_show';mail_show.classList.add('mail_v');
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('mail_v');
+	var mail_show=document.createElement("select");td.appendChild(mail_show);
 	for(var i=0,n=options.length;i<n;i++)
 	{
 		var option=document.createElement('option');mail_show.appendChild(option);	
@@ -1217,9 +1215,8 @@ function showshow()
 	var options=[{id:1,name:'显示'},{id:0,name:'隐藏'}];
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('ip');td.innerHTML='登录信息';
-	var td=document.createElement("td");tr.appendChild(td);	
-	var ip_show=document.createElement("select");td.appendChild(ip_show);	
-	ip_show.name=ip_show.id='ip_show';ip_show.classList.add('ip_v');
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('ip_v');
+	var ip_show=document.createElement("select");td.appendChild(ip_show);
 	for(var i=0,n=options.length;i<n;i++)
 	{
 		var option=document.createElement('option');ip_show.appendChild(option);	
@@ -1231,9 +1228,8 @@ function showshow()
 <?php if(JRY_WB_OAUTH_SWITCH){ ?>
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tpin');td.innerHTML='第三方接入信息';
-	var td=document.createElement("td");tr.appendChild(td);	
-	var oauth_show=document.createElement("select");td.appendChild(oauth_show);	
-	oauth_show.name=oauth_show.id='oauth_show';oauth_show.classList.add('tpin_v');
+	var td=document.createElement("td");tr.appendChild(td);	td.classList.add('tpin_v');	
+	var oauth_show=document.createElement("select");td.appendChild(oauth_show);
 	for(var i=0,n=options.length;i<n;i++)
 	{
 		var option=document.createElement('option');oauth_show.appendChild(option);	
@@ -1292,7 +1288,6 @@ function showspecialfact()
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tanmu')	;td.innerHTML='弹幕';
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('tanmu_v')	;
 	var word_special_fact=document.createElement("select");td.appendChild(word_special_fact);	
-	word_special_fact.name=word_special_fact.id='word_special_fact';word_special_fact.classList.add('tanmu_v');
 	for(var i=0,n=options.length;i<n;i++)
 	{
 		var option=document.createElement('option');word_special_fact.appendChild(option);	
@@ -1307,7 +1302,6 @@ function showspecialfact()
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('mouth')	;td.innerHTML='鼠标跟随';
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('mouth_v')	;
 	var follow_mouth=document.createElement("select");td.appendChild(follow_mouth);	
-	follow_mouth.name=follow_mouth.id='follow_mouth';follow_mouth.classList.add('mouth_v');
 	for(var i=0,n=options.length;i<n;i++)
 	{
 		var option=document.createElement('option');follow_mouth.appendChild(option);	
@@ -1791,25 +1785,18 @@ function showextern()
 <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']!='cutter'){ ?>
 	var time_<?php echo $one['key']; ?>=0;
 <?php } ?>	
-	var table=document.createElement("table");showdiv.appendChild(table);	
-	table.border=1;
-	table.width="100%";
+	var table=document.createElement("table");showdiv.appendChild(table);table.classList.add('jry_wb_chenge_user_extern');
 <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']!='cutter'){?>
 	var tr=document.createElement("tr");table.appendChild(tr);	
-	var td=document.createElement("td");tr.appendChild(td);
-	td.style.width='250px';
-	td.innerHTML='<?php echo $one['name']; ?>';	
-	td.classList.add('h56');
-	var td=document.createElement("td");tr.appendChild(td);
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('key','<?php  echo $one['key']; ?>');td.innerHTML='<?php echo $one['name']; ?>';	
+	var td=document.createElement("td");tr.appendChild(td);td.classList.add('value','<?php  echo $one['key']; ?>_v');
 <?php if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id'){ ?>
 	var <?php  echo $one['key']; ?>=document.createElement("input");td.appendChild(<?php  echo $one['key']; ?>);
 	<?php  echo $one['key']; ?>.type='text';
 	<?php  echo $one['key']; ?>.id=<?php  echo $one['key']; ?>.name='<?php  echo $one['key']; ?>';
-	<?php  echo $one['key']; ?>.classList.add('h56');
 	<?php  echo $one['key']; ?>.value=jry_wb_login_user.extern.<?php  echo $one['key']; ?>;
 <?php }else if($one['type']=='select'){ ?>
 	var <?php  echo $one['key']; ?>=document.createElement("select");td.appendChild(<?php  echo $one['key']; ?>);
-	<?php  echo $one['key']; ?>.classList.add('h56');
 	var option=document.createElement('option');<?php  echo $one['key']; ?>.appendChild(option);
 	option.style.display='none';
 <?php foreach($one['select'] as $select){ if(is_array($select)){?>
@@ -1831,8 +1818,7 @@ function showextern()
 	input.name='<?php  echo $one['key']; ?>';
 	input.onclick=function(e){if(e==undefined)e=window.event;if(e.target==this)check_all(e);};
 	<?php  echo $one['key']; ?>s[0]=input;
-	var h56=document.createElement('h56');td.appendChild(h56);
-	h56.innerHTML='是';
+	var span=document.createElement('span');td.appendChild(span);span.classList.add('yes');span.innerHTML='是';
 	var input=document.createElement('input');td.appendChild(input);
 	if(jry_wb_login_user.extern.<?php  echo $one['key']; ?>==(input.value=0))
 		input.setAttribute('checked','');
@@ -1840,9 +1826,7 @@ function showextern()
 	input.name='<?php  echo $one['key']; ?>';
 	input.onclick=function(e){if(e==undefined)e=window.event;if(e.target==this)check_all(e);};
 	<?php  echo $one['key']; ?>s[1]=input;
-	var h56=document.createElement('h56');td.appendChild(h56);
-	h56.innerHTML='否';	
-	h56.style.marginLeft='20px';		 
+	var span=document.createElement('span');td.appendChild(span);span.classList.add('no');span.innerHTML='否';	
 <?php }?>
 <?php }?>
 <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']!='cutter'){ ?>
