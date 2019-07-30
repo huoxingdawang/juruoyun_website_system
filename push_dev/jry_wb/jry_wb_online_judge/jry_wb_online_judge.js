@@ -52,103 +52,81 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	this.onepage=((isNaN(onepage))?75:onepage);
 	this.area.classList.add('jry_wb_online_judge_all');
 	this.left=document.createElement("div");this.area.appendChild(this.left);
-	this.left.classList.add('jry_wb_online_judge_all_left_div');
+	this.left.classList.add('all_left_div');
 	this.main_dom=document.createElement("div");this.left.appendChild(this.main_dom);
 	this.main_dom.classList.add();
 	this.tree_dom=document.createElement("div");this.left.appendChild(this.tree_dom);
 	this.tree_dom.style.display='none';
 	this.right=document.createElement("div");this.area.appendChild(this.right);
-	this.right.classList.add('jry_wb_online_judge_all_right_div');
+	this.right.classList.add('all_right_div');
 	jry_wb_add_onscroll(()=>
 	{
 		this.right.style.transform='translate(0px,'+window.scrollY+'px)';
 	});
-	let ul_type=document.createElement("ul");this.right.appendChild(ul_type);
-	ul_type.classList.add('h56');
-	ul_type.style.margin='0px';
-	let li_type=document.createElement("li");ul_type.appendChild(li_type);
-	li_type.innerHTML='类型';
-	let ulc_type=document.createElement("ul");ul_type.appendChild(ulc_type);
-	li_type.onclick=function(){ulc_type.style.display=ulc_type.style.display==''?'none':'',window.onresize();};
-	var li=document.createElement("li");ulc_type.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=0;};input.setAttribute('checked','checked');
-	var h56=document.createElement("h56");li.appendChild(h56);h56.innerHTML='全部';	
-	var li=document.createElement("li");ulc_type.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=1;};
-	var h56=document.createElement("h56");li.appendChild(h56);h56.innerHTML='单选';	
-	var li=document.createElement("li");ulc_type.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=2;};
-	var h56=document.createElement("h56");li.appendChild(h56);h56.innerHTML='单词';	
-	var li=document.createElement("li");ulc_type.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=3;};
-	var h56=document.createElement("h56");li.appendChild(h56);h56.innerHTML='填空';
-	var li=document.createElement("li");ulc_type.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=4;};
-	var h56=document.createElement("h56");li.appendChild(h56);h56.innerHTML='C++编译题';	
-	let ul_status=document.createElement("ul");this.right.appendChild(ul_status);
-	ul_status.classList.add('h56');
-	ul_status.style.margin='0px';
-	let li_status=document.createElement("li");ul_status.appendChild(li_status);
-	li_status.innerHTML='类型';
-	let ulc_status=document.createElement("ul");ul_status.appendChild(ulc_status);
-	li_status.onclick=function(){ulc_status.style.display=ulc_status.style.display==''?'none':'',window.onresize();};
-	var li=document.createElement("li");ulc_status.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=0;};input.setAttribute('checked','checked');
-	var b=document.createElement("b");li.appendChild(b);b.classList.add('jry_wb_icon','jry_wb_font_normal_size','jry_wb_online_judge_normal','jry_wb_icon_quan'		);
-	var li=document.createElement("li");ulc_status.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=1;};
-	var b=document.createElement("b");li.appendChild(b);b.classList.add('jry_wb_icon','jry_wb_font_normal_size','jry_wb_online_judge_right'	,'jry_wb_icon_duigoux'	);
-	var li=document.createElement("li");ulc_status.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=2;};
-	var b=document.createElement("b");li.appendChild(b);b.classList.add('jry_wb_icon','jry_wb_font_normal_size','jry_wb_online_judge_error'	,'jry_wb_icon_cuowu'	);
-	var li=document.createElement("li");ulc_status.appendChild(li);
-	var input=document.createElement("input");li.appendChild(input);input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=3;};
-	var b=document.createElement("b");li.appendChild(b);b.classList.add('jry_wb_icon','jry_wb_font_normal_size','jry_wb_online_judge_nottry'	,'jry_wb_icon_hr'	);	
-	let ul_question_id=document.createElement("ul");this.right.appendChild(ul_question_id);
-	ul_question_id.style.margin='0px';
-	let li_question_id=document.createElement("li");ul_question_id.appendChild(li_question_id);
-	var span=document.createElement("span");li_question_id.appendChild(span);
-	span.innerHTML='题号';span.classList.add('h56');
-	let input_question_id=document.createElement("input");li_question_id.appendChild(input_question_id);
-	input_question_id.classList.add('h56');
-	input_question_id.style.width='200px';
-	input_question_id.onkeyup=()=>
-	{
-		var buf=parseInt(input_question_id.value);
-		if(isNaN(buf))
-			this.showwhat.question_id=0;
-		else 
-			this.showwhat.question_id=parseInt(buf);
-	};
-	let ul_id=document.createElement("ul");this.right.appendChild(ul_id);
-	ul_id.style.margin='0px';
-	let li_id=document.createElement("li");ul_id.appendChild(li_id);
-	var b=document.createElement("b");li_id.appendChild(b);
-	b.classList.add('jry_wb_icon','jry_wb_icon_icon_zhanghao','h56');
-	b.style.paddingRight=span.offsetWidth-b.offsetWidth;
-	let input_id=document.createElement("input");li_id.appendChild(input_id);
-	input_id.classList.add('h56');
-	input_id.style.width='200px';
-	input_id.onkeyup=()=>
-	{
-		var buf=parseInt(input_id.value);
-		if(isNaN(buf))
-			this.showwhat.id=0;
-		else 
-			this.showwhat.id=parseInt(buf);		
-	};	
-	let ul_class=document.createElement("ul");this.right.appendChild(ul_class);
-	ul_class.style.margin='0px';
-	var b=document.createElement("b");ul_class.appendChild(b);
-	b.classList.add('jry_wb_icon','jry_wb_icon_biaoqian','h56','jry_wb_font_normal_size');
-	this.classes_dom=document.createElement("span");ul_class.appendChild(this.classes_dom);
+	
+	var hash=decodeURI(location.hash.slice(1));
+	if(hash=='')
+		hash='{}';
+	hash=JSON.parse(hash);
+	console.log(hash);
+	var page=hash.page;
+	if(hash.showwhat!=undefined)
+		this.showwhat=hash.showwhat;
+	var show=()=>{if(this.action=='logs')this.show_logs(1);else this.show_all(1);};
+	let type_div=document.createElement("div")	;this.right	.appendChild(type_div)	;type_div	.classList.add('type')		;
+	let type_w	=document.createElement("div")	;type_div	.appendChild(type_w)	;type_w		.classList.add('w')			;type_w.innerHTML='类型';
+	let type_c	=document.createElement("div")	;type_div	.appendChild(type_c)	;type_c		.classList.add('c')			;type_w.onclick=function(){type_c.style.display=type_c.style.display==''?'none':'',window.onresize();};
+	var div		=document.createElement("div")	;type_c		.appendChild(div)		;div		.classList.add('all');
+	var input	=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=0;show();};if(this.showwhat.question_type==0)input.setAttribute('checked','checked');
+	var span	=document.createElement("span")	;div		.appendChild(span)		;										;span.innerHTML='全部';	
+	var div		=document.createElement("div")	;type_c		.appendChild(div)		;div		.classList.add('check')		;
+	var input	=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=1;show();};if(this.showwhat.question_type==1)input.setAttribute('checked','checked');
+	var span	=document.createElement("span")	;div		.appendChild(span)		;										;span.innerHTML='单选';	
+	var div		=document.createElement("div")	;type_c		.appendChild(div)		;div		.classList.add('word')		;
+	var input	=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=2;show();};if(this.showwhat.question_type==2)input.setAttribute('checked','checked');
+	var span	=document.createElement("span")	;div		.appendChild(span)		;										;span.innerHTML='单词';	
+	var div		=document.createElement("div")	;type_c		.appendChild(div)		;div		.classList.add('blank')		;
+	var input	=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=3;show();};if(this.showwhat.question_type==3)input.setAttribute('checked','checked');
+	var span	=document.createElement("span")	;div		.appendChild(span)		;										;span.innerHTML='填空';
+	var div		=document.createElement("div")	;type_c		.appendChild(div)		;div		.classList.add('compile')	;
+	var input	=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='type';input.onclick=()=>{this.showwhat.question_type=4;show();};if(this.showwhat.question_type==4)input.setAttribute('checked','checked');
+	var span	=document.createElement("span")	;div		.appendChild(span)		;										;span.innerHTML='C++编译题';	
+
+	let status_div	=document.createElement("div")	;this.right	.appendChild(status_div);status_div	.classList.add('status')	;
+	let status_w	=document.createElement("div")	;status_div	.appendChild(status_w)	;status_w	.classList.add('w')			;status_w.innerHTML='状态';
+	let status_c	=document.createElement("div")	;status_div	.appendChild(status_c)	;status_c	.classList.add('c')			;status_w.onclick=function(){status_c.style.display=status_c.style.display==''?'none':'',window.onresize();};
+	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('normal')	;
+	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=0;show();};if(this.showwhat.status==0)input.setAttribute('checked','checked');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_quan');
+	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('right')		;
+	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=1;show();};if(this.showwhat.status==1)input.setAttribute('checked','checked');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
+	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('error')		;
+	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=2;show();};if(this.showwhat.status==2)input.setAttribute('checked','checked');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_cuowu');
+	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('nottry')	;
+	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=3;show();};if(this.showwhat.status==3)input.setAttribute('checked','checked');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_hr');
+
+	let qiddiv	=document.createElement("div")	;this.right.appendChild(qiddiv)	;qiddiv.classList.add('question_id');
+	var span	=document.createElement("span")	;qiddiv.appendChild(span)		;span.innerHTML='题号';
+	var inputqid=document.createElement("input");qiddiv.appendChild(inputqid)	;inputqid.value=this.showwhat.question_id;inputqid.onkeyup=()=>{inputqid.value=this.showwhat.question_id=isNaN(parseInt(inputqid.value))?0:parseInt(inputqid.value);show();};
+	let iddiv	=document.createElement("div")	;this.right.appendChild(iddiv)	;iddiv.classList.add('user');
+	var span	=document.createElement("span")	;iddiv.appendChild(span)		;span.innerHTML='用户';
+	var inputid	=document.createElement("input");iddiv.appendChild(inputid)		;inputid.value=this.showwhat.id;inputid.onkeyup=()=>{inputid.value=this.showwhat.id=isNaN(parseInt(inputid.value))?0:parseInt(inputid.value);show();};
+		
+	
+	var div=document.createElement("div");this.right.appendChild(div);div.classList.add('class');
+	var span=document.createElement("span");div.appendChild(span);
+	span.classList.add('jry_wb_icon','jry_wb_icon_biaoqian','w');
+	this.classes_dom=document.createElement("span");div.appendChild(this.classes_dom);this.classes_dom.classList.add('v');
 	this.classes_dom.classList.add('jry_wb_cut');
-	b.onclick=()=>
+	span.onclick=()=>
 	{
 		if(this.main_dom.style.display=='')
 			this.main_dom.style.display='none',this.tree_dom.style.display='';
 		else
-			this.main_dom.style.display='',this.tree_dom.style.display='none';
+			this.main_dom.style.display='',this.tree_dom.style.display='none',show();
 		this.showwhat.class=this.tree.get_checked();
 		for(var i=0;i<this.showwhat.class.length;i++)
 			this.showwhat.class[i]=parseInt(this.showwhat.class[i]);
@@ -158,13 +136,7 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	let serch=document.createElement('button');ul_buttom.appendChild(serch);
 	serch.innerHTML="搜索";
 	serch.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_ok');
-	serch.onclick=()=>
-	{
-		if(this.action=='logs')
-			this.show_logs(1);
-		else
-			this.show_all(1);
-	};
+	serch.onclick=show;
 	this.hash_prevent=false;
 	var top_toolbar_all=document.getElementById('top_toolbar_all');
 	if(top_toolbar_all!=undefined)

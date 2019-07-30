@@ -8,11 +8,11 @@ jry_wb_online_judge_function.prototype.show_logs=function(page)
 	{
 		if(this.showwhat.status==0)
 			return true;
-		else if(log.result!=undefined&&this.showwhat.status==3&&log.result.result!='right'&&log.result.result!='error')
-			return true;
 		else if(log.result!=undefined&&this.showwhat.status==1&&log.result.result=='right')
+			return true;
+		else if(log.result!=undefined&&this.showwhat.status==2&&log.result.result=='error')
 			return true;		
-		else if(log.result!=undefined&&this.showwhat.status==1&&log.result.result=='error')
+		else if(log.result!=undefined&&this.showwhat.status==3&&log.result.result!='error'&&log.result.result!='right')
 			return true;
 		else return false;
 	};
@@ -29,7 +29,7 @@ jry_wb_online_judge_function.prototype.show_logs=function(page)
 	for(let i=0,n=this.logs.length;i<n;i++)
 		if(	(this.showwhat.id==0||this.showwhat.id==this.logs[i].id)&&
 			(this.showwhat.question_id==0||this.showwhat.question_id==this.logs[i].question_id)&&
-			(this.showwhat.question_type==0||this.showwhat.question_type==this.logs[i].question_type)&&
+			(this.showwhat.question_type==0||this.showwhat.question_type==this.logs[i].question.question_type)&&
 			(check_status(this.logs[i]))&&
 			(check_class(this.logs[i])))
 				show.push(i),this.count++;
@@ -49,22 +49,22 @@ jry_wb_online_judge_function.prototype.show_logs=function(page)
 	{
 		let data=this.logs[show[i]];
 		var onebody=document.createElement("div");this.main_dom.appendChild(onebody);
-		onebody.className="jry_wb_online_judge_one_body";
+		onebody.className="one_body";
 		var id=document.createElement("a");onebody.appendChild(id);
-		id.classList.add('jry_wb_online_judge_one_id');
+		id.classList.add('one_id');
 		id.innerHTML='#'+(Array(5).join('0')+parseInt(data.log_id)).slice(-5);
 		jry_wb_get_and_show_user(onebody,data.id,null,'left');		
 		var result=document.createElement("div");onebody.appendChild(result);
-		result.classList.add('jry_wb_word_cut','jry_wb_online_judge_one_ans')
+		result.classList.add('jry_wb_word_cut','one_ans')
 		if(data.result.result=='error')
 		{
 			var icon=document.createElement("b");result.appendChild(icon);
-			icon.classList.add('jry_wb_icon','jry_wb_icon_cuowu','jry_wb_online_judge_error');
+			icon.classList.add('jry_wb_icon','jry_wb_icon_cuowu','error');
 		}
 		else if(data.result.result=='right')
 		{
 			var icon=document.createElement("b");result.appendChild(icon);
-			icon.classList.add('jry_wb_icon','jry_wb_icon_duigoux','jry_wb_online_judge_right');
+			icon.classList.add('jry_wb_icon','jry_wb_icon_duigoux','right');
 		}
 		else
 		{
@@ -74,13 +74,13 @@ jry_wb_online_judge_function.prototype.show_logs=function(page)
 		var span=document.createElement("span");result.appendChild(span);
 		span.innerHTML=data.ans;
 		var question=document.createElement("a");onebody.appendChild(question);
-		question.classList.add('jry_wb_online_judge_one_question','jry_wb_word_cut');
+		question.classList.add('one_question','jry_wb_word_cut');
 		if(data.question==undefined)
 			question.innerHTML='已消失的题目';
 		else
 			question.innerHTML='#'+data.question.question_id+':'+data.question.question.slice(0,50),question.href=id.href='jry_wb_online_judge_show_question.php#{"class":'+JSON.stringify(data.question.class)+',"question_id":'+data.question.question_id+'}';		
 		var time=document.createElement("div");onebody.appendChild(time);
-		time.classList.add('jry_wb_online_judge_one_time');
+		time.classList.add('one_time');
 		time.innerHTML='@'+data.time;	
 	}
 	jry_wb_beautiful_right_alert.alert('第'+page+'/'+pages+'页',3000,'auto','ok');	
