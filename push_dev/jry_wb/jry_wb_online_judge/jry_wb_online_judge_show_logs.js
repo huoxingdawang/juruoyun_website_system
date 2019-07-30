@@ -51,11 +51,11 @@ jry_wb_online_judge_function.prototype.show_logs=function(page)
 		var onebody=document.createElement("div");this.main_dom.appendChild(onebody);
 		onebody.className="jry_wb_online_judge_one_body";
 		var id=document.createElement("a");onebody.appendChild(id);
-		id.classList.add('jry_wb_online_judge_one_id','h56');
+		id.classList.add('jry_wb_online_judge_one_id');
 		id.innerHTML='#'+(Array(5).join('0')+parseInt(data.log_id)).slice(-5);
 		jry_wb_get_and_show_user(onebody,data.id,null,'left');		
 		var result=document.createElement("div");onebody.appendChild(result);
-		result.classList.add('jry_wb_word_cut','h56','jry_wb_online_judge_one_ans')
+		result.classList.add('jry_wb_word_cut','jry_wb_online_judge_one_ans')
 		if(data.result.result=='error')
 		{
 			var icon=document.createElement("b");result.appendChild(icon);
@@ -74,7 +74,7 @@ jry_wb_online_judge_function.prototype.show_logs=function(page)
 		var span=document.createElement("span");result.appendChild(span);
 		span.innerHTML=data.ans;
 		var question=document.createElement("a");onebody.appendChild(question);
-		question.classList.add('jry_wb_online_judge_one_question','h56','jry_wb_word_cut');
+		question.classList.add('jry_wb_online_judge_one_question','jry_wb_word_cut');
 		if(data.question==undefined)
 			question.innerHTML='已消失的题目';
 		else

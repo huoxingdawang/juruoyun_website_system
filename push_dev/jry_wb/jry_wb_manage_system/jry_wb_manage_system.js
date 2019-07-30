@@ -13,7 +13,7 @@
 		var color_picker_main=document.createElement('div');color_picker_area.appendChild(color_picker_main);
 		color_picker_main.classList.add("cp-default");
 		color_picker_value=document.createElement('input');color_picker_area.appendChild(color_picker_value);
-		color_picker_value.classList.add("h56");
+		color_picker_value.style.fontSize='30px';
 		color_picker_value.style.width="200px";
 		var color_picker_button=document.createElement('button');color_picker_area.appendChild(color_picker_button);
 		color_picker_button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");

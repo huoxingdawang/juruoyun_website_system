@@ -154,12 +154,12 @@ function chenge_ziti()
 	ziti%=2;
 	if(ziti==0)
 	{
-		document.getElementById("oriContent").className='';
+		document.getElementById("oriContent").style.fontSize='';
 		jry_wb_beautiful_right_alert.alert('小字体模式',1000,'auto');
 	}
 	else
 	{
-		document.getElementById("oriContent").className='h56';
+		document.getElementById("oriContent").style.fontSize='30px';
 		jry_wb_beautiful_right_alert.alert('大字体模式',1000,'auto'); 
 	}
 }

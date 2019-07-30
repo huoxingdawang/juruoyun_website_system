@@ -52,11 +52,11 @@ jry_wb_online_judge_function.prototype.show_all=function(page)
 		var onebody=document.createElement("div");this.main_dom.appendChild(onebody);
 		onebody.className="jry_wb_online_judge_one_body";
 		var id=document.createElement("a");onebody.appendChild(id);
-		id.classList.add('jry_wb_online_judge_one_id','h56');
+		id.classList.add('jry_wb_online_judge_one_id');
 		id.innerHTML='#'+(Array(5).join('0')+parseInt(data.question_id)).slice(-5);
 		jry_wb_get_and_show_user(onebody,data.id,null,'left');
 		var question=document.createElement("a");onebody.appendChild(question);
-		question.classList.add('jry_wb_online_judge_one_question','h56','jry_wb_word_cut');
+		question.classList.add('jry_wb_online_judge_one_question','jry_wb_word_cut');
 		question.innerHTML=data.question.slice(0,50);
 		var ans=document.createElement("div");onebody.appendChild(ans);
 		ans.classList.add('jry_wb_online_judge_one_ans','jry_wb_word_cut','h11');
