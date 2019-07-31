@@ -326,12 +326,9 @@ function  jry_wb_beautiful_alert_function()
 			if(txt.naturalWidth<width*0.2)
 				jry_wb_beautiful_right_alert.alert('使用shift+滚轮缩放<br>ctrl+0恢复原尺寸',5000,'auto');
 		};
-		if(url.indexOf("?")==-1)
-			txt.src = url+'?size='+parseInt(width);
-		else
-			txt.src = url+'&size='+parseInt(width);
+		txt.src=url;
 		div.appendChild(txt);
-		var confirm = document.createElement("button"); title.appendChild(confirm);
+		var confirm=document.createElement("button"); title.appendChild(confirm);
 		confirm.type="button"; 
 		confirm.innerHTML="关闭"; 
 		confirm.style='float:right;margin-right:20px;';
