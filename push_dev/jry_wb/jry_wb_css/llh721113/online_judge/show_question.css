@@ -1,17 +1,29 @@
 .jry_wb_online_judge_show_question{border-spacing: 0px;overflow:hidden;}
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_left_div
+.jry_wb_online_judge_show_question .left_div
 {
 	width:61%;overflow-y:hidden;overflow-x:hidden;
 	float:left;
 }
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div
+.jry_wb_online_judge_show_question .left_div .qtitle		{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .left_div .option		{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .left_div .option input	{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .left_div .option span	{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .left_div .input 		{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .left_div .textarea 		{font-size:30px;color:#33F;}
+
+.jry_wb_online_judge_show_question .right_div
 {
-	width:39%;overflow-y:hidden;overflow-x:hidden;
+	width:38%;
+	overflow-y:hidden;
+	overflow-x:hidden;
 	float:left;
+	border:1px solid #aaa;
+	background:#aaa;
+	box-shadow:#aaa 2px 2px 10px 3px ;
 }
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_submit{}
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_reast{color:#ff0000;}
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_source{color:#ff0000;}
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_reason{}
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_maxtimes{color:#ff0000;}
-.jry_wb_online_judge_show_question .jry_wb_online_judge_show_question_right_div .jry_wb_online_judge_show_question_times{}
+.jry_wb_online_judge_show_question .right_div .submit		{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .right_div .reast		{font-size:30px;color:#ff0000;}
+.jry_wb_online_judge_show_question .right_div .source		{font-size:30px;color:#ff0000;}
+.jry_wb_online_judge_show_question .right_div .reason		{font-size:30px;color:#33F;}
+.jry_wb_online_judge_show_question .right_div .maxtimes		{font-size:30px;color:#ff0000;}
+.jry_wb_online_judge_show_question .right_div .times		{font-size:30px;color:#33F;}

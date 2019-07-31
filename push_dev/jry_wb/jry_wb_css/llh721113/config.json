@@ -78,6 +78,11 @@
 		{
 			"desktop":"llh721113/online_judge/show_question.css",
 			"mobile":"llh721113/online_judge/show_question.css"
+		},
+		"manage_question":
+		{
+			"desktop":"llh721113/online_judge/manage_question.css",
+			"mobile":"llh721113/online_judge/manage_question.css"
 		}
 	},
 	"manage":
