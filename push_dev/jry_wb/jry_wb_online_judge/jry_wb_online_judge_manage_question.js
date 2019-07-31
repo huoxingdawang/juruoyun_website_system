@@ -14,12 +14,12 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 	all.style.height=list.style.height=show.style.height=document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight);
 	show.style.position=list.style.position='relative';
 	show.style.width=all.clientWidth-list.clientWidth;
+	var addbutton=document.createElement('div');list.appendChild(addbutton);
 	if(jry_wb_login_user.compentence.manageonlinejudgeaddquestion)
 	{
-		var buf=document.createElement('div');list.appendChild(buf);
-		buf.classList.add('jry_wb_left_toolbar_left_list_default');
-		buf.innerHTML='新建';
-		buf.onclick=(event)=>
+		addbutton.classList.add('jry_wb_left_toolbar_left_list_default');
+		addbutton.innerHTML='新建';
+		addbutton.onclick=(event)=>
 		{
 			jry_wb_beautiful_alert.check('确定新建？',()=>
 			{
@@ -39,6 +39,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 			},function(){});
 		};
 	}
+	let list_scroll=new jry_wb_beautiful_scroll(list);
 	jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[0].onclick();});
 	for(let i=0,n=this.question_list.length;i<n;i++)
 	{
@@ -51,10 +52,11 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		let one=document.createElement('div');list.appendChild(one);
 		one.style="text-overflow: ellipsis; overflow:hidden;";
 		one.style.width='';
-			one.classList.add(('jry_wb_left_toolbar_left_list_'+(i%2+1)));
+		one.classList.add(('jry_wb_left_toolbar_left_list_'+(i%2+1)));
 		one.innerHTML=this.question_list[i].question_id+':'+this.question_list[i].question.slice(0,10);
 		this.question_list[i].onclick=one.onclick=(event)=>
 		{
+			list_scroll.scrollto(0,one.offsetTop-addbutton.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));				
 			if(i!=n-1)
 				jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[i+1].onclick();});
 			if(i!=0)
@@ -335,5 +337,4 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		if(this.show_question_id==this.question_list[i].question_id)
 			one.onclick();
 	}
-	var list_scroll=new jry_wb_beautiful_scroll(list);
 };
