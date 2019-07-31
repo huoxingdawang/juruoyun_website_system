@@ -1,0 +1,39 @@
+.jry_wb_online_judge_manage_question								{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_online_judge_manage_question td								{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_online_judge_manage_question .qid							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .qid_v							{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .id							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .id_v							{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .use							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .use_v							{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .tag							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .tag	span					{font-size:16px;color:#FFF;}
+.jry_wb_online_judge_manage_question .tag_v							{}
+.jry_wb_online_judge_manage_question .tag_v	select					{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .tag_v	select option			{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .type							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .type_v						{}
+.jry_wb_online_judge_manage_question .type_v select				{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .type_v select option		{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .lasttime						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .lasttime_v					{font-size:30px;color:#33F;}
+.jry_wb_online_judge_manage_question .data							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .data	.pass					{font-size:30px;color:#23dd07;}
+.jry_wb_online_judge_manage_question .data	.submit					{font-size:30px;color:#40b3ce;border-left: 3px solid #FFF;}
+.jry_wb_online_judge_manage_question .data	.ratio					{font-size:30px;color:#3333FF;border-left: 3px solid #FFF;}
+.jry_wb_online_judge_manage_question .data_v						{}
+.jry_wb_online_judge_manage_question .data_v	.pass				{font-size:30px;color:#23dd07;}
+.jry_wb_online_judge_manage_question .data_v	.submit				{font-size:30px;color:#40b3ce;border-left: 3px solid #FFF;}
+.jry_wb_online_judge_manage_question .data_v	.ratio				{font-size:30px;color:#3333FF;border-left: 3px solid #FFF;}
+.jry_wb_online_judge_manage_question .sorce							{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .sorce_v						{}
+.jry_wb_online_judge_manage_question .sorce_v textarea				{font-size:30px;color:#33F;width:90%;height:100px;}
+.jry_wb_online_judge_manage_question .question						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .question_v					{}
+.jry_wb_online_judge_manage_question .question_v textarea			{font-size:30px;color:#33F;width:90%;height:100px;}
+.jry_wb_online_judge_manage_question .config						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .config_v						{}
+.jry_wb_online_judge_manage_question .config_v textarea			{font-size:30px;color:#33F;width:90%;height:100px;}
+.jry_wb_online_judge_manage_question .extern						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_online_judge_manage_question .extern_v						{}
+.jry_wb_online_judge_manage_question .extern_v textarea			{font-size:30px;color:#33F;width:90%;height:100px;}
