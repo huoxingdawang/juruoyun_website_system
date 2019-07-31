@@ -20,28 +20,20 @@ function jry_wb_manage_hengfu_init(area,mode)
 function jry_wb_manage_hengfu_run(area)
 {
 	area.innerHTML='';
-	var all = document.createElement('table');area.appendChild(all);
-	var width=area.clientWidth-30;
-	all.style.width=width;
-	all.border=2;
-	var tr = document.createElement('tr');all.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);td.classList.add('h55');td.innerHTML='横幅';td.align='center';
-	var td = document.createElement('td');tr.appendChild(td);td.classList.add('h55');td.innerHTML='操作';td.align='center';td.setAttribute('colspan','3');
+	jry_wb_include_css('manage/hengfu');	
+	var all	=document.createElement('table');area.appendChild(all)	;all.classList.add('jry_wb_manage_hengfu');
+	var tr	=document.createElement('tr')	;all.appendChild(tr)	;
+	var td	=document.createElement('td')	;tr.appendChild(td)		;td.classList.add('word')	;td.innerHTML='横幅';
+	var td	=document.createElement('td')	;tr.appendChild(td)		;td.classList.add('option')	;td.innerHTML='操作';td.setAttribute('colspan','3');
 	for(let i=0,n=jry_wb_manage_hengfu_data.length;i<n;i++)
 	{
-		var tr = document.createElement('tr');all.appendChild(tr);
-		var td = document.createElement('td');tr.appendChild(td);
-		var input= document.createElement('input');td.appendChild(input);
-		input.value=jry_wb_manage_hengfu_data[i].words;
-		input.classList.add('h56');
-		input.name=jry_wb_manage_hengfu_data[i].hengfu_id
-		var td = document.createElement('td');tr.appendChild(td);
-		var chenge= document.createElement('button');td.appendChild(chenge);
-		chenge.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_warn');
-		chenge.innerHTML='修改';
+		var tr		=document.createElement('tr')		;all.appendChild(tr)	;
+		var td		=document.createElement('td')		;tr.appendChild(td)		;
+		let input	=document.createElement('input')	;td.appendChild(input)	;input.classList.add('word_v')	;input.value=jry_wb_manage_hengfu_data[i].words;
+		var td		=document.createElement('td')		;tr.appendChild(td)		;
+		var chenge	=document.createElement('button')	;td.appendChild(chenge)	;chenge.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_warn');chenge.innerHTML='修改';
 		chenge.onclick=function(event)
 		{
-			var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];
 			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action=chenge',function(data)
 			{
 				data=JSON.parse(data);
@@ -61,15 +53,12 @@ function jry_wb_manage_hengfu_run(area)
 						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 					return ;
 				}
-			},[{'name':'words','value':input.value},{'name':'hengfu_id','value':input.name}]);
+			},[{'name':'words','value':input.value},{'name':'hengfu_id','value':jry_wb_manage_hengfu_data[i].hengfu_id}]);
 		};
-		var td = document.createElement('td');tr.appendChild(td);
-		var del= document.createElement('button');td.appendChild(del);
-		del.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_error');
-		del.innerHTML='删除'
+		var td		=document.createElement('td')		;tr.appendChild(td)		;
+		var del		=document.createElement('button')	;td.appendChild(del)	;del.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_error');del.innerHTML='删除'
 		del.onclick=function(event)
 		{
-			var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];
 			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action=delete',function(data)
 			{
 				data=JSON.parse(data);
@@ -89,15 +78,12 @@ function jry_wb_manage_hengfu_run(area)
 						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 					return ;
 				}
-			},[{'name':'hengfu_id','value':input.name}]);			
+			},[{'name':'hengfu_id','value':jry_wb_manage_hengfu_data[i].hengfu_id}]);			
 		};
-		var td = document.createElement('td');tr.appendChild(td);
-		var enable= document.createElement('button');td.appendChild(enable);
-		enable.classList.add('jry_wb_button','jry_wb_button_size_big',(jry_wb_manage_hengfu_data[i].enable?'jry_wb_color_error':'jry_wb_color_ok'));
-		enable.innerHTML=(jry_wb_manage_hengfu_data[i].enable?'停用':'启用');
+		var td		=document.createElement('td')		;tr.appendChild(td)		;
+		var enable	=document.createElement('button')	;td.appendChild(enable)	;enable.classList.add('jry_wb_button','jry_wb_button_size_big',(jry_wb_manage_hengfu_data[i].enable?'jry_wb_color_error':'jry_wb_color_ok'));enable.innerHTML=(jry_wb_manage_hengfu_data[i].enable?'停用':'启用');
 		enable.onclick=function(event)
 		{
-			var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];
 			jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action='+(jry_wb_manage_hengfu_data[i].enable?'disable':'enable'),function(data)
 			{
 				data=JSON.parse(data);
@@ -117,21 +103,16 @@ function jry_wb_manage_hengfu_run(area)
 						jry_wb_beautiful_alert.alert("错误"+data.reason,"请联系开发组");
 					return ;
 				}
-			},[{'name':'hengfu_id','value':input.name}]);			
+			},[{'name':'hengfu_id','value':jry_wb_manage_hengfu_data[i].hengfu_id}]);			
 		};				
-		input.style.width=(width-chenge.clientWidth-del.clientWidth-enable.clientWidth)*0.9;
 	}
-	var tr = document.createElement('tr');all.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
-	var input= document.createElement('input');td.appendChild(input);
-	input.classList.add('h56');
-	var td = document.createElement('td');tr.appendChild(td);
-	var add= document.createElement('button');td.appendChild(add);
-	add.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');
-	add.innerHTML='添加';
+	var tr		=document.createElement('tr')		;all.appendChild(tr)	;
+	var td		=document.createElement('td')		;tr.appendChild(td)		;
+	let input	=document.createElement('input')	;td.appendChild(input)	;input.classList.add('word_v');
+	var td		=document.createElement('td')		;tr.appendChild(td)		;
+	var add		=document.createElement('button')	;td.appendChild(add)	;add.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_ok');add.innerHTML='添加';
 	add.onclick=function(event)
 	{
-		var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];
 		jry_wb_ajax_load_data('jry_wb_manage_hengfu_do.php?action=add',function(data)
 		{
 			data=JSON.parse(data);
@@ -153,16 +134,8 @@ function jry_wb_manage_hengfu_run(area)
 			}
 		},[{'name':'words','value':input.value}]);
 	};
-	var td = document.createElement('td');tr.appendChild(td);
-	td.setAttribute('colspan','2');
-	var del= document.createElement('button');td.appendChild(del);
-	del.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_error');
-	del.innerHTML='清空';
-	del.onclick=function(event)
-	{
-		var input=event.target.parentNode.parentNode.getElementsByTagName('input')[0];		
-		input.value='';
-	}	
-	input.style.width='90%';
+	var td		=document.createElement('td')		;tr.appendChild(td)		;td.setAttribute('colspan','2');
+	var del		=document.createElement('button')	;td.appendChild(del)	;del.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_error');del.innerHTML='清空';
+	del.onclick=function(event){input.value='';};
 	window.onresize();
 }

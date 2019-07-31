@@ -91,6 +91,26 @@
 		{
 			"mobile": "default/manage/user.css",
 			"desktop": "default/manage/user.css"
-		}
+		},
+		"tanmu":
+		{
+			"mobile": "default/manage/tanmu.css",
+			"desktop": "default/manage/tanmu.css"
+		},
+		"hengfu":
+		{
+			"mobile": "default/manage/hengfu.css",
+			"desktop": "default/manage/hengfu.css"
+		},
+		"bigdeal":
+		{
+			"mobile": "default/manage/bigdeal.css",
+			"desktop": "default/manage/bigdeal.css"
+		},
+		"competence":
+		{
+			"mobile": "default/manage/competence.css",
+			"desktop": "default/manage/competence.css"
+		}			
 	}
 }

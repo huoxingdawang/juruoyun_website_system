@@ -320,33 +320,22 @@ jry_wb_manage_user.showall=function()
 <?php if($JRY_WB_CONFIG_USER_EXTERN_MESSAGE!=NULL){ ?>
 				if(user.extern==null)user.extern={};
 				var tr=document.createElement("tr");one.appendChild(tr);
-				var td=document.createElement("td");tr.appendChild(td);
-				td.width="400";
-				td.classList.add('h56');
-				td.setAttribute('valign','top');
-				td.innerHTML='扩展信息';
+				var td=document.createElement("td");tr.appendChild(td);td.classList.add('extern');td.innerHTML='扩展信息';td.setAttribute('valign','top');
 				var td=document.createElement("td");tr.appendChild(td);	
-				var table=document.createElement("table");td.appendChild(table);
-				table.border=1;
-				table.width="100%";					
+				var table=document.createElement("table");td.appendChild(table);table.classList.add('extern_v');
 <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']!='cutter'){?>
 				var tr=document.createElement("tr");table.appendChild(tr);	
-				var td=document.createElement("td");tr.appendChild(td);
-				td.style.width='250px';
-				td.innerHTML='<?php echo $one['name']; ?>';	
-				td.classList.add('h56');
-				var td=document.createElement("td");tr.appendChild(td);
+				var td=document.createElement("td");tr.appendChild(td);td.classList.add('key','<?php  echo $one['key']; ?>');td.innerHTML='<?php echo $one['name']; ?>';	
+				var td=document.createElement("td");tr.appendChild(td);td.classList.add('value','<?php  echo $one['key']; ?>_v');
 <?php if($one['type']=='word'||$one['type']=='tel'||$one['type']=='mail'||$one['type']=='china_id'){ ?>
 				var <?php  echo $one['key']; ?>=document.createElement("input");td.appendChild(<?php  echo $one['key']; ?>);
 				<?php  echo $one['key']; ?>.disabled=true;
 				<?php  echo $one['key']; ?>.type='text';
 				<?php  echo $one['key']; ?>.id=<?php  echo $one['key']; ?>.name='<?php  echo $one['key']; ?>';
-				<?php  echo $one['key']; ?>.classList.add('h56');
 				<?php  echo $one['key']; ?>.value=user.extern.<?php  echo $one['key']; ?>;
 <?php }else if($one['type']=='select'){ ?>
 				var <?php  echo $one['key']; ?>=document.createElement("select");td.appendChild(<?php  echo $one['key']; ?>);
 				<?php  echo $one['key']; ?>.disabled=true;
-				<?php  echo $one['key']; ?>.classList.add('h56');
 				var option=document.createElement('option');<?php  echo $one['key']; ?>.appendChild(option);
 				option.style.display='none';
 <?php foreach($one['select'] as $select){ if(is_array($select)){?>
@@ -368,8 +357,7 @@ jry_wb_manage_user.showall=function()
 				input.name='<?php  echo $one['key']; ?>';
 				input.disabled=true;
 				<?php  echo $one['key']; ?>s[0]=input;
-				var h56=document.createElement('h56');td.appendChild(h56);
-				h56.innerHTML='是';
+				var span=document.createElement('span');td.appendChild(span);span.classList.add('yes');span.innerHTML='是';
 				var input=document.createElement('input');td.appendChild(input);
 				if(user.extern.<?php  echo $one['key']; ?>==(input.value=0))
 					input.setAttribute('checked','');
@@ -377,9 +365,7 @@ jry_wb_manage_user.showall=function()
 				input.name='<?php  echo $one['key']; ?>';
 				input.disabled=true;
 				<?php  echo $one['key']; ?>s[1]=input;
-				var h56=document.createElement('h56');td.appendChild(h56);
-				h56.innerHTML='否';	
-				h56.style.marginLeft='20px';		 
+				var span=document.createElement('span');td.appendChild(span);span.classList.add('no');span.innerHTML='否';	
 <?php }?>
 <?php }?>
 <?php } ?>

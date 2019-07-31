@@ -180,8 +180,8 @@
 
 .jry_wb_chenge_user_extern							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
 .jry_wb_chenge_user_extern td						{border-left:1px solid #000;border-top:1px solid #000;}
-.jry_wb_chenge_user_extern .key						{font-size:30px;color:#0F0;width:250px;}
-.jry_wb_chenge_user_extern .value input			{font-size:30px;color:#0F0;}
-.jry_wb_chenge_user_extern .value select			{font-size:30px;color:#0F0;}
-.jry_wb_chenge_user_extern .value .yes				{font-size:30px;color:#0F0;}
-.jry_wb_chenge_user_extern .value .no				{font-size:30px;color:#0F0;margin-left:20px}
+.jry_wb_chenge_user_extern .key						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_extern .value input			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_extern .value select			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_extern .value .yes				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_extern .value .no				{font-size:30px;color:#33F;margin-left:20px}
