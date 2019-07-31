@@ -1,0 +1,187 @@
+.jry_wb_chenge_user									{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user td								{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user .id								{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .id_v							{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .head							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .head_v							{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .head_v img					{width:80px;height:80px;}
+.jry_wb_chenge_user .grm							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .grm_v							{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .erd							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .erd_v							{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .cptn							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .cptn_v							{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .logdate						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .logdate_v						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .logtime						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .logtime_v						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .prizetime						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .prizetime_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .nextprize						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .nextprize_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user .guest							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user .guest_v						{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_login							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_login td						{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_login .login					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_login .login_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_login .login_v .country			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_login .login_v .region			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_login .login_v .isp				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_login .login_v .time			{border-left: 3px solid #33F;}
+.jry_wb_chenge_user_login .login_v .device			{border-left: 3px solid #33F;}
+.jry_wb_chenge_user_login .login_v .browser			{border-left: 3px solid #33F;}
+.jry_wb_chenge_user_login .login_v .logoutbtn		{font-size:30px;color:#FFF;}
+.jry_wb_chenge_user_login .login_v .trustbtn		{font-size:30px;color:#FFF;}
+.jry_wb_chenge_user_login .login_v .trustbtnact		{background:#23dd07;}
+.jry_wb_chenge_user_login .login_v .thisbtn			{font-size:30px;color:#FFF;}
+
+.jry_wb_chenge_user_head							{width:90%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_head td							{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_head .head_s					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_head .head_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_head .head_v img				{font-size:30px;color:#33F;width:80px;height:80px;}
+.jry_wb_chenge_user_head .head_c					{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_log								{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_log td							{font-size:30px;color:#33F;text-align:center;border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_log .title						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_log .logid						{font-size:30px;color:#33F;width:10%;}
+.jry_wb_chenge_user_log .type						{font-size:30px;color:#33F;width:10%;}
+.jry_wb_chenge_user_log .time						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_log .detail						{font-size:30px;color:#33F;width:60%;}
+	
+.jry_wb_chenge_user_invite_code						{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_invite_code td					{font-size:30px;color:#33F;text-align:center;border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_invite_code .title				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_invite_code .codeid				{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_invite_code .code				{font-size:30px;color:#33F;width:40%;}
+.jry_wb_chenge_user_invite_code .time				{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_invite_code .use				{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_invite_code .notused			{background:#23dd07;}
+
+.jry_wb_chenge_user_show							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_show td							{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_show .tel						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_show .tel_v						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_show .tel_v	select				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_show .mail						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_show .mail_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_show .mail_v select			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_show .ip						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_show .ip_v						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_show .ip_v select				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_show .tpin						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_show .tpin_v select			{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_special							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_special td						{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_special .tanmu					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_special .tanmu_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .tanmu_v select		{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .mouth					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_special .mouth_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .mouth_v select		{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .head					{font-size:30px;color:#33F;width:250px;}
+
+.jry_wb_chenge_user_special .head_v					{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_special .head_v	 td				{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_special .head_v .status			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .head_v .speed			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .head_v .speed_v		{font-size:30px;color:#33F;width:100px;}
+.jry_wb_chenge_user_special .head_v .direction		{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .head_v .direction_v	{font-size:30px;color:#33F;width:200px;}
+.jry_wb_chenge_user_special .head_v	.times			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_special .head_v	.times_v		{font-size:30px;color:#33F;width:100px;}
+
+.jry_wb_chenge_user_music							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_music .type						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_music .mid						{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_tel								{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_tel td							{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_tel .tel						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_tel .tel_v						{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tel .tel_v input				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tel .vcode						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_tel .vcode_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tel .vcode_v input				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tel .vcode_v img				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tel .phonecode					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_tel .phonecode_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tel .phonecode_v input			{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_mail							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_mail td							{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_mail .mail						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_mail .mail_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_mail .mail_v input				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_mail .vcode						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_mail .vcode_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_mail .vcode_v input			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_mail .vcode_v img				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_mail .mailcode					{font-size:30px;color:#33F;width:250px;}
+
+.jry_wb_chenge_user_password						{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_password td						{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_password .old					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_password .old_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_password .old_v input			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_password .new1					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_password .new1_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_password .new1_v input			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_password .new2					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_password .new2_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_password .new2_v input			{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_tpin							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_tpin td							{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_tpin .qq						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_tpin .qq_info					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .qq_info img				{font-size:30px;color:#33F;width:30px;height:30px;}
+.jry_wb_chenge_user_tpin .qq_discon					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .qq_con					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .github					{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_tpin .github_info				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .github_info img			{font-size:30px;color:#33F;width:30px;height:30px;}
+.jry_wb_chenge_user_tpin .github_discon				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .github_con				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .mi						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_tpin .mi_info					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .mi_info img				{font-size:30px;color:#33F;width:30px;height:30px;}
+.jry_wb_chenge_user_tpin .mi_discon					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .mi_con					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .gitee						{font-size:30px;color:#33F;width:20%;}
+.jry_wb_chenge_user_tpin .gitee_info				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .gitee_info img			{font-size:30px;color:#33F;width:30px;height:30px;}
+.jry_wb_chenge_user_tpin .gitee_discon				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_tpin .gitee_con					{font-size:30px;color:#33F;}
+
+.jry_wb_chenge_user_chenge							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_chenge td						{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_chenge .name					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_chenge .name_v input			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .sex						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_chenge .sex_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .sex_v .man				{font-size:30px;color:#33f;}
+.jry_wb_chenge_user_chenge .sex_v .woman			{font-size:30px;color:#ffc0cb;}
+.jry_wb_chenge_user_chenge .sex_v .nzdl				{font-size:30px;color:#c0f;}
+.jry_wb_chenge_user_chenge .language				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_chenge .language_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .language_v select		{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .style					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_chenge .style_v					{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .style_v	select			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .zhushi					{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_chenge .zhushi_v				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_chenge .zhushi_v textarea		{margin: 3px; height: 500px; width: 49%;float:left;}
+.jry_wb_chenge_user_chenge .zhushi_v .result		{height: 500px;width:49%;overflow:hidden;position:relative;}
+
+.jry_wb_chenge_user_extern							{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chenge_user_extern td						{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_extern .key						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_chenge_user_extern .value input			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_extern .value select			{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_extern .value .yes				{font-size:30px;color:#33F;}
+.jry_wb_chenge_user_extern .value .no				{font-size:30px;color:#33F;margin-left:20px}
