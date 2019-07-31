@@ -64,7 +64,7 @@ function jry_wb_loading_on()
 	jry_wb_loading_count++;
 	jry_wb_loading_count_max++;
 	if(jry_wb_loading_progress!=undefined)
-		jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');
+		setTimeout(function(){jry_wb_loading_progress.progress_body.style.height='2px',jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');},1);
 }
 function jry_wb_loading_off()
 {
@@ -72,7 +72,7 @@ function jry_wb_loading_off()
 	if(jry_wb_loading_count<=0)
 		jry_wb_loading_count_max=0;
 	if(jry_wb_loading_progress!=undefined)
-		jry_wb_loading_progress.progress_body.style.height=(jry_wb_loading_count<=0?'0px':'2px'),jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');		
+		setTimeout(function(){jry_wb_loading_progress.progress_body.style.height=(jry_wb_loading_count<=0?'0px':'2px'),jry_wb_loading_progress.update((jry_wb_loading_count_max-jry_wb_loading_count)/jry_wb_loading_count_max,'');},1);
 }
 function jry_wb_add_onresize(func) 
 {  

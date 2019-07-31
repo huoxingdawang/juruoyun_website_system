@@ -61,19 +61,22 @@ function jry_wb_indexeddb_clear()
 					{'name':'manage_bigdeal'			,'key':'bigdeal_id'}	,{'name':'manage_hengfu'	,'key':'hengfu_id'}		,{'name':'manage_tanmu'		,'key':'tanmu_id'},
 					{'name':'blog_draft_text'			,'key':'blog_id'}];
 	for(let i=0;i<clear_list.length;i++)
+		jry_wb_indexeddb_delete(clear_list[i]);
+}
+function jry_wb_indexeddb_delete(table)
+{
+	jry_wb_loading_on();
+	jry_wb_indexeddb_set_lasttime(table.name,'1926-08-17 00:00:00');	
+	jry_wb_beautiful_right_alert.alert('正在清空表'+table.name,500+Math.random()*500,'auto');
+	let re=jry_wb_indexeddb.transaction([table.name],'readwrite').objectStore(table.name);
+	re.openCursor().onsuccess=function()
 	{
-		jry_wb_loading_on();
-		jry_wb_beautiful_right_alert.alert('正在清空个人隐私相关表'+clear_list[i].name,500+Math.random()*500,'auto');
-		let re=jry_wb_indexeddb.transaction([clear_list[i].name],'readwrite').objectStore(clear_list[i].name);
-		re.openCursor().onsuccess=function()
-		{
-			var cursor=this.result;
-			if (cursor)
-				re.delete(cursor.value[clear_list[i].key]),cursor.continue();
-			else
-				jry_wb_beautiful_right_alert.alert('清空表'+clear_list[i].name+'成功',1000+Math.random()*1000,'auto','ok'),jry_wb_loading_off();
-		};	
-	}
+		var cursor=this.result;
+		if (cursor)
+			re.delete(cursor.value[table.key]),cursor.continue();
+		else
+			jry_wb_beautiful_right_alert.alert('清空表'+table.name+'成功',1000+Math.random()*1000,'auto','ok'),jry_wb_loading_off();
+	};	
 }
 jry_wb_indexeddb_init();
 function jry_wb_indexeddb_set_lasttime(key,time)

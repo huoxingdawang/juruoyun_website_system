@@ -42,7 +42,7 @@ function jry_wb_set_user_head_special(user,img)
 }
 jry_wb_getting_user=[];
 jry_wb_getting_user_call_back=[];
-function jry_wb_get_user(id,reload,callback,yibu,admin_mode)
+function jry_wb_get_user(id,reload,callback,admin_mode)
 {
 	if(reload==null)
 		reload = false;
@@ -151,16 +151,17 @@ function jry_wb_show_user_full(user,width,height)
 		return jry_wb_beautiful_alert.alert('这个用户不见了','可能去火星了');
 	if(user!=null&&!user.use)
 		return jry_wb_beautiful_alert.alert('这个用户被送到'+decodeURI('%E5%B9%BB%E6%83%B3%E4%B9%A1')+'了',atob('Qm95IG5leHQgY29tcHV0ZXIh'));
-	var title = jry_wb_beautiful_alert.frame('用户查看',width,height,(document.body.clientWidth-width)/2,(document.body.clientHeight-height)/2);	
+	var user_alert=new jry_wb_beautiful_alert_function;	
+	var title = user_alert.frame('用户查看',width,height,(document.body.clientWidth-width)/2,(document.body.clientHeight-height)/2);	
 	var Confirm = document.createElement("button"); title.appendChild(Confirm);    
 	Confirm.type="button"; 
 	Confirm.innerHTML="关闭"; 
 	Confirm.style='float:right;margin-right:20px;';
-	Confirm.onclick=function(){jry_wb_beautiful_alert.close();};
+	Confirm.onclick=function(){user_alert.close();};
 	Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_normal");
 	Confirm = null;
-	jry_wb_beautiful_alert.msgObj.align="center";
-	var table = document.createElement("table");jry_wb_beautiful_alert.msgObj.appendChild(table);table.classList.add('jry_wb_show_user_full');
+	user_alert.msgObj.align="center";
+	var table = document.createElement("table");user_alert.msgObj.appendChild(table);table.classList.add('jry_wb_show_user_full');
 	var tr=document.createElement("tr");table.appendChild(tr);
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('id')		;td.innerHTML='ID';
 	var td=document.createElement("td");tr.appendChild(td);td.classList.add('id_v')	;td.innerHTML=user.id;
@@ -255,7 +256,7 @@ function jry_wb_show_user_full(user,width,height)
 		td.innerHTML+=user.oauth.gitee.message.name+','+user.oauth.gitee.message.login+'<img width="40px" src="'+user.oauth.gitee.message.avatar_url+'"><br>';	
 <?php } ?>
 <?php } ?>
-	jry_wb_beautiful_scroll(jry_wb_beautiful_alert.msgObj);	
+	jry_wb_beautiful_scroll(user_alert.msgObj);	
 }
 function jry_wb_show_user_intext(addr,user)
 {

@@ -12,8 +12,7 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 	var timer4=null;
 	area.style.overflow='hidden';
 	var top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];
-	if(top_toolbar==undefined||!move)
-		top_toolbar={'clientHeight':0};	
+	top_toolbar={'clientHeight':0};	
 	var arae_old_onmouseout=area.onmouseout;
 	var arae_old_onmouseover=area.onmouseover;
 	area.onmouseover=function()

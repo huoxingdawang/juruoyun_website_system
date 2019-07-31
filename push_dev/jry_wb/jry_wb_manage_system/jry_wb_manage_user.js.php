@@ -56,6 +56,9 @@ jry_wb_manage_user.showall=function()
 	one.innerHTML='重载';
 	one.onclick=(event)=>
 	{
+		jry_wb_indexeddb_delete({'name':'manage_user_list'	,'key':'id'});
+		jry_wb_indexeddb_delete({'name':'manage_competence'	,'key':'type'});
+		jry_wb_indexeddb_delete({'name':'manage_user'		,'key':'id'});
 		this.sync();
 		for(var i=0,n=this.all.length;i<n;i++)
 			this.reload[i]=true;
@@ -70,11 +73,8 @@ jry_wb_manage_user.showall=function()
 	var one=document.createElement('div');list.appendChild(one);
 	one.classList.add('jry_wb_left_toolbar_left_list_default');
 	one.innerHTML='预加载';
-	one.onclick=(event)=>
-	{
-		for(var i=0;i<this.all.length;i++)
-			this.all[i].button.onclick();
-	};	
+	one.onclick=()=>{for(var i=0;i<this.all.length;i++)this.all[i].button.onclick(false);};	
+	one.oncontextmenu=()=>{for(var i=0;i<this.all.length;i++)this.all[i].button.onclick();return false;};	
 	for(let i=0,n=this.all.length;i<n;i++)
 	{
 		let one=document.createElement('div');list.appendChild(one);
@@ -89,30 +89,27 @@ jry_wb_manage_user.showall=function()
 		one.onclick=(event)=>
 		{
 			let id=this.all[i].id;
-			if(i!=0)
-				jry_wb_set_shortcut(jry_wb_keycode_left,(e)=>{this.all[i-1].button.onclick(e);});
-			else
-				jry_wb_set_shortcut(jry_wb_keycode_left,(e)=>{});
-			if(i!=this.all.length-1)
-				jry_wb_set_shortcut(jry_wb_keycode_right,(e)=>{this.all[i+1].button.onclick(e);});
-			else
-				jry_wb_set_shortcut(jry_wb_keycode_right,(e)=>{});
-			if(this.lasthighlight!=null)
-				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
-			this.lasthighlight=this.all[i].button;	
-			this.all[i].button.classList.add('jry_wb_left_toolbar_left_list_active'); 
-			this.list_scroll.scrollto(0,this.all[i].button.offsetTop-this.all[0].button.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));			
+			right_body.innerHTML='';
+			let ii=i;
 			jry_wb_get_user(id,this.reload[id],(user)=>
 			{
-				jry_wb_loading_off();
 				this.reload[id]=false;
 				if(this.lasthighlight!=null)
 					this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
-				var buf=this.all.find(function(a){return a.id==id});
-				this.lasthighlight=buf.button;	
-				buf.button.classList.add('jry_wb_left_toolbar_left_list_active'); 
-				this.list_scroll.scrollto(0,buf.button.offsetTop-this.all[0].button.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));					
+				this.lasthighlight=this.all[ii].button;	
+				this.all[ii].button.classList.add('jry_wb_left_toolbar_left_list_active'); 
+				this.list_scroll.scrollto(0,this.all[ii].button.offsetTop-this.all[0].button.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));					
+				if(event===false)
+					return;
 				right_body.innerHTML='';
+				if(ii!=0)
+					jry_wb_set_shortcut(jry_wb_keycode_left,(e)=>{this.all[ii-1].button.onclick(e);});
+				else
+					jry_wb_set_shortcut(jry_wb_keycode_left,(e)=>{});
+				if(ii!=this.all.length-1)
+					jry_wb_set_shortcut(jry_wb_keycode_right,(e)=>{this.all[ii+1].button.onclick(e);});
+				else
+					jry_wb_set_shortcut(jry_wb_keycode_right,(e)=>{});
 				var one=document.createElement("table");right_body.appendChild(one);one.classList.add('jry_wb_manage_user');
 				var tr=document.createElement("tr");one.appendChild(tr);
 				var td=document.createElement("td");tr.appendChild(td);td.classList.add('id')		;td.innerHTML='ID';
@@ -155,7 +152,7 @@ jry_wb_manage_user.showall=function()
 				var tr=document.createElement("tr");one.appendChild(tr);
 				var td=document.createElement("td");tr.appendChild(td);td.classList.add('psw')	;td.innerHTML='密码';
 				var td=document.createElement("td");tr.appendChild(td);
-				var input	=document.createElement("input");	td.appendChild(input);	input.classList.add('psw_v');input.name=input.id='password';input.type='password';input.value=user.password;
+				var input	=document.createElement("input");	td.appendChild(input);	input.classList.add('psw_v');input.name=input.id='password';input.type='text';input.value=user.password;
 				var button	=document.createElement("button");	td.appendChild(button);	button.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");button.innerHTML="md5";
 				button.onclick=function(){document.getElementById('password').value=hex_md5(document.getElementById('password').value);};
 
@@ -323,9 +320,10 @@ jry_wb_manage_user.showall=function()
 <?php if($JRY_WB_CONFIG_USER_EXTERN_MESSAGE!=NULL){ ?>
 				if(user.extern==null)user.extern={};
 				var tr=document.createElement("tr");one.appendChild(tr);
-				var td=document.createElement("td");tr.appendChild(td);	
+				var td=document.createElement("td");tr.appendChild(td);
 				td.width="400";
 				td.classList.add('h56');
+				td.setAttribute('valign','top');
 				td.innerHTML='扩展信息';
 				var td=document.createElement("td");tr.appendChild(td);	
 				var table=document.createElement("table");td.appendChild(table);
@@ -425,11 +423,10 @@ jry_wb_manage_user.showall=function()
 						jry_wb_beautiful_right_alert.alert('OK',2000,'auto','ok');
 					},out);
 				}
-				one=null;	
+				new jry_wb_beautiful_scroll(right_body,undefined,true);	
 				window.onresize();
-				window.scrollTo(window.scrollX,0);
-			},undefined,true);
-		}
+			},true);
+		};
 	}
 	this.list_scroll=new jry_wb_beautiful_scroll(list);	
 	this.all[0].button.onclick();

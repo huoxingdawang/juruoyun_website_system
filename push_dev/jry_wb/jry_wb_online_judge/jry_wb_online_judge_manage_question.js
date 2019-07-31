@@ -39,7 +39,6 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 			},function(){});
 		};
 	}
-	let list_scroll=new jry_wb_beautiful_scroll(list);
 	jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[0].onclick();});
 	for(let i=0,n=this.question_list.length;i<n;i++)
 	{
@@ -56,7 +55,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		one.innerHTML=this.question_list[i].question_id+':'+this.question_list[i].question.slice(0,10);
 		this.question_list[i].onclick=one.onclick=(event)=>
 		{
-			list_scroll.scrollto(0,one.offsetTop-addbutton.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));				
+			this.list_scroll.scrollto(0,one.offsetTop-addbutton.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));				
 			if(i!=n-1)
 				jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[i+1].onclick();});
 			if(i!=0)
@@ -337,4 +336,5 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		if(this.show_question_id==this.question_list[i].question_id)
 			one.onclick();
 	}
+	this.list_scroll=new jry_wb_beautiful_scroll(list);
 };
