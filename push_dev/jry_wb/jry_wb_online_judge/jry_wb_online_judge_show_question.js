@@ -73,17 +73,12 @@ function  jry_wb_online_judge_show_question_function(area)
 				this.question=data.question,this.hash_prevent=true,window.location.hash=JSON.stringify({'question_id':data.question.question_id,'class':this.class.length==0?data.question.class:this.class});
 			else
 				data.question=this.question;
-			var left_div=document.createElement("div");this.area.appendChild(left_div);
-			left_div.classList.add('jry_wb_online_judge_show_question_left_div');
-			var qtitle=document.createElement("div");left_div.appendChild(qtitle);
-			qtitle.classList.add('h56');
-			
+			var left_div	=document.createElement("div");this.area.appendChild(left_div)	;left_div.classList	.add('left_div');
+			var qtitle		=document.createElement("div");left_div	.appendChild(qtitle)	;qtitle.classList	.add('qtitle');
 			new jry_wb_markdown(qtitle,data.question.id,data.question.lasttime,data.question.question,true);
-			
 			if(data.question.question_type==1)
 			{
-				var option=document.createElement("div");left_div.appendChild(option);
-				option.classList.add('h56');
+				var option=document.createElement("div");left_div.appendChild(option);option.classList.add('option');
 				data.question.exdata.option.sort(function(){return Math.random()-0.5});
 				let cnt=-1;
 				for(let i=0;i<data.question.exdata.option.length;i++)
@@ -91,13 +86,11 @@ function  jry_wb_online_judge_show_question_function(area)
 					let input=document.createElement("input");option.appendChild(input);
 					input.type='radio';
 					input.name='option';
-					input.classList.add('question');
 					input.value=data.question.exdata.option[i].option;
 					if(i==0)
 						input.focus();
 					data.question.exdata.option[i].dom=input;
 					let op=document.createElement("span") ;option.appendChild(op);
-					op.classList.add("h56"); 	
 					op.innerHTML=(i+1)+':'+data.question.exdata.option[i]['value'];
 					op.onclick=()=>
 					{
@@ -134,46 +127,22 @@ function  jry_wb_online_judge_show_question_function(area)
 			}
 			else if(data.question.question_type==2)
 			{
-				if(data.question.option!=null)
+				var input=document.createElement("input");left_div.appendChild(input);
+				input.type='text';
+				input.classList.add('input');
+				input.focus();
+				input.onkeyup=(e)=>
 				{
-					var option=document.createElement("div");
-					option.setAttribute('id','option');
-					option.setAttribute('class','h56');
-					left_div.appendChild(option);
-					for(var i=0;i<data.question.option.length;i++)
-					{
-						var op=document.createElement("input");option.appendChild(op);
-						op.type="radio"; 	
-						op.name="option";
-						op.className="question";
-						op.value=data.question.option[i]['ans'];
-						op=null;
-						op=document.createElement("b");option.appendChild(op);
-						op.setAttribute("class","h56"); 	
-						op.innerHTML=data.question.option[i]['ans'];
-						op=null;
-						option.innerHTML+="<br>";
-					}					
-				}
-				else
-				{
-					var input=document.createElement("input");left_div.appendChild(input);
-					input.type='text';
-					input.classList.add('h56');
-					input.focus();
-					input.onkeyup=(e)=>
-					{
-						console.log(e);
-						if (!e)e=window.event;var keycode=(e.keyCode||e.which);if(keycode!=jry_wb_keycode_enter)e.stopPropagation();
-						this.ans=input.value;
-					};
-				}
+					console.log(e);
+					if (!e)e=window.event;var keycode=(e.keyCode||e.which);if(keycode!=jry_wb_keycode_enter)e.stopPropagation();
+					this.ans=input.value;
+				};
 			}
 			else if(data.question.question_type==3)
 			{
 				var input=document.createElement("input");left_div.appendChild(input);
 				input.type='text';
-				input.classList.add('h56');
+				input.classList.add('input');
 				input.focus();
 				input.onkeyup=()=>
 				{
@@ -184,7 +153,7 @@ function  jry_wb_online_judge_show_question_function(area)
 			else if(data.question.question_type==4)
 			{	
 				var input=document.createElement("textarea");left_div.appendChild(input);
-				input.classList.add('h56');
+				input.classList.add('textarea');
 				input.focus();
 				input.onkeyup=()=>
 				{
@@ -206,39 +175,20 @@ function  jry_wb_online_judge_show_question_function(area)
 			{
 				button.click();
 			};
-			var right_div=document.createElement("div");this.area.appendChild(right_div);
-			right_div.classList.add('jry_wb_online_judge_show_question_right_div');
-			var submit=document.createElement("div");right_div.appendChild(submit);
-			submit.classList.add('jry_wb_online_judge_show_question_submit','h56');
-			submit.innerHTML='提交/通过:'+data.question.right+'/'+data.question.submit;
-			var reast=document.createElement("div");right_div.appendChild(reast);
-			reast.classList.add('jry_wb_online_judge_show_question_reast','h56');
-			reast.innerHTML='同原因剩余:'+data.count;
-			jry_wb_get_and_show_user(right_div,data.question.id,'90%',null);
-			var source=document.createElement("div");right_div.appendChild(source);
-			source.classList.add('jry_wb_online_judge_show_question_source','h56','jry_wb_word_cut');
-			source.innerHTML="来源:"+data.question.source;
-			var reason=document.createElement("div");right_div.appendChild(reason);
-			reason.className='h56 jry_wb_online_judge_show_question_reason';
-			if(data.reason=='lasterror')
-				reason.innerHTML="原因:"+'上一次错了';
-			else if(data.reason=='point')
-				reason.innerHTML="原因:"+'您指定的';
-			if(data.reason=='error')
-				reason.innerHTML="原因:"+'复习一下';
-			if(data.reason=='notdo')
-				reason.innerHTML="原因:"+'您尚未尝试';
+			var right_div	=document.createElement("div");this.area.appendChild(right_div)	;right_div	.classList.add('right_div')	;
+			var submit		=document.createElement("div");right_div.appendChild(submit)	;submit		.classList.add('submit')	;submit.innerHTML='提交/通过:'+data.question.right+'/'+data.question.submit;
+			var reast		=document.createElement("div");right_div.appendChild(reast)		;reast		.classList.add('reast')		;reast.innerHTML='同原因剩余:'+data.count;
+			jry_wb_get_and_show_user(right_div,data.question.id,Math.min(250,right_div.clientWidth),null);
+			var source		=document.createElement("div");right_div.appendChild(source)	;source		.classList.add('source','jry_wb_word_cut');source.innerHTML="来源:"+data.question.source;
+			var reason		=document.createElement("div");right_div.appendChild(reason)	;reason.classList.add('reason')			;reason.innerHTML='原因:';
+			if(data.reason=='lasterror')reason.innerHTML+='上一次错了';else if(data.reason=='point')reason.innerHTML+='您指定的';else if(data.reason=='error')reason.innerHTML+='复习一下';else if(data.reason=='notdo')reason.innerHTML+='您尚未尝试';
 			if(data.question.error!=null)
 			{
 				if(data.question.error.maxtimes!=0)
 				{
-					var maxtimes=document.createElement("div");right_div.appendChild(maxtimes);
-					maxtimes.classList.add('h56','jry_wb_online_judge_show_question_maxtimes');
-					maxtimes.innerHTML="最差记录:"+(data.question.error.maxtimes<0?('错'+(-data.question.error.maxtimes)):('对'+(data.question.error.maxtimes)))+'次';	
+					var maxtimes=document.createElement("div");right_div.appendChild(maxtimes);maxtimes.classList.add('maxtimes');maxtimes.innerHTML="最差记录:"+(data.question.error.maxtimes<0?('错'+(-data.question.error.maxtimes)):('对'+(data.question.error.maxtimes)))+'次';	
 				}
-				var times=document.createElement("div");right_div.appendChild(times);
-				times.classList.add('h56','jry_wb_online_judge_show_question_times');
-				times.innerHTML="当前记录:"+(data.question.error.times<0?('错'+(-data.question.error.times)):('对'+(data.question.error.times)))+'次';				
+				var times=document.createElement("div");right_div.appendChild(times);times.classList.add('times');times.innerHTML="当前记录:"+(data.question.error.times<0?('错'+(-data.question.error.times)):('对'+(data.question.error.times)))+'次';				
 			}
 			
 			window.onresize();
