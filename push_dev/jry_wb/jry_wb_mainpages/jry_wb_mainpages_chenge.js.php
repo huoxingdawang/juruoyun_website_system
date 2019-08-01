@@ -41,7 +41,7 @@ function show()
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_c')	;td.innerHTML='操作';
 		var tr=document.createElement("tr"); table.appendChild(tr);
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_s')	;td.innerHTML='默认头像';
-		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;var img2=document.createElement("img");td.appendChild(img2);jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.src=jry_wb_get_user_head({'head':{'type':'default'},'sex':jry_wb_login_user.sex});
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;var img2=document.createElement("img");td.appendChild(img2);jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_get_user_head({'head':{'type':'default'},'sex':jry_wb_login_user.sex}));
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_c')	;
 		if(jry_wb_login_user.head.type=='default_head_man'||jry_wb_login_user.head.type=='default_head_woman')
 			td.innerHTML='正在使用';
@@ -80,7 +80,7 @@ function show()
 		var tt=document.createElement("td"); tr.appendChild(tt);tt.classList.add('head_c')	;
 		if(jry_wb_gravatar_user_head!=null&&jry_wb_login_user.mail_show==2)
 		{
-			var img2=document.createElement("img");td.appendChild(img2);jry_wb_set_user_head_special(jry_wb_login_user,img2);img2.src=jry_wb_gravatar_user_head;
+			var img2=document.createElement("img");td.appendChild(img2);jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_gravatar_user_head);
 			if(jry_wb_login_user.head.type=='gravatar')
 				tt.innerHTML='正在使用';
 			else
@@ -127,11 +127,7 @@ function show()
 		if((jry_wb_login_user.oauth.qq.message!=null&&jry_wb_login_user.oauth_show)||(jry_wb_login_user.mail.includes('@qq.com')&&jry_wb_login_user.mail_show==2))
 		{
 			var img2=document.createElement("img");td.appendChild(img2);
-			jry_wb_set_user_head_special(jry_wb_login_user,img2);
-			if(jry_wb_login_user.oauth.qq.message!=null)
-				img2.src=jry_wb_login_user.oauth.qq.message.figureurl_qq_2;
-			else
-				img2.src="https://q2.qlogo.cn/headimg_dl?dst_uin="+jry_wb_login_user.mail.split('@')[0]+"&spec=100";
+			jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_login_user.oauth.qq.message!=null?img2.src=jry_wb_login_user.oauth.qq.message.figureurl_qq_2:"https://q2.qlogo.cn/headimg_dl?dst_uin="+jry_wb_login_user.mail.split('@')[0]+"&spec=100");
 			if(jry_wb_login_user.head.type=='qq')
 				tt.innerHTML='正在使用';
 			else
@@ -179,8 +175,7 @@ function show()
 		if(jry_wb_login_user.oauth.github.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var img2=document.createElement("img");td.appendChild(img2);
-			jry_wb_set_user_head_special(jry_wb_login_user,img2);
-			img2.src=jry_wb_login_user.oauth.github.message.avatar_url;
+			jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_login_user.oauth.github.message.avatar_url);
 			if(jry_wb_login_user.head.type=='github')
 				tt.innerHTML='正在使用';
 			else
@@ -226,8 +221,7 @@ function show()
 		if(jry_wb_login_user.oauth.gitee.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var img2=document.createElement("img");td.appendChild(img2);
-			jry_wb_set_user_head_special(jry_wb_login_user,img2);
-			img2.src=jry_wb_login_user.oauth.gitee.message.avatar_url;
+			jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_login_user.oauth.gitee.message.avatar_url);
 			if(jry_wb_login_user.head.type=='gitee')
 				tt.innerHTML='正在使用';
 			else
@@ -273,8 +267,7 @@ function show()
 		if(jry_wb_login_user.oauth.mi.message!=null&&jry_wb_login_user.oauth_show)
 		{
 			var img2=document.createElement("img");td.appendChild(img2);
-			jry_wb_set_user_head_special(jry_wb_login_user,img2);
-			img2.src=jry_wb_login_user.oauth.mi.message.miliaoIcon_orig;
+			jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_login_user.oauth.mi.message.miliaoIcon_orig);
 			if(jry_wb_login_user.head.type=='mi')
 				tt.innerHTML='正在使用';
 			else
@@ -314,7 +307,7 @@ function show()
 		<?php } ?>
 		var tr=document.createElement("tr"); table.appendChild(tr);
 		var dd=document.createElement("td"); tr.appendChild(dd);dd.classList.add('head_s')	;dd.innerHTML='外部URL<br>请注意防盗链设置';
-		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;var waibuurl=document.createElement("img");td.appendChild(waibuurl);jry_wb_set_user_head_special(jry_wb_login_user,waibuurl);waibuurl.src='';
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;var waibuurl=document.createElement("img");td.appendChild(waibuurl);jry_wb_set_user_head_special(jry_wb_login_user,waibuurl,'http://');
 		var tt=document.createElement("td"); tr.appendChild(tt);tt.classList.add('head_c')	;
 		var input=document.createElement("input");td.appendChild(input);input.classList.add('head_v');input.style.width=0;input.style.width=td.clientWidth-waibuurl.clientWidth-input.offsetWidth*2;
 		input.onkeyup=function(){waibuurl.src=input.value;};
@@ -379,15 +372,15 @@ function show()
 		}	
 		var tr=document.createElement("tr"); table.appendChild(tr);
 		var dd=document.createElement("td"); tr.appendChild(dd);dd.classList.add('head_s')	;dd.innerHTML='网盘<br>请开启图床模式';
-		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;var wangpan=document.createElement("img");td.appendChild(wangpan);jry_wb_set_user_head_special(jry_wb_login_user,wangpan);wangpan.src='';
+		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;var wangpan=document.createElement("img");td.appendChild(wangpan);jry_wb_set_user_head_special(jry_wb_login_user,wangpan,'http://');
 		var tt=document.createElement("td"); tr.appendChild(tt);tt.classList.add('head_c')	;
 		td.style.position='relative';
 		var div1=document.createElement("div");td.appendChild(div1);div1.style.position='absolute';div1.style.left=wangpan.clientWidth;div1.style.top=0;
 		var span1=document.createElement("span");div1.appendChild(span1);span1.innerHTML='分享ID:';
-		var input_share_id=document.createElement("input");div1.appendChild(input_share_id);input_share_id.classList.add('head_v');input_share_id.style.width=0;input_share_id.style.width=td.clientWidth-wangpan.clientWidth-span1.offsetWidth-input_share_id.offsetWidth*2;
+		var input_share_id=document.createElement("input");div1.appendChild(input_share_id);input_share_id.classList.add('head_v');
 		var div2=document.createElement("div");td.appendChild(div2);div2.style.position='absolute';div2.style.left=wangpan.clientWidth;div2.style.top=tr.clientHeight/2;
 		var span2=document.createElement("span");div2.appendChild(span2);span2.innerHTML='文件ID:';
-		var input_file_id=document.createElement("input");div2.appendChild(input_file_id);input_file_id.classList.add('head_v');input_file_id.style.width=0;input_file_id.style.width=td.clientWidth-wangpan.clientWidth-span2.offsetWidth-input_file_id.offsetWidth*2;
+		var input_file_id=document.createElement("input");div2.appendChild(input_file_id);input_file_id.classList.add('head_v');
 		input_share_id.onkeyup=input_file_id.onkeyup=function(){wangpan.src=jry_wb_get_user_head({'head':{'type':'netdisk','share_id':input_share_id.value,'file_id':input_file_id.value}});}
 		__netdisk_onerror=true;
 		if(jry_wb_login_user.head.type=='netdisk')
@@ -513,7 +506,13 @@ function show()
 							jry_wb_login_user.greendate=data.greendate;
 							next_green_timer=null;
 							show();
-							jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog&lasttime='+jry_wb_cache.get_last_time('log'),null,function(a){return a.log_id==this.buf.log_id},function(data){log_data=data;jry_wb_cache.set_last_time('log',data.max('time','date'));if(window.location.hash=='#log')showlog();},function(a,b){return b.log_id-a.log_id});
+							jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog',null,function(data)
+							{
+								log_data=data;
+								if(window.location.hash=='#log')
+									showlog();
+								return log_data.max('time','date');
+							},function(a,b){return b.log_id-a.log_id});
 						}
 					}
 					else
@@ -2042,7 +2041,7 @@ jry_wb_sync_data_with_server('log','do_chenge.php?action=getlog',null,function(d
 	log_data=data;
 	if(window.location.hash=='#log')
 		showlog();
-	return data.max('time','date');
+	return log_data.max('time','date');
 },function(a,b){return b.log_id-a.log_id});
 function showlog()
 {

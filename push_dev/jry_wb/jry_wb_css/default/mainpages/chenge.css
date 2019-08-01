@@ -38,7 +38,7 @@
 .jry_wb_chenge_user_login .login_v .thisbtn			{font-size:30px;color:#FFF;}
 
 .jry_wb_chenge_user_head							{width:90%;border-right:1px solid #000;border-bottom:1px solid #000;}
-.jry_wb_chenge_user_head td							{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chenge_user_head td							{border-left:1px solid #000;border-top:1px solid #000;overflow:hidden;}
 .jry_wb_chenge_user_head .head_s					{font-size:30px;color:#33F;width:250px;}
 .jry_wb_chenge_user_head .head_v					{font-size:30px;color:#33F;}
 .jry_wb_chenge_user_head .head_v img				{font-size:30px;color:#33F;width:80px;height:80px;}
