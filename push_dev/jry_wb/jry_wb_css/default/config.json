@@ -30,8 +30,8 @@
 	{
 		"add":
 		{
-			"desktop":"",
-			"mobile":""	
+			"desktop":"default/mainpages/add.css",
+			"mobile":"default/mainpages/add.css"	
 		},
 		"chenge":
 		{
