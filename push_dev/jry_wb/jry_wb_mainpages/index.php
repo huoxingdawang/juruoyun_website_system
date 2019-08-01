@@ -68,7 +68,7 @@
 				jry_wb_add_on_indexeddb_open(function(){jry_wb_indexeddb.transaction(['user'],'readwrite').objectStore('user').add(data);});
 			jry_wb_loading_off();
 			jry_wb_show_user(document.getElementById('newuser'),data);	
-		},null,false);
+		});
 		
 	});
 </script>
