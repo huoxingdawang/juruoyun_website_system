@@ -8,7 +8,6 @@ function jry_wb_register(area)
 {
 	jry_wb_include_css('mainpages/add');
 	area.innerHTML=area.style=area.className='';
-	area.style.textAlign='center';
 	var <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']!='cutter'){ ?>time_<?php echo $one['key']; ?>=0,<?php } ?>time1=0,time2=0,time3=0,time4=0,time5=0,time6=0;	
 	var body		=document.createElement("table")	;area	.appendChild(body)		;body		.classList.add('jry_wb_register');body.setAttribute('align','center');
 <?php foreach($JRY_WB_CONFIG_USER_EXTERN_MESSAGE as $one)if($one['type']=='cutter'&&$one['before']===true){?>
@@ -18,7 +17,7 @@ function jry_wb_register(area)
 	var tr			=document.createElement("tr")		;body	.appendChild(tr)		;
 	var td			=document.createElement("td")		;tr		.appendChild(td)		;td			.classList.add('name')			;td.innerHTML='昵称';
 	var td			=document.createElement("td")		;tr		.appendChild(td)		;td			.classList.add('name_v')		;
-	var name		=document.createElement("input")	;td		.appendChild(name)		;name		.type='text';
+	var name		=document.createElement("input")	;td		.appendChild(name)		;name		.type='text'					;
 	name.onfocus=name.onkeyup=function(e)
 	{
 		if(e==undefined)e=window.event;
@@ -445,7 +444,7 @@ function jry_wb_register(area)
 		},[{'name':'name','value':name.value},<?php if(JRY_WB_CHECK_TEL_SWITCH){ ?>{'name':'tel','value':tel.value},<?php } ?><?php if(JRY_WB_CHECK_MAIL_SWITCH){ ?>{'name':'mail','value':mail.value},<?php } ?>{'name':'sex','value':sex},{'name':'password1','value':password1.value},{'name':'password2','value':password2.value},{'name':'vcode','value':vcode.value},<?php if(JRY_WB_CHECK_TEL_SWITCH&&JRY_WB_SHORT_MESSAGE_SWITCH!=''){ ?>{'name':'phonecode','value':phonecode.value},<?php } ?><?php if(JRY_WB_INVITE_CODE){ ?>{'name':'invitecode','value':invitecode.value},<?php } ?>{'name':'extern','value':extern}],true);
 		return true;
 	};
-	jry_wb_set_shortcut(jry_wb_keycode_enter,button.onclick);
+	jry_wb_set_shortcut(jry_wb_keycode_enter,tijiao_button.onclick);
 	var get=JSON.parse(jry_wb_cache.get('add'));
 	if(get!=null)
 	{
