@@ -31,6 +31,152 @@
 [青岛二中2019HIMUN模联报名](http://himun.info:2019)
 ![himun](http://www.juruoyun.top/jry_wb/jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id=5&file_id=17)
 
+## 部署指北
+### 环境依赖
+1. PHP7.2
+2. MYSQL5.7.26
+3. UBUNTU 18LTS
+4. 硬盘缓存啥的随意。。。
+
+### 操作过程
+#### 先导
+##### ubuntu18LTS安装
+略。。。
+##### 开启openssh
+这个东西可以帮助你远程连接
+使用如下代码
+```bash
+sudo apt-get install openssh-server
+```
+然后确认ssh是否启动
+```bash
+ps -e | grep ssh
+```
+正常情况下
+应该会有一个标成红色的sshd出现
+这样子ssh服务端就启动好了
+##### 设置固定IP
+先运行
+```bash
+cd /etc/netplan/
+ls
+```
+应该会有一个后缀为**.yaml**的文件，打开
+```bash
+sudo nano 01-netcfg.yaml
+```
+大概这个样子
+```bash
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: yes
+
+```
+修改成这个样子
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: no
+      addresses: [192.168.0.200/24]
+      gateway4: 192.168.0.1
+      nameservers:
+          addresses: [192.168.0.1]
+
+```
+使用
+```bash
+netplan apply
+```
+更新设置
+如果你是用ssh连接，请重新连接
+#### 安装APACHE2
+```bash
+sudo apt-get install apache2
+```
+现在访问你服务器的地址应该可以看见apache2的宣传页了
+顺便开启权限
+```bash
+sudo chmod 777 /var/www/html
+```
+#### 安装PHP7.2
+```bash
+sudo apt-get install php7.2
+```
+重启APACHE2
+```bash
+sudo /etc/init.d/apache2 restart
+```
+创建测试文件
+```bash
+sudo nano index.php
+```
+并写入
+```php
+<?php phpinfo(); ?>
+```
+现在用浏览器访问你服务器的index.php，应该就可以看见php的信息了
+扩展安装
+```bash
+sudo apt-get install php7.2-dev php7.2-fpm php7.2-mysql php7.2-curl php7.2-gd php7.2-mbstring php7.2-xml php7.2-xmlrpc php7.2-zip
+```
+重启APACHE2
+```bash
+sudo /etc/init.d/apache2 restart
+```
+现在用浏览器访问你服务器的index.php，应该就可以看见php扩展的信息了
+==#00ff00完成==
+#### mysql安装
+```bash
+sudo apt-get install mysql-server
+```
+修改配置文件
+```bash
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+把
+```
+bind-address            = 127.0.0.1
+```
+改成
+```
+bind-address            = 0.0.0.0
+```
+自动配置
+```bash
+sudo mysql_secure_installation
+```
+```sql
+GRANT UPDATE, TRIGGER, REFERENCES, INSERT, INDEX, EVENT, DROP, DELETE, CREATE VIEW, CREATE TEMPORARY TABLES, CREATE TABLESPACE, CREATE ROUTINE, CREATE, ALTER ROUTINE, ALTER, SHOW VIEW, SHOW DATABASES, SELECT, PROCESS, EXECUTE, CREATE USER,RELOAD, FILE, LOCK TABLES, REPLICATION CLIENT, REPLICATION SLAVE, SHUTDOWN, SUPER  ON *.* TO ''@'%';
+GRANT USAGE ON *.* TO 'lijunyan'@'%' WITH GRANT OPTION;
+```
+重启
+```bash
+sudo service mysql restart
+```
+==#00ff00完成==
+#### 蒟蒻云配置
+上传，导入数据库
+```bash
+sudo nano /etc/apache2/sites-available/000-default.conf
+ErrorDocument 404 /404.php
+sudo service mysql restart
+```
+#REDIS安装
+```bash
+sudo apt-get install redis
+sudo apt-get install php7.2-redis
+sudo /etc/init.d/apache2 restart
+```
+
+
 ## 功能简介
 ### 用户信息收集及控制
 1. 昵称
@@ -137,8 +283,20 @@
 1. 分离前后端，前端全静态
 2. 前端分层，分成DOM操作和数据处理及信息交互，方便UI重构
 3. 后端换C，大工程，咕咕咕
-4. 
 
+新系统的架构大概这样？？？
+相当宏大，由灵魂画师火星大王绘制
+![](http://www.juruoyun.top/jry_wb/jry_wb_netdisk/jry_nd_do_file.php?action=open&share_id=5&file_id=20)
+
+## 外部依赖
+1. [fonticon](https://www.iconfont.cn)由阿里妈妈出品
+2. [ip2region](https://gitee.com/lionsoul/ip2region)一个跑得飞快的IP查询系统
+3. [phpemailer]()这个链接找不到了233333
+4. [阿里云OSS SDK]()
+5. [github oAuth2.0SDK]()
+6. [码云 oAuth2.0SDK]()
+7. [小米 oAuth2.0SDK]()
+8. [QQ oAuth2.0SDK]()
 
 ## 完啦
 没有啦 嘤嘤嘤 欢迎访问[蒟蒻云](http://www.juruoyun.top)
