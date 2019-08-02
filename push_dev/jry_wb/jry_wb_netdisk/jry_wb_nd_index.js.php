@@ -97,20 +97,20 @@ function jry_wb_netdisk_show_index(body)
 	var button_bar=document.createElement('div');left_body.appendChild(button_bar);	/*按钮栏*/
 	button_bar.classList.add('jry_wb_netdisk_button_bar');							/*按钮栏属性*/
 	detail_mesage_button=document.createElement('button');button_bar.appendChild(detail_mesage_button);
-	detail_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_icon_zhanghao');
+	detail_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_user');
 	if(!jry_nd_share_mode_flag)
 	{	
 		var upload_mesage_button=document.createElement('button');button_bar.appendChild(upload_mesage_button);
-		upload_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_shangchuanjilu');
+		upload_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_logs');
 	}
 	var error_mesage_button=document.createElement('button');button_bar.appendChild(error_mesage_button);
-	error_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_cuowuxinxi');
+	error_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_error_code');
 	if(!jry_nd_share_mode_flag)
 	{		
 		green_money_button=document.createElement('button');button_bar.appendChild(green_money_button);
-		green_money_button.classList.add('jry_wb_icon','jry_wb_icon_jinbiduihuan');
+		green_money_button.classList.add('jry_wb_icon','jry_wb_icon_lvbiduihuan');
 		select_mesage_button=document.createElement('button');button_bar.appendChild(select_mesage_button);
-		select_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_xuanzhongwenjian');
+		select_mesage_button.classList.add('jry_wb_icon','jry_wb_icon_check_file');
 		select_mesage_button.style.display='none';
 	}
 	var message=document.createElement('div');left_body.appendChild(message);		/*信息栏*/
@@ -239,7 +239,7 @@ function jry_wb_netdisk_show_index(body)
 			if(jry_nd_upload_list.length==0)
 			{			
 				var div=document.createElement('div');message.appendChild(div);
-				div.classList.add('jry_wb_icon_baoguo-kongde','empty','jry_wb_icon');
+				div.classList.add('jry_wb_icon_empty','empty','jry_wb_icon');
 				var div=document.createElement('div');message.appendChild(div);
 				div.classList.add('empty_text');
 				div.innerHTML='没有记录';
@@ -285,14 +285,14 @@ function jry_wb_netdisk_show_index(body)
 					{
 						cnt++;
 						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_get_size(jry_nd_upload_list[i].total));
-						progress_list[i].td1.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
+						progress_list[i].td1.classList.add('jry_wb_icon','jry_wb_icon_ok');
 					}
 					else if(jry_nd_upload_list[i].stopupload)
 					{
 						cnt++;
 						progress_list[i].progress.update(jry_nd_upload_list[i].loaded/jry_nd_upload_list[i].total,jry_wb_get_size(jry_nd_upload_list[i].loaded)+'/'+jry_wb_get_size(jry_nd_upload_list[i].total));
 						progress_list[i].td1.innerHTML=jry_nd_upload_list[i].fail_reason+';'+progress_list[i].td1.innerHTML;
-						progress_list[i].td1.classList.add('jry_wb_icon','jry_wb_icon_guanbi1');
+						progress_list[i].td1.classList.add('jry_wb_icon','jry_wb_icon_close');
 					}
 					else
 					{
@@ -312,7 +312,7 @@ function jry_wb_netdisk_show_index(body)
 				speed.innerHTML=jry_wb_get_size((here)/(cnttt.length*100/1000))+'/s'+'<br>还要'+jry_wb_get_day(parseInt((total-loaded)/((here)/(cnttt.length*100/1000))));
 				if(cnt==jry_nd_upload_list.length)
 				{
-					progress_total.td1.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
+					progress_total.td1.classList.add('jry_wb_icon','jry_wb_icon_ok');
 					clearInterval(upload_refresh_timer);
 					upload_refresh_timer=null;
 				}
@@ -498,7 +498,7 @@ function jry_wb_netdisk_show_index(body)
 		if(!jry_nd_share_mode_flag)/*非分享模式*/
 		{
 			var label=document.createElement("label");mid_lan.appendChild(label);
-			label.classList.add("mid_lan_button","jry_wb_icon","upload","jry_wb_icon_yunduanshangchuan");
+			label.classList.add("mid_lan_button","jry_wb_icon","upload","jry_wb_icon_upload");
 			var input=document.createElement("input");mid_lan.appendChild(input);
 			label.setAttribute("for",(input.id="jry_wb_uploader_"+Math.random()))
 			input.multiple="multiple";
@@ -585,7 +585,7 @@ function jry_wb_netdisk_show_index(body)
 				}
 			}
 			var fresh=document.createElement("div");mid_lan.appendChild(fresh);
-			fresh.classList.add("mid_lan_button","jry_wb_icon","fresh","jry_wb_icon_yunduanshuaxin");
+			fresh.classList.add("mid_lan_button","jry_wb_icon","fresh","jry_wb_icon_sync");
 			fresh.onclick=function()
 			{
 				jry_wb_nd_fresh(2);
@@ -603,7 +603,7 @@ function jry_wb_netdisk_show_index(body)
 			};
 			jry_wb_add_oncontextmenu(fresh);			
 			var new_dir=document.createElement("div");mid_lan.appendChild(new_dir);
-			new_dir.classList.add("mid_lan_button","jry_wb_icon","new_dir","jry_wb_icon_xinjianwenjianjia");
+			new_dir.classList.add("mid_lan_button","jry_wb_icon","new_dir","jry_wb_icon_new_folder");
 			new_dir.onclick=function()
 			{
 				jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action=new_dir',(data)=>
@@ -626,7 +626,7 @@ function jry_wb_netdisk_show_index(body)
 		move_file_button=document.createElement("div");mid_lan.appendChild(move_file_button);
 		if(!jry_nd_share_mode_flag)
 			move_file_button.style.display='none';
-		move_file_button.classList.add("mid_lan_button","jry_wb_icon","move","jry_wb_icon_yidongwenjian");
+		move_file_button.classList.add("mid_lan_button","jry_wb_icon","move","jry_wb_icon_move_file");
 		move_file_button.onclick=function()
 		{
 			select_mesage_lock=true;
@@ -655,7 +655,7 @@ function jry_wb_netdisk_show_index(body)
 		{
 			delete_button=document.createElement("div");mid_lan.appendChild(delete_button);
 			delete_button.style.display='none';
-			delete_button.classList.add("mid_lan_button","jry_wb_icon","delete","jry_wb_icon_trash");
+			delete_button.classList.add("mid_lan_button","jry_wb_icon","delete","jry_wb_icon_delete");
 			delete_button.onclick=function()
 			{
 				var delete_check=  new jry_wb_beautiful_alert_function;
@@ -726,35 +726,35 @@ function jry_wb_netdisk_show_index(body)
 	{
 		mid_lan.innerHTML='';
 		var sort=document.createElement("div");mid_lan.appendChild(sort);
-		sort.classList.add("mid_lan_button","jry_wb_icon","sort","jry_wb_icon_paixu");
+		sort.classList.add("mid_lan_button","jry_wb_icon","sort","jry_wb_icon_sort_by_id");
 		sort.onclick=function()
 		{
 			jry_wb_cache.set('jry_nd_sort',(jry_wb_cache.get('jry_nd_sort')+1)%4);
 			var type=jry_wb_cache.get('jry_nd_sort');
 			if(type==0)
-				sort.classList.add("jry_wb_icon_paixu"),sort.classList.remove("jry_wb_icon_anmingchengpaixu","jry_wb_icon_paixu1","jry_wb_icon_shijian"),jry_wb_beautiful_right_alert.alert("按ID排序",2000,"auto",'ok');
+				sort.classList.add("jry_wb_icon_sort_by_id"),sort.classList.remove("jry_wb_icon_sort_by_name","jry_wb_icon_sort_by_type","jry_wb_icon_sort_by_time"),jry_wb_beautiful_right_alert.alert("按ID排序",2000,"auto",'ok');
 			else if(type==1)
-				sort.classList.add("jry_wb_icon_shijian"),sort.classList.remove("jry_wb_icon_anmingchengpaixu","jry_wb_icon_paixu1","jry_wb_icon_paixu"),jry_wb_beautiful_right_alert.alert("按时间排序",2000,"auto",'ok');
+				sort.classList.add("jry_wb_icon_sort_by_time"),sort.classList.remove("jry_wb_icon_sort_by_name","jry_wb_icon_sort_by_type","jry_wb_icon_sort_by_id"),jry_wb_beautiful_right_alert.alert("按时间排序",2000,"auto",'ok');
 			else if(type==2)
-				sort.classList.add("jry_wb_icon_anmingchengpaixu"),sort.classList.remove("jry_wb_icon_paixu","jry_wb_icon_paixu1","jry_wb_icon_shijian"),jry_wb_beautiful_right_alert.alert("按名称排序",2000,"auto",'ok');
+				sort.classList.add("jry_wb_icon_sort_by_name"),sort.classList.remove("jry_wb_icon_sort_by_id","jry_wb_icon_sort_by_type","jry_wb_icon_sort_by_time"),jry_wb_beautiful_right_alert.alert("按名称排序",2000,"auto",'ok');
 			else if(type==3)
-				sort.classList.add("jry_wb_icon_paixu1"),sort.classList.remove("jry_wb_icon_paixu","jry_wb_icon_anmingchengpaixu","jry_wb_icon_shijian"),jry_wb_beautiful_right_alert.alert("按类型排序",2000,"auto",'ok');
+				sort.classList.add("jry_wb_icon_sort_by_type"),sort.classList.remove("jry_wb_icon_sort_by_id","jry_wb_icon_sort_by_name","jry_wb_icon_sort_by_time"),jry_wb_beautiful_right_alert.alert("按类型排序",2000,"auto",'ok');
 			jry_wb_nd_show_files_by_dir(dir_input.value);			
 		};
 		var type=jry_wb_cache.get('jry_nd_sort');
 		if(type==0)
-			sort.classList.add("jry_wb_icon_paixu"),sort.classList.remove("jry_wb_icon_anmingchengpaixu","jry_wb_icon_paixu1","jry_wb_icon_shijian"),jry_wb_beautiful_right_alert.alert("按ID排序",2000,"auto",'ok');
+			sort.classList.add("jry_wb_icon_sort_by_id"),sort.classList.remove("jry_wb_icon_sort_by_name","jry_wb_icon_sort_by_type","jry_wb_icon_sort_by_time"),jry_wb_beautiful_right_alert.alert("按ID排序",2000,"auto",'ok');
 		else if(type==1)
-			sort.classList.add("jry_wb_icon_shijian"),sort.classList.remove("jry_wb_icon_anmingchengpaixu","jry_wb_icon_paixu1","jry_wb_icon_paixu"),jry_wb_beautiful_right_alert.alert("按时间排序",2000,"auto",'ok');
+			sort.classList.add("jry_wb_icon_sort_by_time"),sort.classList.remove("jry_wb_icon_sort_by_name","jry_wb_icon_sort_by_type","jry_wb_icon_sort_by_id"),jry_wb_beautiful_right_alert.alert("按时间排序",2000,"auto",'ok');
 		else if(type==2)
-			sort.classList.add("jry_wb_icon_anmingchengpaixu"),sort.classList.remove("jry_wb_icon_paixu","jry_wb_icon_paixu1","jry_wb_icon_shijian"),jry_wb_beautiful_right_alert.alert("按名称排序",2000,"auto",'ok');
+			sort.classList.add("jry_wb_icon_sort_by_name"),sort.classList.remove("jry_wb_icon_sort_by_id","jry_wb_icon_sort_by_type","jry_wb_icon_sort_by_time"),jry_wb_beautiful_right_alert.alert("按名称排序",2000,"auto",'ok');
 		else if(type==3)
-			sort.classList.add("jry_wb_icon_paixu1"),sort.classList.remove("jry_wb_icon_paixu","jry_wb_icon_anmingchengpaixu","jry_wb_icon_shijian"),jry_wb_beautiful_right_alert.alert("按类型排序",2000,"auto",'ok');
+			sort.classList.add("jry_wb_icon_sort_by_type"),sort.classList.remove("jry_wb_icon_sort_by_id","jry_wb_icon_sort_by_name","jry_wb_icon_sort_by_time"),jry_wb_beautiful_right_alert.alert("按类型排序",2000,"auto",'ok');
 	}
 	top_lan_button1.onclick();
 
 	shangyige=document.createElement('div');tool_list.appendChild(shangyige);
-	shangyige.classList.add('shangyige','jry_wb_icon_xiangzuo','jry_wb_icon');
+	shangyige.classList.add('shangyige','jry_wb_icon_arrow_left','jry_wb_icon');
 	shangyige.onclick=function()
 	{
 		dir_stack.pop();
@@ -765,7 +765,7 @@ function jry_wb_netdisk_show_index(body)
 			jry_wb_beautiful_alert.alert("没有上一个了","嘤嘤嘤");
 	};
 	shangyiji=document.createElement('div');tool_list.appendChild(shangyiji);
-	shangyiji.classList.add('shangyiji','jry_wb_icon_xuanzeqishouqi','jry_wb_icon');
+	shangyiji.classList.add('shangyiji','jry_wb_icon_arrow_up','jry_wb_icon');
 	shangyiji.onclick=function()
 	{
 		var data=dir_input.value.split('/');

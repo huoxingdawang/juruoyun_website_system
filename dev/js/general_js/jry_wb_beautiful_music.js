@@ -19,7 +19,7 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	var controls=document.createElement("div");body.appendChild(controls);
 	controls.classList.add('controls');
 	var start_button=document.createElement("div");controls.appendChild(start_button);
-	start_button.classList.add('start_button','jry_wb_icon','jry_wb_icon_bofang');
+	start_button.classList.add('start_button','jry_wb_icon','jry_wb_icon_start');
 	start_button.onclick=function() 
 	{ 
 		if(audio.ended)
@@ -42,20 +42,20 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	);
 	progress_bar.progress_body.style.height="20px";
 	var volume_button = document.createElement("div");controls.appendChild(volume_button);
-	volume_button.classList.add('volume_button','jry_wb_icon','jry_wb_icon_shengyin');
+	volume_button.classList.add('volume_button','jry_wb_icon','jry_wb_icon_sound_on');
 	volume_button.onclick = function()
 	{
 		if(audio.muted)
 		{
 			audio.muted = false;
-			volume_button.classList.remove('jry_wb_icon_jingyin');
-			volume_button.classList.add('jry_wb_icon_shengyin');
+			volume_button.classList.remove('jry_wb_icon_sound_off');
+			volume_button.classList.add('jry_wb_icon_sound_on');
 		}
 		else
 		{
 			audio.muted = true;
-			volume_button.classList.remove('jry_wb_icon_shengyin');
-			volume_button.classList.add('jry_wb_icon_jingyin');
+			volume_button.classList.remove('jry_wb_icon_sound_on');
+			volume_button.classList.add('jry_wb_icon_sound_off');
 		}
 	};
 	var vioce_bar= new jry_wb_progress_bar(controls,"10%",audio.volume,parseInt(audio.volume*100)+"%",
@@ -64,8 +64,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 			if(x!=0)
 			{
 				audio.muted = false;
-				volume_button.classList.remove('jry_wb_icon_jingyin');
-				volume_button.classList.add('jry_wb_icon_shengyin');
+				volume_button.classList.remove('jry_wb_icon_sound_off');
+				volume_button.classList.add('jry_wb_icon_sound_on');
 			}
 			vioce_bar.update(audio.volume = x,parseInt(audio.volume*1000)/10+"%");
 		},
@@ -91,7 +91,7 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	};
 	this.reply_count = 0;
 	var cycle_button = document.createElement("div");controls.appendChild(cycle_button);
-	cycle_button.classList.add("cycle_button","jry_wb_icon","jry_wb_icon_cuowu");
+	cycle_button.classList.add("cycle_button","jry_wb_icon","jry_wb_icon_error");
 	cycle_button.onclick=()=>
 	{
 		this.reply_count++;
@@ -108,7 +108,7 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 		this.lyric_area.classList.add('lyric');	
 		this.lyric_area.style.display='none';
 		var lyric_button = document.createElement("div");controls.appendChild(lyric_button);
-		lyric_button.classList.add("lyric_button","jry_wb_icon","jry_wb_icon_ci");
+		lyric_button.classList.add("lyric_button","jry_wb_icon","jry_wb_icon_lyric");
 		lyric_button.onclick=()=>
 		{
 			this.reply_count++;
@@ -121,14 +121,14 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 			{
 				this.lyric_area.style.display='none';
 				if(typeof this.song_list_area!='undefined')
-					this.song_list_area.style.display='',lyric_button.classList.add('jry_wb_icon_ci'),lyric_button.classList.remove('jry_wb_icon_tubiao');			
+					this.song_list_area.style.display='',lyric_button.classList.add('jry_wb_icon_lyric'),lyric_button.classList.remove('jry_wb_icon_songlist');			
 				this.beautiful_scroll.scrollto(0,0);
 			}
 			else
 			{
 				this.lyric_area.style.display='';
 				if(typeof this.song_list_area!='undefined')
-					this.song_list_area.style.display='none',lyric_button.classList.remove('jry_wb_icon_ci'),lyric_button.classList.add('jry_wb_icon_tubiao');
+					this.song_list_area.style.display='none',lyric_button.classList.remove('jry_wb_icon_lyric'),lyric_button.classList.add('jry_wb_icon_songlist');
 				this.beautiful_scroll.scrollto(0,(this.last_lyric_highlight==undefined?0:this.last_lyric_highlight.offsetTop)-this.list_area.clientHeight/3);
 			}
 		};
@@ -136,13 +136,13 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	this.cycle_button_update=()=>
 	{
 		if(this.reply_count==0)
-			cycle_button.classList.remove('jry_wb_icon_danquxunhuan','jry_wb_icon_quanbuxunhuan','jry_wb_icon_-suiji'),cycle_button.classList.add('jry_wb_icon_cuowu'),mode.innerHTML="一遍";
+			cycle_button.classList.remove('jry_wb_icon_circle1','jry_wb_icon_circle_all','jry_wb_icon_random'),cycle_button.classList.add('jry_wb_icon_error'),mode.innerHTML="一遍";
 		else if(this.reply_count==1)
-			cycle_button.classList.remove('jry_wb_icon_cuowu','jry_wb_icon_quanbuxunhuan','jry_wb_icon_-suiji'),cycle_button.classList.add('jry_wb_icon_danquxunhuan'),mode.innerHTML="单曲";
+			cycle_button.classList.remove('jry_wb_icon_error','jry_wb_icon_circle_all','jry_wb_icon_random'),cycle_button.classList.add('jry_wb_icon_circle1'),mode.innerHTML="单曲";
 		else if(this.reply_count==2)
-			cycle_button.classList.remove('jry_wb_icon_danquxunhuan','jry_wb_icon_cuowu','jry_wb_icon_-suiji'),cycle_button.classList.add('jry_wb_icon_quanbuxunhuan'),mode.innerHTML="全部";
+			cycle_button.classList.remove('jry_wb_icon_circle1','jry_wb_icon_error','jry_wb_icon_random'),cycle_button.classList.add('jry_wb_icon_circle_all'),mode.innerHTML="全部";
 		else if(this.reply_count==3)
-			cycle_button.classList.remove('jry_wb_icon_danquxunhuan','jry_wb_icon_quanbuxunhuan','jry_wb_icon_cuowu'),cycle_button.classList.add('jry_wb_icon_-suiji'),mode.innerHTML="随机";
+			cycle_button.classList.remove('jry_wb_icon_circle1','jry_wb_icon_circle_all','jry_wb_icon_error'),cycle_button.classList.add('jry_wb_icon_random'),mode.innerHTML="随机";
 	};	
 	audio.onprogress=function()
 	{
@@ -173,8 +173,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	};
 	audio.onplay=function()
 	{
-		start_button.classList.remove('jry_wb_icon_bofang');
-		start_button.classList.add("jry_wb_icon_zantingtingzhi");
+		start_button.classList.remove('jry_wb_icon_start');
+		start_button.classList.add("jry_wb_icon_pause");
 		jry_wb_midia_control_all.onplay(audio);
 		if(this.song_list!=null)
 		{
@@ -215,8 +215,8 @@ function jry_wb_beautiful_music(audio,area,list,yuandi)
 	};	
 	audio.onpause=()=>
 	{
-		start_button.classList.remove('jry_wb_icon_zantingtingzhi');
-		start_button.classList.add("jry_wb_icon_bofang");
+		start_button.classList.remove('jry_wb_icon_pause');
+		start_button.classList.add("jry_wb_icon_start");
 		if(this.reply_count==1&&(audio.ended||audio.next))
 			audio.play();
 		if(this.reply_count==2&&(audio.ended||audio.next)&&(this.song_list!=null))
@@ -294,11 +294,11 @@ jry_wb_beautiful_music.prototype.do_reply_count = function(reply_count)
 jry_wb_beautiful_music.prototype.set_background_picture=function(url,type)
 {
 	if(type=='qq')
-		this.bg_pic_jiao.classList.remove('jry_wb_icon_wangyiyunyinle','jry_wb_icon_yinyue'),this.bg_pic_jiao.classList.add('jry_wb_icon_qq_yinyue_music_'),this.bg_pic_jiao.style.color="#02B053",this.bg_pic_jiao.style.background="#F8C913",this.bg_pic_jiao.style.borderRadius='10px';
+		this.bg_pic_jiao.classList.remove('jry_wb_icon_163_music','jry_wb_icon_music'),this.bg_pic_jiao.classList.add('jry_wb_icon_qq_music'),this.bg_pic_jiao.style.color="#02B053",this.bg_pic_jiao.style.background="#F8C913",this.bg_pic_jiao.style.borderRadius='10px';
 	else if(type=='163'||type=='wangyi')
-		this.bg_pic_jiao.classList.remove('jry_wb_icon_qq_yinyue_music_','jry_wb_icon_yinyue'),this.bg_pic_jiao.classList.add('jry_wb_icon_wangyiyunyinle'),this.bg_pic_jiao.style.color="#D81E06",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
+		this.bg_pic_jiao.classList.remove('jry_wb_icon_qq_music','jry_wb_icon_music'),this.bg_pic_jiao.classList.add('jry_wb_icon_163_music'),this.bg_pic_jiao.style.color="#D81E06",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
 	else
-		this.bg_pic_jiao.classList.remove('jry_wb_icon_wangyiyunyinle','jry_wb_icon_qq_yinyue_music_'),this.bg_pic_jiao.classList.add('jry_wb_icon_yinyue'),this.bg_pic_jiao.style.color="#0F88EB",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
+		this.bg_pic_jiao.classList.remove('jry_wb_icon_163_music','jry_wb_icon_qq_music'),this.bg_pic_jiao.classList.add('jry_wb_icon_music'),this.bg_pic_jiao.style.color="#0F88EB",this.bg_pic_jiao.style.background="",this.bg_pic_jiao.style.borderRadius=0;
 	this.bg_pic.style='background:url("'+(url==''?'':url)+'")';
 	this.bg_pic.style.backgroundSize='cover';
 };

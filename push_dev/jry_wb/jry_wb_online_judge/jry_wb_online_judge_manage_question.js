@@ -133,7 +133,7 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 					}
 				}
 				let add_class_button=document.createElement("button");td.appendChild(add_class_button);
-				add_class_button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_normal','jry_wb_icon','jry_wb_icon_xinjian');
+				add_class_button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_normal','jry_wb_icon','jry_wb_icon_new');
 				add_class_button.onclick=()=>
 				{
 					let class_dom=document.createElement("select");add_class_button.parentNode.insertBefore(class_dom,add_class_button);class_dom.classList.add('class');

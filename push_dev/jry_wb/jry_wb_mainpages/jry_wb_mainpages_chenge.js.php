@@ -594,7 +594,7 @@ function show_ip()
 		let trust=document.createElement("span");div.appendChild(trust);
 		trust.classList.add('jry_wb_icon','trustbtn');
 		if(jry_wb_login_user.login_addr[i].trust||jry_wb_login_user.login_addr[i].isthis)
-			trust.classList.add('jry_wb_icon_xinrenshebei');
+			trust.classList.add('jry_wb_icon_trust');
 		if(jry_wb_login_user.login_addr[i].trust)
 			trust.classList.add('trustbtnact');
 		trust.onclick=function()
@@ -657,7 +657,7 @@ function show_ip()
 		var span=document.createElement("span");div.appendChild(span);
 		span.classList.add('jry_wb_icon','thisbtn');		
 		if(jry_wb_login_user.login_addr[i].isthis)
-			span.classList.add('jry_wb_icon_dangqian');
+			span.classList.add('jry_wb_icon_now');
 	}
 }
 function showchenge()

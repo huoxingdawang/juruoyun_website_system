@@ -16,7 +16,7 @@ function jry_wb_beautiful_video(video)
 		buttom_bar.classList.add("jry_wb_beautiful_video_buttom_bar");
 		buttom_bar.style.display='none';
 		var start_button = document.createElement("div");buttom_bar.appendChild(start_button);
-		start_button.classList.add("jry_wb_beautiful_video_button","jry_wb_icon","jry_wb_icon_bofang");
+		start_button.classList.add("jry_wb_beautiful_video_button","jry_wb_icon","jry_wb_icon_start");
 		var progress_bar = new jry_wb_progress_bar(buttom_bar,"50%",video.currentTime/video.duration,parseInt(video.currentTime)+"/"+parseInt(video.duration),
 			function(x)
 			{
@@ -42,9 +42,9 @@ function jry_wb_beautiful_video(video)
 		var full_button = document.createElement("div");buttom_bar.appendChild(full_button);
 		full_button.classList.add("jry_wb_beautiful_video_button","jry_wb_icon");
 		if(document.webkitIsFullScreen)
-			full_button.classList.add("jry_wb_icon_quitquanping");
+			full_button.classList.add("jry_wb_icon_full_screen_quit");
 		else
-			full_button.classList.add("jry_wb_icon_quanping");
+			full_button.classList.add("jry_wb_icon_full_screen_enter");
 		var ratio=video_body.clientWidth*video.videoHeight/video.videoWidth;
 		var timer=setInterval(function()
 		{
@@ -110,7 +110,7 @@ function jry_wb_beautiful_video(video)
 			}
 			video.removeAttribute("controls");
 			if(video.ended)
-				start_button.classList.add("jry_wb_icon_bofang"),start_button.classList.remove("jry_wb_icon_zantingtingzhi");
+				start_button.classList.add("jry_wb_icon_start"),start_button.classList.remove("jry_wb_icon_pause");
 		};		
 		video_body.onmouseout = function()
 		{
@@ -145,12 +145,12 @@ function jry_wb_beautiful_video(video)
 		};
 		video.onplay = function()
 		{
-			start_button.classList.add("jry_wb_icon_zantingtingzhi");start_button.classList.remove("jry_wb_icon_bofang");
+			start_button.classList.add("jry_wb_icon_pause");start_button.classList.remove("jry_wb_icon_start");
 			jry_wb_midia_control_all.onplay(video);
 		};
 		video.onpause = function()
 		{
-			start_button.classList.remove("jry_wb_icon_zantingtingzhi");start_button.classList.add("jry_wb_icon_bofang");
+			start_button.classList.remove("jry_wb_icon_pause");start_button.classList.add("jry_wb_icon_start");
 			jry_wb_midia_control_all.onpause(video);
 		};
 
@@ -158,8 +158,8 @@ function jry_wb_beautiful_video(video)
 		{
 			if(document.webkitIsFullScreen)
 			{
-				full_button.classList.add("jry_wb_icon_quanping");
-				full_button.classList.remove("jry_wb_icon_quitquanping");
+				full_button.classList.add("jry_wb_icon_full_screen_enter");
+				full_button.classList.remove("jry_wb_icon_full_screen_quit");
 				jry_wb_exit_full_screen();
 				video_body.style.width=yuanshi_width;
 				buttom_bar.style.width=video_body.clientWidth;
@@ -175,8 +175,8 @@ function jry_wb_beautiful_video(video)
 			}
 			else
 			{
-				full_button.classList.add("jry_wb_icon_quitquanping");
-				full_button.classList.remove("jry_wb_icon_quanping");
+				full_button.classList.add("jry_wb_icon_full_screen_quit");
+				full_button.classList.remove("jry_wb_icon_full_screen_enter");
 				jry_wb_launch_full_screen(document.documentElement);
 				video_body.style.position='fixed';
 				video_body.style.top=0;
@@ -198,8 +198,8 @@ function jry_wb_beautiful_video(video)
 			}
 			else
 			{		
-				full_button.classList.add("jry_wb_icon_quanping");
-				full_button.classList.remove("jry_wb_icon_quitquanping");
+				full_button.classList.add("jry_wb_icon_full_screen_enter");
+				full_button.classList.remove("jry_wb_icon_full_screen_quit");
 				jry_wb_exit_full_screen();
 				video_body.style.width=yuanshi_width;
 				buttom_bar.style.width=video_body.clientWidth;

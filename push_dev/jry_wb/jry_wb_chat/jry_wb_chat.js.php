@@ -322,7 +322,7 @@ var jry_wb_chat_room=new function()
 	};
 <?php } ?>
 	this.show_main_button=document.createElement('p');jry_wb_right_tools.add(this.show_main_button);
-	this.show_main_button.classList.add('jry_wb_icon_liaotian','jry_wb_icon');
+	this.show_main_button.classList.add('jry_wb_icon_chat','jry_wb_icon');
 	this.show_main_button.style.fontSize='35px';
 	this.show_main_button.style.right='0px';
 	this.show_main_button.onclick=()=>
@@ -599,7 +599,7 @@ var jry_wb_chat_room=new function()
 		var add=document.createElement('span');top.appendChild(add);
 		if(jry_wb_login_user.compentence.addchatroom)
 		{
-			add.classList.add('jry_wb_icon_xinjian','jry_wb_icon','button');
+			add.classList.add('jry_wb_icon_new','jry_wb_icon','button');
 			add.style.transitionDuration='0s';		
 			add.onclick=()=>
 			{
@@ -783,7 +783,7 @@ var jry_wb_chat_room=new function()
 				}
 				chenge_name_doms.push(chat_name);
 				var chat_set=document.createElement('span');chat_top.appendChild(chat_set);
-				chat_set.classList.add('set','jry_wb_icon','jry_wb_icon_icon_shezhi');
+				chat_set.classList.add('set','jry_wb_icon','jry_wb_icon_set');
 				chat_set.onclick=()=>
 				{
 					var set_alert=new jry_wb_beautiful_alert_function;
@@ -881,7 +881,7 @@ var jry_wb_chat_room=new function()
 				var input=document.createElement('textarea');input_area.appendChild(input);
 				input.classList.add('input');
 				var button=document.createElement('span');input_area.appendChild(button);
-				button.classList.add('button','jry_wb_icon_icon_fabu','jry_wb_icon');
+				button.classList.add('button','jry_wb_icon_send','jry_wb_icon');
 				button.onclick=()=>
 				{
 					if(this.send(rooms[i].chat_room_id,input.value)==false)

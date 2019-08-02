@@ -50,8 +50,8 @@
 		},
 		"login":
 		{
-			"desktop":"",
-			"mobile":""		
+			"desktop":"default/mainpages/login.css",
+			"mobile":"default/mainpages/login.css"		
 		}
 	},
 	"netdisk":

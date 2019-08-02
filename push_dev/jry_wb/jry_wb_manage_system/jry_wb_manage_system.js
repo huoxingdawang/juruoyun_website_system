@@ -30,7 +30,7 @@
 		var color_picker_close=document.createElement('div');color_picker_area.appendChild(color_picker_close);
 		color_picker_close.style.position="fixed";color_picker_close.style.top="100px";color_picker_close.style.right="50px";
 		color_picker_close.style.fontSize="20px";color_picker_close.style.color="#ff0000";
-		color_picker_close.classList.add("jry_wb_icon","jry_wb_icon_guanbi");
+		color_picker_close.classList.add("jry_wb_icon","jry_wb_icon_close");
 		color_picker_close.onclick=function()
 		{
 			color_picker_area.style.display='none';			

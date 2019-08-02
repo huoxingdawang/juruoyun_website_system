@@ -65,9 +65,9 @@
 		}
 		if($addtool==true)
 		{?>
-	<p id="jry_wb_left_button_up" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangshang" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
-	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_chongzi" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
-	<p id="jry_wb_left_button_down" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangxia" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
+	<p id="jry_wb_left_button_up" class="jry_wb_icon jry_wb_icon_arrow_up2" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
+	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_bugs" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
+	<p id="jry_wb_left_button_down" class="jry_wb_icon jry_wb_icon_arrow_down2" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
 	<script language="javascript">
 			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_up'));
 			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_bug'));

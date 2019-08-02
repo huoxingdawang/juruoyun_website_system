@@ -12,21 +12,21 @@ function jry_wb_highlight(area,code,start)
 	var copy=document.createElement("span");tools_bar.appendChild(copy);
 	copy.classList.add('jry_wb_icon_fuzhi','jry_wb_icon');
 	var down=document.createElement("span");tools_bar.appendChild(down);
-	down.classList.add('jry_wb_icon_xuanzeqizhankai','jry_wb_icon');
+	down.classList.add('jry_wb_icon_arrow_down','jry_wb_icon');
 	var down_flag=false;
 	down.onclick=function()
 	{
 		if(down_flag==false)
 		{
-			down.classList.add('jry_wb_icon_xuanzeqishouqi');
-			down.classList.remove('jry_wb_icon_xuanzeqizhankai');
+			down.classList.add('jry_wb_icon_arrow_up');
+			down.classList.remove('jry_wb_icon_arrow_down');
 			dom.style.maxHeight='';
 			down_flag=true;
 		}
 		else
 		{
-			down.classList.add('jry_wb_icon_xuanzeqizhankai');
-			down.classList.remove('jry_wb_icon_xuanzeqishouqi');
+			down.classList.add('jry_wb_icon_arrow_down');
+			down.classList.remove('jry_wb_icon_arrow_up');
 			dom.style.maxHeight='390px';	
 			down_flag=false;
 		}

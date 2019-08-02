@@ -183,7 +183,7 @@ jry_wb_manage_user.showall=function()
 						}						
 					}
 					let add_type_button=document.createElement("button");type_dom.appendChild(add_type_button);
-					add_type_button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_normal','jry_wb_icon','jry_wb_icon_xinjian');
+					add_type_button.classList.add('jry_wb_button','jry_wb_button_size_small','jry_wb_color_normal','jry_wb_icon','jry_wb_icon_new');
 					add_type_button.onclick=()=>
 					{
 						let select=document.createElement("select");add_type_button.parentNode.insertBefore(select,add_type_button);

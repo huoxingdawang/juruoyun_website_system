@@ -588,7 +588,7 @@ function jry_wb_markdown(area,id,time,text,notitle)
 					if(j==false)
 						j=k,b.classList.add('md_unfinish','jry_wb_icon_hr');
 					else
-						b.classList.add('md_finish','jry_wb_icon_duigoux');
+						b.classList.add('md_finish','jry_wb_icon_ok');
 					i+=(j-1);
 				}
 				else if((j=test(this.text,i,'[http://'))||(k=test(this.text,i,'[https://')))

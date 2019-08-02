@@ -69,20 +69,20 @@ jry_wb_online_judge_function.prototype.show_all=function(page)
 		else if(data.error.times<0)
 		{
 			var icon2=document.createElement("b");ans.appendChild(icon2);
-			icon2.classList.add('jry_wb_icon','jry_wb_icon_cuowu','error');
+			icon2.classList.add('jry_wb_icon','jry_wb_icon_error','error');
 			var span=document.createElement("span");ans.appendChild(span);span.innerHTML='错过'+(data.error.times)+'遍了';
 		}
 		else if(data.error.times>=0)
 		{
 			var icon1=document.createElement("b");ans.appendChild(icon1);
-			icon1.classList.add('jry_wb_icon','jry_wb_icon_duigoux','right');
+			icon1.classList.add('jry_wb_icon','jry_wb_icon_ok','right');
 			var icon2=document.createElement("b");ans.appendChild(icon2);
-			icon2.classList.add('jry_wb_icon','jry_wb_icon_rili','right_calendar');
+			icon2.classList.add('jry_wb_icon','jry_wb_icon_calendar','right_calendar');
 			var span=document.createElement("span");ans.appendChild(span);span.innerHTML=data.error.lasttime;
 		}
 		question.href=id.href='jry_wb_online_judge_show_question.php#{"class":'+JSON.stringify(data.class)+',"question_id":'+data.question_id+'}';
 		var class_=document.createElement("div");onebody.appendChild(class_);
-		class_.classList.add('one_class','jry_wb_icon','jry_wb_icon_biaoqian','jry_wb_tool_tip');
+		class_.classList.add('one_class','jry_wb_icon','jry_wb_icon_tag','jry_wb_tool_tip');
 		var class__=document.createElement("div");class_.appendChild(class__);
 		class__.classList.add('jry_wb_tool_tip_text');
 		for(var j=0;j<data.classes.length;j++)
@@ -101,11 +101,11 @@ jry_wb_online_judge_function.prototype.show_all=function(page)
 	{
 		var li=document.createElement("li");ul.appendChild(li);
 		var a=document.createElement("a");li.appendChild(a);
-		a.classList.add('jry_wb_icon','jry_wb_icon_jiantou_xiangzuoliangci');
+		a.classList.add('jry_wb_icon','jry_wb_icon_arrow_left2');
 		a.onclick=()=>{this.show_all(1);};		
 		var li=document.createElement("li");ul.appendChild(li);
 		var a=document.createElement("a");li.appendChild(a);
-		a.classList.add('jry_wb_icon','jry_wb_icon_xiangzuo');
+		a.classList.add('jry_wb_icon','jry_wb_icon_arrow_left');
 		a.onclick=()=>{this.show_all(page-1);};
 	}
 	for(let i=Math.max(1,page-5);i<=Math.min(pages,page+5);i++)
@@ -121,11 +121,11 @@ jry_wb_online_judge_function.prototype.show_all=function(page)
 	{
 		var li=document.createElement("li");ul.appendChild(li);
 		var a=document.createElement("a");li.appendChild(a);
-		a.classList.add('jry_wb_icon','jry_wb_icon_xuanzeqixiayige');
+		a.classList.add('jry_wb_icon','jry_wb_icon_arrow_right');
 		a.onclick=()=>{this.show_all(page+1);};
 		var li=document.createElement("li");ul.appendChild(li);
 		var a=document.createElement("a");li.appendChild(a);
-		a.classList.add('jry_wb_icon','jry_wb_icon_jiantou_xiangyouliangci');
+		a.classList.add('jry_wb_icon','jry_wb_icon_arrow_right2');
 		a.onclick=()=>{this.show_all(pages);};		
 	}
 	window.scrollTo(0,0);

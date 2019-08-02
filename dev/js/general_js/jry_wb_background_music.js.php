@@ -21,7 +21,7 @@ var jry_wb_background_music = new function()
 				jry_wb_background_music.push_song_list(jry_wb_login_user.background_music_list);
 			this.backgroundmusic_icon=document.createElement("p");jry_wb_right_tools.add(this.backgroundmusic_icon);
 			this.backgroundmusic_icon.id='jry_wb_left_button_backgroundmusic_icon';
-			this.backgroundmusic_icon.classList.add('jry_wb_icon_changpian','jry_wb_icon');
+			this.backgroundmusic_icon.classList.add('jry_wb_icon_record','jry_wb_icon');
 			this.backgroundmusic_icon.style="z-index:9999;margin:0px;right:0px;position:fixed;width:35px;height:35px;font-size:35px";
 			this.backgroundmusic_control=document.createElement("div");document.body.appendChild(this.backgroundmusic_control);
 			this.backgroundmusic_control.id='jry_wb_left_button_backgroundmusic_control';

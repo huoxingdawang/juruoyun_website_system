@@ -89,13 +89,13 @@ var jry_wb_socket = new function()
 		if(typeof this.connect_icon=='undefined')
 			jry_wb_add_onload(()=>
 			{
-				this.connect_icon.classList.remove('jry_wb_icon_shujulianjie','jry_wb_color_ok_font');				
-				this.connect_icon.classList.add('jry_wb_icon_duankailianjie','jry_wb_color_warn_font','jry_wb_color_normal_font');
+				this.connect_icon.classList.remove('jry_wb_icon_connect','jry_wb_color_ok_font');				
+				this.connect_icon.classList.add('jry_wb_icon_disconnect','jry_wb_color_warn_font','jry_wb_color_normal_font');
 			});
 		else
 		{
-			this.connect_icon.classList.remove('jry_wb_icon_shujulianjie','jry_wb_color_ok_font');
-			this.connect_icon.classList.add('jry_wb_icon_duankailianjie','jry_wb_color_warn_font','jry_wb_color_normal_font');
+			this.connect_icon.classList.remove('jry_wb_icon_connect','jry_wb_color_ok_font');
+			this.connect_icon.classList.add('jry_wb_icon_disconnect','jry_wb_color_warn_font','jry_wb_color_normal_font');
 		}
 	};
 	var onstart=()=>
@@ -104,13 +104,13 @@ var jry_wb_socket = new function()
 		if(typeof this.connect_icon=='undefined')
 			jry_wb_add_onload(()=>
 			{	
-				this.connect_icon.classList.add('jry_wb_icon_shujulianjie','jry_wb_color_ok_font');	
-				this.connect_icon.classList.remove('jry_wb_icon_duankailianjie','jry_wb_color_warn_font','jry_wb_color_normal_font');
+				this.connect_icon.classList.add('jry_wb_icon_connect','jry_wb_color_ok_font');	
+				this.connect_icon.classList.remove('jry_wb_icon_disconnect','jry_wb_color_warn_font','jry_wb_color_normal_font');
 			});
 		else
 		{	
-			this.connect_icon.classList.add('jry_wb_icon_shujulianjie','jry_wb_color_ok_font');	
-			this.connect_icon.classList.remove('jry_wb_icon_duankailianjie','jry_wb_color_warn_font','jry_wb_color_normal_font');
+			this.connect_icon.classList.add('jry_wb_icon_connect','jry_wb_color_ok_font');	
+			this.connect_icon.classList.remove('jry_wb_icon_disconnect','jry_wb_color_warn_font','jry_wb_color_normal_font');
 		}
 	};	
 	var callback=(data)=>
@@ -141,7 +141,7 @@ var jry_wb_socket = new function()
 		if(jry_wb_login_user==undefined||jry_wb_login_user.id<=0||jry_wb_login_user.id=='')
 			return;		
 		this.connect_icon=document.createElement("p");jry_wb_right_tools.add(this.connect_icon);
-		this.connect_icon.classList.add('jry_wb_icon_duankailianjie','jry_wb_icon','jry_wb_color_warn_font','jry_wb_color_normal_font');
+		this.connect_icon.classList.add('jry_wb_icon_disconnect','jry_wb_icon','jry_wb_color_warn_font','jry_wb_color_normal_font');
 		this.connect_icon.style="z-index:9999;margin:0px;right:0px;position:fixed;width:35px;height:35px;font-size:35px";
 	});
 	this.send=(data,add_buf)=>

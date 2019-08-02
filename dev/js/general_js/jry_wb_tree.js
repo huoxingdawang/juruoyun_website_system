@@ -30,7 +30,7 @@ function jry_wb_tree(area,text,check,callback)
 			var one = document.createElement('ul');father.children[1].appendChild(one);
 			one.style='padding-left:25px;';
 			father.style='';
-			father.children[0].children[0].classList.add('jry_wb_tree_one_open','jry_wb_icon','jry_wb_icon_xuanzeqizhankai');
+			father.children[0].children[0].classList.add('jry_wb_tree_one_open','jry_wb_icon','jry_wb_icon_arrow_down');
 		}
 		one.classList.add('jry_wb_tree_one_body');
 		var self = document.createElement('li');one.appendChild(self);
@@ -89,9 +89,9 @@ function jry_wb_tree(area,text,check,callback)
 				e = window.event;
 			child.style.display = child.style.display=='none'?'':'none';
 			if(child.style.display=='none')
-				e.target.classList.remove('jry_wb_icon_xuanzeqishouqi'),e.target.classList.add('jry_wb_icon_xuanzeqizhankai');
+				e.target.classList.remove('jry_wb_icon_arrow_up'),e.target.classList.add('jry_wb_icon_arrow_down');
 			else
-				e.target.classList.remove('jry_wb_icon_xuanzeqizhankai'),e.target.classList.add('jry_wb_icon_xuanzeqishouqi');
+				e.target.classList.remove('jry_wb_icon_arrow_down'),e.target.classList.add('jry_wb_icon_arrow_up');
 			this.openedall=false;
 			window.onresize();
 		};	
@@ -138,7 +138,7 @@ function jry_wb_tree(area,text,check,callback)
 			if(all[i].innerHTML!='')
 			{	
 				all[i].style.display='';
-				all[i].parentNode.children[0].children[0].classList.remove('jry_wb_icon_xuanzeqizhankai'),all[i].parentNode.children[0].children[0].classList.add('jry_wb_icon_xuanzeqishouqi');
+				all[i].parentNode.children[0].children[0].classList.remove('jry_wb_icon_arrow_down'),all[i].parentNode.children[0].children[0].classList.add('jry_wb_icon_arrow_up');
 			}
 		}
 		window.onresize();
@@ -151,7 +151,7 @@ function jry_wb_tree(area,text,check,callback)
 			if(all[i].innerHTML!='')
 			{
 				all[i].style.display='none';
-				all[i].parentNode.children[0].children[0].classList.remove('jry_wb_icon_xuanzeqishouqi'),all[i].parentNode.children[0].children[0].classList.add('jry_wb_icon_xuanzeqizhankai');
+				all[i].parentNode.children[0].children[0].classList.remove('jry_wb_icon_arrow_up'),all[i].parentNode.children[0].children[0].classList.add('jry_wb_icon_arrow_down');
 			}
 		}		
 		window.onresize();

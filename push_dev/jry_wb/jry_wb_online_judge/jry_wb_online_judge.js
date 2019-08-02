@@ -97,13 +97,13 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	let status_c	=document.createElement("div")	;status_div	.appendChild(status_c)	;status_c	.classList.add('c')			;status_w.onclick=function(){status_c.style.display=status_c.style.display==''?'none':'',window.onresize();};
 	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('normal')	;
 	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=0;show();};if(this.showwhat.status==0)input.setAttribute('checked','checked');
-	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_quan');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_circle');
 	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('right')		;
 	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=1;show();};if(this.showwhat.status==1)input.setAttribute('checked','checked');
-	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_duigoux');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_ok');
 	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('error')		;
 	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=2;show();};if(this.showwhat.status==2)input.setAttribute('checked','checked');
-	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_cuowu');
+	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_error');
 	var div			=document.createElement("div")	;status_c	.appendChild(div)		;div		.classList.add('nottry')	;
 	var input		=document.createElement("input");div		.appendChild(input)		;										;input.type='radio';input.name='status';input.onclick=()=>{this.showwhat.status=3;show();};if(this.showwhat.status==3)input.setAttribute('checked','checked');
 	var span		=document.createElement("span")	;div		.appendChild(span)		;span		.classList.add('jry_wb_icon','jry_wb_icon_hr');
@@ -118,7 +118,7 @@ function jry_wb_online_judge_function(area,onepage,fastsave)
 	
 	var div=document.createElement("div");this.right.appendChild(div);div.classList.add('class');
 	var span=document.createElement("span");div.appendChild(span);
-	span.classList.add('jry_wb_icon','jry_wb_icon_biaoqian','w');
+	span.classList.add('jry_wb_icon','jry_wb_icon_tag','w');
 	this.classes_dom=document.createElement("span");div.appendChild(this.classes_dom);this.classes_dom.classList.add('v');
 	this.classes_dom.classList.add('jry_wb_cut');
 	span.onclick=()=>
