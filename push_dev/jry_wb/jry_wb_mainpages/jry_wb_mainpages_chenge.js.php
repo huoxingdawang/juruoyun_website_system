@@ -574,7 +574,7 @@ function show_ip()
 					{
 						if(jry_wb_login_user.login_addr[i].isthis)
 							document.location.href=jry_wb_message.jry_wb_index_page;	
-						delete jry_wb_login_user.login_addr[i];
+						jry_wb_login_user.login_addr.splice(i,1);
 						show_ip()
 						window.onresize();
 					}
