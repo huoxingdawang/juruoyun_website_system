@@ -28,10 +28,10 @@
 	},
 	"mainpages":
 	{
-		"add":
+		"register":
 		{
-			"desktop":"default/mainpages/add.css",
-			"mobile":"default/mainpages/add.css"	
+			"desktop":"default/mainpages/register.css",
+			"mobile":"default/mainpages/register.css"	
 		},
 		"chenge":
 		{
@@ -40,8 +40,8 @@
 		},
 		"forget":
 		{
-			"desktop":"",
-			"mobile":""			
+			"desktop":"default/mainpages/forget.css",
+			"mobile":"default/mainpages/forget.css"			
 		},
 		"index":
 		{

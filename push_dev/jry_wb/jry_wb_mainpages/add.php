@@ -8,11 +8,12 @@
 		exit();
 	}
 ?>
-<div class="jry_wb_top_toolbar">
+<div class='jry_wb_top_toolbar'>
 	<?php jry_wb_print_logo(false);?>	
-	<?php jry_wb_print_href("login","");?>
-	<?php jry_wb_print_href('add_user',"active");?>
+	<?php jry_wb_print_href('login','');?>
+	<?php jry_wb_print_href('add_user','active');?>
+	<?php jry_wb_print_href('forget','');?>		
 </div>
-<div id='area'></div>
-<script language="javascript">jry_wb_include_once_script('jry_wb_mainpages_add.js.php',function(){jry_wb_register(document.getElementById('area'))});</script>
+<div id='mainbody'></div>
+<script language="javascript">jry_wb_include_once_script('jry_wb_mainpages_register.js.php',function(){jry_wb_mainpages_register(document.getElementById('mainbody'))});</script>
 <?php jry_wb_print_tail()?>

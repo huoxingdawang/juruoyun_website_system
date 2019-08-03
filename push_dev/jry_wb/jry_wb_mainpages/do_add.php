@@ -82,7 +82,7 @@
 				$st->bindParam(1,$_POST['tel']);
 				$st->execute();	
 				foreach($st->fetchAll()as $tels);	
-				if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+				if($_POST['telcode']!=$tels['code']||$_POST['telcode']=='')
 					throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));
 			}
 			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_GENERAL.'users where tel=?');
@@ -94,7 +94,7 @@
 			{		
 				$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=? and code=?');
 				$st->bindParam(1,$tel);
-				$st->bindParam(2,$_POST['phonecode']);
+				$st->bindParam(2,$_POST['telcode']);
 				$st->execute();
 			}			
 		}
