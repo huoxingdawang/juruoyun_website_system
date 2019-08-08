@@ -17,7 +17,7 @@ function jry_wb_add_on_indexeddb_open(func)
 var jry_wb_indexeddb_restart_cnt=0;
 function jry_wb_indexeddb_init()
 {
-	var request=window.indexedDB.open('jry_wb',11);
+	var request=window.indexedDB.open('jry_wb',12);
 	var timer=null;
 	var update_flag=false;
 	request.onerror=function(event)
@@ -50,8 +50,20 @@ function jry_wb_indexeddb_init()
 		for(var i=0,n=creat_list.length;i<n;i++)
 			if(!jry_wb_indexeddb.objectStoreNames.contains(creat_list[i].name)) 
 				jry_wb_indexeddb.createObjectStore(creat_list[i].name,{keyPath:creat_list[i].key});
-	}
+	};
+	request.onclose=function(){jry_wb_beautiful_right_alert.alert('数据库连接已关闭',1000,'auto','ok');};
 };
+function jry_wb_indexeddb_reinit()
+{
+	jry_wb_beautiful_right_alert.alert('正在关闭数据库.....',1000,'auto','warn');
+	jry_wb_indexeddb.close();
+	jry_wb_beautiful_right_alert.alert('数据库连接已关闭',1000,'auto','ok');
+	jry_wb_beautiful_right_alert.alert('正在删除数据库.....',1000,'auto','warn');
+	var req=indexedDB.deleteDatabase('jry_wb');
+	req.onsuccess=function(){jry_wb_beautiful_right_alert.alert('数据库已删除',1000,'auto','ok');jry_wb_indexeddb_init();};
+	req.onerror=function(){jry_wb_beautiful_right_alert.alert('数据库删除失败',1000,'auto','error');};
+	req.onblocked=function(){jry_wb_beautiful_right_alert.alert('数据库删除被阻塞',1000,'auto','error');};
+}
 function jry_wb_indexeddb_clear()
 {
 	var clear_list=[{'name':'manage_user'				,'key':'id'}			,{'name':'lasttime'			,'key':'key'}			,{'name':'invitecode'		,'key':'incite_code_id'}	,{'name':'log'			,'key':'log_id'},
@@ -91,7 +103,7 @@ function jry_wb_indexeddb_get_lasttime(key,callback)
 		re.onsuccess=function()
 		{
 			if(this.result==undefined)
-				return callback(new Date('1926-08-17 00:00:00'));
+				return callback('1926-08-17 00:00:00'.to_time());
 			callback(new Date(this.result.time));
 		};
 	});

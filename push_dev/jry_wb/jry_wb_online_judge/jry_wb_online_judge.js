@@ -179,7 +179,7 @@ jry_wb_online_judge_function.prototype.sync=function()
 	this.loadingcount++;
 	jry_wb_indexeddb_get_lasttime('oj_question_list',(time)=>
 	{
-		if(this.fastsave.question_list	.to_time()-time>0)
+		if(this.fastsave.question_list.to_time()-time>0)
 		{
 			jry_wb_sync_data_with_server('oj_question_list',jry_wb_message.jry_wb_host+'jry_wb_online_judge/jry_wb_online_judge_get_information.php?action=question_list',null,(data)=>
 			{
