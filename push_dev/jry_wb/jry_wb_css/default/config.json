@@ -28,20 +28,20 @@
 	},
 	"mainpages":
 	{
-		"add":
+		"register":
 		{
-			"desktop":"",
-			"mobile":""	
+			"desktop":"default/mainpages/register.css",
+			"mobile":"default/mainpages/register.css"	
 		},
 		"chenge":
 		{
-			"desktop":"",
-			"mobile":""			
+			"desktop": "default/mainpages/chenge.css",
+			"mobile": "default/mainpages/chenge.css"
 		},
 		"forget":
 		{
-			"desktop":"",
-			"mobile":""			
+			"desktop":"default/mainpages/forget.css",
+			"mobile":"default/mainpages/forget.css"			
 		},
 		"index":
 		{
@@ -50,10 +50,10 @@
 		},
 		"login":
 		{
-			"desktop":"",
-			"mobile":""		
+			"desktop":"default/mainpages/login.css",
+			"mobile":"default/mainpages/login.css"		
 		}
-	},	
+	},
 	"netdisk":
 	{
 		"index":
@@ -66,7 +66,7 @@
 			"desktop":"default/netdisk/file.css",
 			"mobile":"default/netdisk/file.css"
 		}
-	},	
+	},
 	"online_judge":
 	{
 		"index":
@@ -78,6 +78,39 @@
 		{
 			"desktop":"default/online_judge/show_question.css",
 			"mobile":"default/online_judge/show_question.css"
+		},
+		"manage_question":
+		{
+			"desktop":"default/online_judge/manage_question.css",
+			"mobile":"default/online_judge/manage_question.css"
 		}
+	},
+	"manage":
+	{
+		"user":
+		{
+			"mobile": "default/manage/user.css",
+			"desktop": "default/manage/user.css"
+		},
+		"tanmu":
+		{
+			"mobile": "default/manage/tanmu.css",
+			"desktop": "default/manage/tanmu.css"
+		},
+		"hengfu":
+		{
+			"mobile": "default/manage/hengfu.css",
+			"desktop": "default/manage/hengfu.css"
+		},
+		"bigdeal":
+		{
+			"mobile": "default/manage/bigdeal.css",
+			"desktop": "default/manage/bigdeal.css"
+		},
+		"competence":
+		{
+			"mobile": "default/manage/competence.css",
+			"desktop": "default/manage/competence.css"
+		}			
 	}
 }

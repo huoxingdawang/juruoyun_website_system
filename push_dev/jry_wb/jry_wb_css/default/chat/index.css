@@ -2,46 +2,46 @@
 {
 	
 }
-.jry_wb_chat_body .jry_wb_chat_left
+.jry_wb_chat_body .left
 {
 	width:20%;
 	height:100%;
 	float:left;
     overflow-x:hidden;	
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top
+.jry_wb_chat_body .left .top
 {
 	position:relative;
     background: #ccc;	
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top .input
+.jry_wb_chat_body .left .top .input
 {
 	width:0px;
 	font-size:20px;
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top .button
+.jry_wb_chat_body .left .top .button
 {
 	font-size:20px;
 	width:20px;
 	height:20px;
 	color:#000;
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_top .result
+.jry_wb_chat_body .left .top .result
 {
     transition-duration: 0.5s;
     overflow-y: hidden;
 	
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_one
+.jry_wb_chat_body .left .one
 {
 	position:relative;
 	
 }
-.jry_wb_chat_body .jry_wb_chat_left .active
+.jry_wb_chat_body .left .active
 {
 	background:#666a;
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_one .jry_wb_chat_head
+.jry_wb_chat_body .left .one .head
 {
 	top:0px;
 	left:0px;
@@ -49,7 +49,7 @@
 	font-size:28px;
 	border-radius:35px;	
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_one .jry_wb_chat_name
+.jry_wb_chat_body .left .one .name
 {
 	position:absolute;
 	top:0px;
@@ -59,7 +59,7 @@
 	line-height:28px;	
 	overflow:hidden;
 }
-.jry_wb_chat_body .jry_wb_chat_left .jry_wb_chat_one .jry_wb_chat_lastsay
+.jry_wb_chat_body .left .one .lastsay
 {
 	position:absolute;
 	top:50px;
@@ -79,35 +79,35 @@
     white-space:nowrap;	
 	word-break: break-all;
 }
-.jry_wb_chat_body .jry_wb_chat_right
+.jry_wb_chat_body .right
 {
 	width:80%;
 	height:100%;	
 	float:left;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_top
+.jry_wb_chat_body .right .top
 {
     color: #000;
     background: #666;	
 	font-size:25px;	
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_top .jry_wb_chat_name
+.jry_wb_chat_body .right .top .name
 {
 	font-size:25px;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_set
+.jry_wb_chat_body .right .set
 {
 	font-size:25px;
 	
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one
+.jry_wb_chat_body .right .one
 {
 	clear:both;
 	position:relative;
 	height:50px;
 	padding-bottom:20px;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one .message
+.jry_wb_chat_body .right .one .message
 {
 	position:absolute;
 	font-size:24px;
@@ -115,24 +115,24 @@
 	left:40px;
 	word-break:break-all;	
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one .user
+.jry_wb_chat_body .right .one .user
 {
 	position:absolute;
 	height:24px;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one .user .head
+.jry_wb_chat_body .right .one .user .head
 {
 	position:absolute;
 	width:40px;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one .user .name
+.jry_wb_chat_body .right .one .user .name
 {
 	position:absolute;
 	left:40px;
 	width:160px;
 	font-size:16px;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_one .user .time
+.jry_wb_chat_body .right .one .user .time
 {
 	left:200px;
 	width:140px;
@@ -140,18 +140,18 @@
 	position:absolute;
 	
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_input_area
+.jry_wb_chat_body .right .input_area
 {
 	height:150px;
 	position:relative;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_input_area .input
+.jry_wb_chat_body .right .input_area .input
 {
 	height:100%;
 	font-size:28px;
 	resize: none;  
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_input_area .button
+.jry_wb_chat_body .right .input_area .button
 {
 	font-size:100px;
 	position:absolute;
@@ -165,14 +165,32 @@
 	padding-top:10px;
 	transition: all 0.1s;
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_input_area .button:hover
+.jry_wb_chat_body .right .input_area .button:hover
 {
 	background:#1a6396;
 	
 }
-.jry_wb_chat_body .jry_wb_chat_right .jry_wb_chat_input_area .word
+.jry_wb_chat_body .right .input_area .word
 {
 	position:absolute;
 	top:120px;
 	font-size:20px;
 }
+.jry_wb_chat_attribute					{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_chat_attribute td				{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_chat_attribute .chat_id			{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .chat_id_v		{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .name			{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .name_v			{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .type			{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .type_v			{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .cream_time		{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .cream_time_v	{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .last_add_time	{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .last_add_time_v	{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .last_say_time	{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .last_say_time_v	{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .say_count		{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .say_count_v		{font-size:30px;color:#33F;}
+.jry_wb_chat_attribute .member			{font-size:30px;color:#33F;width:150px;}
+.jry_wb_chat_attribute .member_v		{font-size:30px;color:#33F;}

@@ -5,11 +5,8 @@ function jry_wb_manage_send_mail_init(area,mode)
 function jry_wb_manage_send_mail_run(area)
 {
 	area.innerHTML='';
-	var title_input = document.createElement('input');area.appendChild(title_input);
-	title_input.classList.add('h56');
-	
+	var title_input = document.createElement('input');area.appendChild(title_input);	
 	var data_input = document.createElement('textarea');area.appendChild(data_input);
-	data_input.classList.add('h56');
 	var button = document.createElement('button');area.appendChild(button);
 	button.innerHTML="发送";
 	button.classList.add('jry_wb_button','jry_wb_button_size_big','jry_wb_color_warn');

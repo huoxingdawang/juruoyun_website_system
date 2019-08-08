@@ -40,6 +40,7 @@
 	<noscript><div style="background-color:#000; font-size:50px; color:#FFFFFF; width:100%; height:100%;"><div style="font-size:200px; color:#F00;" align="center">WARNING!<br></div><div style="font-size:50px; color:#F00;" align="center">You are useing browsers with out JS.<br>Please stop now!<br>:-(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-:</div><div style="font-size:25px; color:#F00;" align="center"></div></div></noscript>
 	<script type='text/javascript'>jry_wb_onbody_function_data();if (!navigator.cookieEnabled){document.body.innerHTML+='<div style="background-color:#000; font-size:50px; color:#FFFFFF; width:100%; height:100%;"><div style="font-size:200px; color:#F00;" align="center">WARNING!<br></div><div style="font-size:50px; color:#F00;" align="center">You are useing browsers with out Cookie.<br>Please stop now!<br>:-(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)-:</div><div style="font-size:25px; color:#F00;" align="center"></div></div>';}</script>
 	<?php ob_flush();
+		if($jry_wb_login_user['id']!=$_COOKIE['id']) echo '<script>jry_wb_add_on_indexeddb_open(jry_wb_indexeddb_clear);</script>';
 		if($checklogin)
 		{
 			try{jry_wb_check_compentence(NULL,$compentence);}
@@ -64,9 +65,9 @@
 		}
 		if($addtool==true)
 		{?>
-	<p id="jry_wb_left_button_up" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangshang" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
-	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_chongzi" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
-	<p id="jry_wb_left_button_down" class="jry_wb_icon jry_wb_icon_jiantou_yemian_xiangxia" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
+	<p id="jry_wb_left_button_up" class="jry_wb_icon jry_wb_icon_arrow_up2" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,0)"></p>
+	<p id="jry_wb_left_button_bug" class="jry_wb_icon jry_wb_icon_bugs" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.open('<?php echo jry_wb_print_href('bug','','',1);?>');" ></p>
+	<p id="jry_wb_left_button_down" class="jry_wb_icon jry_wb_icon_arrow_down2" style="font-size:35px;z-index: 9999;right:0px;position:fixed;width:35px;" onClick="window.scrollTo(0,document.body.scrollHeight)"></p>
 	<script language="javascript">
 			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_up'));
 			jry_wb_right_tools.add(document.getElementById('jry_wb_left_button_bug'));

@@ -20,46 +20,38 @@
 	}
 	if($action=='area')
 	{
-		if((urldecode($_GET['lasttime']))>($data->area))
-			echo json_encode(null);
-		else
+		$ans=[];
+		if((urldecode($_GET['lasttime']))<=($data->area))
 		{
 			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'area WHERE lasttime>?;');
 			$st->bindParam(1,urldecode($_GET['lasttime']));
 			$st->execute();
-			$ans=[];
-			$data=$st->fetchAll();
-			$n=count($data);			
-			for($i=0;$i<$n;$i++)
-				$ans[$i]=array(	'area_id'=>$data[$i]['area_id'],
-								'id'=>$data[$i]['id'],
-								'name'=>$data[$i]['name'],
-								'fast'=>$data[$i]['fast'],
-								'type'=>$data[$i]['type'],
-								'lasttime'=>$data[$i]['lasttime']);
-			echo json_encode(array('code'=>true,'data'=>$ans));
+			foreach($st->fetchAll() as $one)
+				$ans[]=array(	'area_id'=>$one['area_id'],
+								'id'=>$one['id'],
+								'name'=>$one['name'],
+								'fast'=>$one['fast'],
+								'type'=>$one['type'],
+								'lasttime'=>$one['lasttime']);
 		}
+		echo json_encode(array('code'=>true,'data'=>$ans));
 		exit();
 	}
 	if($action=='group')
 	{
-		if((urldecode($_GET['lasttime']))>($data->group))
-			echo json_encode(null);
-		else
+		$ans=[];
+		if((urldecode($_GET['lasttime']))<=($data->group))
 		{
 			$st = $conn->prepare('SELECT * FROM '.JRY_WB_DATABASE_NETDISK.'group WHERE lasttime>?;');
 			$st->bindParam(1,urldecode($_GET['lasttime']));
 			$st->execute();
-			$ans=[];
-			$data=$st->fetchAll();
-			$n=count($data);
-			for($i=0;$i<$n;$i++)
-				$ans[$i]=array(	'group_id'=>$data[$i]['group_id'],
-								'group_name'=>$data[$i]['group_name'],
-								'jry_nd_group_type'=>$data[$i]['jry_nd_group_type'],
-								'lasttime'=>$data[$i]['lasttime']);
-			echo json_encode(array('code'=>true,'data'=>$ans));
+			foreach($st->fetchAll() as $one)
+				$ans[]=array(	'group_id'=>$one['group_id'],
+								'group_name'=>$one['group_name'],
+								'jry_nd_group_type'=>$one['jry_nd_group_type'],
+								'lasttime'=>$one['lasttime']);
 		}
+		echo json_encode(array('code'=>true,'data'=>$ans));
 		exit();
 	}
 	try{jry_wb_check_compentence(NULL,array('use','usenetdisk'));}catch(jry_wb_exception $e){echo $e->getMessage();exit();}	

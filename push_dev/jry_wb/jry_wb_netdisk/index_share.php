@@ -80,11 +80,13 @@
 	jry_wb_print_head("网盘分享",false,true,true);
 ?>
 <div class='jry_wb_top_toolbar'></div>
-<link rel='stylesheet' type='text/css' href='jry_wb_nd.css'>
-<link rel='stylesheet' type='text/css' href='jry_wb_nd_file.css'>
-<script language="javascript" src="jry_wb_nd_index.js"></script>
-<script language="javascript" src="jry_wb_nd_file.js"></script>
-<script language="javascript" src="jry_wb_nd_area.js"></script>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'netdisk/index'); ?>
+<?php echo jry_wb_include_css($jry_wb_login_user['style'],'netdisk/file'); ?>
+<div class='jry_wb_top_toolbar'></div>
+<script>
+	jry_wb_include_once_script('jry_wb_nd_index.js.php',function(){jry_wb_netdisk_init(document.getElementById('body'));});
+	var jry_nd_fast_save_message=JSON.parse('<?php  echo json_encode($data);?>');
+</script>
 <script>
 	jry_wb_add_onload(function()
 	{

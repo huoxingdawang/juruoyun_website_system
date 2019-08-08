@@ -322,7 +322,7 @@ var jry_wb_chat_room=new function()
 	};
 <?php } ?>
 	this.show_main_button=document.createElement('p');jry_wb_right_tools.add(this.show_main_button);
-	this.show_main_button.classList.add('jry_wb_icon_liaotian','jry_wb_icon');
+	this.show_main_button.classList.add('jry_wb_icon_chat','jry_wb_icon');
 	this.show_main_button.style.fontSize='35px';
 	this.show_main_button.style.right='0px';
 	this.show_main_button.onclick=()=>
@@ -336,9 +336,9 @@ var jry_wb_chat_room=new function()
 		{
 			this.body.display='';
 			this.left=document.createElement('div');this.body.appendChild(this.left);
-			this.left.classList.add('jry_wb_chat_left');
+			this.left.classList.add('left');
 			this.right=document.createElement('div');this.body.appendChild(this.right);
-			this.right.classList.add('jry_wb_chat_right');
+			this.right.classList.add('right');
 			this.show_chat_rooms();
 		}
 		else
@@ -380,7 +380,7 @@ var jry_wb_chat_room=new function()
 	function show_one_chat_message(message_box,message,callback)
 	{
 		let one=document.createElement('div');message_box.appendChild(one);
-		one.classList.add('jry_wb_chat_one');	
+		one.classList.add('one');	
 		let user=document.createElement('div');one.appendChild(user);
 		user.classList.add('user');
 		user.onclick=function()
@@ -445,7 +445,7 @@ var jry_wb_chat_room=new function()
 				else
 					father.appendChild(canvas);
 				room.head_dom=canvas;
-				canvas.classList.add('jry_wb_chat_head');
+				canvas.classList.add('head');
 				var width=head_width=canvas.clientWidth;
 				var fontsize=parseInt(window.getComputedStyle(canvas).fontSize);
 				canvas.style.height=width;
@@ -485,7 +485,7 @@ var jry_wb_chat_room=new function()
 				replace.parentNode.insertBefore(img,replace),replace.parentNode.removeChild(replace);
 			else
 				father.appendChild(img);
-			img.classList.add('jry_wb_chat_head');			
+			img.classList.add('head');			
 			jry_wb_get_user(id,undefined,(data)=>
 			{
 				jry_wb_set_user_head_special(data,img);
@@ -506,7 +506,7 @@ var jry_wb_chat_room=new function()
 			return;
 		this.left.innerHTML='';
 		let top=document.createElement('div');this.left.appendChild(top);
-		top.classList.add('jry_wb_chat_top');
+		top.classList.add('top');
 		top.style.background='#9990';
 		top.style.transitionDuration='2s';
 		var input=document.createElement('input');top.appendChild(input);
@@ -566,12 +566,12 @@ var jry_wb_chat_room=new function()
 						if(data==undefined||data.head==null||data.name=='')
 							return;
 						let one=document.createElement('div');result.appendChild(one);
-						one.classList.add('jry_wb_chat_one');
+						one.classList.add('one');
 						var img=document.createElement('img');one.appendChild(img);
 						jry_wb_set_user_head_special(data,img);
-						img.classList.add('jry_wb_chat_head');
+						img.classList.add('head');
 						var name_dom=document.createElement('span');one.appendChild(name_dom);
-						name_dom.classList.add('jry_wb_chat_name','jry_wb_word_cut');
+						name_dom.classList.add('name','jry_wb_word_cut');
 						name_dom.innerHTML=data.name;
 						name_dom.style.width=Math.max(one.clientWidth-img.clientWidth,20);
 						result.style.height=parseInt(result.style.height)+img.clientWidth;
@@ -599,7 +599,7 @@ var jry_wb_chat_room=new function()
 		var add=document.createElement('span');top.appendChild(add);
 		if(jry_wb_login_user.compentence.addchatroom)
 		{
-			add.classList.add('jry_wb_icon_xinjian','jry_wb_icon','button');
+			add.classList.add('jry_wb_icon_new','jry_wb_icon','button');
 			add.style.transitionDuration='0s';		
 			add.onclick=()=>
 			{
@@ -650,15 +650,15 @@ var jry_wb_chat_room=new function()
 		serchcallback=(room)=>
 		{
 			let one=document.createElement('div');result.appendChild(one);
-			one.classList.add('jry_wb_chat_one');
+			one.classList.add('one');
 			room.dom=one;
 			let head_width=drawhead(one,room);
 			room.name_dom=document.createElement('span');one.appendChild(room.name_dom);
-			room.name_dom.classList.add('jry_wb_chat_name','jry_wb_word_cut');
+			room.name_dom.classList.add('name','jry_wb_word_cut');
 			room.name_dom.innerHTML=room.name;
 			room.name_dom.style.width=Math.max(one.clientWidth-head_width,20);
 			room.lastsay_dom=document.createElement('span');one.appendChild(room.lastsay_dom);
-			room.lastsay_dom.classList.add('jry_wb_chat_lastsay');
+			room.lastsay_dom.classList.add('lastsay');
 			room.lastsay_dom.style.width=Math.max(one.clientWidth-head_width,20);
 			if(first)	
 				jry_wb_add_onresize(function()
@@ -694,11 +694,11 @@ var jry_wb_chat_room=new function()
 		for(let i=0;i<rooms.length;i++)
 		{
 			let one=document.createElement('div');this.left.appendChild(one);
-			one.classList.add('jry_wb_chat_one');
+			one.classList.add('one');
 			rooms[i].dom=one;
 			let head_width=drawhead(one,rooms[i]);
 			rooms[i].name_dom=document.createElement('span');one.appendChild(rooms[i].name_dom);
-			rooms[i].name_dom.classList.add('jry_wb_chat_name','jry_wb_word_cut');
+			rooms[i].name_dom.classList.add('name','jry_wb_word_cut');
 			if(rooms[i].big)
 				rooms[i].name_dom.innerHTML=rooms[i].name;
 			else
@@ -738,7 +738,7 @@ var jry_wb_chat_room=new function()
 					return false;
 				};			
 			rooms[i].lastsay_dom=document.createElement('span');one.appendChild(rooms[i].lastsay_dom);
-			rooms[i].lastsay_dom.classList.add('jry_wb_chat_lastsay');
+			rooms[i].lastsay_dom.classList.add('lastsay');
 			rooms[i].lastsay_dom.style.width=Math.max(one.clientWidth-head_width,20);
 			if(first)	
 				jry_wb_add_onresize(function()
@@ -766,9 +766,9 @@ var jry_wb_chat_room=new function()
 				one.classList.add('active');
 				last_show_dom=one;
 				var chat_top=document.createElement('div');this.right.appendChild(chat_top);
-				chat_top.classList.add('jry_wb_chat_top');
+				chat_top.classList.add('top');
 				var chat_name=document.createElement('span');chat_top.appendChild(chat_name);
-				chat_name.classList.add('jry_wb_chat_name');
+				chat_name.classList.add('name');
 				if(rooms[i].big)
 					chat_name.innerHTML=rooms[i].name;
 				else
@@ -783,7 +783,7 @@ var jry_wb_chat_room=new function()
 				}
 				chenge_name_doms.push(chat_name);
 				var chat_set=document.createElement('span');chat_top.appendChild(chat_set);
-				chat_set.classList.add('jry_wb_chat_set','jry_wb_icon','jry_wb_icon_icon_shezhi');
+				chat_set.classList.add('set','jry_wb_icon','jry_wb_icon_set');
 				chat_set.onclick=()=>
 				{
 					var set_alert=new jry_wb_beautiful_alert_function;
@@ -798,16 +798,13 @@ var jry_wb_chat_room=new function()
 						set_alert.close();
 					};
 					jry_wb_beautiful_scroll(set_alert.msgObj);
-					var table = document.createElement("table"); set_alert.msgObj.appendChild(table);
-					table.border=1;
-					table.cellspacing=0;
-					table.width='100%';
-					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='聊天室ID';			td.width='150px';	td.classList.add('h56');
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].chat_room_id;	td.width='*';		td.classList.add('h56');
-					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='聊天室名字';			td.width='150px';	td.classList.add('h56');
-					var name=document.createElement("td"); tr.appendChild(name);								name.width='*';		name.classList.add('h56');	
+					var table = document.createElement("table"); set_alert.msgObj.appendChild(table);table.classList.add('jry_wb_chat_attribute');
+					var tr	=document.createElement("tr"); table.appendChild(tr)	;
+					var td	=document.createElement("td"); tr	.appendChild(td)	;td		.classList.add('chat_id')	;td.innerHTML='聊天室ID';
+					var td	=document.createElement("td"); tr	.appendChild(td)	;td		.classList.add('chat_id_v')	;td.innerHTML=rooms[i].chat_room_id;
+					var tr	=document.createElement("tr"); table.appendChild(tr)	;
+					var td	=document.createElement("td"); tr	.appendChild(td)	;td		.classList.add('name')		;td.innerHTML='聊天室名字';
+					var name=document.createElement("td"); tr	.appendChild(name)	;name	.classList.add('name_v')	;
 					if(rooms[i].big)
 						name.innerHTML=rooms[i].name;
 					else
@@ -847,23 +844,23 @@ var jry_wb_chat_room=new function()
 							return false;
 						};
 					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='聊天室大小';					td.width='150px';	td.classList.add('h56');				
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=(rooms[i].big)?'群聊':'私聊';	td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('type')			;td.innerHTML='聊天室类型';									
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('type_v')			;td.innerHTML=(rooms[i].big)?'群聊':'私聊';	
 					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='创建时间';					td.width='150px';	td.classList.add('h56');				
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].cream_time;			td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('cream_time')		;td.innerHTML='创建时间';									
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('cream_time_v')	;td.innerHTML=rooms[i].cream_time;			
 					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后加入时间';				td.width='150px';	td.classList.add('h56');				
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].last_add_time;		td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('last_add_time')	;td.innerHTML='最后加入时间';								
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('last_add_time_v')	;td.innerHTML=rooms[i].last_add_time;		
 					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='最后发言时间';				td.width='150px';	td.classList.add('h56');				
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].last_say_time;		td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('last_say_time')	;td.innerHTML='最后发言时间';								
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('last_say_time_v')	;td.innerHTML=rooms[i].last_say_time;		
 					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='发言数量';					td.width='150px';	td.classList.add('h56');				
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML=rooms[i].say_count;			td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('say_count')		;td.innerHTML='发言数量';									
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('say_count_v')		;td.innerHTML=rooms[i].say_count;			
 					var tr=document.createElement("tr"); table.appendChild(tr);
-					var td=document.createElement("td"); tr.appendChild(td);td.innerHTML='成员';						td.width='150px';	td.classList.add('h56');				
-					var td=document.createElement("td"); tr.appendChild(td);											td.width='150px';	td.classList.add('h56');
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('member')			;td.innerHTML='成员';										
+					var td=document.createElement("td"); tr.appendChild(td);td.classList.add('member_v')		;
 					for(var j=0;j<rooms[i].users.length;j++)
 						jry_wb_get_and_show_user(td,rooms[i].users[j],'auto','left',true);
 				};
@@ -880,11 +877,11 @@ var jry_wb_chat_room=new function()
 						});
 				console.timeEnd('message');
 				var input_area=document.createElement('div');this.right.appendChild(input_area);
-				input_area.classList.add('jry_wb_chat_input_area');
+				input_area.classList.add('input_area');
 				var input=document.createElement('textarea');input_area.appendChild(input);
 				input.classList.add('input');
 				var button=document.createElement('span');input_area.appendChild(button);
-				button.classList.add('button','jry_wb_icon_icon_fabu','jry_wb_icon');
+				button.classList.add('button','jry_wb_icon_send','jry_wb_icon');
 				button.onclick=()=>
 				{
 					if(this.send(rooms[i].chat_room_id,input.value)==false)

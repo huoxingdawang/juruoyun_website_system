@@ -83,7 +83,7 @@
 			$st->bindParam(1,$_POST['tel']);
 			$st->execute();	
 			foreach($st->fetchAll()as $tels);	
-			if($_POST['phonecode']!=$tels['code']||$_POST['phonecode']=='')
+			if($_POST['telcode']!=$tels['code']||$_POST['telcode']=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>100010,'file'=>__FILE__,'line'=>__LINE__)));
 			$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_GENERAL.'users SET password=? where tel=?');
 			$st->bindParam(1,md5($_POST['password1']));
@@ -91,7 +91,7 @@
 			$st->execute();
 			$st = $conn->prepare('DELETE FROM '.JRY_WB_DATABASE_GENERAL.'tel_code where tel=? and code=?');
 			$st->bindParam(1,$_POST['tel']);
-			$st->bindParam(2,$_POST['phonecode']);
+			$st->bindParam(2,$_POST['telcode']);
 			$st->execute();
 			$st = $conn->prepare("DELETE FROM ".JRY_WB_DATABASE_GENERAL."login where id=?");
 			$st->bindParam(1,$jry_wb_login_user['id']);

@@ -24,13 +24,7 @@
 	<div align="right" class="jry_wb_font_normal_size jry_wb_color_normal jry_wb_color_normal_prevent" style="">
 		<span id="by_id" style="right: 100px;position: relative;">by:</span>
 		<script language="javascript">jry_wb_get_and_show_user(document.getElementById('by_id'),<?php echo $jry_wb_login_user['style']['id'];?>,null,null,true);</script>
-	</div>	
-	<table>
-	<?php
-		for($i=count($jry_wb_login_user['style']['update'])-1;$i>=0;$i--)
-			echo '<tr><td class="h56">'.$jry_wb_login_user['style']['update'][$i]['time'].'</td><td class="h56">'.$jry_wb_login_user['style']['update'][$i]['data'].'</td></tr>';
-	?>
-	</table>
+	</div>
 </div>
 <script language="javascript">jry_wb_add_onresize(function(){var all=document.getElementById("main_body");var width=document.documentElement.clientWidth;if(width>800){all_width=width-Math.min(width*0.3,width-800);all.style.width=all_width;all.style.margin="0px "+(width-all_width)/2+"px"}else{all.style.width=width,all.style.margin="0px 0px"}})</script>
 <?php jry_wb_print_tail();?>

@@ -1,4 +1,6 @@
 <?php
+	session_start();
+	$_SESSION['QC_userData']['state'] = $_GET['state'];	
 	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once(JRY_WB_LOCAL_DIR."/jry_wb_tp_sdk/qq/oauth/qqConnectAPI.php");
 	$qc = new QC();

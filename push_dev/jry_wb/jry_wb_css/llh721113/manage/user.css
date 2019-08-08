@@ -1,0 +1,37 @@
+.jry_wb_manage_user					{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_manage_user td				{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_manage_user .id				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .id_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .name			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .name_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .head			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .head_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .head_v img	{width:80px;height:80px;}
+.jry_wb_manage_user .grm			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .grm_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .erd			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .erd_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .cptn			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .cptn_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .sex			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .sex_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .tel			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .tel_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .mail			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .mail_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .use			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .use_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .zhushi			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .zhushi_v		{font-size:30px;color:#33F;}
+.jry_wb_manage_user .login			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .login_v		{font-size:30px;color:#33F;}
+.jry_wb_manage_user .login_v .country	{font-size:30px;color:#33F;}
+.jry_wb_manage_user .login_v .region	{font-size:30px;color:#33F;}
+.jry_wb_manage_user .login_v .isp		{font-size:30px;color:#33F;}
+.jry_wb_manage_user .login_v .time		{font-size:30px;color:#33F;border-left: 3px solid #33F;}
+.jry_wb_manage_user .login_v .device	{font-size:30px;color:#33F;border-left: 3px solid #33F;}
+.jry_wb_manage_user .login_v .browser	{font-size:30px;color:#33F;border-left: 3px solid #33F;}
+.jry_wb_manage_user .tpin			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .tpin_v			{font-size:30px;color:#33F;}
+.jry_wb_manage_user .psw			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_manage_user .psw_v			{font-size:30px;color:#33F;}

@@ -101,3 +101,44 @@
 	color:black;
 	font-size:30px;
 }
+.jry_wb_netdisk_attribute					{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_netdisk_attribute td				{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_netdisk_attribute .file_id			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .file_id_v		{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .name				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .name_v			{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .type				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .type_v			{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .lasttime			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .lasttime_v		{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .owner			{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .owner_v			{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .dir				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .dir_v			{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .size				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .size_v			{font-size:30px;color:#33F;}
+.jry_wb_netdisk_attribute .area				{font-size:30px;color:#33F;width:250px;}
+.jry_wb_netdisk_attribute .area_v			{font-size:30px;color:#33F;}
+
+.jry_wb_netdisk_share_attribute				{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_netdisk_share_attribute td			{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_netdisk_share_attribute .file_id	{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .file_id_v	{font-size:16px;color:#000;}
+.jry_wb_netdisk_share_attribute .share_id	{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .share_id_v	{font-size:16px;color:#000;}
+.jry_wb_netdisk_share_attribute .key		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .key_v		{font-size:16px;color:#000;}
+.jry_wb_netdisk_share_attribute .allow		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .allow_v	{font-size:16px;color:#000;}
+.jry_wb_netdisk_share_attribute .fast		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .fast_v		{font-size:16px;color:#000;}
+.jry_wb_netdisk_share_attribute .lasttime	{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .lasttime_v	{font-size:16px;color:#000;}
+.jry_wb_netdisk_share_attribute .url_d		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .url_d_v	{font-size:16px;color:#000;word-break:break-all;}
+.jry_wb_netdisk_share_attribute .url_o		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .url_o_v	{font-size:16px;color:#000;word-break:break-all;}
+.jry_wb_netdisk_share_attribute .url_hd		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .url_hd_v	{font-size:16px;color:#000;word-break:break-all;}
+.jry_wb_netdisk_share_attribute .url_ho		{font-size:16px;color:#000;width:250px;}
+.jry_wb_netdisk_share_attribute .url_ho_v	{font-size:16px;color:#000;word-break:break-all;}
