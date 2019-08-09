@@ -104,7 +104,7 @@ function jry_wb_indexeddb_get_lasttime(key,callback)
 		{
 			if(this.result==undefined)
 				return callback('1926-08-17 00:00:00'.to_time());
-			callback(new Date(this.result.time));
+			callback(this.result.time.to_time());
 		};
 	});
 }

@@ -26,7 +26,9 @@ function jry_wb_sync_data_with_server(syncname,dataurl,array,callback,sort_cmp)
 			{
 				data=data.sort(sort_cmp);
 				var a=callback(data,newdata);
-				if(a!=undefined)
+				if(a==undefined)
+					jry_wb_indexeddb_set_lasttime(syncname,'1926-08-17 00:00:00');
+				else
 					jry_wb_indexeddb_set_lasttime(syncname,a);
 			});
 		},array);
