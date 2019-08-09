@@ -166,7 +166,7 @@
 						unset($clients_listener[$c_index]);
 						unset($c_to_u[$c_index]);
 						socket_close($socket);
-						jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color($user['id'].'-'.$user['name'],'light_blue')."\t".jry_wb_php_cli_color('disconnect','yellow').' at '.jry_wb_php_cli_color($ip."\t".jry_wb_get_ip_address_string($ip),'cyan')."\t".'now have '.jry_wb_php_cli_color($users[$result]['count'],'magenta').' connect(s) Total user:'.jry_wb_php_cli_color(count($users),'magenta').' Total clients:'.jry_wb_php_cli_color(count($clients),'magenta').' Total c_to_u:'.jry_wb_php_cli_color(count($c_to_u),'magenta'));
+						jry_wb_cli_echo_log(jry_wb_php_cli_color(jry_wb_get_time()."\t",'brown').jry_wb_php_cli_color($user['id'].'-'.$user['name'],'light_blue')."\t".jry_wb_php_cli_color('disconnect by server','yellow').' at '.jry_wb_php_cli_color($ip."\t".jry_wb_get_ip_address_string($ip),'cyan')."\t".'now have '.jry_wb_php_cli_color($users[$result]['count'],'magenta').' connect(s) Total user:'.jry_wb_php_cli_color(count($users),'magenta').' Total clients:'.jry_wb_php_cli_color(count($clients),'magenta').' Total c_to_u:'.jry_wb_php_cli_color(count($c_to_u),'magenta'));
 					}
 					else
 					{

@@ -31,6 +31,11 @@
 100004:监听器删除
 100005:发送失败
 */
+function setinterval(func,time)
+{
+	func();
+	return setInterval(func,time);
+}
 var pool=[];
 onconnect=function(e)
 {
@@ -42,6 +47,9 @@ onconnect=function(e)
 		var one=pool.find(function(a){return a.key==key});
 		if(e.data.type==100000)
 		{
+			console.log('User update',e.data.data);
+			if(jry_wb_login_user==undefined||jry_wb_login_user.id==e.data.data)
+				return jry_wb_login_user=e.data.data;
 			jry_wb_login_user=e.data.data;
 			if(jry_wb_login_user==undefined||jry_wb_login_user.id<=0||jry_wb_login_user.id=='')
 				jry_wb_socket.close();
@@ -117,8 +125,9 @@ var readyState=0;
 var jry_wb_socket = new function()
 {
 	var socket=null;
+	var cnt=0;
 	var send_buf=[];
-	var start_timer;
+	var start_timer=null;
 	var listener_type=[];
 	var listener=new Map();
 	var start=()=>
@@ -136,6 +145,7 @@ var jry_wb_socket = new function()
 			if(start_timer!=null)
 				clearInterval(start_timer);
 			send_to_all({'type':100001,'readyState':readyState=socket.readyState,'data':'open'});
+			cnt=0;
 		};
 		socket.onmessage=(evt)=>
 		{
@@ -150,26 +160,29 @@ var jry_wb_socket = new function()
 		{
 			console.timeEnd("socket");
 			send_to_all({'type':100001,'readyState':readyState=socket.readyState,'data':'close'});
-			setTimeout(()=>
-			{
-				start();
-			},2000);
+			if(cnt++>10)
+				setTimeout(()=>
+				{
+					start();
+				},2000);
+			else
+					start();
 		};
 	};
 	this.close=()=>
 	{
 		socket.close();
 	};
-	start_timer=setInterval(()=>
+	start_timer=setinterval(()=>
 	{
 		start();
 	},2000);
-	start();
 	this.send=(data,add_buf)=>
 	{
 		if(add_buf==undefined)
 			add_buf=true;
 		data=JSON.stringify(data);
+		<?php if(JRY_WB_DEBUG_MODE){ ?>console.log('Send Message: ',data);<?php } ?>
 		if(socket!=null&&socket.readyState==1)
 		{
 			socket.send(data);
@@ -186,7 +199,6 @@ var jry_wb_socket = new function()
 			}
 			return false;
 		}
-		<?php if(JRY_WB_DEBUG_MODE){ ?>console.log('Send Message: ',data);<?php } ?>
 	};
 	this.add_listener=(type)=>
 	{
@@ -198,7 +210,7 @@ var jry_wb_socket = new function()
 			listener_type.push(type);
 			listener[type]=1;
 		}
-			listener[type]++;
+		listener[type]++;
 	};
 	this.delete_listener=(type)=>
 	{

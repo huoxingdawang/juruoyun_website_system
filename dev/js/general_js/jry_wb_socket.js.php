@@ -12,6 +12,7 @@ var jry_wb_socket = new function()
 	var error=[];
 	var send_buf=[];
 	this.status=0;
+	var cnt=0;
 	if(typeof SharedWorker=='undefined')
 	{
 		var start=()=>
@@ -25,6 +26,7 @@ var jry_wb_socket = new function()
 			{
 				onstart();
 				this.status=socket.readyState;
+				cnt=0;
 			};
 			socket.onmessage=(evt)=>
 			{
@@ -37,12 +39,14 @@ var jry_wb_socket = new function()
 			{
 				this.stop=false;
 				this.status=socket.readyState;
-				setTimeout(()=>
-				{
-					jry_wb_beautiful_right_alert.alert('已断开连接，正在重连',1000,'auto','warn');
+				onclose();
+				if(cnt++>10)
+					setTimeout(()=>
+					{
+						start();
+					},2000);
+				else
 					start();
-					onclose();
-				},5000);
 			};
 		};
 	}
@@ -94,6 +98,7 @@ var jry_wb_socket = new function()
 			});
 		else
 		{
+			jry_wb_beautiful_right_alert.alert('已断开连接，正在重连',1000,'auto','warn');
 			this.connect_icon.classList.remove('jry_wb_icon_connect','jry_wb_color_ok_font');
 			this.connect_icon.classList.add('jry_wb_icon_disconnect','jry_wb_color_warn_font','jry_wb_color_normal_font');
 		}

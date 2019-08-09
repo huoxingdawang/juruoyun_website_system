@@ -691,6 +691,7 @@ var jry_wb_chat_room=new function()
 			};
 			result.style.height=parseInt(result.style.height)+one.clientHeight;
 		};
+		this.list_scroll=new jry_wb_beautiful_scroll(this.left,true);		
 		for(let i=0;i<rooms.length;i++)
 		{
 			let one=document.createElement('div');this.left.appendChild(one);

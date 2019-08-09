@@ -72,7 +72,7 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 			if(get_scrolly()!=0)
 				scrollto(0,0);
 			for(var i=0,n=area.children.length;i<n;i++)
-				area.children[i].yuan_top=area.children[i].offsetTop;
+				area.children[i].setAttribute('yuan_top',area.children[i].offsetTop);
 		}
 		else
 		{
@@ -80,10 +80,10 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 			scrollto(undefined,0);
 			for(var i=0,n=area.children.length;i<n;i++)
 			{
-				if(typeof area.children[i].yuan_top=='undefined')
-					area.children[i].yuan_top=area.children[i].offsetTop;
+				if(area.children[i].getAttribute('yuan_top')==null)
+					area.children[i].setAttribute('yuan_top',area.children[i].offsetTop);
 				else
-					area.children[i].yuan_top=(area.children[i].offsetTop);
+					area.children[i].setAttribute('yuan_top',area.children[i].offsetTop);
 			}
 			scrollto(undefined,yy);
 		}
@@ -100,12 +100,12 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 		var ans2=0;
 		for(var i=0,n=area.children.length;i<n;i++)
 		{
-			if(typeof area.children[i].yuan_top=='undefined')
-				area.children[i].yuan_top=area.children[i].offsetTop;
+			if(area.children[i].getAttribute('yuan_top')==null)
+				area.children[i].setAttribute('yuan_top',area.children[i].offsetTop);
 			if(area.children[i]!=jry_wb_scroll_body_y&&area.children[i]!=jry_wb_scroll_body_x)
 			{
 				ans+=parseInt(area.children[i].clientHeight);
-				ans2=Math.max(ans2,area.children[i].clientHeight+area.children[i].yuan_top);
+				ans2=Math.max(ans2,area.children[i].clientHeight+parseFloat(area.children[i].getAttribute('yuan_top')));
 			}
 		}
 		if(absolute)
@@ -188,8 +188,8 @@ function jry_wb_beautiful_scroll(area,absolute,move,x_switch)
 				{
 					if(window.getComputedStyle(area.children[i],null).position=='absolute'||area.children[i].style.position=='absolute')
 					{
-						if(typeof area.children[i].yuan_top=='undefined')
-							area.children[i].yuan_top=area.children[i].offsetTop;
+						if(area.children[i].getAttribute('yuan_top')==null)
+							area.children[i].setAttribute('yuan_top',area.children[i].offsetTop);
 						area.children[i].style.top=area.children[i].yuan_top-y;
 					}
 					else
@@ -559,34 +559,6 @@ jry_wb_add_onload(function()
 	{
 		return false;
 	};
-/*	var last_y=0;
-	document.addEventListener("touchstart",function(evt)
-	{
-		if(jry_wb_beautiful_scroll_run_flag)
-			return;
-		if(typeof event=='undefined'||event==undefined)
-			event=window.event;
-		if(event.touches!=null&&event.touches.length==1)
-			event.clientY		=event.touches[0].clientY;
-		else if(event.changedTouches!=null&&event.changedTouches.length==1)
-			event.clientY		=event.changedTouches[0].clientY;
-		last_y=event.clientY;
-		
-	},false);
-	document.addEventListener("touchmove",function(evt)
-	{
-		if(jry_wb_beautiful_scroll_run_flag)
-			return;
-		if(typeof event=='undefined'||event==undefined)
-			event=window.event;
-		if(event.touches!=null&&event.touches.length==1)
-			event.clientY		=event.touches[0].clientY;
-		else if(event.changedTouches!=null&&event.changedTouches.length==1)
-			event.clientY		=event.changedTouches[0].clientY;
-		window.onmousewheel({'deltaY':last_y-event.clientY});
-		last_y=event.clientY;		
-	},false);
-*/
 	window.onmousewheel=function(e)
 	{
 		if(timer1!=null)clearTimeout(timer1),timer1=null;

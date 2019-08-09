@@ -7,7 +7,12 @@
 	width:20%;
 	height:100%;
 	float:left;
-    overflow-x:hidden;	
+    overflow-x:hidden;
+	position:relative;
+}
+.jry_wb_chat_body .left .jry_wb_beautiful_scroll_body
+{
+	z-index:1;
 }
 .jry_wb_chat_body .left .top
 {
@@ -35,7 +40,7 @@
 .jry_wb_chat_body .left .one
 {
 	position:relative;
-	
+	height:70px;
 }
 .jry_wb_chat_body .left .active
 {

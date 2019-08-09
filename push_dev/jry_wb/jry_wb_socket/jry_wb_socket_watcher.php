@@ -27,9 +27,12 @@
 	{
 		if($message=$redis->lpop(JRY_WB_REDIS_PREFIX.'log'))
 		{
-			$st =$conn->prepare("INSERT INTO ".JRY_WB_DATABASE_LOG."socket (`data`) VALUES(?)");
-			$st->bindParam(1,$message);
-			$st->execute();			
+			if(($argv[2]==''?true:((int)$argv[2])))
+			{
+				$st =$conn->prepare("INSERT INTO ".JRY_WB_DATABASE_LOG."socket (`data`) VALUES(?)");
+				$st->bindParam(1,$message);
+				$st->execute();			
+			}
 			echo $message."\n";
 		}
 		else
