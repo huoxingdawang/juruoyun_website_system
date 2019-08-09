@@ -248,9 +248,12 @@ var jry_wb_chat_room=new function()
 	});
 <?php } ?>
 	var sync_cnt=0;
+	var sync_timer=null;
 	this.sync=()=>
 	{
 		loading_count++;
+		if(sync_timer==null)clearTimeout(sync_timer);
+		sync_timer=setTimeout(()=>{this.sync()},1000*5);
 		var newdata=false;
 		if(sync_cnt==0)
 			var newdata=true;
@@ -261,7 +264,7 @@ var jry_wb_chat_room=new function()
 		sync_cnt++;
 		console.time('chat_sync');
 <?php if(JRY_WB_SOCKET_SWITCH){ ?>
-		if(jry_wb_socket.send({'code':true,'type':200005},false)==false)
+		if(true||jry_wb_socket.send({'code':true,'type':200005},false)==false)
 		{
 <?php } ?>
 			jry_wb_ajax_load_data(jry_wb_message.jry_wb_host+'jry_wb_chat/jry_wb_do_chat.php?action=get_rooms',(data)=>
@@ -496,6 +499,7 @@ var jry_wb_chat_room=new function()
 	var serchcallback=null;
 	this.show_chat_rooms=(stop)=>
 	{
+		if(sync_timer==null)clearTimeout(sync_timer),sync_timer=null;
 		if(stop==true)
 			console.timeEnd('chat_sync');
 		if(typeof this.left=='undefined')
