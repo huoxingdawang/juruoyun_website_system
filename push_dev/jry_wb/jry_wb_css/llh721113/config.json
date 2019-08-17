@@ -28,10 +28,10 @@
 	},
 	"mainpages":
 	{
-		"add":
+		"register":
 		{
-			"desktop":"",
-			"mobile":""	
+			"desktop":"llh721113/mainpages/register.css",
+			"mobile":"llh721113/mainpages/register.css"	
 		},
 		"chenge":
 		{
@@ -40,8 +40,8 @@
 		},
 		"forget":
 		{
-			"desktop":"",
-			"mobile":""			
+			"desktop":"llh721113/mainpages/forget.css",
+			"mobile":"llh721113/mainpages/forget.css"			
 		},
 		"index":
 		{
@@ -50,8 +50,8 @@
 		},
 		"login":
 		{
-			"desktop":"",
-			"mobile":""		
+			"desktop":"llh721113/mainpages/login.css",
+			"mobile":"llh721113/mainpages/login.css"		
 		}
 	},
 	"netdisk":
@@ -91,6 +91,26 @@
 		{
 			"mobile": "llh721113/manage/user.css",
 			"desktop": "llh721113/manage/user.css"
-		}
+		},
+		"tanmu":
+		{
+			"mobile": "llh721113/manage/tanmu.css",
+			"desktop": "llh721113/manage/tanmu.css"
+		},
+		"hengfu":
+		{
+			"mobile": "llh721113/manage/hengfu.css",
+			"desktop": "llh721113/manage/hengfu.css"
+		},
+		"bigdeal":
+		{
+			"mobile": "llh721113/manage/bigdeal.css",
+			"desktop": "llh721113/manage/bigdeal.css"
+		},
+		"competence":
+		{
+			"mobile": "llh721113/manage/competence.css",
+			"desktop": "llh721113/manage/competence.css"
+		}			
 	}
 }
