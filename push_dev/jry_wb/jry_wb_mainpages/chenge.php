@@ -32,7 +32,8 @@
 			<div class="jry_wb_left_toolbar_left_list_2" onClick="showpas();window.onresize();">修改密码</div>
 			<div class="jry_wb_left_toolbar_left_list_1" onClick="showshow();window.onresize();">隐私设置</div>
 			<div class="jry_wb_left_toolbar_left_list_2" onClick="showspecialfact();window.onresize();">特效设置</div>
-			<?php $i=0;if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showmusiclist();window.onresize();">歌单管理</div><?php } ?>
+			<div class="jry_wb_left_toolbar_left_list_1" onClick="jry_wb_indexeddb_reinit();">干爆缓存</div>
+			<?php $i=1;if(JRY_WB_BACKGROUND_MUSIC_SWITCH){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showmusiclist();window.onresize();">歌单管理</div><?php } ?>
 			<?php if(JRY_WB_OAUTH_SWITCH){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showtpin();window.onresize();">第三方接入</div><?php } ?>
 			<?php if($JRY_WB_CONFIG_USER_EXTERN_MESSAGE!=NULL){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showextern();window.onresize();">扩展信息</div><?php } ?>
 			<?php if(JRY_WB_INVITE_CODE){ ?><div class="jry_wb_left_toolbar_left_list_<?php echo $i%2+1;$i++; ?>" onClick="showinvitecode();window.onresize();">邀请码</div><?php } ?>

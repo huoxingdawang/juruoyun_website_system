@@ -1,0 +1,26 @@
+.jry_wb_mainpages_forget								{width:640px;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_mainpages_forget td								{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_mainpages_forget .error							{border:5px solid #ff0000;margin:0 0;}
+.jry_wb_mainpages_forget .type							{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_forget .type_v						{font-size:30px;color:#33F;text-align:center;}
+.jry_wb_mainpages_forget .type_v .tel					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .type_v .mail					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .key							{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_forget .key_v							{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .key_v input					{font-size:30px;color:#33F;text-align:center;width:100%;}
+.jry_wb_mainpages_forget .password1						{font-size:30px;color:#33F;text-align:center;width:250px;}
+.jry_wb_mainpages_forget .password1_v 					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .password1_v input			{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_forget .password2						{font-size:30px;color:#33F;text-align:center;width:250px;}
+.jry_wb_mainpages_forget .password2_v 					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .password2_v input			{font-size:30px;color:#33F;width: 100%;}
+.jry_wb_mainpages_forget .vcode							{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_forget .vcode_v						{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .vcode_v input				{font-size:30px;color:#33F;width:50%;}
+.jry_wb_mainpages_forget .buttons						{font-size:30px;color:#33F;text-align:center;}
+.jry_wb_mainpages_forget .telcode						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_forget .telcode_v						{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .telcode_v input				{font-size:30px;color:#33F;width:180px;}
+.jry_wb_mainpages_forget .mailcode						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_forget .mailcode_v					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_forget .mailcode_v input				{font-size:30px;color:#33F;width:180px;}
