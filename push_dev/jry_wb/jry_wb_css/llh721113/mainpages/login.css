@@ -1,0 +1,23 @@
+.jry_wb_mainpages_login							{width:610px;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_mainpages_login td						{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_mainpages_login .error					{border:5px solid #ff0000;margin:0 0;}
+.jry_wb_mainpages_login .type					{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_login .type_v					{font-size:30px;color:#33F;text-align:center;}
+.jry_wb_mainpages_login .type_v .id				{font-size:30px;color:#33F;}
+.jry_wb_mainpages_login .type_v .tel			{font-size:30px;color:#33F;}
+.jry_wb_mainpages_login .type_v .mail			{font-size:30px;color:#33F;}
+.jry_wb_mainpages_login .key					{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_login .key_v					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_login .key_v input			{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_login .password				{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_login .password_v				{font-size:30px;color:#33F;}
+.jry_wb_mainpages_login .password_v input		{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_login .vcode					{font-size:30px;color:#33F;text-align:center;width: 130px;}
+.jry_wb_mainpages_login .vcode_v				{font-size:30px;color:#33F;}
+.jry_wb_mainpages_login .vcode_v input			{font-size:30px;color:#33F;width:50%;}
+.jry_wb_mainpages_login .buttons				{font-size:30px;color:#33F;text-align:center;}
+.jry_wb_mainpages_login .tpin					{text-align:center;}
+.jry_wb_mainpages_login .tpin	.qq				{color:#36AAE8;font-size:30px;}
+.jry_wb_mainpages_login .tpin	.gitee			{color:rgb(216, 30, 6);font-size:30px;}
+.jry_wb_mainpages_login .tpin	.github			{color:#00ff00;font-size:30px;}
+.jry_wb_mainpages_login .tpin	.mi				{color:rgb(253, 88, 62);font-size:30px;}

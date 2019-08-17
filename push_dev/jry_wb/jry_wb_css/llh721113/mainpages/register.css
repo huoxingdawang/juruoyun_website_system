@@ -1,0 +1,44 @@
+.jry_wb_mainpages_register_result_id						{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register									{width:790px;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_mainpages_register td								{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_mainpages_register .cutter							{font-size:30px;color:#33F;text-align: center;}
+.jry_wb_mainpages_register .error							{border:5px solid #ff0000;margin:0 0;}
+.jry_wb_mainpages_register .name							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .name_v 							{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .name_v input					{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_register .password1						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .password1_v 					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .password1_v input				{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_register .password2						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .password2_v 					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .password2_v input				{font-size:30px;color:#33F;width: 100%;}
+.jry_wb_mainpages_register .sex								{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .sex_v							{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .sex_v .man						{font-size:30px;color:#33f;}
+.jry_wb_mainpages_register .sex_v .woman					{font-size:30px;color:#ffc0cb;}
+.jry_wb_mainpages_register .sex_v .nzdl						{font-size:30px;color:#c0f;}
+.jry_wb_mainpages_register .tel								{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .tel_v							{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .tel_v	input					{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_register .mail							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .mail_v							{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .mail_v input					{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_register .extern							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .extern_v						{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .extern_v input					{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_register .extern_v input[type="radio"]	{font-size:30px;color:#33F;width:30px;}
+.jry_wb_mainpages_register .extern_v select				{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .extern_v select option		{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .extern_v .yes					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .extern_v .no					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .invitecode						{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .invitecode span				{font-size:16px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .invitecode_v					{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .invitecode_v input				{font-size:30px;color:#33F;width:100%;}
+.jry_wb_mainpages_register .telcode							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .telcode_v						{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .telcode_v input				{font-size:30px;color:#33F;width:180px;}
+.jry_wb_mainpages_register .vcode							{font-size:30px;color:#33F;width:250px;}
+.jry_wb_mainpages_register .vcode_v							{font-size:30px;color:#33F;}
+.jry_wb_mainpages_register .vcode_v input					{font-size:30px;color:#33F;width:180px;}
+.jry_wb_mainpages_register .buttons							{text-align:center}
