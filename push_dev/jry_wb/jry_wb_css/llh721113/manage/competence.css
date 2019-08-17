@@ -1,0 +1,5 @@
+.jry_wb_manage_competence					{width:100%;border-right:1px solid #000;border-bottom:1px solid #000;}
+.jry_wb_manage_competence td				{border-left:1px solid #000;border-top:1px solid #000;}
+.jry_wb_manage_competence .key				{font-size:30px;color:#33F;width: 200px;}
+.jry_wb_manage_competence .value			{font-size:30px;color:#33F;}
+.jry_wb_manage_competence .value input		{font-size:30px;color:#33F;width:100%;}
