@@ -402,12 +402,12 @@ function jry_wb_nd_show_files(checker)
 								else
 									table.style.display='none';
 								var tr=document.createElement("tr");table.appendChild(tr);
-								var td=document.createElement("td");tr.appendChild(td);td.classList.add('file_id')		;td.innerHTML='文件ID';			td.width='150px';
-								var td=document.createElement("td");tr.appendChild(td);td.classList.add('file_id_v')	;td.innerHTML=data[j].file_id;	td.width='*';
-								if(data[j].file_id!=jry_nd_file_list[i].file_id)td.innerHTML+='(继承自父目录)';
+								var td=document.createElement("td");tr.appendChild(td);td.classList.add('file_id')		;td.innerHTML='文件ID';
+								var td=document.createElement("td");tr.appendChild(td);td.classList.add('file_id_v')	;td.innerHTML=jry_nd_file_list[i].file_id;
 								var tr=document.createElement("tr");table.appendChild(tr);
 								var td=document.createElement("td");tr.appendChild(td);td.classList.add('share_id')		;td.innerHTML='分享ID';
 								var td=document.createElement("td");tr.appendChild(td);td.classList.add('share_id_v')	;td.innerHTML=data[j].share_id;
+								if(data[j].file_id!=jry_nd_file_list[i].file_id)td.innerHTML+='(继承自父目录)';
 								var tr=document.createElement("tr");table.appendChild(tr);
 								var td=document.createElement("td");tr.appendChild(td);td.classList.add('key')			;td.innerHTML='分享秘钥';
 								var td=document.createElement("td");tr.appendChild(td);td.classList.add('key_v')		;td.innerHTML=data[j].key;
