@@ -4,6 +4,7 @@
 	{
 		if(($file=fopen('jry_wb_online_judge.fast_save_message','r'))==false)
 		{
+			fclose($file);
 			$conn=jry_wb_connect_database();
 			$data=array();
 			if($mode=='classes')
@@ -62,12 +63,12 @@
 			$file2=fopen('jry_wb_online_judge.fast_save_message','w');
 			fwrite($file2,json_encode($data));
 			fclose($file2);
-			fclose($file);
 			return $data;
 		}
 		else
 		{
 			$data=json_decode(fread($file,filesize('jry_wb_online_judge.fast_save_message')),true);
+			fclose($file);
 			if($mode=='classes')
 				$data['classes']=$time;
 			else if($mode=='logs')
@@ -81,7 +82,6 @@
 			$file2=fopen('jry_wb_online_judge.fast_save_message','w');
 			fwrite($file2,json_encode($data));
 			fclose($file2);
-			fclose($file);
 			return $data;
 		}
 	}

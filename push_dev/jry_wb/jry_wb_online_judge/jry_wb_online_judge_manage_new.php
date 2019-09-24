@@ -6,5 +6,6 @@
 		$st->bindValue(1,$user['id']);
 		$st->bindValue(2,jry_wb_get_time());
 		$st->execute();
+		jry_wb_online_judge_operate_fast_save('question_list',jry_wb_get_time());		
 		return array('code'=>true,'question_id'=>$conn->lastInsertId());
 	}

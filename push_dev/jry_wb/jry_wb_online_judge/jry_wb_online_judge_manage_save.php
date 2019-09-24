@@ -31,5 +31,6 @@
 		$st->bindValue(7,json_encode($classes));
 		$st->bindValue(8,$q['question_id']);
 		$st->execute();
+		jry_wb_online_judge_operate_fast_save('question_list',jry_wb_get_time());		
 		return array('code'=>true);
 	}

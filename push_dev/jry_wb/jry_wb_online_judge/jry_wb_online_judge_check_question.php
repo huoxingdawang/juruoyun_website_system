@@ -94,10 +94,12 @@
 			$st->bindValue(6,json_encode(array('result'=>($check_result===true?'right':($check_result===false?'error':'undefined')))));
 			$st->bindValue(7,json_encode(array('mode'=>$mode)));
 			$st->execute();
+			jry_wb_online_judge_operate_fast_save('logs',jry_wb_get_time());
 			$st = $conn->prepare('UPDATE '.JRY_WB_DATABASE_ONLINE_JUDGE.'question_list SET `submit`=`submit`+1 , `right`=`right`+? WHERE question_id=?;');
 			$st->bindValue(1,($check_result===true?1:0));
 			$st->bindValue(2,$ans_question_id);
 			$st->execute();
+			jry_wb_online_judge_operate_fast_save('question_list',jry_wb_get_time());
 		}
 		$question=NULL;
 		$count='N/A';
