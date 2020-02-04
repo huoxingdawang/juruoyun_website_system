@@ -3,20 +3,31 @@
 	session_start();
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 	{
-		$id=$_POST['id'];
-		$psw=md5($_POST['password']);
-		$vcode=$_POST['vcode'];
-		$type=$_POST['type'];
-		if($type=='')
-			$type=$_GET['type'];
-		$show='';
-		if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+		if($_GET['type']=="8")
 		{
-			if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
-				echo json_encode(array('code'=>false,'reason'=>100005,'vcode'=>$_SESSION['vcode']));
-			else
-				echo json_encode(array('code'=>false,'reason'=>100002,'vcode'=>$_SESSION['vcode']));
+			setcookie('id',$_GET['id'],time()+JRY_WB_LOGIN_TIME,'/',jry_wb_get_domain(),NULL,false);
+			setcookie('id',$_GET['id'],time()+JRY_WB_LOGIN_TIME,'/',JRY_WB_DOMIN,NULL,false);
+			setcookie('code',$_GET['code'],time()+JRY_WB_LOGIN_TIME,'/',JRY_WB_DOMIN,NULL,true);			
+			echo "<script>window.location.href='index.php'</script>";
 			exit();
+		}
+		else
+		{
+			$type=$_POST['type'];
+			$id=$_POST['id'];
+			$psw=md5($_POST['password']);
+			$vcode=$_POST['vcode'];
+			if($type=='')
+				$type=$_GET['type'];
+			$show='';
+			if($_POST['vcode']!=$_SESSION['vcode']||$_POST['vcode']=='')
+			{
+				if(strtolower($_POST['vcode'])==strtolower($_SESSION['vcode']))
+					echo json_encode(array('code'=>false,'reason'=>100005,'vcode'=>$_SESSION['vcode']));
+				else
+					echo json_encode(array('code'=>false,'reason'=>100002,'vcode'=>$_SESSION['vcode']));
+				exit();
+			}
 		}
 	}
 	if($type=="1")
@@ -68,10 +79,7 @@
 		$st->execute();
 		$user=$st->fetchAll()[0];		
 	}		
-	else if($type=='8')
-	{
-		
-	}
+//	else if($type=='8'){}
 	else
 	{
 		$conn=jry_wb_connect_database();
@@ -153,7 +161,6 @@
 	$date=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/86400);
 	$hour=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/3600);
 	$minute=floor((strtotime(jry_wb_get_time())-strtotime($jry_wb_login_user['logdate']))/60)-$hour*60;
-	
 	if(($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])==__FILE__)
 		echo json_encode(array('code'=>1,'message'=>array('hour'=>$hour,'minute'=>$minute,'green_money'=>$green_money)));
 	else

@@ -1,6 +1,7 @@
 <?php	
 	include_once("../jry_wb_tools/jry_wb_includes.php");
 	include_once("jry_wb_online_judge_includes.php");
+	ini_set("display_errors", "On");
 	$ojclassid		=$_GET[ojclassid];
 	$action			=$_GET[action];
 	try

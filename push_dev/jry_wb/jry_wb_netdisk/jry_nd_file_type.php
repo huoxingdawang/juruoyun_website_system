@@ -73,6 +73,7 @@ function jry_nd_get_content_type($type)
 	else if($type=='au')		return 'audio/basic';
 	else if($type=='snd')		return 'audio/basic';
 	else if($type=='mid')		return 'audio/midi';
+	else if($type=='m4a')		return 'audio/mp4';
 	else if($type=='midi')		return 'audio/midi';
 	else if($type=='kar')		return 'audio/midi';
 	else if($type=='mpga')		return 'audio/mpeg';

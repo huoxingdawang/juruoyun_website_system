@@ -17,6 +17,8 @@
 		{
 			if($onearea['upload']==0)
 				continue;
+			if($onearea['type']==0&&$size>JRY_ND_UPLOAD_METHOD_0_MAX_SIZE)
+				continue;
 			if((($onearea['size']-$onearea['used'])>$min_use)&&($onearea['samearea']||(!$user['nd_ei']['sameareaonly'])))
 			{
 				$min_use=$onearea['size']-$onearea['used'];

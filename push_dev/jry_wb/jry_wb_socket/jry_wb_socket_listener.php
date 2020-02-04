@@ -90,7 +90,7 @@
 						}
 						else
 						{
-							$header = socket_read($client, 1024);
+							$header = socket_read($client,2048);
 							preg_match("/User-Agent: (.*)\r\n/", $header,$user_agent);
 							$user_agent=$user_agent[1];
 							preg_match("/Cookie: (.*)\r\n/", $header,$buf);

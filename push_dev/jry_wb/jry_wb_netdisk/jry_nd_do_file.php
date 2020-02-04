@@ -159,19 +159,21 @@
 	{
 		if($action=='pre_check')
 		{
-			if($_POST['size']==''||$_POST['name']==''||$_POST['father']=='')
+			$name=urldecode(base64_decode($_POST['name']));
+			$type=urldecode(base64_decode($_POST['type']));
+			if($_POST['size']==''||$name==''||$_POST['father']=='')
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200004,'file'=>__FILE__,'line'=>__LINE__)));
-			if(!jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
+			if(!jry_nd_database_check_type($jry_wb_login_user,$type))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200001,'file'=>__FILE__,'line'=>__LINE__)));
 			if(!jry_nd_database_check_size($jry_wb_login_user,$_POST['size']))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200002,'file'=>__FILE__,'line'=>__LINE__)));	
 			if(($father=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['father']))===null)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200006,'file'=>__FILE__,'line'=>__LINE__)));
-			if(jry_nd_database_get_file_by_father_name_type($conn,$jry_wb_login_user,$_POST['father'],$_POST['name'],$_POST['type'])!=null)
+			if(jry_nd_database_get_file_by_father_name_type($conn,$jry_wb_login_user,$_POST['father'],$name,$type)!=null)
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200005,'file'=>__FILE__,'line'=>__LINE__)));
 			if((($area=jry_nd_direct_chose_area($conn,$jry_wb_login_user,$_POST['size']))===null))
 				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200003,'file'=>__FILE__,'line'=>__LINE__)));
-			$file_id=jry_nd_database_new_file($conn,$jry_wb_login_user,$father,$_POST['name'],$_POST['type'],$area,$_POST['size']);
+			$file_id=jry_nd_database_new_file($conn,$jry_wb_login_user,$father,$name,$type,$area,$_POST['size']);
 			if($area['type']==0)
 				$extern_message=[];
 			else if($area['type']==1)//阿里云STS签名
@@ -192,13 +194,15 @@
 		}
 		else if($action=='upload')
 		{
-			if(jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
+			$name=urldecode(base64_decode($_POST['name']));
+			$type=urldecode(base64_decode($_POST['type']));
+			if(jry_nd_database_check_type($jry_wb_login_user,$type))
 			{
 				if(	(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)||
 					($file['father']	!=$_POST['father'])||
 					($file['size']		!=$_POST['size'])||
-					($file['type']		!=str_replace("&","/37",$_POST['type']))||
-					($file['name']		!=str_replace("&","/37",$_POST['name']))||
+					($file['type']		!=$type)||
+					($file['name']		!=$name)||
 					(($area=jry_nd_database_get_area($conn,$file['area']))===null)||
 					($area['type']!=0)
 				)
@@ -221,13 +225,15 @@
 		}
 		else if($action=='merge')
 		{
-			if(jry_nd_database_check_type($jry_wb_login_user,$_POST['type']))
+			$name=urldecode(base64_decode($_POST['name']));
+			$type=urldecode(base64_decode($_POST['type']));
+			if(jry_nd_database_check_type($jry_wb_login_user,$type))
 			{
 				if(	(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)||
 					($file['father']	!=$_POST['father'])||
 					($file['size']		!=$_POST['size'])||
-					($file['type']		!=str_replace("&","/37",$_POST['type']))||
-					($file['name']		!=str_replace("&","/37",$_POST['name']))||
+					($file['type']		!=$type)||
+					($file['name']		!=$name)||
 					(($area=jry_nd_database_get_area($conn,$file['area']))===null)
 				)
 				{
@@ -302,7 +308,7 @@
 		}
 		else if($action=='rename')
 		{
-			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],str_replace('/37','&',str_replace('/43','+',$_POST['name'])),$_POST['type']);		
+			jry_nd_direct_rename($conn,$jry_wb_login_user,$_POST['file_id'],urldecode(base64_decode($_POST['name'])),urldecode(base64_decode($_POST['type'])));		
 			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 		}
 		else if($action=='move')
@@ -393,6 +399,59 @@
 			jry_nd_database_chenge_share_key($conn,jry_nd_database_get_share($conn,$_POST['share_id'],$jry_wb_login_user),$jry_wb_login_user);
 			echo json_encode(array('code'=>true,'lasttime'=>jry_wb_get_time()));
 		}	
+		else if($action=='get_base64'||$action=='pre')
+		{
+			if(($file=jry_nd_database_get_file($conn,$jry_wb_login_user,$_POST['file_id']))===null)
+			{
+				echo (json_encode(array('code'=>false,'reason'=>200008,'file'=>__FILE__,'line'=>__LINE__)));
+				exit();
+			}
+			if(($area=jry_nd_database_get_area($conn,$file['area']))===null)
+				throw new jry_wb_exception(json_encode(array('code'=>false,'reason'=>200000,'file'=>__FILE__,'line'=>__LINE__)));			
+			if($area['type']==0)
+				$data=jry_nd_local_read_file($area,$file);
+			else if($area['type']==1)
+				$data=jry_nd_aly_read_file(jry_nd_aly_connect_in_by_area($area),$area,$file);
+			if($file['type']=='webp')
+			{
+				$n=jry_wb_get_random_string(3).'.webp';
+				$f=fopen($n,'w');
+				fwrite($f,$data);
+				fclose($f);
+				$im=imagecreatefromwebp($n);
+				unlink($n);
+			}
+			else
+				$im=imagecreatefromstring($data);
+			$nw=$width=imagesx($im);
+			$nh=$height=imagesy($im);
+			if($action=='get_base64'){$size_max=100*1024;$x_max=900;$s_max=1440*900;}else{$size_max=5*1024;$x_max=100;$s_max=100*100;}
+			if(strlen($data)>$size_max)
+			{
+				$ratio=min(sqrt($s_max/($width*$height)),1);
+				$nw=floor($width*$ratio);
+				$nh=floor($height*$ratio);
+			}
+			if($nh>$x_max||$nw>$x_max)
+			{
+				$ratio=min(min($x_max/$nw,$x_max/$nh),1);
+				$nw=floor($nw*$ratio);
+				$nh=floor($nh*$ratio);
+			}
+			if($nw!=$width||$nh!=$height||strlen($data)>$size_max)
+			{
+				$im2=imagecreatetruecolor($nw,$nh);
+				imagefill($im2,0,0,imagecolorallocate($im,0xFF,0xFF,0xFF));
+				imagecopyresampled($im2,$im,0,0,0,0,$nw,$nh,$width,$height);
+				ob_clean();
+				ob_start();
+				imagejpeg($im2,NULL,70);
+				$data=ob_get_clean();
+				imagedestroy($im);
+				imagedestroy($im2);				
+			}
+			echo json_encode(array('code'=>true,'nw'=>$nw,'nh'=>$nh,'data'=>base64_encode($data)));
+		}
 		else
 			echo json_encode(array('code'=>false,'reason'=>000000));		
 	}

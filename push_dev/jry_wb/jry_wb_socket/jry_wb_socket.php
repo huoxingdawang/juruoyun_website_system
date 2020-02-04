@@ -73,7 +73,7 @@
 		$dos[creat_child('start_socket_do')]=true;
 	$posters[creat_child('start_socket_poster')]=true;
 	while(!empty($child_list))
-		if (($child_pid=pcntl_wait($status))>0)
+		if(($child_pid=pcntl_wait($status))>0)
 		{
 			unset($child_list[$child_pid]);
 			if($listeners[$child_pid])

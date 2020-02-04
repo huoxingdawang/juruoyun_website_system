@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+		<title>flv.js demo</title>
+		<script src="myflv.js"></script>		
+	</head>
+	<body>
+		<video id="video" controls autoplay style="height:500px"></video>
+		<script>
+			player=flvjs.creat_player(
+				{
+					type: 'flv',
+					hasAudio:true,
+					hasVideo:true,
+					url:"http://test0.juruoyun.top/jry_wb/jry_wb_netdisk/jry_nd_do_file.php?action=open&file_id=26"
+				},
+				{
+					enableWorker:false,
+					lazyLoadMaxDuration:60*60,
+					seekType:'range',
+				}
+			);
+			player.attachMediaElement(document.getElementById('video'));
+			player.load();
+		</script>
+	</body>
+</html>

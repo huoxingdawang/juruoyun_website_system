@@ -30,13 +30,18 @@ function jry_wb_nd_show_files(checker)
 		return ;
 	var sorttype=jry_wb_cache.get('jry_nd_sort');
 	if(sorttype==null||sorttype==0)
-		jry_nd_file_list.sort(function(a,b){return a.file_id-b.file_id});
+		jry_nd_file_list=jry_nd_file_list.sort(function(a,b){return a.file_id-b.file_id});
 	else if(sorttype==1)
-		jry_nd_file_list.sort(function(a,b){return jry_wb_compare_time(a.lasttime,b.lasttime)});
+		jry_nd_file_list=jry_nd_file_list.sort(function(a,b){return jry_wb_compare_time(a.lasttime,b.lasttime)});
 	else if(sorttype==2)
-		jry_nd_file_list.sort(function(a,b){return a.name>b.name});
+		jry_nd_file_list=jry_nd_file_list.sort(function(a,b)
+		{
+			if(!isNaN(parseInt(a.name))&&!isNaN(parseInt(b.name)))
+				return parseInt(a.name)-parseInt(b.name);
+			return(a.name>b.name)?(-1):((a.name==b.name)?0:1);
+		});
 	else if(sorttype==3)
-		jry_nd_file_list.sort(function(a,b){if(a.isdir&&b.isdir)return a.name>b.name;else if((a.isdir&&!b.isdir||!a.isdir&&b.isdir))return b.isdir-a.isdir;else return a.type>b.type});	
+		jry_nd_file_list=jry_nd_file_list.sort(function(a,b){if(a.isdir&&b.isdir)return a.name>b.name;else if((a.isdir&&!b.isdir||!a.isdir&&b.isdir))return b.isdir-a.isdir;else return a.type>b.type});	
 	for(let i=0,n=jry_nd_file_list.length;i<n;i++)
 	{
 		if(typeof jry_nd_file_list[i].dir=='undefined'||jry_nd_file_list[i].dir=='')
@@ -61,12 +66,12 @@ function jry_wb_nd_show_files(checker)
 				{
 					if(jry_nd_file_list[i].isdir)
 						jry_wb_nd_show_files_by_dir(jry_nd_file_list[i].dir+jry_nd_file_list[i].name+'/');
-					else if(jry_nd_file_list[i].type=='jpg'||jry_nd_file_list[i].type=='jpeg'||jry_nd_file_list[i].type=='png'||jry_nd_file_list[i].type=='bmp')
+					else if(jry_nd_file_list[i].type=='jpg'||jry_nd_file_list[i].type=='jpeg'||jry_nd_file_list[i].type=='png'||jry_nd_file_list[i].type=='bmp'||jry_nd_file_list[i].type=='webp')
 						if(<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>!=-1&&jry_nd_file_list[i].size<<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>)
 							jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));
 						else
 							jry_wb_beautiful_alert.check('这个文件的打开要消耗高速流量，是否继续',function(){jry_wb_beautiful_alert.openpicture(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&fast=1&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''));},function(){},'打开','放弃');
-					else if(jry_nd_file_list[i].type=='mp4'||jry_nd_file_list[i].type=='flv')	
+					else if(jry_nd_file_list[i].type=='mp4'||jry_nd_file_list[i].type=='flv'||jry_nd_file_list[i].type=='webm')	
 						if(<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>!=-1&&jry_nd_file_list[i].size<<?php echo JRY_ND_DOWNLOAD_METHOD_0_MAX_SIZE ?>)
 							jry_wb_beautiful_alert.openvideo(jry_nd_file_list[i].name,document.body.clientWidth*0.95,document.body.clientHeight*0.95,jry_wb_message.jry_wb_host+'jry_wb_netdisk/jry_nd_do_file.php?action=open&file_id='+jry_nd_file_list[i].file_id+(jry_nd_share_mode_flag?('&share_id='+share_id+'&key='+key):''),'');
 						else
@@ -133,7 +138,7 @@ function jry_wb_nd_show_files(checker)
 							}
 							jry_wb_login_user.nd_ei.lasttime=data.lasttime;
 							jry_wb_nd_fresh_file_list();
-						},[{'name':'file_id','value':jry_nd_file_list[i].file_id},{'name':'dir','value':jry_nd_file_list[i].dir},{'name':'name','value':name},{'name':'type','value':type}]);
+						},[{'name':'file_id','value':jry_nd_file_list[i].file_id},{'name':'dir','value':jry_nd_file_list[i].dir},{'name':'name','value':btoa(encodeURIComponent(name))},{'name':'type','value':btoa(encodeURIComponent(type))}]);
 						
 					}
 				}
@@ -208,6 +213,65 @@ function jry_wb_nd_show_files(checker)
 				}
 				if(!jry_nd_file_list[i].isdir)
 				{
+					if(jry_nd_file_list[i].type=='jpg'||jry_nd_file_list[i].type=='jpeg'||jry_nd_file_list[i].type=='png'||jry_nd_file_list[i].type=='bmp'||jry_nd_file_list[i].type=='webp')
+					{
+						var base64=document.createElement("div");jry_wb_right_meau.appendChild(base64);
+						base64.innerHTML='base64';
+						base64.classList.add('jry_wb_netdisk_right_menu_text'); 
+						base64.onclick=function()
+						{
+							jry_wb_ajax_load_data(jry_wb_netdisk_do_file+'?action=get_base64',(data)=>
+							{
+								jry_wb_loading_off();
+								data=JSON.parse(data);
+								if(!data.code)
+								{
+									if(data.reason==100000)			jry_wb_beautiful_alert.alert("没有登录","","window.location.href=''");
+									else if(data.reason==100001)	jry_wb_beautiful_alert.alert("权限缺失","缺少"+data.extern,"window.location.href=''");
+									return;
+								}
+								var result_alert=new jry_wb_beautiful_alert_function;
+								var title=result_alert.frame("结果",document.body.clientWidth*0.80,document.body.clientHeight*0.75,document.body.clientWidth*0.1,document.body.clientHeight*3/32);
+								var Confirm = document.createElement("button");title.appendChild(Confirm);
+								Confirm.type="button";Confirm.innerHTML="关闭";	Confirm.style='float:right;margin-right:20px;';
+								Confirm.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_warn");
+								Confirm.onclick=function(){result_alert.close();};
+								jry_wb_beautiful_scroll(result_alert.msgObj);
+								var table=document.createElement("table"); result_alert.msgObj.appendChild(table);
+								var tr = document.createElement("tr"); table.appendChild(tr);
+								var td = document.createElement("td"); tr.appendChild(td);td.setAttribute('rowspan','5');td.style.width=document.body.clientWidth*0.6;td.style.textAlign='center';
+								var img= document.createElement("img");td.appendChild(img);img.src="data:image/jpg;base64,"+data.data;img.style.maxWidth=document.body.clientWidth*0.6;img.style.maxHeight=document.body.clientHeight*0.75-title.clientHeight-30;
+								var txt= document.createElement("textarea");td.appendChild(txt);txt.innerHTML='PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';';txt.style.display='none';txt.style.width=document.body.clientWidth*0.6-30;txt.style.height=document.body.clientHeight*0.75-title.clientHeight-30;
+								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;td.innerHTML=data.nw+'*'+data.nh+'<br>size:'+data.data.length/1024+'KB';
+								var tr = document.createElement("tr"); table.appendChild(tr);
+								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;
+								var bu = document.createElement("button"); td.appendChild(bu);bu.innerHTML="fo♂到zzez";bu.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");bu.onclick=function(){fetch("http://zhjy.lelearning.com/ajax/WisdomEducation.AjaxData,WisdomEducation.ashx?_method=AddNote&_session=rw", {"credentials":"include","headers":{"accept":"*/*","accept-language":"zh-CN,zh;q=0.9","cache-control":"no-cache","content-type":"text/plain;charset=UTF-8","pragma":"no-cache"},"referrer":"http://zhjy.lelearning.com/html/studentmanage/microclasssubjectinfo.html?xk=wky&id=ss","referrerPolicy":"no-referrer-when-downgrade","body":"pobId=@wky@ss\r\ntTitle=师说\r\ntNote=<p>"+'PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';'+"</p>","method":"POST","mode":"no-cors"});jry_wb_beautiful_right_alert.alert("fo♂了",2000,'auto','ok');};
+								var tr = document.createElement("tr"); table.appendChild(tr);
+								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;
+								var bu = document.createElement("button"); td.appendChild(bu);bu.innerHTML="复制";bu.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");bu.onclick=function(){jry_wb_copy_to_clipboard('PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';');jry_wb_beautiful_right_alert.alert("已复制到剪切板",2000,'auto','ok');};
+								var tr = document.createElement("tr"); table.appendChild(tr);
+								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;
+								var buu= document.createElement("button"); td.appendChild(buu);buu.innerHTML="查看";buu.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");buu.onclick=function()
+								{
+									if(buu.innerHTML=='查看')
+										txt.style.display='',img.style.display='none',buu.innerHTML='图片';
+									else
+										img.style.display='',txt.style.display='none',buu.innerHTML='查看';
+								};
+									
+								var tr = document.createElement("tr"); table.appendChild(tr);
+								var td = document.createElement("td"); tr.appendChild(td);
+									
+									
+									
+									
+									
+									
+									
+															
+							},[{'name':'file_id','value':file_id}]);		
+						};
+					}						
 					var open=document.createElement("div");jry_wb_right_meau.appendChild(open);
 					open.innerHTML='打开';
 					open.classList.add('jry_wb_netdisk_right_menu_text'); 
@@ -602,17 +666,17 @@ function jry_wb_nd_show_files(checker)
 							}
 						};
 					}
-					if(!jry_wb_test_is_pc())
+				}
+				if(!jry_wb_test_is_pc())
+				{
+					var select=document.createElement("div");jry_wb_right_meau.appendChild(select);
+					select.classList.add('jry_wb_netdisk_right_menu_text');	
+					select.innerHTML='选中';
+					select.name='select_mesage_button_member';
+					select.onclick=function()
 					{
-						var select=document.createElement("div");jry_wb_right_meau.appendChild(select);
-						select.classList.add('jry_wb_netdisk_right_menu_text');	
-						select.innerHTML='选中';
-						select.name='select_mesage_button_member';
-						select.onclick=function()
-						{
-							button.onclick({'ctrlKey':true});
-						};
-					}
+						button.onclick({'ctrlKey':true});
+					};
 				}
 				if(jry_wb_right_meau.clientHeight>document.body.clientHeight)
 				{

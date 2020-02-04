@@ -88,9 +88,9 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 			fd=new FormData();
 			fd.append("file",chunk);
 			fd.append("index",index);
-			fd.append("name",name);
+			fd.append("name",btoa(encodeURIComponent(name)));
+			fd.append("type",btoa(encodeURIComponent(type)));
 			fd.append("father",father);
-			fd.append("type",type);
 			fd.append("size",Math.ceil(file.size/1024));
 			fd.append("file_id",this.file_id);
 			xhr.open("POST",jry_wb_netdisk_do_file+'?action=upload',true);
@@ -126,9 +126,9 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 		xhr = new XMLHttpRequest();
 		fd = new FormData();
 		fd.append("index",totalslices);
-		fd.append("name",name);
+		fd.append("name",btoa(encodeURIComponent(name)));
+		fd.append("type",btoa(encodeURIComponent(type)));
 		fd.append("father",father);
-		fd.append("type",type);
 		fd.append("size",Math.ceil(file.size/1024));
 		fd.append("file_id",this.file_id);		
 		xhr.open("POST",jry_wb_netdisk_do_file+'?action=merge',true);
@@ -238,6 +238,6 @@ function jry_wb_netdisk_upload_file(file,father,uploaded_call_back,uploaded_fail
 				}
 			});
 		}
-	},[{'name':'father','value':father},{'name':'name','value':name},{'name':'type','value':type},{'name':'size','value':Math.ceil(file.size/1024)}]);
+	},[{'name':'father','value':father},{'name':'name','value':btoa(encodeURIComponent(name))},{'name':'type','value':btoa(encodeURIComponent(type))},{'name':'size','value':Math.ceil(file.size/1024)}]);
 }
 <?php if(false){ ?></script><?php } ?>

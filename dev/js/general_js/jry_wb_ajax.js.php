@@ -1,5 +1,5 @@
 <?php if(false){ ?><script><?php } ?>
-function jry_wb_ajax_load_data(url,func,array,yibu)
+function jry_wb_ajax_load_data(url,func,arr,yibu)
 {
 	jry_wb_loading_on();
 <?php if(JRY_WB_DEBUG_MODE){ ?>
@@ -50,14 +50,18 @@ function jry_wb_ajax_load_data(url,func,array,yibu)
 	xmlhttp.open("POST",url,yibu);
 	if(yibu)
 		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+	xmlhttp.setRequestHeader("Access-Control-Allow-Origin","true");
+	xmlhttp.withCredentials=true;
 	var data='';
-	if( typeof array=='object'&&array!=null)
+	if(typeof arr=='object'&&arr!=null)
 	{
 		var i = 0;
-		for(;i<array.length-1;i++)
-			data+=array[i].name+'='+String(array[i].value).replace(/&/g,"/37").replace(/\+/g,"/43")+'&';
-		data+=array[i].name+'='+String(array[i].value).replace(/&/g,"/37").replace(/\+/g,"/43");
+		for(;i<arr.length-1;i++)
+			data+=arr[i].name+'='+String(arr[i].value).replace(/&/g,"/37").replace(/\+/g,"/43")+'&';
+		data+=arr[i].name+'='+String(arr[i].value).replace(/&/g,"/37").replace(/\+/g,"/43");
 	}
+	else if(typeof arr=='string')
+		data=arr;
 	xmlhttp.send(data);
 }
 function jry_wb_ajax_get_text(data)

@@ -12,13 +12,15 @@ function jry_wb_nd_get_class(file)
 		case 'png':
 		case 'jpg':
 		case 'jpeg':
-		case 'ico':
+		case 'webp':
 			return ['jry_wb_icon_file_picture','jry_wb_netdisk_file_type_pic'];/*图片*/
 		case 'mp3':
 		case 'wav':
+		case 'm4a':
 			return ['jry_wb_icon_file_music','jry_wb_netdisk_file_type_music'];/*音频*/
 		case 'mp4':
 		case 'flv':
+		case 'webm':
 			return ['jry_wb_icon_file_video','jry_wb_netdisk_file_type_video'];;/*视频*/
 		/*常用文件*/
 		case 'plain':

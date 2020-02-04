@@ -2,6 +2,7 @@
 	include_once("../jry_wb_configs/jry_wb_config_default_user.php");
 	include_once("jry_wb_get_device.php");
 	include_once("jry_wb_test_device.php");
+	error_reporting(E_ALL);
 	if((!jry_wb_test_is_mobile())||jry_wb_get_device()=='ipad')
 		$fontsize=30;
 	else
