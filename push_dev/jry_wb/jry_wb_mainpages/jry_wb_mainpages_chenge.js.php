@@ -783,6 +783,12 @@ function showchenge()
 					all[i].innerText=namee.value;
 				jry_wb_include_css('general');
 				jry_wb_include_css('mainpages/chenge');
+				
+				let __style_from_user=document.getElementById("__style_from_user");
+				__style_from_user.innerHTML='';
+				let __style_from_user_span=document.createElement("span");__style_from_user.appendChild(__style_from_user_span);
+				jry_wb_get_user(jry_wb_login_user.style.id,false,function(user){jry_wb_show_user_intext(__style_from_user_span,user);},false);
+				document.getElementById('__style_from_name').innerHTML=jry_wb_login_user.style.name;
 				showchenge();
 			}
 			else

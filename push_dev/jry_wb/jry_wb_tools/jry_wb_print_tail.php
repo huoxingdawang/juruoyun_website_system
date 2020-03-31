@@ -21,7 +21,7 @@
 			<div style='text-align:right;float:right;width:100%;' id='jry_wb_buttom_right_message'>
 				<?php include('../jry_wb_configs/jry_wb_config_tail.php');?>
 				<a target="_blank" href="https://gitee.com/huoxingdawang/juruoyun_website_system"><b class="jry_wb_font_buttom">由蒟蒻云网站系统(<?php echo JRY_WB_VERSION?>)强力驱动</b></a><b class="jry_wb_font_buttom">&nbsp;|&nbsp;</b>
-				<b class="jry_wb_font_buttom">主题来自<script>jry_wb_get_and_show_user_intext(jry_wb_login_user.style.id);</script>的</b><a target="_blank" href="<?php echo jry_wb_print_href('jry_wb_style_control','','',true);?>"><b class="jry_wb_font_buttom"><script>document.write(jry_wb_login_user.style.name)</script></b></a>
+				<b class="jry_wb_font_buttom">主题来自</b><b class="jry_wb_font_buttom" id="__style_from_user"><script>jry_wb_get_and_show_user_intext(jry_wb_login_user.style.id);</script></b><b class="jry_wb_font_buttom">的</b><a target="_blank" href="<?php echo jry_wb_print_href('jry_wb_style_control','','',true);?>"><b class="jry_wb_font_buttom"  id='__style_from_name'><script>document.write(jry_wb_login_user.style.name)</script></b></a>
 			</div>
 		</div>
 		<script language='javascript'>
