@@ -32,10 +32,24 @@
 					$st->execute();
 					foreach($st->fetchAll()as $big_deal);
 				?>
+				<?php 
+					if($big_deal['time']>jry_wb_get_time())
+					{
+				?>
 				<span class="event_normal">距</span><span class="event_event"><?php echo $big_deal['name']?></span><span class="event_normal">还有</span>
 				<br>
 				<span class="event_time" id="bigdeal"></span>
 				<script language="javascript">jry_wb_add_onload(function(){jry_wb_show_time("<?php echo $big_deal['time']?>","bigdeal")});</script>
+				<?php
+					}else{
+				?>
+				<span class="event_event"><?php echo $big_deal['name']?></span><span class="event_normal">已过去</span>
+				<br>
+				<span class="event_time" id="bigdeal"></span>
+				<script language="javascript">jry_wb_add_onload(function(){jry_wb_show_time("<?php echo $big_deal['time']?>","bigdeal")});</script>				
+				<?php
+					}
+				?>
 			</div>
 			<div id="ssr" style='display:none;'>
 				<?php ?>

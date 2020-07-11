@@ -118,7 +118,7 @@
 	function jry_wb_get_device_from_database($db)
 	{
 		if($db==1)
-			return "iPad";
+			return "ipad";
 		else if($db==2)
 			return 'iPhone';	
 		else if($db==3)

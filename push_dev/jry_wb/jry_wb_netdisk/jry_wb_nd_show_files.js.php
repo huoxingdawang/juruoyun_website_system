@@ -243,9 +243,9 @@ function jry_wb_nd_show_files(checker)
 								var img= document.createElement("img");td.appendChild(img);img.src="data:image/jpg;base64,"+data.data;img.style.maxWidth=document.body.clientWidth*0.6;img.style.maxHeight=document.body.clientHeight*0.75-title.clientHeight-30;
 								var txt= document.createElement("textarea");td.appendChild(txt);txt.innerHTML='PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';';txt.style.display='none';txt.style.width=document.body.clientWidth*0.6-30;txt.style.height=document.body.clientHeight*0.75-title.clientHeight-30;
 								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;td.innerHTML=data.nw+'*'+data.nh+'<br>size:'+data.data.length/1024+'KB';
-								var tr = document.createElement("tr"); table.appendChild(tr);
-								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;
-								var bu = document.createElement("button"); td.appendChild(bu);bu.innerHTML="fo♂到zzez";bu.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");bu.onclick=function(){fetch("http://zhjy.lelearning.com/ajax/WisdomEducation.AjaxData,WisdomEducation.ashx?_method=AddNote&_session=rw", {"credentials":"include","headers":{"accept":"*/*","accept-language":"zh-CN,zh;q=0.9","cache-control":"no-cache","content-type":"text/plain;charset=UTF-8","pragma":"no-cache"},"referrer":"http://zhjy.lelearning.com/html/studentmanage/microclasssubjectinfo.html?xk=wky&id=ss","referrerPolicy":"no-referrer-when-downgrade","body":"pobId=@wky@ss\r\ntTitle=师说\r\ntNote=<p>"+'PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';'+"</p>","method":"POST","mode":"no-cors"});jry_wb_beautiful_right_alert.alert("fo♂了",2000,'auto','ok');};
+								//var tr = document.createElement("tr"); table.appendChild(tr);
+								//var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;
+								//var bu = document.createElement("button"); td.appendChild(bu);bu.innerHTML="fo♂到zzez";bu.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");bu.onclick=function(){fetch("http://zhjy.lelearning.com/ajax/WisdomEducation.AjaxData,WisdomEducation.ashx?_method=AddNote&_session=rw", {"credentials":"include","headers":{"accept":"*/*","accept-language":"zh-CN,zh;q=0.9","content-type":"text/plain;charset=UTF-8"},"referrer":"http://zhjy.lelearning.com/html/studentmanage/microclasssubjectinfo.html?xk=wky&id=ss&title=%E5%B8%88%E8%AF%B4","referrerPolicy":"no-referrer-when-downgrade","body":"pobId=@wky@ss\r\ntTitle=师说\r\ntNote=<p>"+'PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';'+"</p>","method":"POST","mode":"no-cors"});jry_wb_beautiful_right_alert.alert("fo♂了",2000,'auto','ok');};
 								var tr = document.createElement("tr"); table.appendChild(tr);
 								var td = document.createElement("td"); tr.appendChild(td);td.style.height=40;
 								var bu = document.createElement("button"); td.appendChild(bu);bu.innerHTML="复制";bu.classList.add("jry_wb_button","jry_wb_button_size_small","jry_wb_color_ok");bu.onclick=function(){jry_wb_copy_to_clipboard('PICTURE='+jry_nd_file_list[i].name+',THUMBNAIL='+data.data+';');jry_wb_beautiful_right_alert.alert("已复制到剪切板",2000,'auto','ok');};
@@ -261,12 +261,6 @@ function jry_wb_nd_show_files(checker)
 									
 								var tr = document.createElement("tr"); table.appendChild(tr);
 								var td = document.createElement("td"); tr.appendChild(td);
-									
-									
-									
-									
-									
-									
 									
 															
 							},[{'name':'file_id','value':file_id}]);		

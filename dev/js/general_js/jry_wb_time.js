@@ -48,25 +48,32 @@ function jry_wb_show_time(intime,addre)
 	{
 		var date='',buf,jie;
 		var a=jry_wb_get_server_time();
-		buf=intime.getSeconds()-a.getSeconds();
+		var b=intime;
+		if((b-a)<0)
+		{
+			var c=b;
+			b=a;
+			a=c;
+		}
+		buf=b.getSeconds()-a.getSeconds();
 		if(buf<0)
 			buf=60+buf,jie=1;
 		else
 			jie=0;
 		date=buf+'秒'+date;
-		buf=intime.getMinutes()-a.getMinutes()-jie;
+		buf=b.getMinutes()-a.getMinutes()-jie;
 		if(buf<0)
 			buf=60+buf,jie=1;
 		else
 			jie=0;
 		date=buf+'分'+date;
-		buf=intime.getHours()-a.getHours()-jie;
+		buf=b.getHours()-a.getHours()-jie;
 		if(buf<0)
 			buf=24+buf,jie=1;
 		else
 			jie=0;
 		date=buf+'时'+date;
-		date=Math.floor((intime.getTime()-a.getTime()-jie)/(1000*60*60*24))+'天'+date;
+		date=Math.floor((b.getTime()-a.getTime()-jie)/(1000*60*60*24))+'天'+date;
 		addre.innerHTML=date;
 	},1000);
 }

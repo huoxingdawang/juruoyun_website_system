@@ -78,7 +78,13 @@ function show()
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_s')	;td.innerHTML='gravatar';
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_v')	;
 		var tt=document.createElement("td"); tr.appendChild(tt);tt.classList.add('head_c')	;
-		if(jry_wb_gravatar_user_head!=null&&jry_wb_login_user.mail_show==2)
+		if(jry_wb_login_user.mail_show!=2)
+			td.innerHTML='<a href="#showshow">权限缺失:显示不码的邮箱,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
+		else if(jry_wb_gravatar_user_head==null)
+			td.innerHTML='<a href="#showmail">信息缺失:带有gravatar的邮箱绑定,请前往邮箱绑定</a>',td.onclick=function(){head_alert.close();showmail();};
+		else if(navigator.userAgent.includes("LRX22G"))
+			td.innerHTML='老年派暴毙警告';
+		else
 		{
 			var img2=document.createElement("img");td.appendChild(img2);jry_wb_set_user_head_special(jry_wb_login_user,img2,jry_wb_gravatar_user_head);
 			if(jry_wb_login_user.head.type=='gravatar')
@@ -115,10 +121,6 @@ function show()
 				};
 			}
 		}
-		else if(jry_wb_gravatar_user_head!=null)		
-			td.innerHTML='<a href="#showshow">权限缺失:显示不码的邮箱,请前往隐私设置修改</a>',td.onclick=function(){head_alert.close();showshow();};
-		else
-			td.innerHTML='<a href="#showmail">信息缺失:带有gravatar的邮箱绑定,请前往邮箱绑定</a>',td.onclick=function(){head_alert.close();showmail();};
 		<?php if($JRY_WB_TP_QQ_OAUTH_CONFIG!=NULL){ ?>
 		var tr=document.createElement("tr"); table.appendChild(tr);
 		var td=document.createElement("td"); tr.appendChild(td);td.classList.add('head_s')	;td.innerHTML='QQ';

@@ -38,7 +38,7 @@
 	}
 	function jry_wb_include_judge_mobile()
 	{
-		return (jry_wb_test_is_mobile()&&jry_wb_get_device()!='ipad');
+		return (jry_wb_test_is_mobile()&&(jry_wb_get_device()!='ipad'));
 	}
 	
 ?>
