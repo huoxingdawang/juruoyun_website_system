@@ -5,6 +5,7 @@ function jry_wb_online_judge_manage_function(area)
 	this.classes=[];
 	this.error=[];
 	this.area=area;
+	this.show_question_id=0;
 	this.loadingcount=0;
 	this.do=null;
 	this.top_toolbar=document.getElementsByClassName('jry_wb_top_toolbar')[0];

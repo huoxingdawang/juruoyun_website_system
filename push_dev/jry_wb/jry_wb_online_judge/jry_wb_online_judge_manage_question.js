@@ -40,15 +40,15 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 			},function(){});
 		};
 	}
-	jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[0].onclick();});
-	this.show_question_id=1;
+	jry_wb_set_shortcut(jry_wb_keycode_down,()=>{this.question_list[0].onclick();});
+	if(this.show_question_id==0&&this.question_list.length>=1)this.show_question_id=this.question_list[0].question_id;
 	for(let i=0,n=this.question_list.length;i<n;i++)
 	{
 		let manage_flag=true;
 		for(var j=0,m=this.question_list[i].classes.length;j<m&&manage_flag;j++)
 			if(!this.question_list[i].classes[j].manager.includes(jry_wb_login_user.id))
 				manage_flag=false;
-		if(!manage_flag&&!this.question_list[i].use)
+		if(!manage_flag)
 			continue;
 		let one=document.createElement('div');list.appendChild(one);
 		one.style="text-overflow: ellipsis; overflow:hidden;";
@@ -59,10 +59,8 @@ jry_wb_online_judge_manage_function.prototype.manage_question=function()
 		{
 			if(this.list_scroll!=undefined)
 				this.list_scroll.scrollto(0,one.offsetTop-addbutton.offsetTop-((document.body.clientHeight-((this.top_toolbar==null)?0:this.top_toolbar.clientHeight))/2));				
-			if(i!=n-1)
-				jry_wb_set_shortcut(jry_wb_keycode_right,()=>{this.question_list[i+1].onclick();});
-			if(i!=0)
-				jry_wb_set_shortcut(jry_wb_keycode_left,()=>{this.question_list[i-1].onclick();});
+			if(i!=n-1)jry_wb_set_shortcut(jry_wb_keycode_down,()=>{this.question_list[i+1].onclick();});
+			if(i!=0)jry_wb_set_shortcut(jry_wb_keycode_up,()=>{this.question_list[i-1].onclick();});
 			if(this.lasthighlight!=null)
 				this.lasthighlight.classList.remove('jry_wb_left_toolbar_left_list_active');
 			this.lasthighlight=one;	
