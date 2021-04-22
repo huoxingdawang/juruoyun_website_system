@@ -48,9 +48,9 @@
 			{
 				$er=json_decode($e->getMessage());
 				if($er->reason==100000)
-				{?><script language=javascript>jry_wb_beautiful_alert.alert("没有登录","","window.location.href='<?php echo jry_wb_print_href("login",0,"",1)?>'");</script> <?php }
+				{?><script language=javascript>jry_wb_beautiful_alert.alert("没有登录","",function(){window.location.href='<?php echo jry_wb_print_href("login",0,"",1)?>'});</script> <?php }
 				else
-				{?><script language=javascript>jry_wb_beautiful_alert.alert("权限不够","缺少<?php echo $er->extern?>","window.location.href='<?php echo jry_wb_print_href("home",0,"",1)?>'");</script> <?php }		
+				{?><script language=javascript>jry_wb_beautiful_alert.alert("权限不够","缺少<?php echo $er->extern?>",function(){window.location.href='<?php echo jry_wb_print_href("home",0,"",1)?>'});</script> <?php }		
 				exit();
 			}			
 		}
