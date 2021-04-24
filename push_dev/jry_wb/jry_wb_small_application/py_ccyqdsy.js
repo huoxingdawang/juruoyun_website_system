@@ -125,13 +125,15 @@ function py_ccyqdsy_run(area)
 		r1_ub.innerHTML=(parseFloat(ybkcjd_value.value)/2).toFixed(4);
 		r2_ub.innerHTML=(parseFloat(ybkcjd_value.value)/2).toFixed(4);
 		
-		d_uh.innerHTML=Math.sqrt(Math.pow(tmp2d,2)+Math.pow(parseFloat(d_ub.innerHTML),2)).toFixed(4);		
-		r1_uh.innerHTML=Math.sqrt(Math.pow(tmp2r1,2)+Math.pow(parseFloat(r1_ub.innerHTML),2)).toFixed(4);		
-		r2_uh.innerHTML=Math.sqrt(Math.pow(tmp2r2,2)+Math.pow(parseFloat(r2_ub.innerHTML),2)).toFixed(4);
+		var uhd=Math.sqrt(Math.pow(tmp2d,2)+Math.pow(parseFloat(d_ub.innerHTML),2))
+		var uhr1=Math.sqrt(Math.pow(tmp2r1,2)+Math.pow(parseFloat(r1_ub.innerHTML),2))
+		var uhr2=Math.sqrt(Math.pow(tmp2r2,2)+Math.pow(parseFloat(r2_ub.innerHTML),2));
+		d_uh.innerHTML=uhd.toFixed(4);		
+		r1_uh.innerHTML=uhr1.toFixed(4);		
+		r2_uh.innerHTML=uhr2.toFixed(4);
 		
 
-		var E=Math.sqrt(Math.pow(parseFloat(d_uh.innerHTML),2)/xiud+Math.pow(2*xiur2*parseFloat(r2_uh.innerHTML)/(Math.pow(xiur2,2)-Math.pow(xiur1,2)),2)
-											 +Math.pow(2*xiur1*parseFloat(r1_uh.innerHTML)/(Math.pow(xiur1,2)-Math.pow(xiur2,2)),2));
+		var E=Math.sqrt(Math.pow(uhd,2)/xiud+Math.pow(2*xiur2*uhr2/(Math.pow(xiur2,2)-Math.pow(xiur1,2)),2)+Math.pow(2*xiur1*uhr1/(Math.pow(xiur1,2)-Math.pow(xiur2,2)),2));
 
 		var V=(Math.PI*xiud*(Math.pow(xiur2,2)-Math.pow(xiur1,2)))/4;
 		U=V*E;
