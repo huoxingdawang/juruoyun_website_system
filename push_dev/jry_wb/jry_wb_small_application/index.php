@@ -22,10 +22,10 @@ jry_wb_add_onload(function()
 	one_function.id='one_function';
 	jry_wb_add_onresize(function()
 	{
-		document.getElementById('one_function').style.width=document.body.clientWidth-left_body.clientWidth;
-		right_body.style.width=document.body.clientWidth-left_body.clientWidth;
-		document.getElementById('one_function').style.height=Math.max(0,window.innerHeight-document.getElementById('_top').getBoundingClientRect().top-document.getElementById('buttom_message').clientHeight);
-		area.style.height=Math.max(left_body.clientHeight,right_body.clientHeight);
+		document.getElementById('one_function').style.width=document.body.clientWidth-left_body.clientWidth-10;
+		right_body.style.width=document.body.clientWidth-left_body.clientWidth-10;
+//		document.getElementById('one_function').style.height=Math.max(0,window.innerHeight-document.getElementById('_top').getBoundingClientRect().top-document.getElementById('buttom_message').clientHeight);
+//		area.style.height=Math.max(left_body.clientHeight,right_body.clientHeight);
 	});
 	var data=JSON.parse('<?php
 	

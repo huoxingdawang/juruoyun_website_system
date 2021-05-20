@@ -6,7 +6,7 @@ function ls_dijkstra_run(area)
 {
 	var ls_dijkstra_main=document.createElement('div');area.appendChild(ls_dijkstra_main);
     var road_div=document.createElement('div');ls_dijkstra_main.appendChild(road_div);
-	var road_text=document.createElement('span');road_div.appendChild(road_text);road_text.innerHTML="边<br>";
+	var road_text=document.createElement('span');road_div.appendChild(road_text);road_text.innerHTML="边,按照点&nbsp;点&nbsp;权的格式给出<br>";
 	var road_value=document.createElement('textarea');road_div.appendChild(road_value);road_value.style.width="500px";road_value.style.height="300px";road_value.onkeyup=suan;road_value.value="a b 4\na c 2\nb c 1\nb d 5\nc d 8\nc e 10\ne d 2\ne z 3\nd z 6";
     
     var start_div=document.createElement('div');ls_dijkstra_main.appendChild(start_div);
@@ -22,8 +22,8 @@ function ls_dijkstra_run(area)
     var next=document.createElement('button');button_div.appendChild(next);next.innerHTML="下一步";
     
     var canvas=document.createElement('canvas');ls_dijkstra_main.appendChild(canvas);
-    canvas.height=500; 
-    canvas.width=1000; 
+    canvas.height=600; 
+    canvas.width=500; 
 
 
     var process=[];
@@ -150,7 +150,7 @@ function ls_dijkstra_run(area)
 
         ctx.font="20px Arial";
         ctx.fillStyle="#000000";
-        ctx.fillText("第"+(draw_cnt+1)+"步,共"+process.length+"步.S="+state.S.toString(),500,30);
+        ctx.fillText("第"+(draw_cnt+1)+"步,共"+process.length+"步.S="+state.S.toString(),0,30);
         if(state.old_v==0X3F3F3F3F)
             state.old_v="+∞";
         for(var i=0,n=state.names.length;i<n;++i)
@@ -158,19 +158,19 @@ function ls_dijkstra_run(area)
                 state.L[state.names[i]]="+∞";
         if(state.action=="finish")
         {
-            ctx.fillText("算完了,从"+state.from+"到"+state.to+"的最短路长度是"+state.L[state.to],500,60);
-            ctx.fillText("经过"+state.r[state.to].toString(),500,90);
+            ctx.fillText("算完了,从"+state.from+"到"+state.to+"的最短路长度是"+state.L[state.to],0,60);
+            ctx.fillText("经过"+state.r[state.to].toString(),0,90);
         }
         else if(state.action=="check")
-            ctx.fillText("检查新边"+state.now+"=>"+state.to+",旧值:"+state.old_v+",新值:"+state.now_v,500,60);
+            ctx.fillText("检查新边"+state.now+"=>"+state.to+",旧值:"+state.old_v+",新值:"+state.now_v,0,60);
         else if(state.action=="update")
-            ctx.fillText("新值较小，更新权值，点"+state.to+"从"+state.old_v+"更新为"+state.now_v,500,60);
+            ctx.fillText("新值较小，更新权值，点"+state.to+"从"+state.old_v+"更新为"+state.now_v,0,60);
         
         var point={};
         for(var i=0,n=state.names.length;i<n;++i)
         {
             var x=Math.cos(Math.PI*2*i/n)*(w-100)/2+w/2;
-            var y=Math.sin(Math.PI*2*i/n)*(h-100)/2+h/2;
+            var y=100+Math.sin(Math.PI*2*i/n)*(h-100)/2+h/2;
             point[state.names[i]]={"x":x,"y":y};
         }
         
