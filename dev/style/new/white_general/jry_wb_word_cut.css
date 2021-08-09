@@ -1,0 +1,19 @@
+.jry_wb_word_cut
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	overflow: hidden;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.jry_wb_word_cut:hover
+{
+	height: auto; 
+	word-break:break-all; 
+	white-space: pre-wrap;  
+	text-decoration: none;
+	z-index:200;
+	
+}
